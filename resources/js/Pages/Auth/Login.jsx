@@ -33,7 +33,12 @@ export default function Login() {
                 <div className="row justify-content-center">
                     <div className="col-md-4 mt-80">
                         <div className="text-center mb-4">
-                            <img src="/assets/images/logo.png" width={"60"} />
+                            <Link href="/">
+                                <img
+                                    src="/assets/images/logo.png"
+                                    width={"60"}
+                                />
+                            </Link>
                             <h4>
                                 <strong>IKATWI</strong>
                             </h4>
@@ -45,11 +50,20 @@ export default function Login() {
                                     <hr />
                                 </div>
                                 <form onSubmit={loginHandler}>
-
                                     <label className="mb-1">Email</label>
                                     <div className="input-group mb-3">
-                                        <span className="input-group-text"><i className="fa fa-envelope"></i></span>
-                                        <input type="text" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Alamat Email" />
+                                        <span className="input-group-text">
+                                            <i className="fa fa-envelope"></i>
+                                        </span>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            placeholder="Alamat Email"
+                                        />
                                     </div>
                                     {errors.email && (
                                         <div className="alert alert-danger">
@@ -59,20 +73,36 @@ export default function Login() {
 
                                     <label className="mb-1">Password</label>
                                     <div className="input-group mb-3">
-                                        <span className="input-group-text"><i className="fa fa-lock"></i></span>
-                                        <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+                                        <span className="input-group-text">
+                                            <i className="fa fa-lock"></i>
+                                        </span>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
+                                            placeholder="Password"
+                                        />
                                     </div>
                                     {errors.password && (
                                         <div className="alert alert-danger">
                                             {errors.password}
                                         </div>
                                     )}
-                                    <button className="btn btn-success shadow-sm rounded-sm px-4 w-100" type="submit">LOGIN</button>
+                                    <button
+                                        className="btn btn-success shadow-sm rounded-sm px-4 w-100"
+                                        type="submit"
+                                    >
+                                        LOGIN
+                                    </button>
                                 </form>
                             </div>
                         </div>
                         <div className="register text-center mt-3">
-                            Belum Punya Akun? <Link href="/register">Register!</Link>
+                            Belum Punya Akun?{" "}
+                            <Link href="/register">Register!</Link>
                         </div>
                         <div className="register text-center mt-3">
                             <Link href="/forgot-password">Lupa Password?</Link>

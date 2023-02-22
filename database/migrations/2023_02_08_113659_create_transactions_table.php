@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('courier_name');
             $table->string('courier_service');
             $table->string('courier_cost');
-            $table->integer('weight');
+            $table->integer('weight')->nullable();
             $table->text('address');
             $table->bigInteger('grand_total');
             $table->string('reference')->nullable();

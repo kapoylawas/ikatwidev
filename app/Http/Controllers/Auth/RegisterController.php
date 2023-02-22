@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Province;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -11,7 +13,14 @@ class RegisterController extends Controller
 {
     public function index()
     {
-        return inertia('Auth/Register');
+        //get all categories
+        $provinces = Province::all();
+        $cities = City::all();
+
+        return inertia('Auth/Register', [
+            'provinces' => $provinces,
+            'cities' => $cities
+        ]);
     }
 
     public function store(Request $request)
@@ -20,12 +29,21 @@ class RegisterController extends Controller
         $request->validate(
             [
                 'name'      => 'required',
+                'province_id'      => 'required',
+                'city_id'      => 'required',
+                'nik'      => 'required|max:16|min:16|unique:users',
                 'email'     => 'required|email|unique:users',
                 'alamat'      => 'required',
                 'password'  => 'required|confirmed',
             ],
             [
                 'name.required' => 'name tidak boleh kosong',
+                'province_id.required' => 'DPW tidak boleh kosong',
+                'city_id.required' => 'DPC tidak boleh kosong',
+                'nik.required' => 'nik tidak boleh kosong',
+                'nik.max' => 'nik harus 16 angka',
+                'nik.min' => 'nik harus 16 angka',
+                'nik.unique' => 'nik sudah terdaftar',
                 'email.required' => 'email tidak boleh kosong',
                 'email.email' => 'email harus format EMAIL',
                 'email.unique' => 'email sudah terdaftar',
@@ -38,6 +56,9 @@ class RegisterController extends Controller
         //insert data user
         $user = User::create([
             'name'      => $request->name,
+            'province_id'      => $request->province_id,
+            'city_id'      => $request->city_id,
+            'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,
             'password'  => bcrypt($request->password)

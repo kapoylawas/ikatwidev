@@ -38,10 +38,15 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             //user authenticated
-            'auth'=>[
+            'auth' => [
                 'user'          => $request->user() ?   $request->user() : null,
                 'permissions'   => $request->user() ? $request->user()->getPermissionArray() : []
             ],
+            //carts
+            'dataCarts' => $request->user() ? [
+                'total'     =>  \App\Models\Cart::where('user_id', $request->user()->id)->count() ?? 0,
+                'price'     => \App\Models\Cart::where('user_id', $request->user()->id)->sum('price') ?? 0,
+            ] : null
         ]);
     }
 }

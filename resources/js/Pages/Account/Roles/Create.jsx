@@ -26,7 +26,7 @@ export default function RoleCreate() {
         //define data
         let data = permissionsData;
 
-        console.log(data);
+        // console.log(data);
 
         //push data on state
         data.push(e.target.value);

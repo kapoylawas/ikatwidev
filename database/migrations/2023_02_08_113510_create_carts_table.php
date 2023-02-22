@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('size');
             $table->bigInteger('price');
             $table->integer('qty');
-            $table->integer('weight');
+            $table->integer('weight')->nullable();
             $table->timestamps();
         });
     }

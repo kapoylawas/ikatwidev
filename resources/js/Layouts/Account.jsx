@@ -46,13 +46,19 @@ export default function LayoutAccount({ children }) {
         Inertia.post("/logout");
     };
 
+    const home = async (e) => {
+        e.preventDefault();
+
+        Inertia.get("/");
+    };
+
     return (
         <>
             <div className="d-flex sb-sidenav-toggled" id="wrapper">
                 <div className="bg-dark" id="sidebar-wrapper">
                     <div className="sidebar-heading bg-light text-center">
-                        <img src="/assets/images/logo.png" width={"23"} />
-                        <strong>ADMIN IKATWI</strong> <small></small>
+                        <img  src="/assets/images/logo.png" width={"23"} />
+                        <strong> ADMIN IKATWI</strong> <small></small>
                     </div>
                     <Sidebar />
                 </div>
@@ -64,6 +70,7 @@ export default function LayoutAccount({ children }) {
                                 <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
                                 <NavDropdown   title={auth.user.name} className="fw-bold" id="basic-nav-dropdown">
                                     <NavDropdown.Item onClick={logoutHandler}><i className="fa fa-sign-out-alt me-2"></i> Logout</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={home}><i className="fa fa-sign-out-alt me-2"></i> Home </NavDropdown.Item>
                                 </NavDropdown>
                                 </ul>
                             </div>
