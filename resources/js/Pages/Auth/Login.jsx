@@ -13,15 +13,29 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    // set loading
+    const [isLoading, setIsLoading] = useState(false);
+
     //function "loginHandler"
     const loginHandler = async (e) => {
         e.preventDefault();
+
+        //set state isLoading
+        setIsLoading(true);
 
         //register
         Inertia.post("/login", {
             email: email,
             password: password,
-        });
+        })
+            .then((response) => {
+                //set state isLoading to false
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                //set state isLoading to "false"
+                setIsLoading(false);
+            });
     };
 
     return (
@@ -70,7 +84,6 @@ export default function Login() {
                                             {errors.email}
                                         </div>
                                     )}
-
                                     <label className="mb-1">Password</label>
                                     <div className="input-group mb-3">
                                         <span className="input-group-text">
@@ -91,12 +104,23 @@ export default function Login() {
                                             {errors.password}
                                         </div>
                                     )}
+
                                     <button
                                         className="btn btn-success shadow-sm rounded-sm px-4 w-100"
                                         type="submit"
                                     >
-                                        LOGIN
+                                        {isLoading ? "LOADING..." : "LOGIN"}{" "}
                                     </button>
+
+                                    <Link href="/">
+                                        <button
+                                            className="btn btn-success shadow-sm rounded-sm mt-3 px-4 w-100"
+                                            type="submit"
+                                        >
+                                            <i className="fa fa-arrow-left me-2"></i>
+                                            Home
+                                        </button>
+                                    </Link>
                                 </form>
                             </div>
                         </div>
