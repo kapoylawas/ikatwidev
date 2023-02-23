@@ -7,9 +7,15 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 //import inertia adapter
 import { Inertia } from "@inertiajs/inertia";
 
+//import Sweet Alert
+import Swal from "sweetalert2";
+
+//import axios
+import axios from "axios";
+
 export default function Register() {
     
-    const { errors, provinces, cities } = usePage().props;
+    const { errors, provinces} = usePage().props;
 
     // state user
     const [name, setName] = useState("");
@@ -20,6 +26,26 @@ export default function Register() {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [provinceID, setProvinceID] = useState("");
     const [cityID, setCityID] = useState("");
+    const [cities, setCities] = useState([]);
+
+
+    //method getCityByProvince
+    const getCityByProvince = async (province_id) => {
+
+        //set state province ID
+        setProvinceID(province_id);
+
+        //get cities by province id
+        axios.get(`/register/cities?province_id=${province_id}`)
+            .then(response => {
+                setCities(response.data);
+            })
+    }
+
+    const showCity = (city_id) => {
+        //set state cityID
+        setCityID(city_id)
+    }
 
     //function "registerHandler"
     const registerHandler = async (e) => {
@@ -35,7 +61,19 @@ export default function Register() {
             alamat: alamat,
             password: password,
             password_confirmation: passwordConfirmation,
-        });
+        },{
+            onSuccess: () => {
+
+                //show alert
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Register saved successfully!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        });;
     };
 
     return (
@@ -145,11 +183,7 @@ export default function Register() {
                                             <select
                                                 className="form-select"
                                                 value={provinceID}
-                                                onChange={(e) =>
-                                                    setProvinceID(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                onChange={(e) => getCityByProvince(e.target.value)}
                                             >
                                                 <option value="">
                                                     -- Select DPW --
@@ -175,24 +209,13 @@ export default function Register() {
                                             <label className="form-label">
                                                 DPC
                                             </label>
-                                            <select
-                                                className="form-select"
-                                                value={cityID}
-                                                onChange={(e) =>
-                                                    setCityID(e.target.value)
+                                            <select className="form-select" onChange={(e) => showCity(e.target.value)}>
+                                                <option value="">-- Select City --</option>
+                                                {
+                                                    cities.map((city, index) => (
+                                                        <option key={index} value={city.id}>{city.name}</option>
+                                                    ))
                                                 }
-                                            >
-                                                <option value="">
-                                                    -- Select DPC --
-                                                </option>
-                                                {cities.map((city) => (
-                                                    <option
-                                                        value={city.id}
-                                                        key={city.id}
-                                                    >
-                                                        {city.name}
-                                                    </option>
-                                                ))}
                                             </select>
                                             {errors.city_id && (
                                                 <div className="alert alert-danger mt-2">

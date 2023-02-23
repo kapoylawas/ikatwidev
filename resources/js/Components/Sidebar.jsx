@@ -7,9 +7,19 @@ import hasAnyPermission from "../Utils/Permissions";
 //import Link and usePage
 import { Link, usePage } from "@inertiajs/inertia-react";
 
+//import inertia adapter
+import { Inertia } from "@inertiajs/inertia";
+
 export default function Sidebar() {
     //destruct URL from props
     const { url } = usePage();
+
+     //function logout
+     const logoutHandler = async (e) => {
+        e.preventDefault();
+
+        Inertia.post("/logout");
+    };
 
     return (
         <>
@@ -111,6 +121,26 @@ export default function Sidebar() {
                         <i className="fa fa-users me-2"></i> Users
                     </Link>
                 )}
+                <Link
+                    onClick={logoutHandler}
+                    className={`${
+                        url.startsWith("/logout")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                    }`}
+                >
+                    <i className="fa fa-sign-out-alt me-2"></i> Logout
+                </Link>
+                <Link
+                    href="/"
+                    className={`${
+                        url.startsWith("/logout")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                    }`}
+                >
+                    <i className="fa fa-sign-out-alt me-2"></i> Home
+                </Link>
             </div>
         </>
     );

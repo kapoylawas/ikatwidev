@@ -23,6 +23,15 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function getCities(Request $request)
+    {
+        //get cities by province ID
+        $cities = City::where('province_id', $request->province_id)->get();
+
+        //return
+        return response()->json($cities);
+    }
+
     public function store(Request $request)
     {
         //set validation

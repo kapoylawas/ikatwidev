@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 //route register index
 Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register')->middleware('guest');
 
+Route::get('/register/cities', [\App\Http\Controllers\Auth\RegisterController::class, 'getCities'])->name('register');
+
 //route register store
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('register.store')->middleware('guest');
 
