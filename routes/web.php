@@ -89,6 +89,16 @@ Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home
 Route::get('/berita', [\App\Http\Controllers\Web\BeritaController::class, 'index'])->name('web.berita.index');
 
 /**
+ * route category artikel
+ */
+Route::get('/artikel', [\App\Http\Controllers\Web\ArtikelController::class, 'index'])->name('web.artikel.index');
+
+/**
+ * route category history
+ */
+Route::get('/history', [\App\Http\Controllers\Web\HistoryController::class, 'index'])->name('web.history.index');
+
+/**
  * route category index
  */
 Route::get('/categories', [\App\Http\Controllers\Web\CategoryController::class, 'index'])->name('web.categories.index');

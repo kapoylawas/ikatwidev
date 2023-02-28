@@ -79,7 +79,7 @@ export default function HomeIndex() {
                                     </div>
                                     <div className="col-md-3 col-6 mb-3">
                                         <Link
-                                            href={`/artikel`}
+                                            href="/artikel"
                                             className="text-decoration-none text-dark"
                                         >
                                             <div className="card border-0 rounded-3  shadow-sm">
@@ -97,7 +97,7 @@ export default function HomeIndex() {
                                     </div>
                                     <div className="col-md-3 col-6 mb-3">
                                         <Link
-                                            href={`/history`}
+                                            href="/history"
                                             className="text-decoration-none text-dark"
                                         >
                                             <div className="card border-0 rounded-3  shadow-sm">
