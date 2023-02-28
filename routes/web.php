@@ -49,9 +49,6 @@ Route::prefix('account')->group(function() {
         Route::resource('/users', \App\Http\Controllers\Account\UserController::class, ['as' => 'account'])
             ->middleware('permission:users.index|users.create|users.edit|users.delete');
 
-        //route resource colors
-        Route::resource('/colors', \App\Http\Controllers\Account\ColorController::class, ['as' => 'account'])
-            ->middleware('permission:colors.index|colors.create|colors.edit|colors.delete');
 
         //route resource categories
         Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])
@@ -85,6 +82,11 @@ Route::prefix('account')->group(function() {
  * route home
  */
 Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home.index');
+
+/**
+ * route category berita
+ */
+Route::get('/berita', [\App\Http\Controllers\Web\BeritaController::class, 'index'])->name('web.berita.index');
 
 /**
  * route category index
