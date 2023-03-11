@@ -134,7 +134,7 @@ export default function Sidebar() {
                 <Link
                     href="/"
                     className={`${
-                        url.startsWith("/")
+                        url.startsWith("home")
                             ? "active list-group-item list-group-item-action list-group-item-light p-3"
                             : "list-group-item list-group-item-action list-group-item-light p-3"
                     }`}

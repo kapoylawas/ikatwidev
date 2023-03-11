@@ -10,7 +10,8 @@ import { Inertia } from "@inertiajs/inertia";
 export default function Login() {
     const { errors } = usePage().props;
 
-    const [email, setEmail] = useState("");
+    // const [email, setEmail] = useState("");
+    const [noanggota, setNoanggota] = useState("");
     const [password, setPassword] = useState("");
 
     // set loading
@@ -25,7 +26,7 @@ export default function Login() {
 
         //register
         Inertia.post("/login", {
-            email: email,
+            no_anggota: noanggota,
             password: password,
         })
             .then((response) => {
@@ -64,7 +65,7 @@ export default function Login() {
                                     <hr />
                                 </div>
                                 <form onSubmit={loginHandler}>
-                                    <label className="mb-1">Email</label>
+                                    <label className="mb-1">No Anggota</label>
                                     <div className="input-group mb-3">
                                         <span className="input-group-text">
                                             <i className="fa fa-envelope"></i>
@@ -72,16 +73,16 @@ export default function Login() {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            value={email}
+                                            value={noanggota}
                                             onChange={(e) =>
-                                                setEmail(e.target.value)
+                                                setNoanggota(e.target.value)
                                             }
-                                            placeholder="Alamat Email"
+                                            placeholder="No anggota"
                                         />
                                     </div>
-                                    {errors.email && (
+                                    {errors.no_anggota && (
                                         <div className="alert alert-danger">
-                                            {errors.email}
+                                            {errors.no_anggota}
                                         </div>
                                     )}
                                     <label className="mb-1">Password</label>

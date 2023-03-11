@@ -13,10 +13,20 @@ class UserController extends Controller
 {
     public function index()
     {
-        //get users
-        $users = User::when(request()->q, function ($users) {
-            $users = $users->where('name', 'like', '%' . request()->q . '%');
-        })->with('roles', 'province', 'city')->latest()->paginate(5);
+
+        $role = auth()->user()->getRoleNames();
+
+        if ($role[0] == 'admin') {
+
+            //get users
+            $users = User::when(request()->q, function ($users) {
+                $users = $users->where('name', 'like', '%' . request()->q . '%');
+            })->with('roles', 'province', 'city')->latest()->paginate(10);
+        } else {
+            $users = User::when(request()->q, function ($users) {
+                $users = $users->where('name', 'like', '%' . request()->q . '%');
+            })->with('roles', 'province', 'city')->where('id', auth()->user()->id)->latest()->paginate(10);
+        }
 
         //append query string to pagination links
         $users->appends(['q' => request()->q]);
@@ -192,5 +202,4 @@ class UserController extends Controller
         //redirect
         return redirect()->route('account.users.index');
     }
-    
 }

@@ -18,18 +18,18 @@ class LoginController extends Controller
         //set validation
         $request->validate(
             [
-                'email'     => 'required|email',
+                'no_anggota'     => 'required',
                 'password'  => 'required',
             ],
             [
-                'email.required' => 'email tidak boleh kosong',
-                'email.email' => 'format email anda salah',
+                'no_anggota.required' => 'no anggota tidak boleh kosong',
+                // 'email.email' => 'format email anda salah',
                 'password.required' => 'password tidak boleh kosong',
             ]
         );
 
         //get email and password from request
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('no_anggota', 'password');
 
         //attempt to login
         if (auth()->attempt($credentials)) {

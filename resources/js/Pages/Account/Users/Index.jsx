@@ -17,12 +17,13 @@ import Search from "../../../Shared/Search";
 import Pagination from "../../../Shared/Pagination";
 
 //import component delete
-import Delete from '../../../Shared/Delete';
+import Delete from "../../../Shared/Delete";
 
 export default function UserIndex() {
     //destruct props "users"
     const { users } = usePage().props;
 
+    console.log("data", users);
     return (
         <>
             <Head>
@@ -71,6 +72,12 @@ export default function UserIndex() {
                                                     scope="col"
                                                     style={{ width: "15%" }}
                                                 >
+                                                    No Anggota
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
                                                     Name
                                                 </th>
                                                 <th
@@ -114,12 +121,22 @@ export default function UserIndex() {
                                                                 1) *
                                                                 users.per_page}
                                                     </td>
+                                                    <td>{user.no_anggota}</td>
                                                     <td>{user.name}</td>
                                                     <td>{user.email}</td>
                                                     <td>
                                                         {user.province.name}
                                                     </td>
-                                                    <td>{user.city.name}</td>
+                                                    <td>
+
+                                                        {user.city_id === 0 ? (
+                                                            <p>
+                                                                DPC tidak ada
+                                                            </p>
+                                                        ) : (
+                                                           user.city.name
+                                                        )}
+                                                    </td>
                                                     <td>
                                                         {user.roles.map(
                                                             (role, index) => (
@@ -146,7 +163,12 @@ export default function UserIndex() {
                                                         {hasAnyPermission([
                                                             "users.delete",
                                                         ]) && (
-                                                            <Delete URL={'/account/users'} id={user.id} />
+                                                            <Delete
+                                                                URL={
+                                                                    "/account/users"
+                                                                }
+                                                                id={user.id}
+                                                            />
                                                         )}
                                                     </td>
                                                 </tr>
@@ -154,7 +176,7 @@ export default function UserIndex() {
                                         </tbody>
                                     </table>
                                 </div>
-                                <Pagination links={users.links} align={'end'}/>
+                                <Pagination links={users.links} align={"end"} />
                             </div>
                         </div>
                     </div>

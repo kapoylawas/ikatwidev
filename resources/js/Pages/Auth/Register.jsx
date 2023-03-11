@@ -73,7 +73,7 @@ export default function Register() {
                     timer: 1500
                 })
             }
-        });;
+        });
     };
 
     return (

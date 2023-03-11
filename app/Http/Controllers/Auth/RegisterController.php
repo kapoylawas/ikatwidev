@@ -62,11 +62,16 @@ class RegisterController extends Controller
             ]
         );
         
+        $maxuser = User::count();
+        dd($maxuser);
+
+
         //insert data user
         $user = User::create([
             'name'      => $request->name,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
+            'no_anggota'      => '10'.$maxuser+1,
             'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,

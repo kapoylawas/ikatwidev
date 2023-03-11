@@ -217,7 +217,7 @@ export default function ProductCreate() {
                                                                 )
                                                             }
                                                             className="form-control"
-                                                            placeholder="Enter Size"
+                                                            placeholder="Name"
                                                         />
                                                     </div>
                                                 </div>
