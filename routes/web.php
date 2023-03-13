@@ -84,6 +84,11 @@ Route::prefix('account')->group(function() {
 Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home.index');
 
 /**
+ * route category anggota
+ */
+Route::get('/anggota', [\App\Http\Controllers\Web\AnggotaController::class, 'index'])->name('web.anggota.index');
+
+/**
  * route category berita
  */
 Route::get('/berita', [\App\Http\Controllers\Web\BeritaController::class, 'index'])->name('web.berita.index');
@@ -169,3 +174,8 @@ Route::post('/callback', \App\Http\Controllers\Web\CallbackController::class)->n
  * route search
  */
 Route::post('/search', \App\Http\Controllers\Web\SearchController::class)->name('web.search.index');
+
+/**
+ * route search anggota
+ */
+Route::post('/searchAnggota', \App\Http\Controllers\Web\SearchAnggotaController::class)->name('web.searchAnggota.index');

@@ -30,6 +30,8 @@ export default function UserEdit() {
     );
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [image, setImage] = useState("");
+    // console.log(image);
 
     //define method "handleCheckboxChange"
     const handleCheckboxChange = (e) => {
@@ -53,7 +55,7 @@ export default function UserEdit() {
         e.preventDefault();
 
         //sending data
-        Inertia.put(
+        Inertia.post(
             `/account/users/${user.id}`,
             {
                 //data
@@ -63,9 +65,11 @@ export default function UserEdit() {
                 province_id: provinceID,
                 city_id: cityID,
                 alamat: alamat,
+                image: image,
                 password: password,
                 password_confirmation: passwordConfirmation,
                 roles: rolesData,
+                _method: "PUT"
             },
             {
                 onSuccess: () => {
@@ -109,11 +113,13 @@ export default function UserEdit() {
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
                                 <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Add New User
+                                    <i className="fa fa-users"></i> Edit New User
                                 </span>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={updateUser}>
+                                 
+                                    
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
@@ -137,6 +143,20 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
+
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">
+                                            Image
+                                        </label>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            onChange={(e) =>
+                                                setImage(e.target.files[0])
+                                            }
+                                        />
+                                    </div>
+
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-3">

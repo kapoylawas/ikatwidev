@@ -27,6 +27,8 @@ class User extends Authenticatable
         'email',
         'alamat',
         'password',
+        'image',
+        'no_anggota'
     ];
 
     /**
@@ -49,6 +51,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($image) => asset('/storage/users/' . $image),
+        );
+    }
 
      /**
      * province

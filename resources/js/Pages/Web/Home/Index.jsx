@@ -19,7 +19,6 @@ import CardProduct from "../../../Shared/CardProduct";
 export default function HomeIndex() {
     //destruct props "sliders", "categories", "products"
     const { sliders, categories, products } = usePage().props;
-    // console.log(products);
 
     return (
         <>
@@ -61,17 +60,17 @@ export default function HomeIndex() {
 
                                     <div className="col-md-3 col-6 mb-3">
                                         <Link
-                                            href="/berita"
+                                            href="/anggota"
                                             className="text-decoration-none text-dark"
                                         >
                                             <div className="card border-0 rounded-3  shadow-sm">
                                                 <div className="card-body text-center">
                                                     <img
-                                                        src="/assets/images/newspaper.png"
+                                                        src="/assets/images/organization.png"
                                                         width="50"
                                                     />
                                                     <p className="card-title mt-3">
-                                                        Berita
+                                                        Anggota
                                                     </p>
                                                 </div>
                                             </div>

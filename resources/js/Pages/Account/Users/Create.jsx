@@ -17,6 +17,8 @@ export default function UserCreate() {
     //destruct props "errors" & "roles"
     const { errors, roles, provinces, cities } = usePage().props;
 
+    // console.log('maxuser', maxuser);
+
     // state user
     const [name, setName] = useState("");
     const [nik, setNik] = useState("");
@@ -27,6 +29,8 @@ export default function UserCreate() {
     const [provinceID, setProvinceID] = useState("");
     const [cityID, setCityID] = useState("");
     const [rolesData, setRolesData] = useState([]);
+    const [image, setImage] = useState(null);
+
 
 
     //define method "handleCheckboxChange"
@@ -62,7 +66,8 @@ export default function UserCreate() {
             alamat: alamat,
             password: password,
             password_confirmation: passwordConfirmation,
-            roles: rolesData
+            roles: rolesData,
+            image: image,
         }, {
             onSuccess: () => {
 
@@ -117,6 +122,23 @@ export default function UserCreate() {
                                             )}
                                         </div>
                                     </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">
+                                            Image
+                                        </label>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            onChange={(e) =>
+                                                setImage(e.target.files[0])
+                                            }
+                                        />
+                                    </div>
+                                    {errors.image && (
+                                        <div className="alert alert-danger">
+                                            {errors.image}
+                                        </div>
+                                    )}
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-3">

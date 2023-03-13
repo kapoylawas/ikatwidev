@@ -22,8 +22,8 @@ import Delete from "../../../Shared/Delete";
 export default function UserIndex() {
     //destruct props "users"
     const { users } = usePage().props;
+    // console.log("data", users);
 
-    console.log("data", users);
     return (
         <>
             <Head>
@@ -72,6 +72,12 @@ export default function UserIndex() {
                                                     scope="col"
                                                     style={{ width: "15%" }}
                                                 >
+                                                    Foto
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
                                                     No Anggota
                                                 </th>
                                                 <th
@@ -79,12 +85,6 @@ export default function UserIndex() {
                                                     style={{ width: "15%" }}
                                                 >
                                                     Name
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    Email Address
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -121,20 +121,30 @@ export default function UserIndex() {
                                                                 1) *
                                                                 users.per_page}
                                                     </td>
+                                                    <td className="text-center">
+                                                        <img
+                                                            src={user.image}
+                                                            className="rounded-3"
+                                                            width={"50"}
+                                                            alt="Deskripsi gambar"
+                                                            onError={(e) => {
+                                                                e.target.onerror =
+                                                                    null; // menghindari infinite loop jika terjadi kesalahan lagi
+                                                                e.target.src =
+                                                                "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
+                                                            }}
+                                                        />
+                                                    </td>
                                                     <td>{user.no_anggota}</td>
                                                     <td>{user.name}</td>
-                                                    <td>{user.email}</td>
                                                     <td>
                                                         {user.province.name}
                                                     </td>
                                                     <td>
-
                                                         {user.city_id === 0 ? (
-                                                            <p>
-                                                                DPC tidak ada
-                                                            </p>
+                                                            <p>DPC tidak ada</p>
                                                         ) : (
-                                                           user.city.name
+                                                            user.city.name
                                                         )}
                                                     </td>
                                                     <td>

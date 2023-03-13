@@ -63,7 +63,7 @@ class RegisterController extends Controller
         );
         
         $maxuser = User::count();
-        dd($maxuser);
+        // dd($maxuser);
 
 
         //insert data user

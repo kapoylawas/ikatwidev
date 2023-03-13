@@ -8,6 +8,8 @@ use App\Models\Province;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -44,16 +46,21 @@ class UserController extends Controller
         $provinces = Province::all();
         $cities = City::all();
 
+        $maxuser = User::count();
+
+
         //return inertia
         return inertia('Account/Users/Create', [
             'roles' => $roles,
             'provinces' => $provinces,
-            'cities' => $cities
+            'cities' => $cities,
+            'maxuser' => $maxuser
         ]);
     }
 
     public function store(Request $request)
     {
+        // dd($request->all());
         /**
          * Validate request
          */
@@ -84,6 +91,13 @@ class UserController extends Controller
             ]
         );
 
+        //upload image
+        $image = $request->file('image');
+        $image->storeAs('public/users', $image->hashName());
+
+        $maxuser = User::count();
+        // dd($maxuser);
+
         /**
          * Create user
          */
@@ -92,10 +106,12 @@ class UserController extends Controller
             'name'      => $request->name,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
+            'no_anggota'      => '10'.$maxuser+1,
             'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,
-            'password'  => bcrypt($request->password)
+            'password'  => bcrypt($request->password),
+            'image' => $image->hashName()
         ]);
 
         //assign roles to user
@@ -126,7 +142,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        // dd($user->id);
+        // dd($request->all());
+        // dd($user);
         /**
          * validate request
          */
@@ -141,7 +158,8 @@ class UserController extends Controller
                 'nik'      => 'required|max:16|min:16',
                 'alamat'      => 'required',
                 'password'  => 'required|confirmed',
-                'password' => 'nullable|confirmed'
+                'password' => 'nullable|confirmed',
+                'image' => 'required'
             ],
             [
                 'name.required' => 'name tidak boleh kosong',
@@ -163,14 +181,24 @@ class UserController extends Controller
          */
         if ($request->password == '') {
 
-            $user->update([
-                'name'      => $request->name,
-                'province_id'      => $request->province_id,
-                'city_id'      => $request->city_id,
-                'nik'      => $request->nik,
-                'email'     => $request->email,
-                'alamat'     => $request->alamat,
-            ]);
+            if ($request->file('image')) {
+                //remove old image
+                Storage::disk('local')->delete('public/users/' . basename($user->image));
+
+                // upload new image
+                $image = $request->file('image');
+                $image->storeAs('public/users', $image->hashName());
+
+                $user->update([
+                    'name'      => $request->name,
+                    'province_id'      => $request->province_id,
+                    'city_id'      => $request->city_id,
+                    'nik'      => $request->nik,
+                    'email'     => $request->email,
+                    'alamat'     => $request->alamat,
+                    'image' => $image->hashName(),
+                ]);
+            }
         } else {
 
             $user->update([
@@ -183,6 +211,7 @@ class UserController extends Controller
                 'password' => bcrypt($request->password)
             ]);
         }
+
 
         //assign roles to user
         $user->syncRoles($request->roles);
