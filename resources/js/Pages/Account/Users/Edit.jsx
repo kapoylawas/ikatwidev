@@ -31,7 +31,7 @@ export default function UserEdit() {
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
-    const [datestart, setDateStart] = useState(user.date_start);
+    const [nostr, setNostr] = useState(user.no_str);
     const [dateexprd, setDateExprd] = useState(user.date_exprd);
     // console.log(dateexprd);
 
@@ -68,7 +68,7 @@ export default function UserEdit() {
                 city_id: cityID,
                 alamat: alamat,
                 image: image,
-                date_start: datestart,
+                no_str: nostr,
                 date_exprd: dateexprd,
                 password: password,
                 password_confirmation: passwordConfirmation,
@@ -150,15 +150,15 @@ export default function UserEdit() {
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
-                                                Tanggal Start
+                                                No STR
                                             </label>
                                             <div className="input-group mb-3">
                                                 <input
-                                                    type="date"
+                                                    type="text"
                                                     className="form-control"
-                                                    value={datestart}
+                                                    value={nostr}
                                                     onChange={(e) =>
-                                                        setDateStart(
+                                                        setNostr(
                                                             e.target.value
                                                         )
                                                     }

@@ -29,7 +29,7 @@ class User extends Authenticatable
         'password',
         'image',
         'no_anggota',
-        'date_start',
+        'no_str',
         'date_exprd'
     ];
 

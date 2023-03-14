@@ -195,7 +195,7 @@ class UserController extends Controller
                     'nik'      => $request->nik,
                     'email'     => $request->email,
                     'alamat'     => $request->alamat,
-                    'date_start'     => $request->date_start,
+                    'no_str'     => $request->no_str,
                     'date_exprd'     => $request->date_exprd,
                     'image' => $image->hashName(),
                 ]);
@@ -207,7 +207,7 @@ class UserController extends Controller
                     'nik'      => $request->nik,
                     'email'     => $request->email,
                     'alamat'     => $request->alamat,
-                    'date_start'     => $request->date_start,
+                    'no_str'     => $request->no_str,
                     'date_exprd'     => $request->date_exprd,
                 ]);
             }
@@ -219,7 +219,7 @@ class UserController extends Controller
                 'nik'      => $request->nik,
                 'email'     => $request->email,
                 'alamat'     => $request->alamat,
-                'date_start'     => $request->date_start,
+                'no_str'     => $request->no_str,
                 'date_exprd'     => $request->date_exprd,
                 'password' => bcrypt($request->password)
             ]);

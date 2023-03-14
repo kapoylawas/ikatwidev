@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('province_id');
             $table->integer('city_id')->nullable();
             $table->string('no_anggota');
+            $table->string('no_str');
             $table->string('nik')->nullable();
             $table->string('name');
             $table->string('email')->unique()->nullable();

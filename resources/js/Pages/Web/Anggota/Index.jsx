@@ -98,7 +98,7 @@ export default function AnggotaIndex() {
                                                                     <th
                                                                         scope="col"
                                                                         style={{
-                                                                            width: "5%",
+                                                                            width: "3%",
                                                                         }}
                                                                     >
                                                                         No
@@ -106,7 +106,7 @@ export default function AnggotaIndex() {
                                                                     <th
                                                                         scope="col"
                                                                         style={{
-                                                                            width: "15%",
+                                                                            width: "8%",
                                                                         }}
                                                                     >
                                                                         Foto
@@ -114,7 +114,7 @@ export default function AnggotaIndex() {
                                                                     <th
                                                                         scope="col"
                                                                         style={{
-                                                                            width: "15%",
+                                                                            width: "10%",
                                                                         }}
                                                                     >
                                                                         No
@@ -147,7 +147,15 @@ export default function AnggotaIndex() {
                                                                     <th
                                                                         scope="col"
                                                                         style={{
-                                                                            width: "15%",
+                                                                            width: "10%",
+                                                                        }}
+                                                                    >
+                                                                        No str
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        style={{
+                                                                            width: "13%",
                                                                         }}
                                                                     >
                                                                         Experide
@@ -155,7 +163,7 @@ export default function AnggotaIndex() {
                                                                     <th
                                                                         scope="col"
                                                                         style={{
-                                                                            width: "15%",
+                                                                            width: "14%",
                                                                         }}
                                                                     >
                                                                         Status
@@ -217,6 +225,11 @@ export default function AnggotaIndex() {
                                                                             <td>
                                                                                 {
                                                                                     anggota.nama_city
+                                                                                }
+                                                                            </td>
+                                                                            <td>
+                                                                                {
+                                                                                    anggota.no_str
                                                                                 }
                                                                             </td>
                                                                             <td>

@@ -66,13 +66,13 @@ export default function UserIndex() {
                                             <tr>
                                                 <th
                                                     scope="col"
-                                                    style={{ width: "5%" }}
+                                                    style={{ width: "3%" }}
                                                 >
                                                     No.
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    style={{ width: "15%" }}
+                                                    style={{ width: "10%" }}
                                                 >
                                                     Foto
                                                 </th>
@@ -84,7 +84,7 @@ export default function UserIndex() {
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    style={{ width: "15%" }}
+                                                    style={{ width: "3%" }}
                                                 >
                                                     Name
                                                 </th>
@@ -99,6 +99,12 @@ export default function UserIndex() {
                                                     style={{ width: "15%" }}
                                                 >
                                                     DPC
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "8%" }}
+                                                >
+                                                    No Str
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -160,6 +166,9 @@ export default function UserIndex() {
                                                         ) : (
                                                             user.city.name
                                                         )}
+                                                    </td>
+                                                    <td>
+                                                        {user.no_str}
                                                     </td>
                                                     <td>
                                                         {user.date_exprd}
