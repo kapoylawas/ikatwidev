@@ -15,6 +15,8 @@ export default function AnggotaIndex() {
     const [anggotas, setAnggota] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const currentDate = new Date();
+
     //define method "searchhandler"
     const searchHandler = (e) => {
         //set isLoading to true
@@ -43,7 +45,7 @@ export default function AnggotaIndex() {
             </Head>
             <br />
             <LayoutWeb>
-                <div className="container"  style={{ marginTop: '45px' }}>
+                <div className="container" style={{ marginTop: "45px" }}>
                     <div className="fade-in">
                         <div className="row justify-content-center">
                             <div className="col-md-8">
@@ -142,6 +144,23 @@ export default function AnggotaIndex() {
                                                                     >
                                                                         DPC
                                                                     </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        style={{
+                                                                            width: "15%",
+                                                                        }}
+                                                                    >
+                                                                        Experide
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        style={{
+                                                                            width: "15%",
+                                                                        }}
+                                                                    >
+                                                                        Status
+                                                                        STR
+                                                                    </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -199,6 +218,25 @@ export default function AnggotaIndex() {
                                                                                 {
                                                                                     anggota.nama_city
                                                                                 }
+                                                                            </td>
+                                                                            <td>
+                                                                                {
+                                                                                    anggota.date_exprd
+                                                                                }
+                                                                            </td>
+                                                                            <td>
+                                                                                {new Date(
+                                                                                    anggota.date_exprd
+                                                                                ) >=
+                                                                                currentDate ? (
+                                                                                    <span className="btn btn-success btn-sm shadow-sm border-0 ms-2 mb-2">
+                                                                                        Aktif
+                                                                                    </span>
+                                                                                ) : (
+                                                                                    <span className="btn btn-danger btn-sm shadow-sm border-0 ms-2 mb-2">
+                                                                                        Non Aktif
+                                                                                    </span>
+                                                                                )}
                                                                             </td>
                                                                         </tr>
                                                                     )

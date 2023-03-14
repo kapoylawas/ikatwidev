@@ -22,7 +22,9 @@ import Delete from "../../../Shared/Delete";
 export default function UserIndex() {
     //destruct props "users"
     const { users } = usePage().props;
-    // console.log("data", users);
+    
+    const currentDate = new Date();
+
 
     return (
         <>
@@ -76,7 +78,7 @@ export default function UserIndex() {
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    style={{ width: "15%" }}
+                                                    style={{ width: "10%" }}
                                                 >
                                                     No Anggota
                                                 </th>
@@ -97,6 +99,18 @@ export default function UserIndex() {
                                                     style={{ width: "15%" }}
                                                 >
                                                     DPC
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "8%" }}
+                                                >
+                                                    Tgl ex
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "8%" }}
+                                                >
+                                                    Status
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -146,6 +160,12 @@ export default function UserIndex() {
                                                         ) : (
                                                             user.city.name
                                                         )}
+                                                    </td>
+                                                    <td>
+                                                        {user.date_exprd}
+                                                    </td>
+                                                    <td>
+                                                        {new Date(user.date_exprd) >= currentDate ? "Aktif" : "Tidak Aktif"}
                                                     </td>
                                                     <td>
                                                         {user.roles.map(

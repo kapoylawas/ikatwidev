@@ -106,7 +106,7 @@ class UserController extends Controller
             'name'      => $request->name,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
-            'no_anggota'      => '10'.$maxuser+1,
+            'no_anggota'      => '10' . $maxuser + 1,
             'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,
@@ -159,7 +159,6 @@ class UserController extends Controller
                 'alamat'      => 'required',
                 'password'  => 'required|confirmed',
                 'password' => 'nullable|confirmed',
-                'image' => 'required'
             ],
             [
                 'name.required' => 'name tidak boleh kosong',
@@ -196,18 +195,32 @@ class UserController extends Controller
                     'nik'      => $request->nik,
                     'email'     => $request->email,
                     'alamat'     => $request->alamat,
+                    'date_start'     => $request->date_start,
+                    'date_exprd'     => $request->date_exprd,
                     'image' => $image->hashName(),
+                ]);
+            } else {
+                $user->update([
+                    'name'      => $request->name,
+                    'province_id'      => $request->province_id,
+                    'city_id'      => $request->city_id,
+                    'nik'      => $request->nik,
+                    'email'     => $request->email,
+                    'alamat'     => $request->alamat,
+                    'date_start'     => $request->date_start,
+                    'date_exprd'     => $request->date_exprd,
                 ]);
             }
         } else {
-
             $user->update([
                 'name'      => $request->name,
                 'province_id'      => $request->province_id,
                 'city_id'      => $request->city_id,
                 'nik'      => $request->nik,
-                'alamat'     => $request->alamat,
                 'email'     => $request->email,
+                'alamat'     => $request->alamat,
+                'date_start'     => $request->date_start,
+                'date_exprd'     => $request->date_exprd,
                 'password' => bcrypt($request->password)
             ]);
         }

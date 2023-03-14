@@ -28,7 +28,9 @@ class User extends Authenticatable
         'alamat',
         'password',
         'image',
-        'no_anggota'
+        'no_anggota',
+        'date_start',
+        'date_exprd'
     ];
 
     /**

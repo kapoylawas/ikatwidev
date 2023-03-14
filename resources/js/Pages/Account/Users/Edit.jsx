@@ -31,7 +31,9 @@ export default function UserEdit() {
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
-    // console.log(image);
+    const [datestart, setDateStart] = useState(user.date_start);
+    const [dateexprd, setDateExprd] = useState(user.date_exprd);
+    // console.log(dateexprd);
 
     //define method "handleCheckboxChange"
     const handleCheckboxChange = (e) => {
@@ -66,10 +68,12 @@ export default function UserEdit() {
                 city_id: cityID,
                 alamat: alamat,
                 image: image,
+                date_start: datestart,
+                date_exprd: dateexprd,
                 password: password,
                 password_confirmation: passwordConfirmation,
                 roles: rolesData,
-                _method: "PUT"
+                _method: "PUT",
             },
             {
                 onSuccess: () => {
@@ -113,13 +117,12 @@ export default function UserEdit() {
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
                                 <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Edit New User
+                                    <i className="fa fa-users"></i> Edit New
+                                    User
                                 </span>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={updateUser}>
-                                 
-                                    
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
@@ -139,6 +142,57 @@ export default function UserEdit() {
                                             {errors.nik && (
                                                 <div className="alert alert-danger mt-2">
                                                     {errors.nik}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Tanggal Start
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    value={datestart}
+                                                    onChange={(e) =>
+                                                        setDateStart(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Tanggal Expired STR"
+                                                />
+                                            </div>
+                                            {errors.date_start && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.date_start}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Tanggal expired
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    value={dateexprd}
+                                                    onChange={(e) =>
+                                                        setDateExprd(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Tanggal Expired STR"
+                                                />
+                                            </div>
+                                            {errors.date_exprd && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.date_exprd}
                                                 </div>
                                             )}
                                         </div>
