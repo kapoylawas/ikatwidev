@@ -71,17 +71,17 @@ export default function Footer() {
                                         <span style={styles}>
                                             <a
                                                 href="https://api.whatsapp.com/send/?phone=6285867544115&text&type=phone_number&app_absent=0"
-                                                title="Telegran"
+                                                title="Whatsapp"
                                                 className="text-decoration-none"
                                                 target="_blank"
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    className="icon icon-tabler icon-tabler-brand-telegram text-tele mb-2 icon-footer mr-4"
-                                                    width="40"
-                                                    height="40"
-                                                    viewBox="0 0 24 24"
-                                                    stroke-width="2"
+                                                    class="icon icon-tabler icon-tabler-brand-whatsapp mb-2 mr-4"
+                                                    width={37}
+                                                    height={37}
+                                                    viewBox={"0 0 24 24"}
+                                                    stroke-width={2}
                                                     stroke="currentColor"
                                                     fill="none"
                                                     stroke-linecap="round"
@@ -92,7 +92,8 @@ export default function Footer() {
                                                         d="M0 0h24v24H0z"
                                                         fill="none"
                                                     ></path>
-                                                    <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>
+                                                    <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path>
+                                                    <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path>
                                                 </svg>
                                             </a>
                                         </span>
@@ -129,9 +130,9 @@ export default function Footer() {
                                     </div>
                                 </div>
                             </div>
-                                <div class="col-sm-8 col-md-12 text-center order-sm-2 order-md-1 bg-light-custom py-4">
-                                    ©2023 Pengurus Besar Ikatan Terapi Indonesia.
-                                </div>
+                            <div class="col-sm-8 col-md-12 text-center order-sm-2 order-md-1 bg-light-custom py-4">
+                                ©{(new Date().getFullYear())} Pengurus Besar Ikatan Terapi Indonesia.
+                            </div>
                         </div>
                     </div>
                 </div>
