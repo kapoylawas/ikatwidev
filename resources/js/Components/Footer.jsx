@@ -70,7 +70,7 @@ export default function Footer() {
 
                                         <span style={styles}>
                                             <a
-                                                href="https://t.me/santrikoding"
+                                                href="https://api.whatsapp.com/send/?phone=6285867544115&text&type=phone_number&app_absent=0"
                                                 title="Telegran"
                                                 className="text-decoration-none"
                                                 target="_blank"
@@ -99,7 +99,7 @@ export default function Footer() {
 
                                         <span style={styles}>
                                             <a
-                                                href="https://youtube.com/c/SantriKoding"
+                                                href="https://www.youtube.com/@ikatwipusat"
                                                 title="YouTube"
                                                 className="text-decoration-none"
                                                 target="_blank"
