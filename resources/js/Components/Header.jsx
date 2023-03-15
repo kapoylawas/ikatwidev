@@ -6,6 +6,10 @@ import { Link } from '@inertiajs/inertia-react';
 
 export default function Header() {
 
+    let styles = {
+        marginLeft: "7px",
+    };
+
     return (
         <>
             <nav className="navbar-expand-md navbar-dark fixed-top bg-green shadow">
@@ -15,7 +19,7 @@ export default function Header() {
                             <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1">
                                 <Link href="/" className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none">
                                     <img src="/assets/images/logo.png" width="50" /> {"  "}
-                                     <h5 className="mb-0"> <strong> </strong> Ikatan Terapis Wicara Indonesia </h5>
+                                     <span style={styles}><h5> <strong> </strong> Ikatan Terapis Wicara Indonesia </h5></span>
                                 </Link>
                             </header>
                         </div>

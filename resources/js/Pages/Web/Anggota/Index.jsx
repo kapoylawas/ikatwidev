@@ -33,6 +33,7 @@ export default function AnggotaIndex() {
                 //set isLoading to false
                 setIsLoading(false);
 
+                console.log(response);
                 //set response to state
                 setAnggota(response.data.anggota);
             });
@@ -223,9 +224,14 @@ export default function AnggotaIndex() {
                                                                                 }
                                                                             </td>
                                                                             <td>
-                                                                                {
+                                                                                {/* {
                                                                                     anggota.nama_city
-                                                                                }
+                                                                                } */}
+                                                                                 {anggota.nama_city === 0 ? (
+                                                                                        <p>DPC tidak ada</p>
+                                                                                    ) : (
+                                                                                        anggota.nama_city
+                                                                                )}
                                                                             </td>
                                                                             <td>
                                                                                 {
