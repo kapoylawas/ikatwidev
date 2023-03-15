@@ -11,7 +11,7 @@ export default function Slider() {
 
     return (
         <>
-            <div className="container" style={{ marginTop: '80px' }}>
+            <div className="container" style={{ marginTop: '50px' }}>
                 <div className="fade-in">
                     <div className="row justify-content-center">
                         <div className="col-md-8">

@@ -179,3 +179,5 @@ Route::post('/search', \App\Http\Controllers\Web\SearchController::class)->name(
  * route search anggota
  */
 Route::post('/searchAnggota', \App\Http\Controllers\Web\SearchAnggotaController::class)->name('web.searchAnggota.index');
+
+Route::get('/cekstatus', [\App\Http\Controllers\Account\UserController::class, 'ceAktiv']);

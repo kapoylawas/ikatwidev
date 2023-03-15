@@ -233,6 +233,26 @@ class UserController extends Controller
         return redirect()->route('account.users.index');
     }
 
+    public function ceAktiv()
+    {
+        $user = User::whereNull('status_aktif')->get();
+
+        $data = [];
+
+        foreach($user as $u){
+            if (strtotime(date('Y-m-d')) >= strtotime($u->date_exprd)) {
+                $data[] = $u->id;
+            }
+        }
+
+        // dd($data);
+
+        User::whereIn('id', $data)->update(['status_aktif' => 1]);
+
+
+        return 'berhasil';
+    }
+
     public function destroy($id)
     {
         //find user

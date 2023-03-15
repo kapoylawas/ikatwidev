@@ -15,10 +15,13 @@ import CardCategory from "../../../Shared/CardCategory";
 
 //import component slider
 import CardProduct from "../../../Shared/CardProduct";
+import Footer from "../../../Components/Footer";
 
 export default function HomeIndex() {
     //destruct props "sliders", "categories", "products"
-    const { sliders, categories, products } = usePage().props;
+    const { auth, sliders, categories, products } = usePage().props;
+
+    const currentDate = new Date();
 
     return (
         <>
@@ -26,6 +29,64 @@ export default function HomeIndex() {
                 <title>IKATWI - Ikatan Terapis Wicara</title>
             </Head>
             <LayoutWeb>
+                <div className="container" style={{ marginTop: "100px" }}>
+                    {auth.user == null ? (
+                        auth.user
+                    ) : (
+                        <div className="fade-in">
+                            <div className="row justify-content-center">
+                                <div className="col-md-8">
+                                    {/* <div className="alert alert-success border-0 shadow-sm mb-0">
+                                        Selamat Datang, {auth.user.name}
+                                    </div> */}
+                                    <div className="card border-0 rounded shadow-sm">
+                                        <div className="card-header">
+                                            <div className="card-body">
+                                                <div className="text-center my-6">
+                                                    <img
+                                                        src={auth.user.image}
+                                                        className="rounded-3"
+                                                        width={"50"}
+                                                        alt="Deskripsi gambar"
+                                                        onError={(e) => {
+                                                            e.target.onerror =
+                                                                null; // menghindari infinite loop jika terjadi kesalahan lagi
+                                                            e.target.src =
+                                                                "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
+                                                        }}
+                                                    />
+                                                    <a
+                                                        href="#"
+                                                        className="d-block h5 mb-0"
+                                                    >
+                                                        {auth.user.name}
+                                                    </a>
+                                                    <button className="btn btn-success btn-block mt-2 mb-2">
+                                                        <span className="fa fa-envelope"></span>{" "}
+                                                        {auth.user.email}
+                                                    </button>
+                                                    <br></br>
+                                                    {new Date(
+                                                        auth.user.date_exprd
+                                                    ) >= currentDate ? (
+                                                        <span className="btn btn-success btn-sm shadow-sm mb-2">
+                                                            STR Anda Masih Aktif
+                                                        </span>
+                                                    ) : (
+                                                        <span className="btn btn-danger btn-sm shadow-sm mb-2">
+                                                            STR Anda Non Aktif
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
                 <Slider sliders={sliders} />
 
                 <div className="container mt-4 mb-5">
@@ -141,6 +202,7 @@ export default function HomeIndex() {
                                     ))}
                                 </div>
                             </div>
+                            <Footer />
                         </div>
                     </div>
                 </div>
