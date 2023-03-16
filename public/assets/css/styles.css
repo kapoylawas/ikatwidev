@@ -36,6 +36,14 @@ body.modal-open footer {
   margin-top: 55px;
 }
 
+.divider-custom {
+  width: 12rem;
+  background-color: #556080;
+  border-radius: 9999px;
+  border: 0 solid #556080;
+  height: 0.25rem;
+}
+
 .mt-60 {
   margin-top: 60px;
 }

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import LayoutWeb from "../../../Layouts/Web";
 
 //import Head, usePage, Link
-import { Head, usePage, Link } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/inertia-react";
 
 //import axios
 import axios from "axios";
@@ -46,7 +46,7 @@ export default function AnggotaIndex() {
             </Head>
             <br />
             <LayoutWeb>
-                <div className="container" style={{ marginTop: "45px" }}>
+                <div className="container" style={{ marginTop: "55px", marginBottom: "50px" }}>
                     <div className="fade-in">
                         <div className="row justify-content-center">
                             <div className="col-md-8">

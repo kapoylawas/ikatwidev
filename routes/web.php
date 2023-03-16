@@ -89,6 +89,11 @@ Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home
 Route::get('/anggota', [\App\Http\Controllers\Web\AnggotaController::class, 'index'])->name('web.anggota.index');
 
 /**
+ * route category wilayah dan anggota
+ */
+Route::get('/wilayah', [\App\Http\Controllers\Web\WilayahCabangController::class, 'index'])->name('web.wilayah.index');
+
+/**
  * route category berita
  */
 Route::get('/berita', [\App\Http\Controllers\Web\BeritaController::class, 'index'])->name('web.berita.index');
@@ -180,4 +185,5 @@ Route::post('/search', \App\Http\Controllers\Web\SearchController::class)->name(
  */
 Route::post('/searchAnggota', \App\Http\Controllers\Web\SearchAnggotaController::class)->name('web.searchAnggota.index');
 
+// cek status anggota STR
 Route::get('/cekstatus', [\App\Http\Controllers\Account\UserController::class, 'ceAktiv']);
