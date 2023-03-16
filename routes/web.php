@@ -51,6 +51,10 @@ Route::prefix('account')->group(function() {
 
 
         //route resource categories
+        Route::resource('/wilayah', \App\Http\Controllers\Account\WilayahCabangAdminController::class, ['as' => 'account'])
+            ->middleware('permission:wilayah.index|wilayah.create|wilayah.edit|wilayah.delete');
+
+        //route resource categories
         Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])
             ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
 

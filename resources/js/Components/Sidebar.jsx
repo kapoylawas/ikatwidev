@@ -60,6 +60,18 @@ export default function Sidebar() {
                         <i className="fa fa-shopping-bag me-2"></i> Kegiatan
                     </Link>
                 )}
+                {hasAnyPermission(["wilayah.index"]) && (
+                    <Link
+                        href="/account/wilayah"
+                        className={`${
+                            url.startsWith("/account/wilayah")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-map-marker me-2"></i> Wilayah
+                    </Link>
+                )}
                 {hasAnyPermission(["transactions.index"]) && (
                     <Link
                         href="/account/transactions"
@@ -109,7 +121,7 @@ export default function Sidebar() {
                         <i className="fa fa-key me-2"></i> Permissions
                     </Link>
                 )}
-                {hasAnyPermission(["users.index"]) && (
+                {/* {hasAnyPermission(["users.index"]) && ( */}
                     <Link
                         href="/account/users"
                         className={`${
@@ -120,7 +132,7 @@ export default function Sidebar() {
                     >
                         <i className="fa fa-users me-2"></i> Users
                     </Link>
-                )}
+                {/* // )} */}
                 <Link
                     onClick={logoutHandler}
                     className={`${

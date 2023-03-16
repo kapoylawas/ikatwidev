@@ -22,9 +22,8 @@ import Delete from "../../../Shared/Delete";
 export default function UserIndex() {
     //destruct props "users"
     const { users } = usePage().props;
-    
-    const currentDate = new Date();
 
+    const currentDate = new Date();
 
     return (
         <>
@@ -33,23 +32,25 @@ export default function UserIndex() {
             </Head>
             <LayoutAccount>
                 <div className="row mt-5">
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-3 col-12 mb-2">
-                                <Link
-                                    href="/account/users/create"
-                                    className="btn btn-md btn-admin border-0 shadow w-100"
-                                    type="button"
-                                >
-                                    <i className="fa fa-plus-circle me-2"></i>
-                                    Add
-                                </Link>
-                            </div>
-                            <div className="col-md-9 col-12 mb-2">
-                                <Search URL={"/account/users"} />
+                    {hasAnyPermission(["users.delete"]) && (
+                        <div className="col-md-8">
+                            <div className="row">
+                                <div className="col-md-3 col-12 mb-2">
+                                    <Link
+                                        href="/account/users/create"
+                                        className="btn btn-md btn-admin border-0 shadow w-100"
+                                        type="button"
+                                    >
+                                        <i className="fa fa-plus-circle me-2"></i>
+                                        Add
+                                    </Link>
+                                </div>
+                                <div className="col-md-9 col-12 mb-2">
+                                    <Search URL={"/account/users"} />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
                 <div className="row mt-2 mb-4">
                     <div className="col-12">
@@ -151,7 +152,7 @@ export default function UserIndex() {
                                                                 e.target.onerror =
                                                                     null; // menghindari infinite loop jika terjadi kesalahan lagi
                                                                 e.target.src =
-                                                                "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
+                                                                    "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
                                                             }}
                                                         />
                                                     </td>
@@ -167,14 +168,14 @@ export default function UserIndex() {
                                                             user.city.name
                                                         )}
                                                     </td>
+                                                    <td>{user.no_str}</td>
+                                                    <td>{user.date_exprd}</td>
                                                     <td>
-                                                        {user.no_str}
-                                                    </td>
-                                                    <td>
-                                                        {user.date_exprd}
-                                                    </td>
-                                                    <td>
-                                                        {new Date(user.date_exprd) >= currentDate ? "Aktif" : "Tidak Aktif"}
+                                                        {new Date(
+                                                            user.date_exprd
+                                                        ) >= currentDate
+                                                            ? "Aktif"
+                                                            : "Tidak Aktif"}
                                                     </td>
                                                     <td>
                                                         {user.roles.map(

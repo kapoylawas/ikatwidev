@@ -16,6 +16,7 @@ class Wilayah extends Model
         'phone',
         'email',
         'instagram',
+        'name_ketua',
     ];
 
      /**

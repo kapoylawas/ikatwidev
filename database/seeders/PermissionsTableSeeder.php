@@ -41,6 +41,12 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'categories.edit', 'guard_name' => 'web']);
         Permission::create(['name' => 'categories.delete', 'guard_name' => 'web']);
 
+        //permission categories
+        Permission::create(['name' => 'wilayah.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'wilayah.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'wilayah.edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'wilayah.delete', 'guard_name' => 'web']);
+
         //permission products
         Permission::create(['name' => 'products.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'products.create', 'guard_name' => 'web']);
