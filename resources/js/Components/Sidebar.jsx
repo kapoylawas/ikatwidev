@@ -14,8 +14,8 @@ export default function Sidebar() {
     //destruct URL from props
     const { url } = usePage();
 
-     //function logout
-     const logoutHandler = async (e) => {
+    //function logout
+    const logoutHandler = async (e) => {
         e.preventDefault();
 
         Inertia.post("/logout");
@@ -48,6 +48,18 @@ export default function Sidebar() {
                         <i className="fa fa-folder me-2"></i> Categories
                     </Link>
                 )}
+
+                <Link
+                    href="/account/biodatas"
+                    className={`${
+                        url.startsWith("/account/biodatas")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                    }`}
+                >
+                    <i className="fa fa-folder me-2"></i> Biodata
+                </Link>
+
                 {hasAnyPermission(["products.index"]) && (
                     <Link
                         href="/account/products"
@@ -122,16 +134,16 @@ export default function Sidebar() {
                     </Link>
                 )}
                 {/* {hasAnyPermission(["users.index"]) && ( */}
-                    <Link
-                        href="/account/users"
-                        className={`${
-                            url.startsWith("/account/users")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
-                    >
-                        <i className="fa fa-users me-2"></i> Users
-                    </Link>
+                <Link
+                    href="/account/users"
+                    className={`${
+                        url.startsWith("/account/users")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                    }`}
+                >
+                    <i className="fa fa-users me-2"></i> Users
+                </Link>
                 {/* // )} */}
                 <Link
                     onClick={logoutHandler}
