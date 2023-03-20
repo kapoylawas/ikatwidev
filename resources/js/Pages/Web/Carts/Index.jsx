@@ -48,11 +48,8 @@ export default function CartIndex() {
 
                                                                         <div className="row">
                                                                             <div className="col-md-3 col-6">
-                                                                                <div>
-                                                                                    Qty : <strong>{cart.qty}</strong>
-                                                                                </div>
                                                                                 <div className="mt-3">
-                                                                                    Jenis : <strong>{cart.size}</strong>
+                                                                                    Tahun : <strong>{cart.tahun}</strong>
                                                                                 </div>
                                                                             </div>
                                                                             

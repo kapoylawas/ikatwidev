@@ -7,7 +7,7 @@ import { Inertia } from '@inertiajs/inertia';
 //import Sweet Alert
 import Swal from 'sweetalert2';
 
-export default function StoreCheckout({ provinceID, cityID,  grandTotal, address }) {
+export default function StoreCheckout({ provinceID, cityID,  grandTotal }) {
 
     //method checkout
     const storeCheckout = () => {
@@ -18,7 +18,7 @@ export default function StoreCheckout({ provinceID, cityID,  grandTotal, address
             province_id: provinceID,
             city_id: cityID,
             grand_total: grandTotal,
-            address: address
+            // address: address
 
         }, {
             onSuccess: () => {

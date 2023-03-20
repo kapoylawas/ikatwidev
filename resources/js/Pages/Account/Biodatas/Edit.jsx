@@ -14,21 +14,19 @@ import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 
 export default function UserEdit() {
-    const { errors, provinces, cities, biodata } = usePage().props;
+    const { errors, biodata } = usePage().props;
 
     // state user
     const [name, setName] = useState(biodata.name);
-    console.log(name);
     const [nik, setNik] = useState(biodata.nik);
     const [email, setEmail] = useState(biodata.email);
+    const [phone, setPhone] = useState(biodata.phone);
     const [alamat, setAlamat] = useState(biodata.alamat);
-    const [provinceID, setProvinceID] = useState(biodata.province_id);
-    const [cityID, setCityID] = useState(biodata.city_id);
+    const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir);
+    const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir);
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
-    const [nostr, setNostr] = useState(biodata.no_str);
-    const [dateexprd, setDateExprd] = useState(biodata.date_exprd);
 
     //method updateUser
     const updateUser = async (e) => {
@@ -42,12 +40,11 @@ export default function UserEdit() {
                 name: name,
                 email: email,
                 nik: nik,
-                province_id: provinceID,
-                city_id: cityID,
+                phone: phone,
                 alamat: alamat,
+                tempat_lahir: tempatlahir,
+                tgl_lahir: tgllahir,
                 image: image,
-                no_str: nostr,
-                date_exprd: dateexprd,
                 password: password,
                 password_confirmation: passwordConfirmation,
                 _method: "PUT",
@@ -78,7 +75,7 @@ export default function UserEdit() {
                         <div className="row">
                             <div className="col-md-3 col-12 mb-2">
                                 <Link
-                                    href="/account/users"
+                                    href="/account/biodatas"
                                     className="btn btn-md btn-admin border-0 shadow w-100"
                                     type="button"
                                 >
@@ -100,6 +97,18 @@ export default function UserEdit() {
                             </div>
                             <div className="card-body">
                                 <form onSubmit={updateUser}>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">
+                                            Image
+                                        </label>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            onChange={(e) =>
+                                                setImage(e.target.files[0])
+                                            }
+                                        />
+                                    </div>
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
@@ -125,74 +134,10 @@ export default function UserEdit() {
                                     </div>
 
                                     <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                No STR
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={nostr}
-                                                    onChange={(e) =>
-                                                        setNostr(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Tanggal Expired STR"
-                                                />
-                                            </div>
-                                            {errors.date_start && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.date_start}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                Tanggal expired
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="date"
-                                                    className="form-control"
-                                                    value={dateexprd}
-                                                    onChange={(e) =>
-                                                        setDateExprd(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Tanggal Expired STR"
-                                                />
-                                            </div>
-                                            {errors.date_exprd && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.date_exprd}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            Image
-                                        </label>
-                                        <input
-                                            type="file"
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setImage(e.target.files[0])
-                                            }
-                                        />
-                                    </div>
-
-                                    <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="form-label fw-bold">
-                                                    Full Name
+                                                    Name dan Gelar
                                                 </label>
                                                 <input
                                                     type="text"
@@ -235,67 +180,77 @@ export default function UserEdit() {
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
-                                                DPW
+                                                Phone
                                             </label>
-                                            <select
-                                                className="form-select"
-                                                value={provinceID}
-                                                onChange={(e) =>
-                                                    setProvinceID(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPW --
-                                                </option>
-                                                {provinces.map((province) => (
-                                                    <option
-                                                        value={province.id}
-                                                        key={province.id}
-                                                    >
-                                                        {province.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.province_id && (
+                                            <div className="input-group mb-3">
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    value={phone}
+                                                    onChange={(e) =>
+                                                        setPhone(e.target.value)
+                                                    }
+                                                    placeholder="No Telephone"
+                                                />
+                                            </div>
+                                            {errors.phone && (
                                                 <div className="alert alert-danger mt-2">
-                                                    {errors.province_id}
+                                                    {errors.phone}
                                                 </div>
                                             )}
                                         </div>
                                     </div>
-                                    <div className="row mt-2">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                DPC
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={cityID}
-                                                onChange={(e) =>
-                                                    setCityID(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPC --
-                                                </option>
-                                                {cities.map((city) => (
-                                                    <option
-                                                        value={city.id}
-                                                        key={city.id}
-                                                    >
-                                                        {city.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.city_id && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.city_id}
+
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Tempat Lahir
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={tempatlahir}
+                                                    onChange={(e) =>
+                                                        setTempatlahir(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Enter Tempat Kelahiran"
+                                                />
+                                            </div>
+                                            {errors.tempat_lahir && (
+                                                <div className="alert alert-danger">
+                                                    {errors.tempat_lahir}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Tanggal Lahir
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    value={tgllahir}
+                                                    onChange={(e) =>
+                                                        setTgllahir(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Enter Tanggal Lahir"
+                                                />
+                                            </div>
+                                            {errors.email && (
+                                                <div className="alert alert-danger">
+                                                    {errors.email}
                                                 </div>
                                             )}
                                         </div>
                                     </div>
+
+                                    {/*  */}
                                     <div className="row mt-2">
                                         <div className="col-md-12">
                                             <label className="mb-1">

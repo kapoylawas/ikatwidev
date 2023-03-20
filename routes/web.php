@@ -40,6 +40,9 @@ Route::prefix('account')->group(function() {
         //route resource biodata   
         Route::resource('/biodatas', \App\Http\Controllers\Account\BiodataController::class, ['as' => 'account']);
 
+        //route resource tagihan iuran   
+        Route::resource('/tagihan', \App\Http\Controllers\Account\TagihanController::class, ['as' => 'account']);
+
         //route permissions
         Route::get('/permissions', \App\Http\Controllers\Account\PermissionController::class)->name('account.permissions.index')
             ->middleware('permission:permissions.index');

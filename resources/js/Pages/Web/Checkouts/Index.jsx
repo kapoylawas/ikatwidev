@@ -36,7 +36,7 @@ export default function CheckoutIndex() {
     // const [courierCost, setCourierCost] = useState(0);
 
     const [grandTotal, setGrandTotal] = useState(dataCarts.price);
-    const [address, setAddress] = useState('');
+    // const [address, setAddress] = useState('');
 
     //method getCityByProvince
     const getCityByProvince = async (province_id) => {
@@ -150,59 +150,6 @@ export default function CheckoutIndex() {
                                             </select>
                                         </div>
 
-                                        {/* {showCourier &&
-                                            <div className="mb-3">
-                                                <label className="mb-2 fw-bold">Shipping Expedition</label>
-                                                <br />
-                                                <div className="form-check">
-
-
-                                                    <label className="form-check-label font-weight-bold me-5" htmlFor="ongkos_kirim_tiki">
-                                                        <input className="form-check-input select-courier" name="courier" type="radio" id="ongkos_kirim_tiki" value="tiki" onChange={checkOngkir} />
-                                                        TIKI
-                                                    </label>
-
-                                                    <label className="form-check-label font-weight-bold" htmlFor="ongkos_kirim_pos">
-                                                        <input className="form-check-input select-courier" name="courier" type="radio" id="ongkos_kirim_pos" value="pos" onChange={checkOngkir} />
-                                                        POS
-                                                    </label>
-
-                                                </div>
-                                            </div>
-                                        }
-
-                                        {isLoading &&
-                                            <div className="justify-content-center mb-3 text-center">
-                                                <div className="spinner-border text-success" role="status">
-                                                    <span className="visually-hidden">Loading...</span>
-                                                </div>
-                                                <h6 className="mt-2">Loading...</h6>
-                                            </div>
-                                        }
-
-                                        {showOngkir &&
-                                            <div className="mb-3" v-if="courier.showService">
-                                                <hr />
-                                                <label className="fw-bold">Shipping Cost</label>
-                                                <br/>
-                                                <div className="form-check form-check-inline mt-2">
-                                                    {
-                                                        ongkirs.map((ongkir, index) => (
-                                                            <label className="form-check-label font-weight-normal me-5" htmlFor={ongkir.service} key={index}>
-                                                                <input className="form-check-input" id={ongkir.serrvice} type="radio" name="cost" value={`${ongkir.cost[0].value}|${ongkir.service}`} onChange={getServiceAndCost} />
-                                                                {ongkir.service} - Rp. {FormatPrice(ongkir.cost[0].value)}
-                                                            </label>
-                                                        ))
-                                                    }
-                                                </div>
-                                            </div>
-                                        } */}
-
-                                        <div className="mb-3">
-                                            <label className="mb-2 fw-bold">Alamat</label>
-                                            <textarea className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} rows="3" placeholder="Address"></textarea>
-                                        </div>
-
                                     </div>
                                 </div>
 
@@ -235,12 +182,12 @@ export default function CheckoutIndex() {
                                 <StoreCheckout    
                                     provinceID={provinceID}
                                     cityID={cityID}
+                                    grandTotal={grandTotal}
                                     // courierName={courierName}
                                     // courierService={courierService}
                                     // courierCost={courierCost}
                                     // weight={dataCarts.weight}
-                                    grandTotal={grandTotal}
-                                    address={address}
+                                    // address={address}
                                 />    
 
                             </div>

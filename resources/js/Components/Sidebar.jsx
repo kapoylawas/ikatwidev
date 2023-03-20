@@ -59,6 +59,17 @@ export default function Sidebar() {
                 >
                     <i className="fa fa-folder me-2"></i> Biodata
                 </Link>
+                
+                <Link
+                    href="/account/tagihan"
+                    className={`${
+                        url.startsWith("/account/tagihan")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                    }`}
+                >
+                    <i className="fa fa-folder me-2"></i> Tagihan Iuran
+                </Link>
 
                 {hasAnyPermission(["products.index"]) && (
                     <Link

@@ -30,6 +30,9 @@ class User extends Authenticatable
         'image',
         'no_anggota',
         'no_str',
+        'phone',
+        'tempat_lahir',
+        'tgl_lahir',
         'date_exprd'
     ];
 

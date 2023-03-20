@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('no_anggota');
             $table->string('no_str');
             $table->string('nik')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->string('tgl_lahir')->nullable();
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->text('alamat')->nullable();

@@ -81,6 +81,7 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $duitkuConfig = new \Duitku\Config(config('duitku.merchant_key'), config('duitku.merchant_code'));
         // true for sandbox mode, false for production mode
         $duitkuConfig->setSandboxMode(config('duitku.sandbox_mode'));
@@ -89,8 +90,10 @@ class CheckoutController extends Controller
         // set log parameter (default : true)
         $duitkuConfig->setDuitkuLogs(false);
 
+        
         DB::transaction(function () use ($duitkuConfig, $request) {
-
+            
+            $tahun = date("Y");
             $paymentAmount      = $request->grand_total;
             $email              = $request->email;
             $merchantOrderId    = 'INV-'.time();
@@ -106,6 +109,7 @@ class CheckoutController extends Controller
                 'user_id'                   => auth()->user()->id,
                 'province_id'               => $request->province_id,
                 'city_id'                   => $request->city_id,
+                'tahun'                     => $tahun,
                 'weight'                    => $request->weight,
                 'courier_name'              => $request->courier_name,
                 'courier_service'           => $request->courier_service,

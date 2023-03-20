@@ -23,6 +23,7 @@ class Transaction extends Model
         'grand_total',
         'status',
         'reference',
+        'tahun',
         'address'
     ];
 

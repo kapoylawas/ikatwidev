@@ -10,21 +10,20 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 //import component pagination
 import Pagination from "../../../Shared/Pagination";
 
+export default function TagihanIndex() {
 
-export default function BiodataIndex() {
     //destruct props "users"
-    const { users } = usePage().props;
+    const { tagihans } = usePage().props;
 
-    const currentDate = new Date();
+    console.log(tagihans);
 
-    return (
+    return(
         <>
             <Head>
-                <title>User - IKATWI</title>
+                <title>Tagihan Iuran - IKATWI</title>
             </Head>
             <LayoutAccount>
-                
-                <div className="row mt-2 mb-4">
+            <div className="row mt-2 mb-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
@@ -47,25 +46,19 @@ export default function BiodataIndex() {
                                                     scope="col"
                                                     style={{ width: "7%" }}
                                                 >
-                                                    Foto
+                                                    nama
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     style={{ width: "7%" }}
                                                 >
-                                                    No Anggota
+                                                    Tagihan
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     style={{ width: "10%" }}
                                                 >
-                                                    Name
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "5%" }}
-                                                >
-                                                    Role
+                                                    Tahun
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -76,48 +69,25 @@ export default function BiodataIndex() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {users.data.map((user, index) => (
+                                            {tagihans.data.map((tagihan, index) => (
                                                 <tr key={index}>
                                                     <td className="text-center">
                                                         {++index +
-                                                            (users.current_page -
+                                                            (tagihans.current_page -
                                                                 1) *
-                                                                users.per_page}
+                                                                tagihans.per_page}
                                                     </td>
-                                                    <td className="text-center">
-                                                        <img
-                                                            src={user.image}
-                                                            className="rounded-3"
-                                                            width={"50"}
-                                                            alt="Deskripsi gambar"
-                                                            onError={(e) => {
-                                                                e.target.onerror =
-                                                                    null; // menghindari infinite loop jika terjadi kesalahan lagi
-                                                                e.target.src =
-                                                                    "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
-                                                            }}
-                                                        />
-                                                    </td>
-                                                    <td>{user.no_anggota}</td>
-                                                    <td>{user.name}</td>
-                                                   
-                                                   
+                                                    <td>{tagihan.user.name}</td>
                                                     <td>
-                                                        {user.roles.map(
-                                                            (role, index) => (
-                                                                <span
-                                                                    className="btn btn-success btn-sm shadow-sm border-0 ms-2 mb-2"
-                                                                    key={index}
-                                                                >
-                                                                    {role.name}
-                                                                </span>
-                                                            )
-                                                        )}
+                                                        {tagihan.price}
+                                                    </td>
+                                                    <td>
+                                                        {tagihan.tahun}
                                                     </td>
                                                     <td className="text-center">
                                                         
                                                             <Link
-                                                                href={`/account/biodatas/${user.id}/edit`}
+                                                                href={`/account/tagihan/${tagihan.id}/edit`}
                                                                 className="btn btn-primary btn-sm me-2"
                                                             >
                                                                 <i className="fa fa-pencil-alt"></i>
@@ -129,12 +99,12 @@ export default function BiodataIndex() {
                                         </tbody>
                                     </table>
                                 </div>
-                                <Pagination links={users.links} align={"end"} />
+                                <Pagination links={tagihans.links} align={"end"} />
                             </div>
                         </div>
                     </div>
                 </div>
             </LayoutAccount>
         </>
-    );
+    )
 }

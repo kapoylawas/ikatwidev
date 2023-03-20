@@ -46,6 +46,7 @@ class BiodataController extends Controller
 
     public function update(Request $request, User $biodata)
     {
+        // dd($request->all());
         /**
          * check password is empty
          */
@@ -61,37 +62,37 @@ class BiodataController extends Controller
 
                 $biodata->update([
                     'name'      => $request->name,
-                    'province_id'      => $request->province_id,
-                    'city_id'      => $request->city_id,
                     'nik'      => $request->nik,
                     'email'     => $request->email,
                     'alamat'     => $request->alamat,
                     'no_str'     => $request->no_str,
-                    'date_exprd'     => $request->date_exprd,
+                    'phone'     => $request->phone,
+                    'tempat_lahir'     => $request->tempat_lahir,
+                    'tgl_lahir'     => $request->tgl_lahir,
                     'image' => $image->hashName(),
                 ]);
             } else {
                 $biodata->update([
                     'name'      => $request->name,
-                    'province_id'      => $request->province_id,
-                    'city_id'      => $request->city_id,
                     'nik'      => $request->nik,
                     'email'     => $request->email,
                     'alamat'     => $request->alamat,
                     'no_str'     => $request->no_str,
-                    'date_exprd'     => $request->date_exprd,
+                    'phone'     => $request->phone,
+                    'tempat_lahir'     => $request->tempat_lahir,
+                    'tgl_lahir'     => $request->tgl_lahir,
                 ]);
             }
         } else {
             $biodata->update([
                 'name'      => $request->name,
-                'province_id'      => $request->province_id,
-                'city_id'      => $request->city_id,
                 'nik'      => $request->nik,
                 'email'     => $request->email,
                 'alamat'     => $request->alamat,
                 'no_str'     => $request->no_str,
-                'date_exprd'     => $request->date_exprd,
+                'phone'     => $request->phone,
+                'tempat_lahir'     => $request->tempat_lahir,
+                'tgl_lahir'     => $request->tgl_lahir,
                 'password' => bcrypt($request->password)
             ]);
         }

@@ -23,6 +23,7 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         //check cart
         $cart = Cart::where('product_id', $request->product_id)->where('size', $request->size);
 
@@ -54,6 +55,7 @@ class CartController extends Controller
                 'size'          => $request->size,
                 'price'         => (int) $request->price,
                 'qty'           => $request->qty,
+                'tahun'           => 2023,
                 'weight'        => $request->weight
             ]);
 
