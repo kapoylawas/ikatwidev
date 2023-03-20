@@ -147,15 +147,8 @@ class CheckoutController extends Controller
             //remove data carts
             Cart::with('product')->where('user_id', auth()->user()->id)->delete();
 
-            //add ongkir to item details
-            $ongkir = array(
-                'name'      => 'Shipping Cost : '.$request->courier_name,
-                'price'     => (int) $request->courier_cost,
-                'quantity'  => 1
-            );
-
             //push ongkir to items details
-            array_push($item_details, $ongkir);
+            array_push($item_details);
 
             $customerDetail = array(
                 'firstName'         => $request->name,

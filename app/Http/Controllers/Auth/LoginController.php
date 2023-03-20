@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -39,10 +40,14 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $tahun = date('Y');
-            $cek = Cart::where('user_id', auth()->user()->id)
+            $cektransaction = Transaction::where('user_id', auth()->user()->id)
                     ->where('tahun', $tahun)->first();
+            $cekcart = Cart::where('user_id', auth()->user()->id)
+                    ->where('tahun', $tahun)->first();
+            
 
-            if (!$cek) {
+            // kondisi jika di tabel transcation dan cart ada user dan tahun maka tidak insert
+            if (!$cektransaction && !$cekcart) {
                 Cart::insert([
                     'user_id'       => auth()->user()->id,
                     'product_id'    => 1,

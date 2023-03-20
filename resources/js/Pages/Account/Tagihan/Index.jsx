@@ -68,7 +68,9 @@ export default function TagihanIndex() {
                                                 </th>
                                             </tr>
                                         </thead>
+                                        
                                         <tbody>
+                                      
                                             {tagihans.data.map((tagihan, index) => (
                                                 <tr key={index}>
                                                     <td className="text-center">
@@ -96,6 +98,7 @@ export default function TagihanIndex() {
                                                     </td>
                                                 </tr>
                                             ))}
+                                          
                                         </tbody>
                                     </table>
                                 </div>

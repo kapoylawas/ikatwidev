@@ -61,52 +61,7 @@ export default function CheckoutIndex() {
         setShowCourier(true);
     }
 
-    //method checkOngkir
-    // const checkOngkir = (e) => {
-
-    //     //set state isLoading
-    //     setIsLoading(true);
-
-    //     //set state setShowOngkir to false
-    //     setShowOngkir(false);
-
-    //     //set courierName
-    //     setCourierName(e.target.value);
-
-    //     axios.post('/checkouts/checkOngkir', {
-
-    //         destination: cityID,
-    //         weight: dataCarts.weight,
-    //         courier: e.target.value
-
-    //     }).then(response => {
-
-    //         //set data to state ongkir
-    //         setOngkirs(response.data);
-
-    //         //set state isLoading to false
-    //         setIsLoading(false);
-
-    //         //set state setShowOngkir to true
-    //         setShowOngkir(true);
-
-    //     });
-    // }
-
-    // //method getServiceAndCost
-    // const getServiceAndCost = (e) => {
-
-    //     //split value dengan menghapus string -> | 
-    //     let shipping = e.target.value.split("|");
-
-    //     //set state
-    //     setCourierCost(shipping[0]);
-    //     setCourierService(shipping[1]);
-
-    //     //sum grandTotal
-    //     setGrandTotal(parseInt(dataCarts.price) + parseInt(shipping[0]));
-
-    // }
+    
 
     return (
         <>
@@ -149,6 +104,8 @@ export default function CheckoutIndex() {
                                                 }
                                             </select>
                                         </div>
+
+                                        
 
                                     </div>
                                 </div>
