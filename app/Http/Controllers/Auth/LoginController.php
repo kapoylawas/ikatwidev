@@ -51,6 +51,7 @@ class LoginController extends Controller
                 Cart::insert([
                     'user_id'       => auth()->user()->id,
                     'product_id'    => 1,
+                    'product_image'    => 'wHxXlwn8dcvctB2n6zJuuRcPiLO1KFTHdraEYoWT.png',
                     'price'         => 50000,
                     'tahun'           => $tahun,
                     'weight'        => $request->weight

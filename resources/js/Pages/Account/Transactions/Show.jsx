@@ -49,16 +49,6 @@ export default function TransactionShow() {
                                             {transaction.user.name}
                                         </td>
                                     </tr>
-                                    {/* <tr>
-                                        <td>
-                                            COURIER / SERVICE / COST
-                                        </td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {transaction.courier_name} / {transaction.courier_service} / Rp.
-                                            {FormatPrice(transaction.courier_cost)}
-                                        </td>
-                                    </tr> */}
                                     <tr>
                                         <td>
                                             DPC
@@ -79,11 +69,11 @@ export default function TransactionShow() {
                                     </tr>
                                     <tr>
                                         <td>
-                                            ADDRESS
+                                            IURAN
                                         </td>
                                         <td>:</td>
                                         <td className="p-2">
-                                            {transaction.address}
+                                            {transaction.tahun}
                                         </td>
                                     </tr>
                                     <tr>
@@ -125,25 +115,14 @@ export default function TransactionShow() {
                                 {transaction.transaction_details.map((detail, index) => (
                                     <div key={index}>
                                         <div className="row g-0">
-                                            <div className="col-md-3 col-3">
+                                            {/* <div className="col-md-3 col-3">
                                                 <img src={detail.product_image} className="img-fluid rounded-3" />
-                                            </div>
+                                            </div> */}
                                             <div className="col-md-9 col-9">
                                                 <div className="card-body">
                                                     <h4 className="card-title">{detail.product.title}</h4>
 
-                                                    <div className="row">
-                                                        <div className="col-md-3 col-6">
-                                                            <div>
-                                                                Qty : <strong>{detail.qty}</strong>
-                                                            </div>
-                                                            <div className="mt-3">
-                                                                Size : <strong>{detail.size}</strong>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>
-
+                                                   
                                                     <hr />
 
                                                     <h5>Rp. {FormatPrice(detail.price)}</h5>
