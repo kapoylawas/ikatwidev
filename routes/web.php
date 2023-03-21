@@ -43,6 +43,9 @@ Route::prefix('account')->group(function() {
         //route resource tagihan iuran   
         Route::resource('/tagihan', \App\Http\Controllers\Account\TagihanController::class, ['as' => 'account']);
 
+        //route resource tagihan upload dokumen   
+        Route::resource('/documents', \App\Http\Controllers\Account\DocumentController::class, ['as' => 'account']);
+
         //route permissions
         Route::get('/permissions', \App\Http\Controllers\Account\PermissionController::class)->name('account.permissions.index')
             ->middleware('permission:permissions.index');

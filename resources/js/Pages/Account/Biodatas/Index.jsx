@@ -15,8 +15,6 @@ export default function BiodataIndex() {
     //destruct props "users"
     const { users } = usePage().props;
 
-    const currentDate = new Date();
-
     return (
         <>
             <Head>
