@@ -89,10 +89,10 @@ export default function TagihanIndex() {
                                                     <td className="text-center">
                                                         
                                                             <Link
-                                                                href={`/account/tagihan/${tagihan.id}/edit`}
+                                                                href={`/carts`}
                                                                 className="btn btn-primary btn-sm me-2"
                                                             >
-                                                                <i className="fa fa-pencil-alt"></i>
+                                                                <i className="fa fa-list-ul"></i>
                                                             </Link>
                                                         
                                                     </td>
