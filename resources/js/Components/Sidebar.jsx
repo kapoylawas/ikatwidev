@@ -144,7 +144,7 @@ export default function Sidebar() {
                         <i className="fa fa-key me-2"></i> Permissions
                     </Link>
                 )}
-                {/* {hasAnyPermission(["users.index"]) && ( */}
+                {hasAnyPermission(["users.index"]) && (
                 <Link
                     href="/account/users"
                     className={`${
@@ -155,7 +155,7 @@ export default function Sidebar() {
                 >
                     <i className="fa fa-users me-2"></i> Users
                 </Link>
-                {/* // )} */}
+                )}
                 <Link
                     onClick={logoutHandler}
                     className={`${
