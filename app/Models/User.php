@@ -33,7 +33,8 @@ class User extends Authenticatable
         'phone',
         'tempat_lahir',
         'tgl_lahir',
-        'date_exprd'
+        'date_exprd',
+        'ijazah',
     ];
 
     /**
@@ -61,6 +62,13 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn ($image) => asset('/storage/users/' . $image),
+        );
+    }
+
+    protected function ijazah(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($ijazah) => asset('/storage/ijazah/' . $ijazah),
         );
     }
 

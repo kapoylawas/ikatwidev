@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Province;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -13,23 +16,14 @@ class DocumentController extends Controller
     {
 
         $transactions = Transaction::with('user')
-        ->where('user_id', auth()->user()->id)
-        ->where('grand_total', 50000)->get();
-
-        // $searchString = request()->q;
-
-        // $transactions = Transaction::whereHas('user', function ($query) use ($searchString){
-        //     $query->where('name', 'like', '%'.$searchString.'%');
-        // })
-        // ->with(['user' => function($query) use ($searchString){
-        //     $query->where('name', 'like', '%'.$searchString.'%');
-        // }])->where('user_id', auth()->user()->id)->latest()->paginate(10);
+            ->where('user_id', auth()->user()->id)
+            ->where('grand_total', 50000)->get();
 
         $users = User::when(request()->q, function ($users) {
             $users = $users->where('name', 'like', '%' . request()->q . '%');
         })->with('roles', 'province', 'city')->where('id', auth()->user()->id)
-        // ->orWhere('province_id', auth()->user()->province_id)
-        ->latest()->paginate(5);
+            // ->orWhere('province_id', auth()->user()->province_id)
+            ->latest()->paginate(5);
 
         //append query string to pagination links
         $users->appends(['q' => request()->q]);
@@ -38,5 +32,53 @@ class DocumentController extends Controller
             'users' => $users,
             'transactions' => $transactions
         ]);
+    }
+
+    public function edit($id)
+    {
+        //get user
+        $document = User::findOrFail($id);
+
+        $provinces = Province::all();
+        $cities = City::all();
+
+        return inertia('Account/Documents/Edit', [
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'document' => $document,
+            
+        ]);
+    }
+
+    public function update(Request $request, User $document)
+    {
+        $this->validate(
+            $request,
+            [
+                'email'    => 'required|unique:users,email,' . $document->id,
+                'ijazah'     => 'required|mimes:pdf|max:4000',
+            ]
+        );
+        if ($request->file('ijazah')) {
+            //remove old image
+            Storage::disk('local')->delete('public/ijazah/' . basename($document->ijazah));
+
+            // upload new image
+            $ijazah = $request->file('ijazah');
+            $ijazah->storeAs('public/ijazah', $ijazah->hashName());
+
+            $document->update([
+                'name'      => $request->name,
+                'email'      => $request->email,
+                'ijazah' => $ijazah->hashName(),
+            ]);
+        } else {
+            $document->update([
+                'name'      => $request->name,
+                'email'     => $request->email,
+            ]);
+        } 
+
+        return redirect()->route('account.documents.index');
     }
 }

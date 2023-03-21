@@ -57,27 +57,15 @@ export default function DocumentsIndex() {
                                                 <tr>
                                                     <th
                                                         scope="col"
-                                                        style={{ width: "3%" }}
+                                                        style={{ width: "10%" }}
                                                     >
-                                                        No.
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "7%" }}
-                                                    >
-                                                        Foto
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "7%" }}
-                                                    >
-                                                        No Anggota
+                                                        Name
                                                     </th>
                                                     <th
                                                         scope="col"
                                                         style={{ width: "10%" }}
                                                     >
-                                                        Name
+                                                        Ijazah
                                                     </th>
                                                     <th
                                                         scope="col"
@@ -91,36 +79,21 @@ export default function DocumentsIndex() {
                                                 {users.data.map(
                                                     (user, index) => (
                                                         <tr key={index}>
-                                                            <td className="text-center">
-                                                                {++index +
-                                                                    (users.current_page -
-                                                                        1) *
-                                                                        users.per_page}
-                                                            </td>
-                                                            <td className="text-center">
-                                                                <img
-                                                                    src={
-                                                                        user.image
-                                                                    }
-                                                                    className="rounded-3"
-                                                                    width={"50"}
-                                                                    alt="Deskripsi gambar"
-                                                                    onError={(
-                                                                        e
-                                                                    ) => {
-                                                                        e.target.onerror =
-                                                                            null; // menghindari infinite loop jika terjadi kesalahan lagi
-                                                                        e.target.src =
-                                                                            "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
-                                                                    }}
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                {
-                                                                    user.no_anggota
-                                                                }
-                                                            </td>
                                                             <td>{user.name}</td>
+                                                            <td>
+                                                                <a
+                                                                target="_blank"
+                                                                    href={
+                                                                        user.ijazah
+                                                                    }
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    <i className="fa fa-link">
+                                                                        {" "}
+                                                                        Lihat
+                                                                    </i>
+                                                                </a>
+                                                            </td>
                                                             <td className="text-center">
                                                                 <Link
                                                                     href={`/account/documents/${user.id}/edit`}
@@ -145,7 +118,9 @@ export default function DocumentsIndex() {
                             <div className="row mt-5">
                                 <div className="col-12 col-md-12 col-lg-12 mb-4">
                                     <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
-                                        <h5>Anda belum membayar tagihan IURAN.</h5>
+                                        <h5>
+                                            Anda belum membayar tagihan IURAN.
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
