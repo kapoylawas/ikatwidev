@@ -20,7 +20,7 @@ export default function DocumentsIndex() {
     //destruct props "users"
     const { users, transactions } = usePage().props;
 
-    console.log(transactions);
+    // console.log(users);
 
     const status = transactions.map((ts) => ts.status);
 
@@ -31,7 +31,7 @@ export default function DocumentsIndex() {
         .replace('"', "")
         .replace('"', "");
 
-    console.log(filter);
+    // console.log(filter);
 
     //  const [status, setStatus] = useState(transactions.status);
 
@@ -69,6 +69,18 @@ export default function DocumentsIndex() {
                                                     </th>
                                                     <th
                                                         scope="col"
+                                                        style={{ width: "10%" }}
+                                                    >
+                                                        STR
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        style={{ width: "10%" }}
+                                                    >
+                                                        Tanggal Expired STR
+                                                    </th>
+                                                    <th
+                                                        scope="col"
                                                         style={{ width: "4%" }}
                                                     >
                                                         Actions
@@ -93,6 +105,23 @@ export default function DocumentsIndex() {
                                                                         Lihat
                                                                     </i>
                                                                 </a>
+                                                            </td>
+                                                            <td>
+                                                                <a
+                                                                target="_blank"
+                                                                    href={
+                                                                        user.str
+                                                                    }
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    <i className="fa fa-link">
+                                                                        {" "}
+                                                                        Lihat
+                                                                    </i>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                {user.date_exprd}
                                                             </td>
                                                             <td className="text-center">
                                                                 <Link

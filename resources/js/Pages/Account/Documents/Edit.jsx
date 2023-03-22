@@ -20,6 +20,9 @@ export default function DocumentsEdit() {
     const [name, setName] = useState(document.name);
     const [email, setEmail] = useState(document.email);
     const [ijazah, setIjazah] = useState(null);
+    const [str, setStr] = useState(null);
+    const [dateexprd, setDateExprd] = useState(document.date_exprd);
+    
 
     const updateDocument = async (e) => {
         e.preventDefault();
@@ -32,6 +35,8 @@ export default function DocumentsEdit() {
                 name: name,
                 email: email,
                 ijazah: ijazah,
+                str: str,
+                date_exprd: dateexprd,
                 _method: "PUT",
             },
             {
@@ -52,7 +57,7 @@ export default function DocumentsEdit() {
     return (
         <>
             <Head>
-                <title>Edit Users - IKATWI</title>
+                <title>Upload Documents - IKATWI</title>
             </Head>
             <LayoutAccount>
                 <div className="row mt-2">
@@ -135,6 +140,48 @@ export default function DocumentsEdit() {
                                             {errors.ijazah}
                                         </div>
                                     )}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">
+                                            File STR
+                                        </label>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            onChange={(e) =>
+                                                setStr(e.target.files[0])
+                                            }
+                                        />
+                                    </div>
+                                    {errors.str && (
+                                        <div className="alert alert-danger mt-2">
+                                            {errors.str}
+                                        </div>
+                                    )}
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label fw-bold">
+                                                Tanggal expired STR
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    value={dateexprd}
+                                                    onChange={(e) =>
+                                                        setDateExprd(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Tanggal Expired STR"
+                                                />
+                                            </div>
+                                            {errors.date_exprd && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.date_exprd}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
 
                                     <div>
                                         <button

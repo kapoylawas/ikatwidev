@@ -56,28 +56,47 @@ class DocumentController extends Controller
             $request,
             [
                 'email'    => 'required|unique:users,email,' . $document->id,
-                'ijazah'     => 'required|mimes:pdf|max:4000',
+                // 'ijazah'     => 'mimes:pdf|max:4000',
+                // 'str'     => 'mimes:pdf|max:4000',
             ]
         );
+
         if ($request->file('ijazah')) {
-            //remove old image
+            //remove old ijazah
             Storage::disk('local')->delete('public/ijazah/' . basename($document->ijazah));
 
             // upload new image
             $ijazah = $request->file('ijazah');
             $ijazah->storeAs('public/ijazah', $ijazah->hashName());
-
+            
             $document->update([
                 'name'      => $request->name,
                 'email'      => $request->email,
                 'ijazah' => $ijazah->hashName(),
             ]);
-        } else {
+        } 
+
+        if ($request->file('str')) {
+            //remove old ijazah
+            Storage::disk('local')->delete('public/str/' . basename($document->str));
+
+            // upload new image
+            $str = $request->file('str');
+            $str->storeAs('public/str', $str->hashName());
+            
             $document->update([
                 'name'      => $request->name,
-                'email'     => $request->email,
+                'email'      => $request->email,
+                'str' => $str->hashName(),
             ]);
         } 
+
+        $document->update([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'date_exprd'     => $request->date_exprd,
+        ]);
+        
 
         return redirect()->route('account.documents.index');
     }

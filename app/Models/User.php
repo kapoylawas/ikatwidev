@@ -35,6 +35,7 @@ class User extends Authenticatable
         'tgl_lahir',
         'date_exprd',
         'ijazah',
+        'str',
     ];
 
     /**
@@ -69,6 +70,13 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn ($ijazah) => asset('/storage/ijazah/' . $ijazah),
+        );
+    }
+
+    protected function str(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($str) => asset('/storage/str/' . $str),
         );
     }
 
