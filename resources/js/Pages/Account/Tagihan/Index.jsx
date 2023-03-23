@@ -15,8 +15,6 @@ export default function TagihanIndex() {
     //destruct props "users"
     const { tagihans } = usePage().props;
 
-    console.log(tagihans);
-
     return(
         <>
             <Head>

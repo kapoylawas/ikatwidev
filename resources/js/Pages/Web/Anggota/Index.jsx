@@ -33,7 +33,6 @@ export default function AnggotaIndex() {
                 //set isLoading to false
                 setIsLoading(false);
 
-                console.log(response);
                 //set response to state
                 setAnggota(response.data.anggota);
             });

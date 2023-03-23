@@ -9,6 +9,8 @@ import { Head, usePage } from "@inertiajs/inertia-react";
 
 import hasAnyPermission from "../../../Utils/Permissions";
 
+import {QRCodeSVG} from 'qrcode.react';
+
 export default function Dashboard() {
     //destruct props
     const { auth, count } = usePage().props;
@@ -25,6 +27,7 @@ export default function Dashboard() {
                             Selamat Datang, <strong>{auth.user.name}</strong>
                         </div>
                     </div>
+                    <QRCodeSVG value={auth.user.name} />,
                 </div>
 
                 {hasAnyPermission(["dashboard.statistics"]) && (

@@ -91,6 +91,21 @@ class DocumentController extends Controller
             ]);
         } 
 
+        if ($request->file('sip')) {
+            //remove old sip
+            Storage::disk('local')->delete('public/sip/' . basename($document->sip));
+
+            // upload new image
+            $sip = $request->file('sip');
+            $sip->storeAs('public/sip', $sip->hashName());
+            
+            $document->update([
+                'name'      => $request->name,
+                'email'      => $request->email,
+                'sip' => $sip->hashName(),
+            ]);
+        } 
+
         $document->update([
             'name'      => $request->name,
             'email'     => $request->email,

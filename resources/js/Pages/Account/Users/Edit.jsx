@@ -16,8 +16,6 @@ import Swal from "sweetalert2";
 export default function UserEdit() {
     const { errors, roles, provinces, cities, user } = usePage().props;
 
-    // console.log("data user", user);
-
     // state user
     const [name, setName] = useState(user.name);
     const [nik, setNik] = useState(user.nik);
@@ -33,7 +31,6 @@ export default function UserEdit() {
     const [image, setImage] = useState("");
     const [nostr, setNostr] = useState(user.no_str);
     const [dateexprd, setDateExprd] = useState(user.date_exprd);
-    // console.log(dateexprd);
 
     //define method "handleCheckboxChange"
     const handleCheckboxChange = (e) => {

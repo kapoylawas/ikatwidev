@@ -17,8 +17,6 @@ export default function UserCreate() {
     //destruct props "errors" & "roles"
     const { errors, roles, provinces, cities } = usePage().props;
 
-    // console.log('maxuser', maxuser);
-
     // state user
     const [name, setName] = useState("");
     const [nik, setNik] = useState("");

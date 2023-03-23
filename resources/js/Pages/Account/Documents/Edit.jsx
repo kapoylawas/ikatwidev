@@ -21,6 +21,7 @@ export default function DocumentsEdit() {
     const [email, setEmail] = useState(document.email);
     const [ijazah, setIjazah] = useState(null);
     const [str, setStr] = useState(null);
+    const [sip, setSip] = useState(null);
     const [dateexprd, setDateExprd] = useState(document.date_exprd);
     
 
@@ -36,6 +37,7 @@ export default function DocumentsEdit() {
                 email: email,
                 ijazah: ijazah,
                 str: str,
+                sip: sip,
                 date_exprd: dateexprd,
                 _method: "PUT",
             },
@@ -138,6 +140,23 @@ export default function DocumentsEdit() {
                                     {errors.ijazah && (
                                         <div className="alert alert-danger mt-2">
                                             {errors.ijazah}
+                                        </div>
+                                    )}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">
+                                            File SIP
+                                        </label>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            onChange={(e) =>
+                                                setSip(e.target.files[0])
+                                            }
+                                        />
+                                    </div>
+                                    {errors.sip && (
+                                        <div className="alert alert-danger mt-2">
+                                            {errors.sip}
                                         </div>
                                     )}
                                     <div className="mb-3">

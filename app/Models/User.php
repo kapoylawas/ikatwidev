@@ -36,6 +36,7 @@ class User extends Authenticatable
         'date_exprd',
         'ijazah',
         'str',
+        'sip',
     ];
 
     /**
@@ -77,6 +78,13 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn ($str) => asset('/storage/str/' . $str),
+        );
+    }
+
+    protected function sip(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($sip) => asset('/storage/sip/' . $sip),
         );
     }
 

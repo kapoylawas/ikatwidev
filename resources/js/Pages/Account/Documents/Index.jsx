@@ -20,8 +20,6 @@ export default function DocumentsIndex() {
     //destruct props "users"
     const { users, transactions } = usePage().props;
 
-    // console.log(users);
-
     const status = transactions.map((ts) => ts.status);
 
     const filter = status
@@ -30,10 +28,6 @@ export default function DocumentsIndex() {
         .replace("]", "")
         .replace('"', "")
         .replace('"', "");
-
-    // console.log(filter);
-
-    //  const [status, setStatus] = useState(transactions.status);
 
     return (
         <>
@@ -71,6 +65,12 @@ export default function DocumentsIndex() {
                                                         scope="col"
                                                         style={{ width: "10%" }}
                                                     >
+                                                        SIP
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        style={{ width: "10%" }}
+                                                    >
                                                         STR
                                                     </th>
                                                     <th
@@ -97,6 +97,20 @@ export default function DocumentsIndex() {
                                                                 target="_blank"
                                                                     href={
                                                                         user.ijazah
+                                                                    }
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    <i className="fa fa-link">
+                                                                        {" "}
+                                                                        Lihat
+                                                                    </i>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a
+                                                                target="_blank"
+                                                                    href={
+                                                                        user.sip
                                                                     }
                                                                     className="btn btn-primary btn-sm me-2"
                                                                 >

@@ -18,8 +18,6 @@ export default function ProductIndex() {
     //destruct props "products"
     const { products } = usePage().props;
 
-    // console.log(products);
-
     return (
         <>
             <Head>

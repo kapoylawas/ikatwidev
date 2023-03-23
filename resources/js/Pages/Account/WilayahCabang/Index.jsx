@@ -21,7 +21,6 @@ import Delete from "../../../Shared/Delete";
 
 export default function WilayaCabangIndex() {
     const { wilayah } = usePage().props;
-    console.log(wilayah);
 
     return (
         <>

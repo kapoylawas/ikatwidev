@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('ijazah')->nullable();
             $table->string('str')->nullable();
+            $table->string('sip')->nullable();
             $table->string('date_exprd')->nullable();
             $table->rememberToken();
             $table->timestamps();

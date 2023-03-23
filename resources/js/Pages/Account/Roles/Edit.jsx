@@ -22,7 +22,6 @@ export default function RoleEdit() {
     const [permissionsData, setPermissionsData] = useState(
         role.permissions.map((obj) => obj.name)
     );
-    // console.log(permissionsData);
 
     //define method "handleCheckboxChange"
     const handleCheckboxChange = (e) => {

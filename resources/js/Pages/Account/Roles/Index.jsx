@@ -22,8 +22,6 @@ import Delete from '../../../Shared/Delete';
 export default function RoleIndex() {
     const { roles } = usePage().props;
 
-    // console.log(roles);
-
     return (
         <>
             <Head>

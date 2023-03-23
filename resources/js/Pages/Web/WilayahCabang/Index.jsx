@@ -9,8 +9,6 @@ import { Head, usePage } from "@inertiajs/inertia-react";
 export default function WilayahCabangIndex() {
     const { wilayah } = usePage().props;
 
-    console.log(wilayah);
-
     return (
         <>
             <Head>

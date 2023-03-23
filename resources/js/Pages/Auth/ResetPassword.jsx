@@ -22,10 +22,6 @@ export default function ResetPassword() {
     var arr = url.split("/");
     var parameter = arr[arr.length - 1].split("?");
     const token = parameter[0].split("=")[0];
-    // console.log(token);
-
-    // const locations = useLocation();
-    // console.log("url", locations);
 
     const resetpasswordHandler = async (e) => {
         e.preventDefault();

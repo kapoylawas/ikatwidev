@@ -9,8 +9,6 @@ import FormatPrice from '../Utils/FormatPrice';
 
 export default function CardProduct({ product }) {
 
-    // console.log(product);
-
     return (
         <>
             <div className="col-md-6 mb-4 col-6">
