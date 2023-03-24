@@ -21,7 +21,7 @@ class BiodataController extends Controller
         $transactions = Transaction::with('user')
             ->where('user_id', auth()->user()->id)
             ->where('grand_total', 50000)
-            ->where('tahun', $tahun)->first();
+            ->where('tahun', $tahun)->get();
 
         //return inertia
         return inertia('Account/Biodatas/Index', [

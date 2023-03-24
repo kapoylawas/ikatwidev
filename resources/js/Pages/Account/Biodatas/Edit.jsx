@@ -72,7 +72,7 @@ export default function UserEdit() {
                 <title>Edit Users - IKATWI</title>
             </Head>
             <LayoutAccount>
-                <div className="row mt-5">
+                <div className="row mt-2">
                     <div className="col-md-8">
                         <div className="row">
                             <div className="col-md-3 col-12 mb-2">
@@ -88,7 +88,7 @@ export default function UserEdit() {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-4">
+                <div className="row mt-1">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
