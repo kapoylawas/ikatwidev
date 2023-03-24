@@ -13,6 +13,15 @@ export default function BiodataIndex() {
     //destruct props "users"
     const { biodata, transactions } = usePage().props;
 
+    const status = transactions.map((ts) => ts.status);
+
+    const filter = status
+        .toString()
+        .replace("[", "")
+        .replace("]", "")
+        .replace('"', "")
+        .replace('"', "");
+
     return (
         <>
             <Head>
@@ -107,7 +116,7 @@ export default function BiodataIndex() {
                                         <td>Status Member Aktif</td>
                                         <td>:</td>
                                         <td className="p-2">
-                                            {transactions.status === "PAID" ? (
+                                            {filter === "PAID" ? (
                                                 <QRCodeSVG
                                                     value={
                                                         biodata.name
