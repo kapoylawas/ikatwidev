@@ -9,8 +9,6 @@ import { Head, usePage } from "@inertiajs/inertia-react";
 
 import hasAnyPermission from "../../../Utils/Permissions";
 
-import { QRCodeSVG } from "qrcode.react";
-
 export default function Dashboard() {
     //destruct props
     const { auth, count } = usePage().props;
@@ -26,12 +24,6 @@ export default function Dashboard() {
                     <div className="col-12 col-md-12 col-lg-12 mb-4">
                         <div className="alert alert-success border-0 shadow-sm mb-0">
                             Selamat Datang, <strong>{auth.user.name}</strong>
-                            <QRCodeSVG
-                                value={auth.user.name}
-                                style={{ marginLeft: "3%" }}
-                                size={50}
-                                renderAs="canvas"
-                            />
                         </div>
                     </div>
                 </div>

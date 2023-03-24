@@ -13,8 +13,6 @@ export default function BiodataIndex() {
     //destruct props "users"
     const { biodata, transactions } = usePage().props;
 
-    console.log(transactions);
-
     return (
         <>
             <Head>
