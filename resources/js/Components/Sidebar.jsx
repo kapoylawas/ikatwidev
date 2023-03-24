@@ -49,17 +49,19 @@ export default function Sidebar() {
                     </Link>
                 )}
 
-                <Link
-                    href="/account/biodatas"
-                    className={`${
-                        url.startsWith("/account/biodatas")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
-                >
-                    <i className="fa fa-user me-2"></i> Biodata
-                </Link>
-                
+                {hasAnyPermission(["biodatas.index"]) && (
+                    <Link
+                        href="/account/biodatas"
+                        className={`${
+                            url.startsWith("/account/biodatas")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-user me-2"></i> Biodata
+                    </Link>
+                )}
+
                 <Link
                     href="/account/tagihan"
                     className={`${
@@ -155,16 +157,16 @@ export default function Sidebar() {
                     </Link>
                 )}
                 {hasAnyPermission(["users.index"]) && (
-                <Link
-                    href="/account/users"
-                    className={`${
-                        url.startsWith("/account/users")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
-                >
-                    <i className="fa fa-users me-2"></i> Users
-                </Link>
+                    <Link
+                        href="/account/users"
+                        className={`${
+                            url.startsWith("/account/users")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-users me-2"></i> Users
+                    </Link>
                 )}
                 <Link
                     onClick={logoutHandler}

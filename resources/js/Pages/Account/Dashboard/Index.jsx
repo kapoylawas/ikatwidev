@@ -13,7 +13,6 @@ export default function Dashboard() {
     //destruct props
     const { auth, count } = usePage().props;
 
-    console.log(auth);
     return (
         <>
             <Head>

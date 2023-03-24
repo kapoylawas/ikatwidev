@@ -35,6 +35,9 @@ class PermissionsTableSeeder extends Seeder
         //permission permissions
         Permission::create(['name' => 'permissions.index', 'guard_name' => 'web']);
 
+        //permission permissions
+        Permission::create(['name' => 'biodatas.index', 'guard_name' => 'web']);
+
         //permission categories
         Permission::create(['name' => 'categories.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'categories.create', 'guard_name' => 'web']);

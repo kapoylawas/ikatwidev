@@ -38,7 +38,7 @@ Route::prefix('account')->group(function() {
         Route::get('/dashboard', App\Http\Controllers\Account\DashboardController::class)->name('account.dashboard');
 
         //route resource biodata   
-        Route::resource('/biodatas', \App\Http\Controllers\Account\BiodataController::class, ['as' => 'account']);
+        Route::resource('/biodatas', \App\Http\Controllers\Account\BiodataController::class, ['as' => 'account'])->middleware('permission:biodatas.index');
 
         //route resource tagihan iuran   
         Route::resource('/tagihan', \App\Http\Controllers\Account\TagihanController::class, ['as' => 'account']);
@@ -47,8 +47,7 @@ Route::prefix('account')->group(function() {
         Route::resource('/documents', \App\Http\Controllers\Account\DocumentController::class, ['as' => 'account']);
 
         //route permissions
-        Route::get('/permissions', \App\Http\Controllers\Account\PermissionController::class)->name('account.permissions.index')
-            ->middleware('permission:permissions.index');
+        Route::get('/permissions', \App\Http\Controllers\Account\PermissionController::class)->name('account.permissions.index')->middleware('permission:permissions.index');
 
         //route resource roles
         Route::resource('/roles', \App\Http\Controllers\Account\RoleController::class, ['as' => 'account'])
