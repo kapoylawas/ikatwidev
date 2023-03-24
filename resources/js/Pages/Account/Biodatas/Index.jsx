@@ -7,13 +7,11 @@ import LayoutAccount from "../../../Layouts/Account";
 //import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
-//import component pagination
-import Pagination from "../../../Shared/Pagination";
-
+import { QRCodeSVG } from "qrcode.react";
 
 export default function BiodataIndex() {
     //destruct props "users"
-    const { users } = usePage().props;
+    const { biodata, transactions } = usePage().props;
 
     return (
         <>
@@ -21,113 +19,119 @@ export default function BiodataIndex() {
                 <title>User - IKATWI</title>
             </Head>
             <LayoutAccount>
-                
-                <div className="row mt-2 mb-4">
+                <div className="row mt-4 mb-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
                                 <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Users
+                                    <i className="fa fa-users"></i> Profil
+                                    Biodata
                                 </span>
+                                <Link
+                                    href={`/account/biodatas/${biodata.id}/edit`}
+                                    className="btn btn-primary me-5"
+                                    style={{ marginLeft: "1%" }}
+                                >
+                                    <i className="fa fa-pencil-alt"></i>
+                                    
+                                </Link>
                             </div>
                             <div className="card-body">
-                                <div className="table-responsive">
-                                    <table className="table table-bordered table-striped table-hovered">
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "3%" }}
-                                                >
-                                                    No.
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "7%" }}
-                                                >
-                                                    Foto
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "7%" }}
-                                                >
-                                                    No Anggota
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "10%" }}
-                                                >
-                                                    Name
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "5%" }}
-                                                >
-                                                    Role
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "4%" }}
-                                                >
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {users.data.map((user, index) => (
-                                                <tr key={index}>
-                                                    <td className="text-center">
-                                                        {++index +
-                                                            (users.current_page -
-                                                                1) *
-                                                                users.per_page}
-                                                    </td>
-                                                    <td className="text-center">
-                                                        <img
-                                                            src={user.image}
-                                                            className="rounded-3"
-                                                            width={"50"}
-                                                            alt="Deskripsi gambar"
-                                                            onError={(e) => {
-                                                                e.target.onerror =
-                                                                    null; // menghindari infinite loop jika terjadi kesalahan lagi
-                                                                e.target.src =
-                                                                    "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
-                                                            }}
-                                                        />
-                                                    </td>
-                                                    <td>{user.no_anggota}</td>
-                                                    <td>{user.name}</td>
-                                                   
-                                                   
-                                                    <td>
-                                                        {user.roles.map(
-                                                            (role, index) => (
-                                                                <span
-                                                                    className="btn btn-success btn-sm shadow-sm border-0 ms-2 mb-2"
-                                                                    key={index}
-                                                                >
-                                                                    {role.name}
-                                                                </span>
-                                                            )
-                                                        )}
-                                                    </td>
-                                                    <td className="text-center">
-                                                        
-                                                            <Link
-                                                                href={`/account/biodatas/${user.id}/edit`}
-                                                                className="btn btn-primary btn-sm me-2"
-                                                            >
-                                                                <i className="fa fa-pencil-alt"></i>
-                                                            </Link>
-                                                        
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <Pagination links={users.links} align={"end"} />
+                                <table className="table table-bordered">
+                                    <tr>
+                                        <td>Foto</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            <img
+                                                src={biodata.image}
+                                                className="rounded-3"
+                                                width={"100"}
+                                                alt="Deskripsi gambar"
+                                                onError={(e) => {
+                                                    e.target.onerror = null; // menghindari infinite loop jika terjadi kesalahan lagi
+                                                    e.target.src =
+                                                        "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
+                                                }}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>FULL NAME</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>FULL NAME</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.nik}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.phone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tempat Lahir</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.tempat_lahir}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal Lahir</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.tgl_lahir}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.alamat}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Pekerjaan</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.lokasi_pekerjaan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Member Aktif</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {transactions.status === "PAID" ? (
+                                                <QRCodeSVG
+                                                    value={
+                                                        biodata.name
+                                                    }
+                                                    style={{ marginLeft: "2%" }}
+                                                    size={80}
+                                                    renderAs="canvas"
+                                                />
+                                            ) : (
+                                                <div className="row mt-2">
+                                                    <div className="col-12 col-md-12 col-lg-12 mb-4">
+                                                        <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
+                                                            <h5>
+                                                                Anda belum
+                                                                membayar tagihan
+                                                                IURAN.
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
