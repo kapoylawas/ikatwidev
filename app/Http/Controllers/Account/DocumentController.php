@@ -109,6 +109,8 @@ class DocumentController extends Controller
         $document->update([
             'name'      => $request->name,
             'email'     => $request->email,
+            'province_id'      => $request->province_id,
+            'city_id'      => $request->city_id,
             'date_exprd'     => $request->date_exprd,
         ]);
         

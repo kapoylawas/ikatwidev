@@ -37,6 +37,7 @@ class User extends Authenticatable
         'ijazah',
         'str',
         'sip',
+        'lokasi_pekerjaan',
     ];
 
     /**

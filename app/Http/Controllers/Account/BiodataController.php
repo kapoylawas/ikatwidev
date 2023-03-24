@@ -69,6 +69,7 @@ class BiodataController extends Controller
                     'phone'     => $request->phone,
                     'tempat_lahir'     => $request->tempat_lahir,
                     'tgl_lahir'     => $request->tgl_lahir,
+                    'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
                     'image' => $image->hashName(),
                 ]);
             } else {
@@ -81,6 +82,7 @@ class BiodataController extends Controller
                     'phone'     => $request->phone,
                     'tempat_lahir'     => $request->tempat_lahir,
                     'tgl_lahir'     => $request->tgl_lahir,
+                    'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
                 ]);
             }
         } else {
@@ -93,6 +95,7 @@ class BiodataController extends Controller
                 'phone'     => $request->phone,
                 'tempat_lahir'     => $request->tempat_lahir,
                 'tgl_lahir'     => $request->tgl_lahir,
+                'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
                 'password' => bcrypt($request->password)
             ]);
         }

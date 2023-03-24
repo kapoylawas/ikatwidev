@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('str')->nullable();
             $table->string('sip')->nullable();
             $table->string('date_exprd')->nullable();
+            $table->string('lokasi_pekerjaan')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

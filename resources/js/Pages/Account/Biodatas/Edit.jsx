@@ -24,6 +24,7 @@ export default function UserEdit() {
     const [alamat, setAlamat] = useState(biodata.alamat);
     const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir);
     const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir);
+    const [lokasipekerjaan, setLokasipekerjaan] = useState(biodata.lokasi_pekerjaan);
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
@@ -44,6 +45,7 @@ export default function UserEdit() {
                 alamat: alamat,
                 tempat_lahir: tempatlahir,
                 tgl_lahir: tgllahir,
+                lokasi_pekerjaan: lokasipekerjaan,
                 image: image,
                 password: password,
                 password_confirmation: passwordConfirmation,
@@ -276,6 +278,26 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
+
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Alama Pekerjaan
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={lokasipekerjaan}
+                                                    onChange={(e) =>
+                                                        setLokasipekerjaan(e.target.value)
+                                                    }
+                                                    placeholder="Alamat Lokasi Pekerjaan"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-3">

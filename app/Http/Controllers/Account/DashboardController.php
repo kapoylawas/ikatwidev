@@ -23,8 +23,12 @@ class DashboardController extends Controller
         $expired = Transaction::where('status', 'EXPIRED')->count();
         $cancelled  = Transaction::where('status', 'CANCELLED')->count();
         $user = User::count();
-        // dd($user);
-         
+
+        // jumlah transaksi user
+        $unpaiduser = Transaction::where('status', 'UNPAID')->where('user_id', auth()->user()->id)->count();
+        $paiduser = Transaction::where('status', 'PAID')->where('user_id', auth()->user()->id)->count();
+        $expireduser = Transaction::where('status', 'EXPIRED')->where('user_id', auth()->user()->id)->count();
+        $cancelleduser  = Transaction::where('status', 'CANCELLED')->where('user_id', auth()->user()->id)->count();
         
         return inertia('Account/Dashboard/Index', [
             'count' => [
@@ -32,6 +36,10 @@ class DashboardController extends Controller
                 'paid'      => $paid,
                 'expired'   => $expired,
                 'cancelled' => $cancelled,
+                'unpaiduser' => $unpaiduser,
+                'paiduser' => $paiduser,
+                'expireduser' => $expireduser,
+                'cancelleduser' => $cancelleduser,
                 'user' => $user
             ]
         ]);

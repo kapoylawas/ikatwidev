@@ -19,6 +19,8 @@ export default function DocumentsEdit() {
     // state user
     const [name, setName] = useState(document.name);
     const [email, setEmail] = useState(document.email);
+    const [provinceID, setProvinceID] = useState(document.province_id);
+    const [cityID, setCityID] = useState(document.city_id);
     const [ijazah, setIjazah] = useState(null);
     const [str, setStr] = useState(null);
     const [sip, setSip] = useState(null);
@@ -39,6 +41,8 @@ export default function DocumentsEdit() {
                 str: str,
                 sip: sip,
                 date_exprd: dateexprd,
+                province_id: provinceID,
+                city_id: cityID,
                 _method: "PUT",
             },
             {
@@ -123,6 +127,70 @@ export default function DocumentsEdit() {
                                                     disabled
                                                 />
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                DPW
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={provinceID}
+                                                onChange={(e) =>
+                                                    setProvinceID(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select DPW --
+                                                </option>
+                                                {provinces.map((province) => (
+                                                    <option
+                                                        value={province.id}
+                                                        key={province.id}
+                                                    >
+                                                        {province.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            {errors.province_id && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.province_id}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row mt-2">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                DPC
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={cityID}
+                                                onChange={(e) =>
+                                                    setCityID(e.target.value)
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select DPC --
+                                                </option>
+                                                {cities.map((city) => (
+                                                    <option
+                                                        value={city.id}
+                                                        key={city.id}
+                                                    >
+                                                        {city.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            {errors.city_id && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.city_id}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="mb-3">
