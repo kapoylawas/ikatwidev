@@ -62,16 +62,19 @@ export default function Sidebar() {
                     </Link>
                 )}
 
-                <Link
-                    href="/account/tagihan"
-                    className={`${
-                        url.startsWith("/account/tagihan")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
-                >
-                    <i className="fa fa-money-bill me-2"></i> Tagihan Iuran
-                </Link>
+                {hasAnyPermission(["tagihan.index"]) && (
+                    <Link
+                        href="/account/tagihan"
+                        className={`${
+                            url.startsWith("/account/tagihan")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-money-bill me-2"></i> Tagihan Iuran
+                    </Link>
+                )}
+
                 <Link
                     href="/account/documents"
                     className={`${

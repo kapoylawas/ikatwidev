@@ -41,7 +41,7 @@ Route::prefix('account')->group(function() {
         Route::resource('/biodatas', \App\Http\Controllers\Account\BiodataController::class, ['as' => 'account'])->middleware('permission:biodatas.index');
 
         //route resource tagihan iuran   
-        Route::resource('/tagihan', \App\Http\Controllers\Account\TagihanController::class, ['as' => 'account']);
+        Route::resource('/tagihan', \App\Http\Controllers\Account\TagihanController::class, ['as' => 'account'])->middleware('permission:tagihan.index');
 
         //route resource tagihan upload dokumen   
         Route::resource('/documents', \App\Http\Controllers\Account\DocumentController::class, ['as' => 'account']);
