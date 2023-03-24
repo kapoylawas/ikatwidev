@@ -15,9 +15,11 @@ class DocumentController extends Controller
     public function index()
     {
 
+        $tahun = date('Y');
         $transactions = Transaction::with('user')
             ->where('user_id', auth()->user()->id)
-            ->where('grand_total', 50000)->get();
+            ->where('grand_total', 50000)
+            ->where('tahun', $tahun)->get();
 
         $users = User::when(request()->q, function ($users) {
             $users = $users->where('name', 'like', '%' . request()->q . '%');

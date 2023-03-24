@@ -7,12 +7,6 @@ import LayoutAccount from "../../../Layouts/Account";
 //import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
-//import permissions
-import hasAnyPermission from "../../../Utils/Permissions";
-
-//import component search
-import Search from "../../../Shared/Search";
-
 //import component pagination
 import Pagination from "../../../Shared/Pagination";
 

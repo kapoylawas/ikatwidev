@@ -57,7 +57,7 @@ export default function Sidebar() {
                             : "list-group-item list-group-item-action list-group-item-light p-3"
                     }`}
                 >
-                    <i className="fa fa-folder me-2"></i> Biodata
+                    <i className="fa fa-user me-2"></i> Biodata
                 </Link>
                 
                 <Link
@@ -68,7 +68,7 @@ export default function Sidebar() {
                             : "list-group-item list-group-item-action list-group-item-light p-3"
                     }`}
                 >
-                    <i className="fa fa-folder me-2"></i> Tagihan Iuran
+                    <i className="fa fa-money-bill me-2"></i> Tagihan Iuran
                 </Link>
                 <Link
                     href="/account/documents"
@@ -78,7 +78,7 @@ export default function Sidebar() {
                             : "list-group-item list-group-item-action list-group-item-light p-3"
                     }`}
                 >
-                    <i className="fa fa-folder me-2"></i> Dokumen
+                    <i className="fa fa-file-pdf me-2"></i> Dokumen
                 </Link>
 
                 {hasAnyPermission(["products.index"]) && (
