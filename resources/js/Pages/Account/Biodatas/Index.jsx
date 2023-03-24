@@ -70,7 +70,7 @@ export default function BiodataIndex() {
                                         <td className="p-2">{biodata.name}</td>
                                     </tr>
                                     <tr>
-                                        <td>FULL NAME</td>
+                                        <td>NIK</td>
                                         <td>:</td>
                                         <td className="p-2">{biodata.nik}</td>
                                     </tr>
@@ -78,6 +78,11 @@ export default function BiodataIndex() {
                                         <td>Email</td>
                                         <td>:</td>
                                         <td className="p-2">{biodata.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No Anggota</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.no_anggota}</td>
                                     </tr>
                                     <tr>
                                         <td>Phone</td>
