@@ -75,16 +75,18 @@ export default function Sidebar() {
                     </Link>
                 )}
 
-                <Link
-                    href="/account/documents"
-                    className={`${
-                        url.startsWith("/account/documents")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
-                >
-                    <i className="fa fa-file-pdf me-2"></i> Dokumen
-                </Link>
+                {hasAnyPermission(["documents.index"]) && (
+                    <Link
+                        href="/account/documents"
+                        className={`${
+                            url.startsWith("/account/documents")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-file-pdf me-2"></i> Dokumen
+                    </Link>
+                 )}
 
                 {hasAnyPermission(["products.index"]) && (
                     <Link

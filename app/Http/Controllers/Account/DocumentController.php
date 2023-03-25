@@ -21,18 +21,11 @@ class DocumentController extends Controller
             ->where('grand_total', 50000)
             ->where('tahun', $tahun)->get();
 
-        $users = User::when(request()->q, function ($users) {
-            $users = $users->where('name', 'like', '%' . request()->q . '%');
-        })->with('roles', 'province', 'city')->where('id', auth()->user()->id)
-            // ->orWhere('province_id', auth()->user()->province_id)
-            ->latest()->paginate(5);
-
-        //append query string to pagination links
-        $users->appends(['q' => request()->q]);
+        $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
 
         return inertia('Account/Documents/Index', [
-            'users' => $users,
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'biodata' => $biodata,
         ]);
     }
 
