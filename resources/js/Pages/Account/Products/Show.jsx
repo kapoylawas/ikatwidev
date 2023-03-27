@@ -63,18 +63,28 @@ export default function ProductShow() {
                 <title>Detail Kegiatan - IKATWI</title>
             </Head>
             <LayoutAccount>
-            <div className="row mt-4">
+                <div className="row mt-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-success">
                             <div className="card-header">
-                                <span className="font-weight-bold"><i className="fa fa-shopping-bag"></i> Upload Kegiatan Image</span>
+                                <span className="font-weight-bold">
+                                    <i className="fa fa-shopping-bag"></i>{" "}
+                                    Upload Kegiatan Image
+                                </span>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={storeImage}>
-
                                     <div className="mb-3">
-                                        <label className="form-label fw-bold">Image</label>
-                                        <input type="file" className="form-control" onChange={(e) => setImage(e.target.files[0])} />
+                                        <label className="form-label fw-bold">
+                                            Image
+                                        </label>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            onChange={(e) =>
+                                                setImage(e.target.files[0])
+                                            }
+                                        />
                                     </div>
                                     {errors.image && (
                                         <div className="alert alert-danger">
@@ -83,10 +93,19 @@ export default function ProductShow() {
                                     )}
 
                                     <div>
-                                        <button type="submit" className="btn btn-md btn-success me-2"><i className="fa fa-save"></i> Save</button>
-                                        <button type="reset" className="btn btn-md btn-warning"><i className="fa fa-redo"></i> Reset</button>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-md btn-success me-2"
+                                        >
+                                            <i className="fa fa-save"></i> Save
+                                        </button>
+                                        <button
+                                            type="reset"
+                                            className="btn btn-md btn-warning"
+                                        >
+                                            <i className="fa fa-redo"></i> Reset
+                                        </button>
                                     </div>
-
                                 </form>
                             </div>
                         </div>

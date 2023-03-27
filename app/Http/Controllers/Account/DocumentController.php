@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Province;
+use App\Models\str;
+use App\Models\Str as ModelsStr;
+use App\Models\Suratstr;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -110,6 +113,69 @@ class DocumentController extends Controller
         ]);
         
 
+        return redirect()->route('account.documents.index');
+    }
+
+    public function showStr($id)
+    {
+        //get product by ID
+        $users = User::findOrFail($id);
+
+        //get relation str with pagination
+        $users->setRelation('suratStrs', $users->suratStrs()->paginate(5));
+
+        //return
+        return inertia('Account/Documents/Showstr', [
+            'users'   => $users,
+        ]);
+    }
+
+    public function createStr($id)
+    {
+        // //get product by ID
+        $users = User::findOrFail($id);
+
+        // //get relation str with pagination
+        $users->setRelation('suratStrs', $users->suratStrs()->paginate(5));
+
+        //return
+        return inertia('Account/Documents/Createstr', [
+            'users' => $users
+        ]);
+    }
+
+    public function storeStr(Request $request)
+    {
+        // dd($request->all());
+        /**
+         * Validate request
+         */
+        $this->validate($request, [
+            'image'      => 'required|mimes:pdf',
+            'no_str'      => 'required',
+            'date_str'      => 'required',
+            'date_start'      => 'required',
+            'date_end'      => 'required',
+        ]);
+
+        //get user by ID
+        $user = User::findOrFail($request->user_id);
+
+        //upload image
+        $image = $request->file('image');
+        $image->storeAs('public/str', $image->hashName());
+
+         //insert database
+         $user->suratStrs()->create([
+            'image'     => $image->hashName(),
+            'no_str'     => $request->no_str,
+            'date_str'     => $request->date_str,
+            'date_start'     => $request->date_start,
+            'date_end'     => $request->date_end,
+            'user_id'     => $user,
+        ]);
+
+        //return back
         return redirect()->route('account.documents.index');
     }
 }

@@ -14,7 +14,7 @@ import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 
 export default function UserEdit() {
-    const { errors, biodata } = usePage().props;
+    const { errors, biodata, cities, provinces } = usePage().props;
 
     // state user
     const [name, setName] = useState(biodata.name);
@@ -25,9 +25,12 @@ export default function UserEdit() {
     const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir);
     const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir);
     const [lokasipekerjaan, setLokasipekerjaan] = useState(biodata.lokasi_pekerjaan);
+    const [provinceID, setProvinceID] = useState(biodata.province_id);
+    const [cityID, setCityID] = useState(biodata.city_id);
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
+    
 
     //method updateUser
     const updateUser = async (e) => {
@@ -47,6 +50,8 @@ export default function UserEdit() {
                 tgl_lahir: tgllahir,
                 lokasi_pekerjaan: lokasipekerjaan,
                 image: image,
+                province_id: provinceID,
+                city_id: cityID,
                 password: password,
                 password_confirmation: passwordConfirmation,
                 _method: "PUT",
@@ -198,6 +203,72 @@ export default function UserEdit() {
                                             {errors.phone && (
                                                 <div className="alert alert-danger mt-2">
                                                     {errors.phone}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                DPW
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={provinceID}
+                                                onChange={(e) =>
+                                                    setProvinceID(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select DPW --
+                                                </option>
+                                                {provinces.map((province) => (
+                                                    <option
+                                                        value={province.id}
+                                                        key={province.id}
+                                                    >
+                                                        {province.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            {errors.province_id && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.province_id}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="row mt-2">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                DPC
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={cityID}
+                                                onChange={(e) =>
+                                                    setCityID(e.target.value)
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select DPC --
+                                                </option>
+                                                {cities.map((city) => (
+                                                    <option
+                                                        value={city.id}
+                                                        key={city.id}
+                                                    >
+                                                        {city.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            {errors.city_id && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.city_id}
                                                 </div>
                                             )}
                                         </div>

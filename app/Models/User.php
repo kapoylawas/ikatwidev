@@ -61,6 +61,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    
+
     protected function image(): Attribute
     {
         return Attribute::make(
@@ -75,12 +77,12 @@ class User extends Authenticatable
         );
     }
 
-    protected function str(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($str) => asset('/storage/str/' . $str),
-        );
-    }
+    // protected function str(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($str) => asset('/storage/str/' . $str),
+    //     );
+    // }
 
     protected function sip(): Attribute
     {
@@ -123,5 +125,10 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn ($value) => $value != '' ? asset('/storage/avatars/' . $value) : 'https://ui-avatars.com/api/?name=' . str_replace(' ', '+', $this->name) . '&background=4e73df&color=ffffff&size=100',
         );
+    }
+
+    public function suratStrs()
+    {
+        return $this->hasMany(SuratStr::class);
     }
 }

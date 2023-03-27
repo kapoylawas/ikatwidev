@@ -46,6 +46,18 @@ Route::prefix('account')->group(function() {
         //route resource tagihan upload dokumen   
         Route::resource('/documents', \App\Http\Controllers\Account\DocumentController::class, ['as' => 'account'])->middleware('permission:documents.index');
 
+        // cek status anggota STR
+        Route::get('/documents/showstr/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showStr'])->name('account.documents.showstr');
+
+        // create anggota STR
+        Route::get('/documents/createstr/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'createStr'])->name('account.documents.createstr');
+
+        //route store image product
+        Route::post('/documents/storestr', [\App\Http\Controllers\Account\DocumentController::class, 'storeStr'])->name('account.documents.storestr');
+
+        //route resource EKTA   
+        Route::resource('/ekta', \App\Http\Controllers\Account\EktaController::class, ['as' => 'account']);
+
         //route permissions
         Route::get('/permissions', \App\Http\Controllers\Account\PermissionController::class)->name('account.permissions.index')->middleware('permission:permissions.index');
 

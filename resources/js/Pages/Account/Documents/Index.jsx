@@ -1,5 +1,5 @@
 //import react
-import React, { useState } from "react";
+import React from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -7,14 +7,11 @@ import LayoutAccount from "../../../Layouts/Account";
 //import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
-//import component pagination
-import Pagination from "../../../Shared/Pagination";
-
 export default function DocumentsIndex() {
     //destruct props "users"
     const { transactions, biodata } = usePage().props;
 
-    console.log(biodata);
+    // console.log(biodata);
 
     const status = transactions.map((ts) => ts.status);
 
@@ -28,7 +25,7 @@ export default function DocumentsIndex() {
     return (
         <>
             <Head>
-                <title>User - IKATWI</title>
+                <title>User Document Kelengkapan - IKATWI</title>
             </Head>
             <LayoutAccount>
                 <div className="row mt-2 mb-4">
@@ -62,20 +59,6 @@ export default function DocumentsIndex() {
                                             <td>:</td>
                                             <td className="p-2">
                                                 {biodata.email}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>DPW</td>
-                                            <td>:</td>
-                                            <td className="p-2">
-                                                {biodata.province.name}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>DPC</td>
-                                            <td>:</td>
-                                            <td className="p-2">
-                                                {biodata.city.name}
                                             </td>
                                         </tr>
                                         <tr>
@@ -123,7 +106,8 @@ export default function DocumentsIndex() {
                                             <td>STR</td>
                                             <td>:</td>
                                             <td>
-                                                <a
+                                            <Link href={`/account/documents/showstr/${biodata.id}`} className="btn"><i className="fa fa-plus-circle"> Lihat</i> </Link>
+                                                {/* <a
                                                     href={biodata.str}
                                                     target="_blank"
                                                     rel="noreferrer"
@@ -133,126 +117,12 @@ export default function DocumentsIndex() {
                                                         {" "}
                                                         Lihat
                                                     </i>
-                                                </a>
+                                                </a> */}
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                                {/* <div className="card-body">
-                                    <div className="table-responsive">
-                                        <table className="table table-bordered table-striped table-hovered">
-                                            <thead>
-                                                <tr>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "10%" }}
-                                                    >
-                                                        Name
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "10%" }}
-                                                    >
-                                                        Ijazah
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "10%" }}
-                                                    >
-                                                        SIP
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "10%" }}
-                                                    >
-                                                        STR
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "10%" }}
-                                                    >
-                                                        Tanggal Expired STR
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{ width: "4%" }}
-                                                    >
-                                                        Actions
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {users.data.map(
-                                                    (user, index) => (
-                                                        <tr key={index}>
-                                                            <td>{user.name}</td>
-                                                            <td>
-                                                                <a
-                                                                    href={
-                                                                        user.ijazah
-                                                                    }
-                                                                    target="_blank"
-                                                                    rel="noreferrer"
-                                                                    className="btn btn-primary btn-sm me-2"
-                                                                >
-                                                                    <i className="fa fa-link">
-                                                                        {" "}
-                                                                        Lihat
-                                                                    </i>
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a
-                                                                    target="_blank"
-                                                                    href={
-                                                                        user.sip
-                                                                    }
-                                                                    className="btn btn-primary btn-sm me-2"
-                                                                >
-                                                                    <i className="fa fa-link">
-                                                                        {" "}
-                                                                        Lihat
-                                                                    </i>
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a
-                                                                    target="_blank"
-                                                                    href={
-                                                                        user.str
-                                                                    }
-                                                                    className="btn btn-primary btn-sm me-2"
-                                                                >
-                                                                    <i className="fa fa-link">
-                                                                        {" "}
-                                                                        Lihat
-                                                                    </i>
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                {
-                                                                    user.date_exprd
-                                                                }
-                                                            </td>
-                                                            <td className="text-center">
-                                                                <Link
-                                                                    href={`/account/documents/${user.id}/edit`}
-                                                                    className="btn btn-primary btn-sm me-2"
-                                                                >
-                                                                    <i className="fa fa-upload"></i>
-                                                                </Link>
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <Pagination
-                                        links={users.links}
-                                        align={"end"}
-                                    />
-                                </div> */}
+                               
                             </div>
                         ) : (
                             <div className="row mt-5">
