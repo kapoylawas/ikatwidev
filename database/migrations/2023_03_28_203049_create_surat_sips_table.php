@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('surat_strs', function (Blueprint $table) {
+        Schema::create('surat_sips', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->string('no_str');
-            $table->string('date_str');
+            $table->string('no_sip');
+            $table->string('date_sip');
             $table->string('date_start');
             $table->string('date_end');
             $table->string('image');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surat_strs');
+        Schema::dropIfExists('surat_sips');
     }
 };

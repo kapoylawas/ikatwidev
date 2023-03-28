@@ -1,0 +1,1 @@
+import{u as t,R as e,H as a}from"./app.984ade6c.js";import{L as l}from"./Account.c0ba56d8.js";import"./sweetalert2.all.c0f2472c.js";function u(){return t().props,e.createElement(e.Fragment,null,e.createElement(a,null,e.createElement("title",null,"Detail Document SIP - IKATWI")),e.createElement(l,null))}export{u as default};

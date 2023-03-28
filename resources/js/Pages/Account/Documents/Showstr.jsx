@@ -1,5 +1,5 @@
 //import react
-import React, { useState } from "react";
+import React from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -10,7 +10,6 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 //import component delete
 import Delete from "../../../Shared/Delete";
 
-
 export default function DocumentShowstr() {
     const { users } = usePage().props;  
     const currentDate = new Date();
@@ -18,7 +17,7 @@ export default function DocumentShowstr() {
     return (
         <>
             <Head>
-                <title>Detail Document - IKATWI</title>
+                <title>Detail Document STR - IKATWI</title>
             </Head>
             <LayoutAccount>
                 <div class="row mt-3">

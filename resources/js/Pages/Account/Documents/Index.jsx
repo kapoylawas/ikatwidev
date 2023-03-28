@@ -89,40 +89,34 @@ export default function DocumentsIndex() {
                                             <td>SIP</td>
                                             <td>:</td>
                                             <td>
-                                                <a
-                                                    href={biodata.sip}
-                                                    target="_blank"
-                                                    rel="noreferrer"
+                                                <Link
+                                                    href={`/account/documents/showsip/${biodata.id}`}
                                                     className="btn"
                                                 >
-                                                    <i className="fa fa-link">
+                                                    <i className="fa fa-plus-circle">
                                                         {" "}
                                                         Lihat
-                                                    </i>
-                                                </a>
+                                                    </i>{" "}
+                                                </Link>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>STR</td>
                                             <td>:</td>
                                             <td>
-                                            <Link href={`/account/documents/showstr/${biodata.id}`} className="btn"><i className="fa fa-plus-circle"> Lihat</i> </Link>
-                                                {/* <a
-                                                    href={biodata.str}
-                                                    target="_blank"
-                                                    rel="noreferrer"
+                                                <Link
+                                                    href={`/account/documents/showstr/${biodata.id}`}
                                                     className="btn"
                                                 >
-                                                    <i className="fa fa-link">
+                                                    <i className="fa fa-plus-circle">
                                                         {" "}
                                                         Lihat
-                                                    </i>
-                                                </a> */}
+                                                    </i>{" "}
+                                                </Link>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                               
                             </div>
                         ) : (
                             <div className="row mt-5">

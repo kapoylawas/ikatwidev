@@ -191,4 +191,18 @@ class DocumentController extends Controller
         //redirect
         return redirect()->back();
     }
+
+    public function showSip($id)
+    {
+        //get product by ID
+        $users = User::findOrFail($id);
+
+        //get relation str with pagination
+        $users->setRelation('suratSip', $users->suratSip()->paginate(5));
+
+        //return
+        return inertia('Account/Documents/Showsip', [
+            'users'   => $users,
+        ]);
+    }
 }

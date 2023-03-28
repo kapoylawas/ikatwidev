@@ -77,13 +77,6 @@ class User extends Authenticatable
         );
     }
 
-    // protected function str(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn ($str) => asset('/storage/str/' . $str),
-    //     );
-    // }
-
     protected function sip(): Attribute
     {
         return Attribute::make(
@@ -130,5 +123,10 @@ class User extends Authenticatable
     public function suratStrs()
     {
         return $this->hasMany(SuratStr::class);
+    }
+
+    public function suratSip()
+    {
+        return $this->hasMany(SuratSip::class);
     }
 }
