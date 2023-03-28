@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Province;
-use App\Models\str;
-use App\Models\Str as ModelsStr;
-use App\Models\Suratstr;
+use App\Models\SuratStr;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -146,7 +144,6 @@ class DocumentController extends Controller
 
     public function storeStr(Request $request)
     {
-        // dd($request->all());
         /**
          * Validate request
          */
@@ -177,5 +174,21 @@ class DocumentController extends Controller
 
         //return back
         return redirect()->route('account.documents.index');
+    }
+
+    public function hapus($id)
+    {
+        //find product image by ID
+        $str_image = SuratStr::findOrFail($id);
+        // dd($str_image);
+
+        // //remove image from server
+        Storage::disk('local')->delete('public/str/'.basename($str_image->image));
+
+        //delete image
+        $str_image->delete();
+
+        //redirect
+        return redirect()->back();
     }
 }

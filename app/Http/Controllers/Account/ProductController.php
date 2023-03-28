@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -118,4 +120,18 @@ class ProductController extends Controller
         return redirect()->back();
     }
     
+    public function destroyImage($id)
+    {
+        //find product image by ID
+        $product_image = ProductImage::findOrFail($id);
+
+        //remove image from server
+        Storage::disk('local')->delete('public/products/'.basename($product_image->image));
+
+        //delete image
+        $product_image->delete();
+
+        //redirect
+        return redirect()->back();
+    }
 }

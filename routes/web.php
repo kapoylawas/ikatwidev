@@ -52,6 +52,8 @@ Route::prefix('account')->group(function() {
         // create anggota STR
         Route::get('/documents/createstr/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'createStr'])->name('account.documents.createstr');
 
+        Route::delete('/documents/hapus_str/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'hapus'])->name('account.documents.hapus_str');
+
         //route store image product
         Route::post('/documents/storestr', [\App\Http\Controllers\Account\DocumentController::class, 'storeStr'])->name('account.documents.storestr');
 
