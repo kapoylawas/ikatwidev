@@ -11,6 +11,8 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 import Delete from "../../../Shared/Delete";
 
 export default function DocumentShowIjazah() {
+    const { users } = usePage().props;
+    console.log("data =", users);
 
     return(
         <>
@@ -18,7 +20,7 @@ export default function DocumentShowIjazah() {
                 <title>Detail Document Ijazah - IKATWI</title>
             </Head>
             <LayoutAccount>
-                
+
             </LayoutAccount>
         </>
     )
