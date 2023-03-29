@@ -29,7 +29,7 @@ export default function Delete({ URL, id }) {
                     text: "Data deleted successfully!",
                     icon: "success",
                     showConfirmButton: false,
-                    timer: 1500,
+                    timer: 2500,
                 });
             }
         });

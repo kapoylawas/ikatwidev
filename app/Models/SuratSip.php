@@ -12,8 +12,8 @@ class SuratSip extends Model
 
     protected $fillable = [
         'user_id',
-        'no_str',
-        'date_str',
+        'no_sip',
+        'date_sip',
         'date_start',
         'date_end',
         'image',

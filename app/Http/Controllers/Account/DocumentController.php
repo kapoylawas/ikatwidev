@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Province;
+use App\Models\SuratSip;
 use App\Models\SuratStr;
 use App\Models\Transaction;
 use App\Models\User;
@@ -204,5 +205,69 @@ class DocumentController extends Controller
         return inertia('Account/Documents/Showsip', [
             'users'   => $users,
         ]);
+    }
+
+    public function createSip($id)
+    {
+        // //get product by ID
+        $users = User::findOrFail($id);
+
+        // //get relation str with pagination
+        $users->setRelation('suratSip', $users->suratSip()->paginate(5));
+
+        //return
+        return inertia('Account/Documents/Createsip', [
+            'users' => $users
+        ]);
+    }
+
+    public function storeSip(Request $request)
+    {
+        // dd($request->all());
+        /**
+         * Validate request
+         */
+        $this->validate($request, [
+            'image'      => 'required|mimes:pdf',
+            'no_sip'      => 'required',
+            'date_sip'      => 'required',
+            'date_start'      => 'required',
+            'date_end'      => 'required',
+        ]);
+
+        //get user by ID
+        $user = User::findOrFail($request->user_id);
+
+        //upload image
+        $image = $request->file('image');
+        $image->storeAs('public/sip', $image->hashName());
+
+         //insert database
+         $user->suratSip()->create([
+            'image'     => $image->hashName(),
+            'no_sip'     => $request->no_sip,
+            'date_sip'     => $request->date_sip,
+            'date_start'     => $request->date_start,
+            'date_end'     => $request->date_end,
+            'user_id'     => $user,
+        ]);
+
+        //return back
+        return redirect()->route('account.documents.index');
+    }
+
+    public function deletesip($id)
+    {
+        //find product image by ID
+        $sip_image = SuratSip::findOrFail($id);
+
+        // //remove image from server
+        Storage::disk('local')->delete('public/sip/'.basename($sip_image->image));
+
+        //delete image
+        $sip_image->delete();
+
+        //redirect
+        return redirect()->back();
     }
 }

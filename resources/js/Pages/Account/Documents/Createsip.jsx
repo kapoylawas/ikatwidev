@@ -13,28 +13,28 @@ import { Inertia } from "@inertiajs/inertia";
 //import Sweet Alert
 import Swal from "sweetalert2";
 
-export default function DocumentCreatestr() {
+export default function DocumentCreatesip() {
     const { errors, users } = usePage().props;
 
     //define state
-    const [filestr, setFilestr] = useState("");
-    const [nostr, setNostr] = useState("");
-    const [datestr, setDatestr] = useState("");
+    const [filesip, setFilesip] = useState("");
+    const [nosip, setNosip] = useState("");
+    const [datesip, setDatesip] = useState("");
     const [datestart, setDatestart] = useState("");
     const [dateend, setDateend] = useState("");
 
-    //method storeImage
-    const storeStr = async (e) => {
+    // method store sip
+    const storeSip = async (e) => {
         e.preventDefault();
 
         //sending data
         Inertia.post(
-            "/account/documents/storestr",
+            "/account/documents/storesip",
             {
                 //data
-                image: filestr,
-                no_str: nostr,
-                date_str: datestr,
+                image: filesip,
+                no_sip: nosip,
+                date_sip: datesip,
                 date_start: datestart,
                 date_end: dateend,
                 user_id: users.id,
@@ -51,7 +51,7 @@ export default function DocumentCreatestr() {
                     });
 
                     //set state to null
-                    setFilestr(null);
+                    setFilesip(null);
                 },
             }
         );
@@ -60,7 +60,7 @@ export default function DocumentCreatestr() {
     return (
         <>
             <Head>
-                <title>Creat STR - IKATWI</title>
+                <title>Creat SIP - IKATWI</title>
             </Head>
             <LayoutAccount>
                 <div className="row mt-2">
@@ -69,7 +69,7 @@ export default function DocumentCreatestr() {
                             <div className="col-md-3 col-12 mb-2">
                                 <Link
                                     // href="/account/documents"
-                                    href={`/account/documents/showstr/${users.id}`}
+                                    href={`/account/documents/showsip/${users.id}`}
                                     className="btn btn-md btn-admin border-0 shadow w-100"
                                     type="button"
                                 >
@@ -86,51 +86,51 @@ export default function DocumentCreatestr() {
                             <div className="card-header">
                                 <span className="font-weight-bold">
                                     <i className="fa fa-shopping-bag"></i>{" "}
-                                    Upload STR
+                                    Upload SIP
                                 </span>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={storeStr}>
+                                <form onSubmit={storeSip}>
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            No STR
+                                            No SIP
                                         </label>
                                         <input
                                             type="number"
                                             className="form-control"
-                                            value={nostr}
+                                            value={nosip}
                                             onChange={(e) =>
-                                                setNostr(e.target.value)
+                                                setNosip(e.target.value)
                                             }
-                                            placeholder="NO STR"
+                                            placeholder="NO SIP"
                                         />
                                     </div>
-                                    {errors.no_str && (
+                                    {errors.no_sip && (
                                         <div className="alert alert-danger">
-                                            {errors.no_str}
+                                            {errors.no_sip}
                                         </div>
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Date STR
+                                            Date SIP
                                         </label>
                                         <input
                                             type="date"
                                             className="form-control"
-                                            value={datestr}
+                                            value={datesip}
                                             onChange={(e) =>
-                                                setDatestr(e.target.value)
+                                                setDatesip(e.target.value)
                                             }
                                         />
                                     </div>
-                                    {errors.date_str && (
+                                    {errors.date_sip && (
                                         <div className="alert alert-danger">
-                                            {errors.date_str}
+                                            {errors.date_sip}
                                         </div>
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Tanggal Dibuat STR
+                                            Tanggal Dibuat SIP
                                         </label>
                                         <input
                                             type="date"
@@ -148,7 +148,7 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Tanggal Kaduluarsa STR
+                                            Tanggal Kaduluarsa SIP
                                         </label>
                                         <input
                                             type="date"
@@ -166,13 +166,13 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            File STR
+                                            File SIP
                                         </label>
                                         <input
                                             type="file"
                                             className="form-control"
                                             onChange={(e) =>
-                                                setFilestr(e.target.files[0])
+                                                setFilesip(e.target.files[0])
                                             }
                                         />
                                     </div>

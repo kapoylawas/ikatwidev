@@ -1,1 +1,0 @@
-import{R as e,H as t}from"./app.984ade6c.js";import{L as a}from"./Account.c0ba56d8.js";function r(){return e.createElement(e.Fragment,null,e.createElement(t,null,e.createElement("title",null,"User E-KTA - IKATWI")),e.createElement(a,null))}export{r as default};
