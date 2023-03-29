@@ -72,17 +72,15 @@ export default function DocumentsIndex() {
                                             <td>Ijazah</td>
                                             <td>:</td>
                                             <td>
-                                                <a
-                                                    href={biodata.ijazah}
-                                                    target="_blank"
-                                                    rel="noreferrer"
+                                            <Link
+                                                    href={`/account/documents/showIjazah/${biodata.id}`}
                                                     className="btn"
                                                 >
-                                                    <i className="fa fa-link">
+                                                    <i className="fa fa-plus-circle">
                                                         {" "}
                                                         Lihat
-                                                    </i>
-                                                </a>
+                                                    </i>{" "}
+                                                </Link>
                                             </td>
                                         </tr>
                                         <tr>

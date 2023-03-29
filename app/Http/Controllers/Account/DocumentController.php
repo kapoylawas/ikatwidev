@@ -270,4 +270,18 @@ class DocumentController extends Controller
         //redirect
         return redirect()->back();
     }
+
+    public function showIjazah($id)
+    {
+        //get product by ID
+        $users = User::findOrFail($id);
+
+        //get relation str with pagination
+        $users->setRelation('dokumenIjazah', $users->dokumenIjazah()->paginate(5));
+
+        //return
+        return inertia('Account/Documents/ShowIjazah', [
+            'users'   => $users,
+        ]);
+    }
 }

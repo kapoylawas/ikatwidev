@@ -70,12 +70,12 @@ class User extends Authenticatable
         );
     }
 
-    protected function ijazah(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($ijazah) => asset('/storage/ijazah/' . $ijazah),
-        );
-    }
+    // protected function ijazah(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($ijazah) => asset('/storage/ijazah/' . $ijazah),
+    //     );
+    // }
 
     protected function sip(): Attribute
     {
@@ -128,5 +128,10 @@ class User extends Authenticatable
     public function suratSip()
     {
         return $this->hasMany(SuratSip::class);
+    }
+
+    public function dokumenIjazah()
+    {
+        return $this->hasMany(Ijazah::class);
     }
 }

@@ -1,0 +1,1 @@
+import{R as e,H as t}from"./app.9c2deeaa.js";import{L as a}from"./Account.521210f1.js";import"./sweetalert2.all.0810cf82.js";function m(){return e.createElement(e.Fragment,null,e.createElement(t,null,e.createElement("title",null,"Detail Document Ijazah - IKATWI")),e.createElement(a,null))}export{m as default};

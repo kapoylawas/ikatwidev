@@ -59,15 +59,19 @@ Route::prefix('account')->group(function() {
         Route::post('/documents/storestr', [\App\Http\Controllers\Account\DocumentController::class, 'storeStr'])->name('account.documents.storestr');
 
          // show sip
-         Route::get('/documents/showsip/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showSip'])->name('account.documents.showsip');
+        Route::get('/documents/showsip/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showSip'])->name('account.documents.showsip');
 
         //  show create sip
-         Route::get('/documents/createsip/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'createSip'])->name('account.documents.createsip');
+        Route::get('/documents/createsip/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'createSip'])->name('account.documents.createsip');
 
         //  store sip
-         Route::post('/documents/storesip', [\App\Http\Controllers\Account\DocumentController::class, 'storeSip'])->name('account.documents.storesip');
+        Route::post('/documents/storesip', [\App\Http\Controllers\Account\DocumentController::class, 'storeSip'])->name('account.documents.storesip');
 
-         Route::delete('/documents/hapus_sip/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'deletesip'])->name('account.documents.hapus_sip');
+        //  delete sip
+        Route::delete('/documents/hapus_sip/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'deletesip'])->name('account.documents.hapus_sip');
+
+        // show ijazah
+        Route::get('/documents/showIjazah/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showIjazah'])->name('account.documents.showIjazah');
 
         //route resource EKTA   
         Route::resource('/ekta', \App\Http\Controllers\Account\EktaController::class, ['as' => 'account']);
