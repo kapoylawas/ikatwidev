@@ -10,7 +10,15 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 export default function EktaIndex() {
     const { biodata, transactions } = usePage().props;
 
-    console.log(biodata);
+    const status = transactions.map((ts) => ts.status);
+
+    const filter = status
+        .toString()
+        .replace("[", "")
+        .replace("]", "")
+        .replace('"', "")
+        .replace('"', "");
+
 
     return (
         <>
