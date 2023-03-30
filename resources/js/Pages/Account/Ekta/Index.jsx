@@ -63,13 +63,13 @@ export default function EktaIndex() {
                                             <div className="kartu">
                                                 <div
                                                     style={{
-                                                        marginTop: "78px",
+                                                        marginTop: "90px",
                                                     }}
                                                     className="tex"
                                                 >
                                                     <table
                                                         className="table-responsive mt-5"
-                                                        width="100%"
+                                                        width="99%"
                                                     >
                                                         <tr>
                                                             <td
@@ -82,28 +82,32 @@ export default function EktaIndex() {
                                                                     width: "100%",
                                                                 }}
                                                             >
-                                                                <strong>
+                                                                <strong style={{fontSize: "0.875em"}}>
                                                                     {
                                                                         biodata.name
                                                                     }
+                                                                    
                                                                 </strong>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td
                                                                 style={{
-                                                                    width: "41%",
+                                                                    width: "43%",
                                                                 }}
                                                             ></td>
                                                             <td
                                                                 style={{
                                                                     width: "100%",
+                                                                    
                                                                 }}
                                                             >
                                                                 <strong>
+                                                                <p>
                                                                     {
                                                                         biodata.alamat
                                                                     }
+                                                                </p>
                                                                 </strong>
                                                             </td>
                                                         </tr>
@@ -112,7 +116,7 @@ export default function EktaIndex() {
                                                 <br></br>
                                                 <div
                                                     style={{
-                                                        marginTop: "-5px",
+                                                        marginTop: "-15px",
                                                     }}
                                                     className="tex"
                                                 >
@@ -120,7 +124,7 @@ export default function EktaIndex() {
                                                         <tr>
                                                             <td
                                                                 style={{
-                                                                    width: "41%",
+                                                                    width: "43%",
                                                                 }}
                                                             ></td>
                                                             <td
