@@ -159,9 +159,10 @@ export default function EktaIndex() {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <br></br>
-                                    <div className="col-md-6 mt-3">
+                                    </div>                    
+                                </div>
+                                <div className="row justify-content-center">
+                                    <div className="col-md-6 mt-4">
                                         <div className="col-md-6 col-lg-4">
                                             <div className="kartubelakang">
                                                 <div
