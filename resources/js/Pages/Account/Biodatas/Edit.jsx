@@ -27,6 +27,8 @@ export default function UserEdit() {
     const [lokasipekerjaan, setLokasipekerjaan] = useState(biodata.lokasi_pekerjaan);
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
+    const [statusAnggota, setStatusAnggota] = useState("");
+    // console.log(statusAnggota);
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
@@ -49,6 +51,7 @@ export default function UserEdit() {
                 tempat_lahir: tempatlahir,
                 tgl_lahir: tgllahir,
                 lokasi_pekerjaan: lokasipekerjaan,
+                status_anggota: statusAnggota,
                 image: image,
                 province_id: provinceID,
                 city_id: cityID,
@@ -208,6 +211,48 @@ export default function UserEdit() {
                                         </div>
                                     </div>
 
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Status Anggota
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={statusAnggota}
+                                                onChange={(e) =>
+                                                    setStatusAnggota(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Status Keanggotaan --
+                                                </option>
+                                                <option
+                                                    value="Anggota Biasa"
+                                                >
+                                                        Anggota Biasa
+                                                </option>
+                                                <option
+                                                    value="Anggota Luar Biasa"
+                                                >
+                                                        Anggota Luar Biasa
+                                                </option>
+                                                <option
+                                                    value="Anggota Kehormatan"
+                                                >
+                                                        Anggota Kehormatan
+                                                </option>
+                                                
+                                            </select>
+                                            {errors.status_anggota && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.status_anggota}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">

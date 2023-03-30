@@ -85,6 +85,11 @@ export default function BiodataIndex() {
                                         <td className="p-2">{biodata.no_anggota}</td>
                                     </tr>
                                     <tr>
+                                        <td>Status Anggota</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.status_anggota}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Phone</td>
                                         <td>:</td>
                                         <td className="p-2">{biodata.phone}</td>

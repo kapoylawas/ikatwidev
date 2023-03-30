@@ -38,6 +38,7 @@ class User extends Authenticatable
         'str',
         'sip',
         'lokasi_pekerjaan',
+        'status_anggota',
     ];
 
     /**

@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('sip')->nullable();
             $table->string('date_exprd')->nullable();
             $table->string('lokasi_pekerjaan')->nullable();
+            $table->string('status_anggota')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

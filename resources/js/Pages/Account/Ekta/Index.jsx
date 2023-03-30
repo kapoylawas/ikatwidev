@@ -151,7 +151,7 @@ export default function EktaIndex() {
                                                                 }}
                                                             >
                                                                 <strong>
-                                                                    Aktiv
+                                                                    {biodata.status_anggota}
                                                                 </strong>
                                                             </td>
                                                         </tr>

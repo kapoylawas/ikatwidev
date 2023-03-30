@@ -48,6 +48,7 @@ class BiodataController extends Controller
 
     public function update(Request $request, User $biodata)
     {
+        // dd($request->all());
         /**
          * check password is empty
          */
@@ -71,6 +72,7 @@ class BiodataController extends Controller
                     'tempat_lahir'     => $request->tempat_lahir,
                     'tgl_lahir'     => $request->tgl_lahir,
                     'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
+                    'status_anggota'     => $request->status_anggota,
                     'province_id'      => $request->province_id,
                     'city_id'      => $request->city_id,
                     'image' => $image->hashName(),
@@ -86,6 +88,7 @@ class BiodataController extends Controller
                     'tempat_lahir'     => $request->tempat_lahir,
                     'tgl_lahir'     => $request->tgl_lahir,
                     'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
+                    'status_anggota'     => $request->status_anggota,
                     'province_id'      => $request->province_id,
                     'city_id'      => $request->city_id,
                 ]);
@@ -102,6 +105,7 @@ class BiodataController extends Controller
                 'tempat_lahir'     => $request->tempat_lahir,
                 'tgl_lahir'     => $request->tgl_lahir,
                 'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
+                'status_anggota'     => $request->status_anggota,
                 'province_id'      => $request->province_id,
                 'city_id'      => $request->city_id,
                 'password' => bcrypt($request->password)
