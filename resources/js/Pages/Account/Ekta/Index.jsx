@@ -19,37 +19,38 @@ export default function EktaIndex() {
             </Head>
             <LayoutAccount>
                 <div className="col-md-12 mt-5">
-                    <div className="card border-0 shadow-custom rounded">
-                        <div className="card-header text-dark">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="icon icon-tabler icon-tabler-certificate mb-1"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                stroke-width="2"
-                                stroke="currentColor"
-                                fill="none"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <path
-                                    stroke="none"
-                                    d="M0 0h24v24H0z"
+                    {filter === "PAID" ? (
+                        <div className="card border-0 shadow-custom rounded">
+                            <div className="card-header text-dark">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="icon icon-tabler icon-tabler-certificate mb-1"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
                                     fill="none"
-                                ></path>
-                                <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                                <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5"></path>
-                                <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73"></path>
-                                <path d="M6 9l12 0"></path>
-                                <path d="M6 12l3 0"></path>
-                                <path d="M6 15l2 0"></path>
-                            </svg>
-                            E-KTA
-                        </div>
-                        <div className="card-body">
-                            <div className="row justify-content-center">
-                                <div className="col-md-6 mt-3">
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    ></path>
+                                    <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                    <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5"></path>
+                                    <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73"></path>
+                                    <path d="M6 9l12 0"></path>
+                                    <path d="M6 12l3 0"></path>
+                                    <path d="M6 15l2 0"></path>
+                                </svg>
+                                E-KTA
+                            </div>
+                            <div className="card-body">
+                                <div className="row justify-content-center">
+                                    <div className="col-md-6 mt-3">
                                         <div className="col-md-6 col-lg-4">
                                             <div className="kartu">
                                                 <div
@@ -145,10 +146,10 @@ export default function EktaIndex() {
                                                     </table>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <br></br>
-                                <div className="col-md-6 mt-3">
+                                    <br></br>
+                                    <div className="col-md-6 mt-3">
                                         <div className="col-md-6 col-lg-4">
                                             <div className="kartubelakang">
                                                 <div
@@ -156,18 +157,23 @@ export default function EktaIndex() {
                                                         marginTop: "78px",
                                                     }}
                                                     className="tex"
-                                                >
-                                                    
-                                                </div>
+                                                ></div>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="row mt-5">
+                            <div className="col-12 col-md-12 col-lg-12 mb-4">
+                                <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
+                                    <h5>Anda belum membayar tagihan IURAN.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
-
-                <div className="container-kartu mt-5"></div>
             </LayoutAccount>
         </>
     );
