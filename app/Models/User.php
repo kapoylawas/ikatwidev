@@ -70,13 +70,6 @@ class User extends Authenticatable
         );
     }
 
-    // protected function ijazah(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn ($ijazah) => asset('/storage/ijazah/' . $ijazah),
-    //     );
-    // }
-
     protected function sip(): Attribute
     {
         return Attribute::make(

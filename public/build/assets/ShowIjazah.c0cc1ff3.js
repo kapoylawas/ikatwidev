@@ -1,1 +1,0 @@
-import{u as a,R as e,H as l}from"./app.2fe66696.js";import{L as n}from"./Account.48956b16.js";import"./sweetalert2.all.8279dd81.js";function c(){const{users:t}=a().props;return console.log("data =",t),e.createElement(e.Fragment,null,e.createElement(l,null,e.createElement("title",null,"Detail Document Ijazah - IKATWI")),e.createElement(n,null))}export{c as default};

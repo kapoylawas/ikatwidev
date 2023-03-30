@@ -73,6 +73,14 @@ Route::prefix('account')->group(function() {
         // show ijazah
         Route::get('/documents/showIjazah/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showIjazah'])->name('account.documents.showIjazah');
 
+        // show create ijazah
+        Route::get('/documents/createIjazah/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'createIjazah'])->name('account.documents.createIjazah');
+
+        // store ijazah
+        Route::post('/documents/storeijazah', [\App\Http\Controllers\Account\DocumentController::class, 'storeIjazah'])->name('account.documents.storeijazah');
+
+        Route::delete('/documents/hapus_ijazah/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'deleteijazah'])->name('account.documents.hapus_ijazah');
+
         //route resource EKTA   
         Route::resource('/ekta', \App\Http\Controllers\Account\EktaController::class, ['as' => 'account']);
 

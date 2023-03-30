@@ -39,4 +39,5 @@ class Ijazah extends Model
             get: fn ($ijazah) => asset('/storage/ijazah/' . $ijazah),
         );
     }
+
 }

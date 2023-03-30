@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\Ijazah;
 use App\Models\Province;
 use App\Models\SuratSip;
 use App\Models\SuratStr;
@@ -283,5 +284,89 @@ class DocumentController extends Controller
         return inertia('Account/Documents/ShowIjazah', [
             'users'   => $users,
         ]);
+    }
+
+    public function createIjazah($id)
+    {
+        //get product by ID
+        $users = User::findOrFail($id);
+
+        //get relation str with pagination
+        $users->setRelation('dokumenIjazah', $users->dokumenIjazah()->paginate(5));
+
+        //return
+        return inertia('Account/Documents/CreateIjazah', [
+            'users'   => $users,
+        ]);
+    }
+
+    public function storeIjazah(Request $request)
+    {
+        
+        /**
+         * Validate request
+         */
+        $this->validate($request, [
+            'ijazah_akhir'      => 'required',
+            'name_universitas'      => 'required',
+            'fakultas'      => 'required',
+            'jurusan'      => 'required',
+            'akredetasi'      => 'required',
+            'tahun_lulus'      => 'required',
+            'no_ijazah'      => 'required',
+            'date_ijazah'      => 'required',
+            'ipk'      => 'required',
+            'transkip'      => 'required|mimes:pdf',
+            'ijazah'      => 'required|mimes:pdf',
+        ]);
+
+        
+        //get user by ID
+        $user = User::findOrFail($request->user_id);
+        
+        // dd($user);
+
+        // //upload transkip
+        $transkip = $request->file('transkip');
+        $transkip->storeAs('public/transkip', $transkip->hashName());
+
+        // // // upload ijazah
+        $ijazah = $request->file('ijazah');
+        $ijazah->storeAs('public/ijazah', $ijazah->hashName());
+
+         //insert database
+         $user->dokumenIjazah()->create([
+             'ijazah_akhir'     => $request->ijazah_akhir,
+             'name_universitas'     => $request->name_universitas,
+             'fakultas'     => $request->fakultas,
+             'jurusan'     => $request->jurusan,
+             'akredetasi'     => $request->akredetasi,
+             'tahun_lulus'     => $request->tahun_lulus,
+             'no_ijazah'     => $request->no_ijazah,
+             'date_ijazah'     => $request->date_ijazah,
+             'ipk'     => $request->ipk,
+             'user_id'     => $user,
+             'transkip'     => $transkip->hashName(),
+             'ijazah'     => $ijazah->hashName(),
+        ]);
+
+        //return back
+        return redirect()->route('account.documents.index');
+    }
+
+    public function deleteijazah($id)
+    {
+        //find product image by ID
+        $ijazah = Ijazah::findOrFail($id);
+
+        // //remove image from server
+        Storage::disk('local')->delete('public/ijazah/'.basename($ijazah->ijazah));
+        Storage::disk('local')->delete('public/transkip/'.basename($ijazah->transkip));
+
+        //delete image
+        $ijazah->delete();
+
+        //redirect
+        return redirect()->back();
     }
 }

@@ -37,13 +37,6 @@ export default function DocumentsIndex() {
                                         <i className="fa fa-users"></i> Berkas
                                         Document
                                     </span>
-                                    <Link
-                                        href={`/account/documents/${biodata.id}/edit`}
-                                        className="btn btn-primary me-5"
-                                        style={{ marginLeft: "1%" }}
-                                    >
-                                        <i className="fa fa-pencil-alt"></i>
-                                    </Link>
                                 </div>
                                 <div className="card-body">
                                     <table className="table table-bordered">
@@ -62,17 +55,10 @@ export default function DocumentsIndex() {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Tanggal expired STR</td>
-                                            <td>:</td>
-                                            <td className="p-2">
-                                                {biodata.date_exprd}
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <td>Ijazah</td>
                                             <td>:</td>
                                             <td>
-                                            <Link
+                                                <Link
                                                     href={`/account/documents/showIjazah/${biodata.id}`}
                                                     className="btn"
                                                 >

@@ -601,6 +601,33 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   border-radius: 0.375rem;
 }
 
+.container-kartu {
+  position: absolute;
+  left: 25%;
+  top: 20%;
+}
+
+.kartu {
+  width: 4.360in;
+  height: 3.275in;
+  padding: 1.3rem 0 1.3rem 0;
+  box-shadow: 0 0 5px #000000;
+  background-image: url('../images/depan.png');
+  background-repeat: no-repeat;
+  background-size: 418.4px 324px;
+  border-radius: 20px;
+}
+.kartubelakang {
+  width: 4.360in;
+  height: 3.275in;
+  padding: 1.3rem 0 1.3rem 0;
+  box-shadow: 0 0 5px #000000;
+  background-image: url('../images/belakang.png');
+  background-repeat: no-repeat;
+  background-size: 418.4px 324px;
+  border-radius: 20px;
+}
+
 /* kartu */
 /* .box {
   position: relative;
@@ -636,8 +663,8 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   color: #fff !important;
-}
-.telepon {
+} */
+/* .telepon {
   position: absolute;
   margin-top: 120pt;
   right: 16pt;
@@ -650,8 +677,8 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   border: 1px solid #fff;
   padding: .5px;
   background: #fff;
-}
-.text-left {
+} */
+/* .text-left {
   text-align: left;
 }
 .text-right {
