@@ -71,7 +71,7 @@ export default function EktaIndex() {
                                                     <div className="row justify-content-center">
                                                         <div className="col-md-4">
                                                             <table
-                                                                className="table-responsive mt-3"
+                                                                className="table-responsive"
                                                                 width="100%"
                                                             >
                                                                 <tr>
@@ -84,13 +84,13 @@ export default function EktaIndex() {
                                                                             src={
                                                                                 biodata.image
                                                                             }
-                                                                            className="rounded-3 mt-2"
+                                                                            className="rounded-3 mt-1"
                                                                             style={{
-                                                                                marginLeft:
-                                                                                    "-11%",
+                                                                                marginLeft:"-12%",
+                                                                                
                                                                             }}
                                                                             width={
-                                                                                "100"
+                                                                                "103"
                                                                             }
                                                                             alt="Deskripsi gambar"
                                                                             onError={(
