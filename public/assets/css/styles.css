@@ -632,6 +632,15 @@ p {
   font-size: 15px;
 }
 
+.hidden {
+  text-indent: -9999px;                 /* sends the text off-screen */
+  background-image: url(/the_img.png);  /* shows image */
+  height: 8px;                        /* be sure to set height & width */
+  width: 50px;
+  white-space: nowrap;            /* because only the first line is indented */
+}
+
+
 /* kartu */
 /* .box {
   position: relative;

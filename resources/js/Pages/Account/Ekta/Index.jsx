@@ -7,6 +7,8 @@ import LayoutAccount from "../../../Layouts/Account";
 //import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
+import { QRCodeSVG } from "qrcode.react";
+
 export default function EktaIndex() {
     const { biodata, transactions } = usePage().props;
 
@@ -18,7 +20,6 @@ export default function EktaIndex() {
         .replace("]", "")
         .replace('"', "")
         .replace('"', "");
-
 
     return (
         <>
@@ -67,99 +68,113 @@ export default function EktaIndex() {
                                                     }}
                                                     className="tex"
                                                 >
-                                                    <table
-                                                        className="table-responsive mt-5"
-                                                        width="99%"
-                                                    >
-                                                        <tr>
-                                                            <td
-                                                                style={{
-                                                                    width: "41%",
-                                                                }}
-                                                            ></td>
-                                                            <td
-                                                                style={{
-                                                                    width: "100%",
-                                                                }}
+                                                    <div className="row justify-content-center">
+                                                        <div className="col-md-4">
+                                                            <table
+                                                                className="table-responsive mt-3"
+                                                                width="100%"
                                                             >
-                                                                <strong style={{fontSize: "0.875em"}}>
-                                                                    {
-                                                                        biodata.name
-                                                                    }
-                                                                    
-                                                                </strong>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td
-                                                                style={{
-                                                                    width: "43%",
-                                                                }}
-                                                            ></td>
-                                                            <td
-                                                                style={{
-                                                                    width: "100%",
-                                                                    
-                                                                }}
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "50%",
+                                                                        }}
+                                                                    >
+                                                                        <img
+                                                                            src={
+                                                                                biodata.image
+                                                                            }
+                                                                            className="rounded-3 mt-2"
+                                                                            style={{
+                                                                                marginLeft:
+                                                                                    "-11%",
+                                                                            }}
+                                                                            width={
+                                                                                "100"
+                                                                            }
+                                                                            alt="Deskripsi gambar"
+                                                                            onError={(
+                                                                                e
+                                                                            ) => {
+                                                                                e.target.onerror =
+                                                                                    null; // menghindari infinite loop jika terjadi kesalahan lagi
+                                                                                e.target.src =
+                                                                                    "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
+                                                                            }}
+                                                                        />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <table
+                                                                className="table-responsive "
+                                                                width="100%"
                                                             >
-                                                                <strong>
-                                                                <p>
-                                                                    {
-                                                                        biodata.alamat
-                                                                    }
-                                                                </p>
-                                                                </strong>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                            marginLeft:"-10%",
+                                                                        }}
+                                                                    >
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.name}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >                                                                        
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.alamat}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >
+                                                                        
+                                                                        <p className="hidden">{biodata.name}</p> 
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.no_anggota}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.status_anggota}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <br></br>
-                                                <div
-                                                    style={{
-                                                        marginTop: "-15px",
-                                                    }}
-                                                    className="tex"
-                                                >
-                                                    <table width="100%">
-                                                        <tr>
-                                                            <td
-                                                                style={{
-                                                                    width: "43%",
-                                                                }}
-                                                            ></td>
-                                                            <td
-                                                                style={{
-                                                                    width: "100%",
-                                                                }}
-                                                            >
-                                                                <strong>
-                                                                    {
-                                                                        biodata.no_anggota
-                                                                    }
-                                                                </strong>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td
-                                                                style={{
-                                                                    width: "41%",
-                                                                }}
-                                                            ></td>
-                                                            <td
-                                                                style={{
-                                                                    width: "100%",
-                                                                }}
-                                                            >
-                                                                <strong>
-                                                                    {biodata.status_anggota}
-                                                                </strong>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
+                                                
                                             </div>
                                         </div>
-                                    </div>                    
+                                    </div>
                                 </div>
                                 <div className="row justify-content-center">
                                     <div className="col-md-6 mt-4">
@@ -170,7 +185,80 @@ export default function EktaIndex() {
                                                         marginTop: "78px",
                                                     }}
                                                     className="tex"
-                                                ></div>
+                                                >
+                                                    <div className="row justify-content-center">
+                                                        <div className="col-md-6">
+                                                            <table
+                                                                className="table-responsive mt-5"
+                                                                width="100%"
+                                                            >
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "41%",
+                                                                        }}
+                                                                    ></td>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "100%",
+                                                                        }}
+                                                                    >
+                                                                        <strong
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    "0.875em",
+                                                                            }}
+                                                                        >
+                                                                            {/* {
+                                                                                biodata.name
+                                                                            } */}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <table
+                                                                className="table-responsive mt-3"
+                                                                width="100%"
+                                                            >
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "50%",
+                                                                        }}
+                                                                    ></td>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "100%",
+                                                                        }}
+                                                                    >
+                                                                        <strong
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    "0.875em",
+                                                                            }}
+                                                                        >
+                                                                            <QRCodeSVG
+                                                                                value={
+                                                                                    biodata.name
+                                                                                }
+                                                                                style={{
+                                                                                    marginLeft:
+                                                                                        "-10%",
+                                                                                }}
+                                                                                size={
+                                                                                    121
+                                                                                }
+                                                                                renderAs="canvas"
+                                                                            />
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
