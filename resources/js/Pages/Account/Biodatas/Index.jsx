@@ -5,12 +5,11 @@ import React from "react";
 import LayoutAccount from "../../../Layouts/Account";
 
 //import Head, usePage, Link
-import { Head, usePage, Link } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/inertia-react";
 
 import { QRCodeSVG } from "qrcode.react";
 
-export default function BiodataIndex() {
-    //destruct props "users"
+export default function EktaIndex() {
     const { biodata, transactions } = usePage().props;
 
     const status = transactions.map((ts) => ts.status);
@@ -25,135 +24,254 @@ export default function BiodataIndex() {
     return (
         <>
             <Head>
-                <title>User - IKATWI</title>
+                <title>User E-KTA - IKATWI</title>
             </Head>
             <LayoutAccount>
-                <div className="row mt-4 mb-4">
-                    <div className="col-12">
-                        <div className="card border-0 rounded shadow-sm border-top-admin">
-                            <div className="card-header">
-                                <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Profil
-                                    Biodata
-                                </span>
-                                <Link
-                                    href={`/account/biodatas/${biodata.id}/edit`}
-                                    className="btn btn-primary me-5"
-                                    style={{ marginLeft: "1%" }}
+                <div className="col-md-12 mt-5">
+                    {filter === "PAID" ? (
+                        <div className="card border-0 shadow-custom rounded">
+                            <div className="card-header text-dark">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="icon icon-tabler icon-tabler-certificate mb-1"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
                                 >
-                                    <i className="fa fa-pencil-alt"></i>
-                                    
-                                </Link>
+                                    <path
+                                        stroke="none"
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                    ></path>
+                                    <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                    <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5"></path>
+                                    <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73"></path>
+                                    <path d="M6 9l12 0"></path>
+                                    <path d="M6 12l3 0"></path>
+                                    <path d="M6 15l2 0"></path>
+                                </svg>
+                                E-KTA
                             </div>
                             <div className="card-body">
-                                <table className="table table-bordered">
-                                    <tr>
-                                        <td>Foto</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            <img
-                                                src={biodata.image}
-                                                className="rounded-3"
-                                                width={"100"}
-                                                alt="Deskripsi gambar"
-                                                onError={(e) => {
-                                                    e.target.onerror = null; // menghindari infinite loop jika terjadi kesalahan lagi
-                                                    e.target.src =
-                                                        "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
-                                                }}
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>FULL NAME</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NIK</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.nik}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.email}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>No Anggota</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.no_anggota}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Anggota</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.status_anggota}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.phone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tempat Lahir</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.tempat_lahir}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal Lahir</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.tgl_lahir}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.alamat}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Pekerjaan</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.lokasi_pekerjaan}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Member Aktif</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {filter === "PAID" ? (
-                                                <QRCodeSVG
-                                                    value={
-                                                        biodata.name
-                                                    }
-                                                    style={{ marginLeft: "2%" }}
-                                                    size={80}
-                                                    renderAs="canvas"
-                                                />
-                                            ) : (
-                                                <div className="row mt-2">
-                                                    <div className="col-12 col-md-12 col-lg-12 mb-4">
-                                                        <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
-                                                            <h5>
-                                                                Anda belum
-                                                                membayar tagihan
-                                                                IURAN.
-                                                            </h5>
+                                <div className="row justify-content-center">
+                                    <div className="col-md-6 mt-3">
+                                        <div className="col-md-6 col-lg-4">
+                                            <div className="kartu">
+                                                <div
+                                                    style={{
+                                                        marginTop: "90px",
+                                                    }}
+                                                    className="tex"
+                                                >
+                                                    <div className="row justify-content-center">
+                                                        <div className="col-md-4">
+                                                            <table
+                                                                className="table-responsive"
+                                                                width="100%"
+                                                            >
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "50%",
+                                                                        }}
+                                                                    >
+                                                                        <img
+                                                                            src={
+                                                                                biodata.image
+                                                                            }
+                                                                            className="rounded-3 mt-1"
+                                                                            style={{
+                                                                                marginLeft:"-12%",
+                                                                                
+                                                                            }}
+                                                                            width={
+                                                                                "103"
+                                                                            }
+                                                                            alt="Deskripsi gambar"
+                                                                            onError={(
+                                                                                e
+                                                                            ) => {
+                                                                                e.target.onerror =
+                                                                                    null; // menghindari infinite loop jika terjadi kesalahan lagi
+                                                                                e.target.src =
+                                                                                    "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
+                                                                            }}
+                                                                        />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <table
+                                                                className="table-responsive "
+                                                                width="100%"
+                                                            >
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                            marginLeft:"-10%",
+                                                                        }}
+                                                                    >
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.name}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >                                                                        
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.alamat}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >
+                                                                        
+                                                                        <p className="hidden">{biodata.name}</p> 
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.no_anggota}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "51%",
+                                                                        }}
+                                                                    >
+                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                            {biodata.status_anggota}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            )}
-                                        </td>
-                                    </tr>
-                                </table>
+                                                <br></br>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row justify-content-center">
+                                    <div className="col-md-6 mt-4">
+                                        <div className="col-md-6 col-lg-4">
+                                            <div className="kartubelakang">
+                                                <div
+                                                    style={{
+                                                        marginTop: "78px",
+                                                    }}
+                                                    className="tex"
+                                                >
+                                                    <div className="row justify-content-center">
+                                                        <div className="col-md-6">
+                                                            <table
+                                                                className="table-responsive mt-5"
+                                                                width="100%"
+                                                            >
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "41%",
+                                                                        }}
+                                                                    ></td>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "100%",
+                                                                        }}
+                                                                    >
+                                                                        <strong
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    "0.875em",
+                                                                            }}
+                                                                        >
+                                                                           
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <table
+                                                                className="table-responsive mt-3"
+                                                                width="100%"
+                                                            >
+                                                                <tr>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "50%",
+                                                                        }}
+                                                                    ></td>
+                                                                    <td
+                                                                        style={{
+                                                                            width: "100%",
+                                                                        }}
+                                                                    >
+                                                                        <strong
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    "0.875em",
+                                                                            }}
+                                                                        >
+                                                                            <QRCodeSVG
+                                                                                value={
+                                                                                    biodata.name
+                                                                                }
+                                                                                style={{
+                                                                                    marginLeft:
+                                                                                        "-10%",
+                                                                                }}
+                                                                                size={
+                                                                                    121
+                                                                                }
+                                                                                renderAs="canvas"
+                                                                            />
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="row mt-5">
+                            <div className="col-12 col-md-12 col-lg-12 mb-4">
+                                <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
+                                    <h5>Anda belum membayar tagihan IURAN.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </LayoutAccount>
         </>

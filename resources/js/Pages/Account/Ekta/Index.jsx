@@ -209,9 +209,6 @@ export default function EktaIndex() {
                                                                                     "0.875em",
                                                                             }}
                                                                         >
-                                                                            {/* {
-                                                                                biodata.name
-                                                                            } */}
                                                                         </strong>
                                                                     </td>
                                                                 </tr>

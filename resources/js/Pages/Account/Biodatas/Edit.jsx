@@ -398,7 +398,7 @@ export default function UserEdit() {
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
-                                                Alama Pekerjaan
+                                                Tempat Bekerja
                                             </label>
                                             <div className="input-group mb-3">
                                                 <input

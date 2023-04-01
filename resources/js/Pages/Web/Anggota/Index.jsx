@@ -13,6 +13,7 @@ import axios from "axios";
 export default function AnggotaIndex() {
     //define state
     const [anggotas, setAnggota] = useState([]);
+
     const [isLoading, setIsLoading] = useState(false);
 
     const currentDate = new Date();
@@ -31,10 +32,10 @@ export default function AnggotaIndex() {
             })
             .then((response) => {
                 //set isLoading to false
+                console.log(response);
                 setIsLoading(false);
-
                 //set response to state
-                setAnggota(response.data.anggota);
+                setAnggota(response.data.anggota.data);
             });
     };
 
@@ -219,32 +220,34 @@ export default function AnggotaIndex() {
                                                                             </td>
                                                                             <td>
                                                                                 {
-                                                                                    anggota.nama_prov
+                                                                                    anggota.province.name
                                                                                 }
                                                                             </td>
                                                                             <td>
                                                                                 {/* {
                                                                                     anggota.nama_city
                                                                                 } */}
-                                                                                 {anggota.nama_city === 0 ? (
+                                                                                 {anggota.city === 0 ? (
                                                                                         <p>DPC tidak ada</p>
                                                                                     ) : (
-                                                                                        anggota.nama_city
+                                                                                        anggota.city.name
                                                                                 )}
                                                                             </td>
                                                                             <td>
-                                                                                {
-                                                                                    anggota.no_str
-                                                                                }
+                                                                                {anggota.surat_strs.map((str) =>
+                                                                                    str.no_str
+                                                                                )}
                                                                             </td>
                                                                             <td>
-                                                                                {
-                                                                                    anggota.date_exprd
-                                                                                }
+                                                                                {anggota.surat_strs.map((str) =>
+                                                                                    str.date_end
+                                                                                )}
                                                                             </td>
                                                                             <td>
                                                                                 {new Date(
-                                                                                    anggota.date_exprd
+                                                                                    anggota.surat_strs.map((str) =>
+                                                                                        str.date_end
+                                                                                    )
                                                                                 ) >=
                                                                                 currentDate ? (
                                                                                     <span className="btn btn-success btn-sm shadow-sm border-0 ms-2 mb-2">
