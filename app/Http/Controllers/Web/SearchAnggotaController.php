@@ -29,7 +29,7 @@ class SearchAnggotaController extends Controller
             $anggota = User::where('name', 'like', '%'. $request->q . '%')
             ->orWhere('no_anggota', 'like', '%' . $request->q . '%')
             ->with('province', 'city', 'suratStrs')
-            ->paginate(0);
+            ->paginate(1);
         }
 
         //return response
