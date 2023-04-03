@@ -237,3 +237,4 @@ Route::post('/searchAnggota', \App\Http\Controllers\Web\SearchAnggotaController:
 
 // cek status anggota STR
 Route::get('/cekstatus', [\App\Http\Controllers\Account\UserController::class, 'ceAktiv']);
+Route::get('/cekstatusStr', [\App\Http\Controllers\Account\UserController::class, 'ceAktistr']);

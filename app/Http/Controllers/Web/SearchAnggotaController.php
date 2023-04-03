@@ -23,12 +23,18 @@ class SearchAnggotaController extends Controller
             $anggota = User::where('name', 'like', '%'. $request->q . '%')
             ->orWhere('no_anggota', 'like', '%' . $request->q . '%')
             ->with('province', 'city', 'suratStrs')
+            ->whereHas('suratStrs', function ($q){
+                $q->where('status_aktif', 1);
+            })
             ->paginate(10);
         } else {
             
             $anggota = User::where('name', 'like', '%'. $request->q . '%')
             ->orWhere('no_anggota', 'like', '%' . $request->q . '%')
             ->with('province', 'city', 'suratStrs')
+            ->whereHas('suratStrs', function ($q){
+                $q->where('status_aktif', 1);
+            })
             ->paginate(1);
         }
 

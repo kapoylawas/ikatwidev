@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Province;
+use App\Models\SuratStr;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -248,6 +249,26 @@ class UserController extends Controller
         // dd($data);
 
         User::whereIn('id', $data)->update(['status_aktif' => 1]);
+
+
+        return 'berhasil';
+    }
+
+    public function ceAktistr()
+    {
+        $user = SuratStr::whereNull('status_aktif')->get();
+
+        $data = [];
+
+        foreach($user as $u){
+            if (strtotime(date('Y-m-d')) >= strtotime($u->date_end)) {
+                $data[] = $u->id;
+            }
+        }
+
+        // dd($data);
+
+        SuratStr::whereIn('id', $data)->update(['status_aktif' => 1]);
 
 
         return 'berhasil';
