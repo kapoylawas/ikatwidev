@@ -19,7 +19,6 @@ export default function DocumentCreateIjazah() {
     //define state
     const [ijazahAkhir, setIjazahAkhir] = useState("");
     const [universitas, setUniversitas] = useState("");
-    const [fakultas, setFakultas] = useState("");
     const [jurusan, setJurusan] = useState("");
     const [akredetasi, setAkredetasi] = useState("");
     const [tahunlulus, setTahunlulus] = useState("");
@@ -41,7 +40,6 @@ export default function DocumentCreateIjazah() {
                 user_id: users.id,
                 ijazah_akhir: ijazahAkhir,
                 name_universitas: universitas,
-                fakultas: fakultas,
                 jurusan: jurusan,
                 akredetasi: akredetasi,
                 tahun_lulus: tahunlulus,
@@ -104,7 +102,7 @@ export default function DocumentCreateIjazah() {
                             </div>
                             <div className="card-body">
                                 <form onSubmit={storeIjazah}>
-                                    <div className="mb-3">
+                                    {/* <div className="mb-3">
                                         <label className="form-label fw-bold">
                                             Ijazah terakhir pendidikan terapis
                                             wicara
@@ -118,6 +116,47 @@ export default function DocumentCreateIjazah() {
                                             }
                                             placeholder="Ijazah Terakhir"
                                         />
+                                    </div> */}
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Ijazah terakhir pendidikan terapis wicara
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={ijazahAkhir}
+                                                onChange={(e) =>
+                                                    setIjazahAkhir(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Status Keanggotaan --
+                                                </option>
+                                                <option
+                                                    value="DIII"
+                                                >
+                                                       DIII
+                                                </option>
+                                                <option
+                                                    value="S1"
+                                                >
+                                                        S1
+                                                </option>
+                                                <option
+                                                    value="S2"
+                                                >
+                                                        S2
+                                                </option>
+                                                
+                                            </select>
+                                            {errors.status_anggota && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.status_anggota}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                     {errors.ijazah_akhir && (
                                         <div className="alert alert-danger">
@@ -143,20 +182,6 @@ export default function DocumentCreateIjazah() {
                                             {errors.ijazah_akhir}
                                         </div>
                                     )}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            Fakultas
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={fakultas}
-                                            onChange={(e) =>
-                                                setFakultas(e.target.value)
-                                            }
-                                            placeholder="Nama fakultas"
-                                        />
-                                    </div>
                                     {errors.ijazah_akhir && (
                                         <div className="alert alert-danger">
                                             {errors.ijazah_akhir}

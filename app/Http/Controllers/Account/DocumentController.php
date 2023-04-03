@@ -309,7 +309,6 @@ class DocumentController extends Controller
         $this->validate($request, [
             'ijazah_akhir'      => 'required',
             'name_universitas'      => 'required',
-            'fakultas'      => 'required',
             'jurusan'      => 'required',
             'akredetasi'      => 'required',
             'tahun_lulus'      => 'required',
@@ -338,7 +337,6 @@ class DocumentController extends Controller
          $user->dokumenIjazah()->create([
              'ijazah_akhir'     => $request->ijazah_akhir,
              'name_universitas'     => $request->name_universitas,
-             'fakultas'     => $request->fakultas,
              'jurusan'     => $request->jurusan,
              'akredetasi'     => $request->akredetasi,
              'tahun_lulus'     => $request->tahun_lulus,
