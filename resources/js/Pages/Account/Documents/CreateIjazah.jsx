@@ -132,7 +132,7 @@ export default function DocumentCreateIjazah() {
                                                 }
                                             >
                                                 <option value="">
-                                                    -- Select Status Keanggotaan --
+                                                    -- Pilih Ijazah Terakhir --
                                                 </option>
                                                 <option
                                                     value="DIII"

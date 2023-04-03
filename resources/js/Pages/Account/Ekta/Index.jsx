@@ -109,7 +109,7 @@ export default function EktaIndex() {
                                                         <div className="col-md-6">
                                                             <table
                                                                 className="table-responsive "
-                                                                width="100%"
+                                                                width="1300%"
                                                             >
                                                                 <tr>
                                                                     <td
@@ -129,9 +129,10 @@ export default function EktaIndex() {
                                                                             width: "51%",
                                                                         }}
                                                                     >                                                                        
-                                                                        <strong style={{fontSize:"0.875em"}}>
-                                                                            {biodata.alamat}
-                                                                        </strong>
+                                                                        <div className="mt-1" style={{fontSize:"0.755em"}}>
+                                                                            {/* {biodata.alamat} */}
+                                                                            Gunung anyar tengah gang 8 no. 25 A gunungnyar surabaya
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -150,9 +151,9 @@ export default function EktaIndex() {
                                                                             width: "51%",
                                                                         }}
                                                                     >
-                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                        <div style={{fontSize:"0.875em"}}>
                                                                             {biodata.no_anggota}
-                                                                        </strong>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -161,9 +162,9 @@ export default function EktaIndex() {
                                                                             width: "51%",
                                                                         }}
                                                                     >
-                                                                        <strong style={{fontSize:"0.875em"}}>
+                                                                        <div className="mt-1" style={{fontSize:"0.875em"}}>
                                                                             {biodata.status_anggota}
-                                                                        </strong>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             </table>
