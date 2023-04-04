@@ -49,7 +49,7 @@ class WilayahdpcAdminController extends Controller
          * validate
          */
         $this->validate($request, [
-            'province_id'          => 'required',
+            'city_id'          => 'required',
             'alamat'          => 'required',
             'phone'          => 'required',
             'email'          => 'required',
@@ -60,7 +60,7 @@ class WilayahdpcAdminController extends Controller
 
         //create category
         Wilayahdpc::create([
-            'province_id'          => $request->province_id,
+            'city_id'          => $request->city_id,
             'alamat'          => $request->alamat,
             'phone'          => $request->phone,
             'email'          => $request->email,

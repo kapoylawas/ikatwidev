@@ -104,9 +104,9 @@ export default function WilayahdpcEdit() {
                                                     )}
                                                 </select>
                                             </div>
-                                            {errors.province_id && (
+                                            {errors.city_id && (
                                                 <div className="alert alert-danger">
-                                                    {errors.province_id}
+                                                    {errors.city_id}
                                                 </div>
                                             )}
 

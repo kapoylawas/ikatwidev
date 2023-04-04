@@ -31,7 +31,7 @@ export default function WilayahCabangCreate() {
             "/account/areadpc",
             {
                 //data
-                province_id: cityid,
+                city_id: cityid,
                 alamat: alamat,
                 phone: phone,
                 email: email,

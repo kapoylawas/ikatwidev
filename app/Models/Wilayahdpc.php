@@ -10,7 +10,7 @@ class Wilayahdpc extends Model
     use HasFactory;
 
     protected $fillable = [
-        'province_id',
+        'city_id',
         'alamat',
         'phone',
         'email',

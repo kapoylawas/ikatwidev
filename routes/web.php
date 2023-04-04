@@ -144,9 +144,14 @@ Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home
 Route::get('/anggota', [\App\Http\Controllers\Web\AnggotaController::class, 'index'])->name('web.anggota.index');
 
 /**
- * route category wilayah dan anggota
+ * route category wilayah dan anggota dpw
  */
 Route::get('/wilayah', [\App\Http\Controllers\Web\WilayahCabangController::class, 'index'])->name('web.wilayah.index');
+
+/**
+ * route category wilayah dan anggota dpc
+ */
+Route::get('/wilayahdpc', [\App\Http\Controllers\Web\WilayahdpcController::class, 'index'])->name('web.wilayahdpc.index');
 
 /**
  * route category berita

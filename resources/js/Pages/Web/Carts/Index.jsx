@@ -18,6 +18,8 @@ export default function CartIndex() {
     //destruct props "carts"
     const { dataCarts, carts } = usePage().props;
 
+    console.log(carts);
+
     return (
         <>
             <Head>
@@ -44,7 +46,7 @@ export default function CartIndex() {
                                                                 </div>
                                                                 <div className="col-md-8 col-8">
                                                                     <div className="card-body">
-                                                                        <h4 className="card-title">{cart.product.title}</h4>
+                                                                        <h4 className="card-title">{cart.product.title} {cart.tahun}</h4>
 
                                                                         <div className="row">
                                                                             <div className="col-md-3 col-6">
