@@ -96,9 +96,12 @@ Route::prefix('account')->group(function() {
             ->middleware('permission:users.index|users.create|users.edit|users.delete');
 
 
-        //route resource categories
+        //route resource wilayah dpw
         Route::resource('/wilayah', \App\Http\Controllers\Account\WilayahCabangAdminController::class, ['as' => 'account'])
             ->middleware('permission:wilayah.index|wilayah.create|wilayah.edit|wilayah.delete');
+
+        //route resource wilayah dpc
+        Route::resource('/areadpc', \App\Http\Controllers\Account\WilayahdpcAdminController::class, ['as' => 'account']);
 
         //route resource categories
         Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])

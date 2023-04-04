@@ -96,9 +96,21 @@ export default function Sidebar() {
                                 : "list-group-item list-group-item-action list-group-item-light p-3"
                         }`}
                     >
-                        <i className="fa fa-map-marker me-2"></i> Wilayah
+                        <i className="fa fa-map-marker me-2"></i> Wilayah DPW
                     </Link>
                 )}
+
+                    <Link
+                        href="/account/areadpc"
+                        className={`${
+                            url.startsWith("/account/areadpc")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-map me-2"></i> Wilayah DPC
+                    </Link>
+
                 {hasAnyPermission(["transactions.index"]) && (
                     <Link
                         href="/account/transactions"

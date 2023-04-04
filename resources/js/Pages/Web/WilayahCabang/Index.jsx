@@ -68,7 +68,7 @@ export default function WilayahCabangIndex() {
                                                                     >
                                                                         <div className="card border-0 rounded shadow-custom h-100">
                                                                             <iframe
-                                                                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.400496531626!2d112.73740511426921!3d-7.308823873885925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb0ac91d2577%3A0xeb3c8fbc10c73877!2sTOA%20Jala%20Puspa!5e0!3m2!1sen!2sid!4v1679025664743!5m2!1sen!2sid"
+                                                                                src={wilaya.alamat}
                                                                                 style={{
                                                                                     width: "100%",
                                                                                     height: "200px",
@@ -162,87 +162,6 @@ export default function WilayahCabangIndex() {
                                                                     </div>
                                                                 )
                                                             )}
-
-                                                            {/* <div className="col-12 col-md-6 col-lg-6 mb-4">
-                                                                <div className="card border-0 rounded shadow-custom h-100">
-                                                                    <img
-                                                                        src="https://santrikoding.com/storage/posts/1a5a1464-fb71-4b50-8528-2e43aed2febd.webp"
-                                                                        data-src="https://santrikoding.com/storage/posts/1a5a1464-fb71-4b50-8528-2e43aed2febd.webp"
-                                                                        data-srcset="https://santrikoding.com/storage/posts/1a5a1464-fb71-4b50-8528-2e43aed2febd.webp"
-                                                                        className="card-img-top"
-                                                                        // style="width: 100%;height: 200px;object-fit:cover"
-                                                                        alt="Tutorial Nuxt 3 dan Laravel 10 #6 : Delete Data Dengan Rest API di Nuxt 3"
-                                                                        srcset="https://santrikoding.com/storage/posts/1a5a1464-fb71-4b50-8528-2e43aed2febd.webp"
-                                                                    />
-                                                                    <div className="card-body">
-                                                                        <div className="topic">
-                                                                            <a
-                                                                                href="https://santrikoding.com/tag/laravel"
-                                                                                className="badge badge-danger shadow-custom"
-                                                                            >
-                                                                                Laravel
-                                                                            </a>
-                                                                            <a
-                                                                                href="https://santrikoding.com/tag/api"
-                                                                                className="badge badge-danger shadow-custom"
-                                                                            >
-                                                                                API
-                                                                            </a>
-                                                                            <a
-                                                                                href="https://santrikoding.com/tag/nuxt-js"
-                                                                                className="badge badge-success shadow-custom"
-                                                                            >
-                                                                                Nuxt
-                                                                                Js
-                                                                            </a>
-                                                                        </div>
-                                                                        <a
-                                                                            className="link-article text-decoration-none"
-                                                                            href="https://santrikoding.com/tutorial-nuxt-3-dan-laravel-10-6-delete-data-dengan-rest-api-di-nuxt-3"
-                                                                        >
-                                                                            <h6
-                                                                                className="card-title font-weight-bold text-dark"
-                                                                                style={{
-                                                                                    lineHeight:
-                                                                                        "30px",
-                                                                                }}
-                                                                            >
-                                                                                Tutorial
-                                                                                Nuxt
-                                                                                3
-                                                                                dan
-                                                                                Laravel
-                                                                                10
-                                                                                #6
-                                                                                :
-                                                                                Delete
-                                                                                Data
-                                                                                Dengan
-                                                                                Rest
-                                                                                API
-                                                                                di
-                                                                                Nuxt
-                                                                                3
-                                                                            </h6>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div className="card-footer">
-                                                                        <a
-                                                                            href="https://santrikoding.com/profile/@maulayyacyber"
-                                                                            className="text-decoration-none"
-                                                                        >
-                                                                            <span className="text-black-50 ml-2">
-                                                                                {" "}
-                                                                                <strong>
-                                                                                    Fika
-                                                                                    Ridaul
-                                                                                    Maulayya
-                                                                                </strong>
-                                                                            </span>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div> */}
                                                         </div>
                                                     </div>
                                                 </div>
