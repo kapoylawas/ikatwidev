@@ -125,6 +125,8 @@ Route::prefix('account')->group(function() {
         //route resource sliders
         Route::resource('/sliders', App\Http\Controllers\Account\SliderController::class, ['except' => ['create', 'show', 'edit', 'update'], 'as' => 'account'])
             ->middleware('permission:sliders.index|sliders.create|sliders.delete');
+
+        Route::get('/reports/transaction', [\App\Http\Controllers\Account\TransactionController::class, 'export'])->name('account.reports.transaction');
     });
 });
 

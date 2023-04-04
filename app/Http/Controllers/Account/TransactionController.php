@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Exports\TransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class TransactionController extends Controller
 {
@@ -66,5 +69,10 @@ class TransactionController extends Controller
         return inertia('Account/Transactions/Show', [
             'transaction' => $transaction,
         ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new TransactionsExport(), 'transaction.xlsx');
     }
 }
