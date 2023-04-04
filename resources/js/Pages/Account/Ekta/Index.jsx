@@ -130,8 +130,7 @@ export default function EktaIndex() {
                                                                         }}
                                                                     >                                                                        
                                                                         <div className="mt-1" style={{fontSize:"0.755em"}}>
-                                                                            {/* {biodata.alamat} */}
-                                                                            Gunung anyar tengah gang 8 no. 25 A gunungnyar surabaya
+                                                                            {biodata.alamat}
                                                                         </div>
                                                                     </td>
                                                                 </tr>

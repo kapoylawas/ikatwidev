@@ -55,10 +55,9 @@ export default function CartIndex() {
                                                                                     Jenis : <strong>{cart.size}</strong>
                                                                                 </div>
                                                                             </div>
-                                                                            
-                                                                            <div className="col-md-3 col-12 text-end">
+                                                                            {/* <div className="col-md-3 col-12 text-end">
                                                                                 <Delete URL={'/carts'} id={cart.id} />
-                                                                            </div>
+                                                                            </div> */}
                                                                         </div>
 
                                                                         <hr />
