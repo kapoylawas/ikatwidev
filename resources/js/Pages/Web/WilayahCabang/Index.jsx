@@ -6,6 +6,11 @@ import LayoutWeb from "../../../Layouts/Web";
 //import Head, usePage, Link
 import { Head, usePage } from "@inertiajs/inertia-react";
 
+//import component pagination
+import Pagination from "../../../Shared/Pagination";
+
+import Search from "../../../Shared/Search";
+
 export default function WilayahCabangIndex() {
     const { wilayah } = usePage().props;
 
@@ -36,6 +41,8 @@ export default function WilayahCabangIndex() {
                                         <div className="col-md-8">
                                             <div className="card bg-gray border-0 rounded shadow-sm">
                                                 <div className="card-header">
+                                                    
+
                                                     <div className="col-sm-12 text-center col-md-12 order-sm-0 order-md-0 py-5">
                                                         <div className="text-center">
                                                             <h4 className="font-weight-bold text-dark">
@@ -51,6 +58,14 @@ export default function WilayahCabangIndex() {
                                                             ></p>
                                                             <div className="divider-custom mx-auto"></div>
                                                         </div>
+                                                        
+                                                    </div>
+                                                    <div className="col-md-12 mb-3">
+                                                        <Search
+                                                            URL={
+                                                                "/wilayah"
+                                                            }
+                                                        />
                                                     </div>
 
                                                     <div className="col-md-12">
@@ -68,7 +83,9 @@ export default function WilayahCabangIndex() {
                                                                     >
                                                                         <div className="card border-0 rounded shadow-custom h-100">
                                                                             <iframe
-                                                                                src={wilaya.alamat}
+                                                                                src={
+                                                                                    wilaya.alamat
+                                                                                }
                                                                                 style={{
                                                                                     width: "100%",
                                                                                     height: "200px",
@@ -162,6 +179,14 @@ export default function WilayahCabangIndex() {
                                                                     </div>
                                                                 )
                                                             )}
+                                                        </div>
+                                                        <div className="col-md-12 mt-4 mb-5">
+                                                            <Pagination
+                                                                links={
+                                                                    wilayah.links
+                                                                }
+                                                                align={"center"}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>

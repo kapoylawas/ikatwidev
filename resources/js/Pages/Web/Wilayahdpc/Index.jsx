@@ -9,6 +9,8 @@ import { Head, usePage } from "@inertiajs/inertia-react";
 //import component pagination
 import Pagination from '../../../Shared/Pagination';
 
+import Search from "../../../Shared/Search";
+
 export default function WilayahdpcIndex() {
     const { wilayahdpc } = usePage().props;
 
@@ -41,6 +43,14 @@ export default function WilayahdpcIndex() {
                                                             ></p>
                                                             <div className="divider-custom mx-auto"></div>
                                                         </div>
+                                                    </div>
+
+                                                    <div className="col-md-12 mb-3">
+                                                        <Search
+                                                            URL={
+                                                                "/wilayahdpc"
+                                                            }
+                                                        />
                                                     </div>
 
                                                     <div className="col-md-12">
