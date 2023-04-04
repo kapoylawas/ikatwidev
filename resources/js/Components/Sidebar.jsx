@@ -100,6 +100,7 @@ export default function Sidebar() {
                     </Link>
                 )}
 
+                {hasAnyPermission(["wilayah.index"]) && (
                     <Link
                         href="/account/areadpc"
                         className={`${
@@ -110,6 +111,7 @@ export default function Sidebar() {
                     >
                         <i className="fa fa-map me-2"></i> Wilayah DPC
                     </Link>
+                )}
 
                 {hasAnyPermission(["transactions.index"]) && (
                     <Link

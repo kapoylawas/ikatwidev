@@ -60,6 +60,41 @@ class LoginController extends Controller
                 ]);
             }
 
+            // if ($cektransaction->status == 'EXPIRED') {
+            //     Cart::insert([
+            //         'user_id'       => auth()->user()->id,
+            //         'product_id'    => 1,
+            //         'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
+            //         'size'    => 'Iuran',
+            //         'qty'    => 1,
+            //         'price'         => 50000,
+            //         'tahun'           => $tahun,
+            //         'weight'        => $request->weight
+            //     ]);
+
+            //     //remove data carts
+            //     Transaction::with('user')->where('user_id', auth()->user()->id)->delete();
+            // }
+            // else{
+            //     if ($cektransaction->status == 'EXPIRED') {
+            //         Cart::updateOrCreate([
+            //             'user_id'       => auth()->user()->id,
+            //             'tahun'           => $tahun,
+            //         ],[
+            //             'product_id'    => 1,
+            //             'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
+            //             'size'    => 'Iuran',
+            //             'qty'    => 1,
+            //             'price'         => 50000,
+            //             'weight'        => $request->weight
+            //         ]);
+            //     }
+            //     //remove data carts
+            //     Transaction::with('user')->where('user_id', auth()->user()->id)->delete();
+            // }
+
+            
+
 
             //redirect route dashboard
             return redirect()->route('account.dashboard');

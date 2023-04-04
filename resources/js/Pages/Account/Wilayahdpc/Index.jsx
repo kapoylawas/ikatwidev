@@ -33,7 +33,7 @@ export default function WilayadpcIndex() {
                         <div className="row">
                             <div className="col-md-3 col-12 mb-2">
                                 <Link
-                                    href="/account/wilayahdpc/create"
+                                    href="/account/areadpc/create"
                                     className="btn btn-md btn-admin border-0 shadow w-100"
                                     type="button"
                                 >
@@ -42,7 +42,118 @@ export default function WilayadpcIndex() {
                                 </Link>
                             </div>
                             <div className="col-md-9 col-12 mb-2">
-                                <Search URL={"/account/wilayahdpc"} />
+                                <Search URL={"/account/areadpc"} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-2 mb-4">
+                    <div className="col-12">
+                        <div className="card border-0 rounded shadow-sm border-top-admin">
+                            <div className="card-header">
+                                <span className="font-weight-bold">
+                                    <i className="fa fa-folder"></i> Wilayah DPC
+                                </span>
+                            </div>
+                            <div className="card-body">
+                                <div className="table-responsive">
+                                    <table className="table table-bordered table-striped table-hovered">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "5%" }}
+                                                >
+                                                    No.
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
+                                                    Wilayah DPC
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
+                                                    name ketua
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
+                                                    alamat
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "7%" }}
+                                                >
+                                                    phone
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
+                                                    email
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
+                                                    instagram
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "15%" }}
+                                                >
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {wilayah.data.map(
+                                                (wilaya, index) => (
+                                                    <tr key={index}>
+                                                        <td className="text-center">
+                                                            {++index +
+                                                                (wilayah.current_page -
+                                                                    1) *
+                                                                    wilayah.per_page}
+                                                        </td>
+                                                        <td>{wilaya.city.name}</td>
+                                                        <td>{wilaya.name_ketua}</td>
+                                                        <td>{wilaya.alamat}</td>
+                                                        <td>{wilaya.phone}</td>
+                                                        <td>{wilaya.email}</td>
+                                                        <td>{wilaya.instagram}</td>                                                        
+                                                        <td className="text-center">
+                                                            {hasAnyPermission([
+                                                                "wilayah.edit",
+                                                            ]) && (
+                                                                <Link
+                                                                    href={`/account/areadpc/${wilaya.id}/edit`}
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    <i className="fa fa-pencil-alt"></i>
+                                                                </Link>
+                                                            )}
+                                                            {hasAnyPermission([
+                                                                "wilayah.delete",
+                                                            ]) && (
+                                                                <Delete URL={'/account/areadpc'} id={wilaya.id} />
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <Pagination
+                                    links={wilayah.links}
+                                    align={"end"}
+                                />
                             </div>
                         </div>
                     </div>

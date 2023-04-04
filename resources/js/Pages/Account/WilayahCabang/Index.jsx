@@ -52,7 +52,7 @@ export default function WilayaCabangIndex() {
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
                                 <span className="font-weight-bold">
-                                    <i className="fa fa-folder"></i> Categories
+                                    <i className="fa fa-folder"></i> Wilayah DPW
                                 </span>
                             </div>
                             <div className="card-body">

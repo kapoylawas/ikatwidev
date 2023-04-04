@@ -101,7 +101,7 @@ Route::prefix('account')->group(function() {
             ->middleware('permission:wilayah.index|wilayah.create|wilayah.edit|wilayah.delete');
 
         //route resource wilayah dpc
-        Route::resource('/areadpc', \App\Http\Controllers\Account\WilayahdpcAdminController::class, ['as' => 'account']);
+        Route::resource('/areadpc', \App\Http\Controllers\Account\WilayahdpcAdminController::class, ['as' => 'account'])->middleware('permission:wilayah.index|wilayah.create|wilayah.edit|wilayah.delete');
 
         //route resource categories
         Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])

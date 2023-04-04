@@ -18,8 +18,8 @@ class Wilayahdpc extends Model
         'name_ketua',
     ];
 
-    public function province()
+    public function city()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(City::class);
     }
 }
