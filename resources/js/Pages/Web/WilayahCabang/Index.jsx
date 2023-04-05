@@ -13,7 +13,7 @@ import Search from "../../../Shared/Search";
 
 export default function WilayahCabangIndex() {
     const { wilayah } = usePage().props;
-
+    console.log(wilayah);
     return (
         <>
             <Head>
@@ -41,8 +41,6 @@ export default function WilayahCabangIndex() {
                                         <div className="col-md-8">
                                             <div className="card bg-gray border-0 rounded shadow-sm">
                                                 <div className="card-header">
-                                                    
-
                                                     <div className="col-sm-12 text-center col-md-12 order-sm-0 order-md-0 py-5">
                                                         <div className="text-center">
                                                             <h4 className="font-weight-bold text-dark">
@@ -58,13 +56,10 @@ export default function WilayahCabangIndex() {
                                                             ></p>
                                                             <div className="divider-custom mx-auto"></div>
                                                         </div>
-                                                        
                                                     </div>
                                                     <div className="col-md-12 mb-3">
                                                         <Search
-                                                            URL={
-                                                                "/wilayah"
-                                                            }
+                                                            URL={"/wilayah"}
                                                         />
                                                     </div>
 
@@ -83,9 +78,7 @@ export default function WilayahCabangIndex() {
                                                                     >
                                                                         <div className="card border-0 rounded shadow-custom h-100">
                                                                             <iframe
-                                                                                src={
-                                                                                    wilaya.alamat
-                                                                                }
+                                                                                src={`https://maps.google.com/maps?q=${wilaya.lat},${wilaya.long}&hl=es;&output=embed`}
                                                                                 style={{
                                                                                     width: "100%",
                                                                                     height: "200px",
@@ -125,6 +118,22 @@ export default function WilayahCabangIndex() {
                                                                                         </svg>
                                                                                         {
                                                                                             wilaya.email
+                                                                                        }
+                                                                                    </button>
+                                                                                    <br />
+                                                                                    <button class="btn btn-sm btn-danger border-0 mt-1">
+                                                                                        <svg
+                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="16"
+                                                                                            height="16"
+                                                                                            fill="currentColor"
+                                                                                            class="bi bi-geo-alt-fill"
+                                                                                            viewBox="0 0 16 16"
+                                                                                        >
+                                                                                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                                                                        </svg>
+                                                                                        {
+                                                                                            wilaya.alamat
                                                                                         }
                                                                                     </button>
                                                                                     <br />

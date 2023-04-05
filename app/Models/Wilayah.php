@@ -17,6 +17,8 @@ class Wilayah extends Model
         'email',
         'instagram',
         'name_ketua',
+        'lat',
+        'long',
     ];
 
      /**

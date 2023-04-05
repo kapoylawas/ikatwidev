@@ -65,6 +65,8 @@ class WilayahCabangAdminController extends Controller
             'email'          => $request->email,
             'instagram'          => $request->instagram,
             'name_ketua'          => $request->name_ketua,
+            'lat'          => $request->lat,
+            'long'          => $request->long,
         ]);
 
         //redirect
@@ -103,6 +105,8 @@ class WilayahCabangAdminController extends Controller
             'email'          => $request->email,
             'instagram'          => $request->instagram,
             'name_ketua'          => $request->name_ketua,
+            'lat'          => $request->lat,
+            'long'          => $request->long,
         ]);
 
         //redirect

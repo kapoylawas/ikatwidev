@@ -24,6 +24,8 @@ export default function WilayahCabangEdit() {
     const [email, setEmail] = useState(wilayah.email);
     const [instagram, setInstagram] = useState(wilayah.instagram);
     const [nameketua, setNameketua] = useState(wilayah.name_ketua);
+    const [lat, setLat] = useState(wilayah.lat);
+    const [long, setLong] = useState(wilayah.long);
 
     const updateWilayah = async (e) => {
         e.preventDefault();
@@ -39,6 +41,8 @@ export default function WilayahCabangEdit() {
                 email: email,
                 instagram: instagram,
                 name_ketua: nameketua,
+                lat: lat,
+                long: long,
             },
             {
                 onSuccess: () => {
@@ -204,6 +208,34 @@ export default function WilayahCabangEdit() {
                                                     {errors.instagram}
                                                 </div>
                                             )}
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Latittude
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={lat}
+                                                    onChange={(e) =>
+                                                        setLat(e.target.value)
+                                                    }
+                                                    placeholder="Latittude"
+                                                />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Longtittude
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={long}
+                                                    onChange={(e) =>
+                                                        setLong(e.target.value)
+                                                    }
+                                                    placeholder="Longtittude"
+                                                />
+                                            </div>
 
                                         </div>
                                     </div>

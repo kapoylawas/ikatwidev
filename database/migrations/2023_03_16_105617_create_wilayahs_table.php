@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('province_id')->references('id')->on('provinces')->cascadeOnDelete();
             $table->string('alamat');
             $table->string('phone')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
             $table->string('email')->nullable();
             $table->string('instagram')->nullable();
             $table->timestamps();
