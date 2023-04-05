@@ -135,13 +135,14 @@ class CheckoutController extends Controller
                     'size'              => $cart->size,
                     'qty'               => $cart->qty,
                     'price'             => $cart->price,
+                    'tahun'             => $cart->tahun,
                 ]); 
                 
                 //assign item details
                 $item_details [] = array(
                     'name'      => $cart->product->title,
                     'price'     => $cart->price,
-                    'quantity'  => $cart->qty
+                    'quantity'  => $cart->qty,
                 );
             }
 

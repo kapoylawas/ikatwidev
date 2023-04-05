@@ -20,6 +20,7 @@ class TransactionDetail extends Model
         'size',
         'price',
         'qty',
+        'tahun',
     ];
 
     /**

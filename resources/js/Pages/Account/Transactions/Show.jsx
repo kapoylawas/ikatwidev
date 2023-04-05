@@ -14,7 +14,6 @@ export default function TransactionShow() {
 
     //destruct props "transaction"
     const { transaction } = usePage().props;
-    console.log(transaction);
     return (
         <>
             <Head>
@@ -120,7 +119,7 @@ export default function TransactionShow() {
                                             </div> */}
                                             <div className="col-md-9 col-9">
                                                 <div className="card-body">
-                                                    <h4 className="card-title">{detail.product.title}</h4>
+                                                    <h4 className="card-title">{detail.product.title}, {detail.tahun}</h4>
 
                                                    
                                                     <hr />
