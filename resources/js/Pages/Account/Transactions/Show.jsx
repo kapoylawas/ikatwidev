@@ -14,7 +14,7 @@ export default function TransactionShow() {
 
     //destruct props "transaction"
     const { transaction } = usePage().props;
-
+    console.log(transaction);
     return (
         <>
             <Head>

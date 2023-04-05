@@ -22,6 +22,7 @@ class Transaction extends Model
         'weight',
         'grand_total',
         'status',
+        'cek_ts',
         'reference',
         'tahun',
         'address'

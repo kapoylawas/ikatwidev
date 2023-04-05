@@ -12,6 +12,8 @@ import { QRCodeSVG } from "qrcode.react";
 export default function EktaIndex() {
     const { biodata, transactions } = usePage().props;
 
+    console.log("cek", transactions);
+
     const status = transactions.map((ts) => ts.status);
 
     const filter = status

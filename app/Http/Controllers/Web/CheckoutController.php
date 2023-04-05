@@ -116,6 +116,7 @@ class CheckoutController extends Controller
                 'courier_cost'              => $request->courier_cost,
                 'grand_total'               => $request->grand_total,
                 'address'                   => $request->address,
+                'cek_ts'                   => 1,
                 'status'                    => 'UNPAID',
             ]);
 
