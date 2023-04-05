@@ -45,6 +45,9 @@ Route::prefix('account')->group(function() {
 
         //route resource tagihan upload dokumen   
         Route::resource('/documents', \App\Http\Controllers\Account\DocumentController::class, ['as' => 'account'])->middleware('permission:documents.index');
+        
+        //route resource tagihan upload dokumen   
+        Route::resource('/ejurnal', \App\Http\Controllers\Account\EjurnalController::class, ['as' => 'account'])->middleware('permission:documents.index');
 
         // cek status anggota STR
         Route::get('/documents/showstr/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showStr'])->name('account.documents.showstr');
@@ -167,6 +170,11 @@ Route::get('/artikel', [\App\Http\Controllers\Web\ArtikelController::class, 'ind
  * route category history
  */
 Route::get('/history', [\App\Http\Controllers\Web\HistoryController::class, 'index'])->name('web.history.index');
+
+/**
+ * route category visimisi
+ */
+Route::get('/visimisi', [\App\Http\Controllers\Web\VisiMisiController::class, 'index'])->name('web.visimisi.index');
 
 /**
  * route category index

@@ -96,7 +96,7 @@ export default function HomeIndex() {
                                 {/** categories */}
                                 <div className="row justify-content-between mb-3">
                                     <div className="col-md-6 col-6 text-start">
-                                        <strong> Categories</strong>
+                                        <strong> Categories Menu</strong>
                                     </div>
                                     <div className="col-md-6 col-6 text-end">
                                         <Link
@@ -210,6 +210,80 @@ export default function HomeIndex() {
                                                 </div>
                                             </div>
                                         </Link>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <Link
+                                            href="/history"
+                                            className="text-decoration-none text-dark"
+                                        >
+                                            <div className="card border-0 rounded-3  shadow-sm">
+                                                <div className="card-body text-center">
+                                                    <img
+                                                        src="/assets/images/script.png"
+                                                        width="50"
+                                                    />
+                                                    <p className="card-title mt-3">
+                                                        Sejarah
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <Link
+                                            href="/visimisi"
+                                            className="text-decoration-none text-dark"
+                                        >
+                                            <div className="card border-0 rounded-3  shadow-sm">
+                                                <div className="card-body text-center">
+                                                    <img
+                                                        src="/assets/images/purpose.png"
+                                                        width="50"
+                                                    />
+                                                    <p className="card-title mt-3">
+                                                        Visi & Misi
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <a
+                                            href="https://ikatwisiporlin-ktki.kemkes.go.id/"
+                                            className="text-decoration-none text-dark"
+                                            target="_blank"
+                                        >
+                                            <div className="card border-0 rounded-3  shadow-sm">
+                                                <div className="card-body text-center">
+                                                    <img
+                                                        src="/assets/images/siporlin.png"
+                                                        width="50"
+                                                    />
+                                                    <p className="card-title mt-3">
+                                                        Siporlin
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <a
+                                            href="https://siedunakes-ktki.kemkes.go.id/home/"
+                                            className="text-decoration-none text-dark"
+                                            target="_blank"
+                                        >
+                                            <div className="card border-0 rounded-3  shadow-sm">
+                                                <div className="card-body text-center">
+                                                    <img
+                                                        src="/assets/images/insurance.png"
+                                                        width="50"
+                                                    />
+                                                    <p className="card-title mt-3">
+                                                        Siedunakes
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
 
