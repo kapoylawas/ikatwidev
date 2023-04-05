@@ -13,7 +13,7 @@ class EjurnalController extends Controller
         $tahun = date('Y');
         $transactions = Transaction::with('user')
             ->where('user_id', auth()->user()->id)
-            ->where('grand_total', 50000)
+            ->where('cek_ts', 1)
             ->where('tahun', $tahun)->get();
             
         return inertia('Account/Ejurnal/Index', [
