@@ -50,6 +50,7 @@ class WilayahdpcAdminController extends Controller
          */
         $this->validate($request, [
             'city_id'          => 'required',
+            'link'          => 'required',
             'alamat'          => 'required',
             'phone'          => 'required',
             'email'          => 'required',
@@ -61,6 +62,7 @@ class WilayahdpcAdminController extends Controller
         //create category
         Wilayahdpc::create([
             'city_id'          => $request->city_id,
+            'link'          => $request->link,
             'alamat'          => $request->alamat,
             'phone'          => $request->phone,
             'email'          => $request->email,
@@ -89,6 +91,7 @@ class WilayahdpcAdminController extends Controller
          */
         $this->validate($request, [
             'city_id'          => 'required',
+            'link'          => 'required',
             'alamat'          => 'required',
             'phone'          => 'required',
             'email'          => 'required',
@@ -99,6 +102,7 @@ class WilayahdpcAdminController extends Controller
         //update category without image
         $areadpc->update([
             'city_id'          => $request->city_id,
+            'link'          => $request->alamat,
             'alamat'          => $request->alamat,
             'phone'          => $request->phone,
             'email'          => $request->email,

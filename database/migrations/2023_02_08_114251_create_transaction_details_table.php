@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->string('product_image');
             $table->string('size');
+            $table->string('tahun');
             $table->integer('qty');
             $table->bigInteger('price');
             $table->timestamps();

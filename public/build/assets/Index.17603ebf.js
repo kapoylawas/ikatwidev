@@ -1,0 +1,1 @@
+import{R as e,H as t}from"./app.7ff70458.js";import{L as a}from"./Web.a796e3ea.js";import"./index.7a47bdef.js";function n(){return e.createElement(e.Fragment,null,e.createElement(t,null,e.createElement("title",null,"IKATWI Visi & Misi - Ikatan Terapis Wicara")),e.createElement(a,null))}export{n as default};

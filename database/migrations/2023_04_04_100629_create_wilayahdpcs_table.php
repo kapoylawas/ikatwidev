@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('wilayahdpcs', function (Blueprint $table) {
             $table->id();
             $table->integer('province_id')->references('id')->on('provinces')->cascadeOnDelete();
-            $table->string('alamat');
+            $table->string('link')->nullable();
             $table->string('phone')->nullable();
+            $table->string('alamat')->nullable();
             $table->string('email')->nullable();
             $table->string('instagram')->nullable();
             $table->string('name_ketua')->nullable();

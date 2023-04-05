@@ -18,6 +18,7 @@ export default function WilayahCabangCreate() {
 
     const [cityid, setCityid] = useState("");
     const [alamat, setAlamat] = useState("");
+    const [link, setLink] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [instagram, setInstagram] = useState("");
@@ -33,6 +34,7 @@ export default function WilayahCabangCreate() {
                 //data
                 city_id: cityid,
                 alamat: alamat,
+                link: link,
                 phone: phone,
                 email: email,
                 instagram: instagram,
@@ -141,6 +143,25 @@ export default function WilayahCabangCreate() {
                                             {errors.alamat && (
                                                 <div className="alert alert-danger">
                                                     {errors.alamat}
+                                                </div>
+                                            )}
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Link
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={link}
+                                                    onChange={(e) =>
+                                                        setLink(e.target.value)
+                                                    }
+                                                    placeholder="Enter Alamat"
+                                                />
+                                            </div>
+                                            {errors.link && (
+                                                <div className="alert alert-danger">
+                                                    {errors.link}
                                                 </div>
                                             )}
 

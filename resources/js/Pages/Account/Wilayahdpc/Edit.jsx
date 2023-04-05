@@ -18,6 +18,7 @@ export default function WilayahdpcEdit() {
 
     const [cityid, setCityid] = useState(areadpc.city_id);
     const [alamat, setAlamat] = useState(areadpc.alamat);
+    const [link, setLink] = useState(areadpc.link);
     const [phone, setPhone] = useState(areadpc.phone);
     const [email, setEmail] = useState(areadpc.email);
     const [instagram, setInstagram] = useState(areadpc.instagram);
@@ -33,6 +34,7 @@ export default function WilayahdpcEdit() {
                 //data
                 city_id: cityid,
                 alamat: alamat,
+                link: link,
                 phone: phone,
                 email: email,
                 instagram: instagram,
@@ -153,7 +155,25 @@ export default function WilayahdpcEdit() {
                                                     {errors.alamat}
                                                 </div>
                                             )}
-
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Link
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={link}
+                                                    onChange={(e) =>
+                                                        setLink(e.target.value)
+                                                    }
+                                                    placeholder="Enter Alamat"
+                                                />
+                                            </div>
+                                            {errors.link && (
+                                                <div className="alert alert-danger">
+                                                    {errors.link}
+                                                </div>
+                                            )}
                                             <div className="mb-3">
                                                 <label className="form-label fw-bold">
                                                     No Telepon
