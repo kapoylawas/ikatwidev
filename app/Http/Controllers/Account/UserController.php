@@ -28,7 +28,10 @@ class UserController extends Controller
         } else {
             $users = User::when(request()->q, function ($users) {
                 $users = $users->where('name', 'like', '%' . request()->q . '%');
-            })->with('roles', 'province', 'city')->where('id', auth()->user()->id)->latest()->paginate(10);
+            })->with('roles', 'province', 'city')
+            //   ->where('id', auth()->user()->id)
+              ->where('province_id', auth()->user()->province_id)
+              ->latest()->paginate(10);
         }
 
         //append query string to pagination links

@@ -15,7 +15,7 @@ class BiodataController extends Controller
     public function index()
     {
         
-        $biodata = User::where('id', auth()->user()->id)->first();
+        $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
 
         $tahun = date('Y');
         $transactions = Transaction::with('user')

@@ -79,10 +79,10 @@ export default function TagihanIndex() {
                                                     </td>
                                                     <td>{tagihan.user.name}</td>
                                                     <td>
-                                                        {tagihan.price}
+                                                        {tagihan.price}, {tagihan.size}
                                                     </td>
                                                     <td>
-                                                        {tagihan.tahun}
+                                                        {tagihan.tahun},
                                                     </td>
                                                     <td className="text-center">
                                                         

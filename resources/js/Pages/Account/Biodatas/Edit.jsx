@@ -219,6 +219,7 @@ export default function UserEdit() {
                                             <select
                                                 className="form-select"
                                                 value={statusAnggota}
+                                                disabled
                                                 onChange={(e) =>
                                                     setStatusAnggota(
                                                         e.target.value
@@ -260,6 +261,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
+                                                disabled
                                                 value={provinceID}
                                                 onChange={(e) =>
                                                     setProvinceID(
@@ -294,6 +296,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
+                                                disabled
                                                 value={cityID}
                                                 onChange={(e) =>
                                                     setCityID(e.target.value)
