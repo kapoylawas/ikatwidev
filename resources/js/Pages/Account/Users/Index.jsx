@@ -101,24 +101,7 @@ export default function UserIndex() {
                                                 >
                                                     DPC
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "8%" }}
-                                                >
-                                                    No Str
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "8%" }}
-                                                >
-                                                    Tgl ex
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "8%" }}
-                                                >
-                                                    Status
-                                                </th>
+                                               
                                                 <th
                                                     scope="col"
                                                     style={{ width: "10%" }}
@@ -167,15 +150,6 @@ export default function UserIndex() {
                                                         ) : (
                                                             user.city.name
                                                         )}
-                                                    </td>
-                                                    <td>{user.no_str}</td>
-                                                    <td>{user.date_exprd}</td>
-                                                    <td>
-                                                        {new Date(
-                                                            user.date_exprd
-                                                        ) >= currentDate
-                                                            ? "Aktif"
-                                                            : "Tidak Aktif"}
                                                     </td>
                                                     <td>
                                                         {user.roles.map(

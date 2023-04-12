@@ -23,6 +23,7 @@ export default function UserEdit() {
     const [alamat, setAlamat] = useState(user.alamat);
     const [provinceID, setProvinceID] = useState(user.province_id);
     const [cityID, setCityID] = useState(user.city_id);
+    const [statusAnggota, setStatusAnggota] = useState(user.status_anggota);
     const [rolesData, setRolesData] = useState(
         user.roles.map((obj) => obj.name)
     );
@@ -65,6 +66,7 @@ export default function UserEdit() {
                 city_id: cityID,
                 alamat: alamat,
                 image: image,
+                status_anggota: statusAnggota,
                 no_str: nostr,
                 date_exprd: dateexprd,
                 password: password,
@@ -312,6 +314,47 @@ export default function UserEdit() {
                                             {errors.city_id && (
                                                 <div className="alert alert-danger mt-2">
                                                     {errors.city_id}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Status Anggota
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={statusAnggota}
+                                                onChange={(e) =>
+                                                    setStatusAnggota(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Status Keanggotaan --
+                                                </option>
+                                                <option
+                                                    value="Anggota Biasa"
+                                                >
+                                                        Anggota Biasa
+                                                </option>
+                                                <option
+                                                    value="Anggota Luar Biasa"
+                                                >
+                                                        Anggota Luar Biasa
+                                                </option>
+                                                <option
+                                                    value="Anggota Kehormatan"
+                                                >
+                                                        Anggota Kehormatan
+                                                </option>
+                                                
+                                            </select>
+                                            {errors.status_anggota && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.status_anggota}
                                                 </div>
                                             )}
                                         </div>

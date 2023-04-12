@@ -200,6 +200,7 @@ class UserController extends Controller
                     'email'     => $request->email,
                     'alamat'     => $request->alamat,
                     'no_str'     => $request->no_str,
+                    'status_anggota'     => $request->status_anggota,
                     'date_exprd'     => $request->date_exprd,
                     'image' => $image->hashName(),
                 ]);
@@ -212,6 +213,7 @@ class UserController extends Controller
                     'email'     => $request->email,
                     'alamat'     => $request->alamat,
                     'no_str'     => $request->no_str,
+                    'status_anggota'     => $request->status_anggota,
                     'date_exprd'     => $request->date_exprd,
                 ]);
             }
@@ -225,6 +227,7 @@ class UserController extends Controller
                 'alamat'     => $request->alamat,
                 'no_str'     => $request->no_str,
                 'date_exprd'     => $request->date_exprd,
+                'status_anggota'     => $request->status_anggota,
                 'password' => bcrypt($request->password)
             ]);
         }
