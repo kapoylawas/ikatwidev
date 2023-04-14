@@ -1,5 +1,5 @@
 //import react
-import React from "react";
+import React, {useState} from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -8,9 +8,10 @@ import LayoutAccount from "../../../Layouts/Account";
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
 export default function EjurnalIndex() {
-    const { transactions } = usePage().props;
+    const { transactions, statusAnggota } = usePage().props;
 
     const status = transactions.map((ts) => ts.status);
+    const [name] = useState(statusAnggota.status_anggota);  
 
     const filter = status
         .toString()
@@ -26,7 +27,7 @@ export default function EjurnalIndex() {
             </Head>
             <LayoutAccount>
                 <div className="col-md-12 mt-5">
-                    {filter === "PAID" ? (
+                    {filter === "PAID" || name === "Anggota Kehormatan" ? (
                         <></>
                     ) : (
                         <div className="row mt-5">

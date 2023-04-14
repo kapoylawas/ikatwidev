@@ -1,5 +1,5 @@
 //import react
-import React from "react";
+import React, { useState } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -10,19 +10,20 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 import { QRCodeSVG } from "qrcode.react";
 
 export default function EktaIndex() {
-    const { biodata, transactions } = usePage().props;
+    const { biodata, transactions, statusAnggota } = usePage().props;
 
-    console.log("cek", transactions);
+    const [name] = useState(statusAnggota.status_anggota);    
+    // console.log(name);
 
     const status = transactions.map((ts) => ts.status);
-
+    
     const filter = status
-        .toString()
-        .replace("[", "")
-        .replace("]", "")
-        .replace('"', "")
-        .replace('"', "");
-
+    .toString()
+    .replace("[", "")
+    .replace("]", "")
+    .replace('"', "")
+    .replace('"', "");
+    
     return (
         <>
             <Head>
@@ -30,7 +31,7 @@ export default function EktaIndex() {
             </Head>
             <LayoutAccount>
                 <div className="col-md-12 mt-5">
-                    {filter === "PAID" ? (
+                    {filter === "PAID" || name === "Anggota Kehormatan" ? (
                         <div className="card border-0 shadow-custom rounded">
                             <div className="card-header text-dark">
                                 <svg

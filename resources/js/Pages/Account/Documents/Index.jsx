@@ -1,5 +1,5 @@
 //import react
-import React from "react";
+import React, {useState} from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -9,11 +9,12 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
 export default function DocumentsIndex() {
     //destruct props "users"
-    const { transactions, biodata } = usePage().props;
+    const { transactions, biodata, statusAnggota } = usePage().props;
 
     // console.log(biodata);
 
     const status = transactions.map((ts) => ts.status);
+    const [name] = useState(statusAnggota.status_anggota);
 
     const filter = status
         .toString()
@@ -30,7 +31,7 @@ export default function DocumentsIndex() {
             <LayoutAccount>
                 <div className="row mt-2 mb-4">
                     <div className="col-12">
-                        {filter === "PAID" ? (
+                        {filter === "PAID" || name === "Anggota Kehormatan" ? (
                             <div className="card border-0 rounded shadow-sm border-top-admin">
                                 <div className="card-header">
                                     <span className="font-weight-bold">

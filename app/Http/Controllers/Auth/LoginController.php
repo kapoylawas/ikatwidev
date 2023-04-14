@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -40,14 +41,19 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $tahun = date('Y');
+            $status = User::where('status_anggota', auth()->user()->status_anggota);
+            // dd($status);
+
             $cektransaction = Transaction::where('user_id', auth()->user()->id)
                 ->where('tahun', $tahun)->first();
             $cekcart = Cart::where('user_id', auth()->user()->id)
                 ->where('tahun', $tahun)->first();
+            $cekanggota = User::where('id', auth()->user()->id)
+                ->where('status_anggota', 'Anggota Kehormatan')->first();
 
 
             // kondisi jika di tabel transcation dan cart ada user dan tahun maka tidak insert
-            if (!$cektransaction && !$cekcart) {
+            if (!$cektransaction && !$cekcart && !$cekanggota) {
                 Cart::insert([
                     'user_id'       => auth()->user()->id,
                     'product_id'    => 1,

@@ -18,10 +18,12 @@ class EktaController extends Controller
             ->where('user_id', auth()->user()->id)
             ->where('cek_ts', 1)
             ->where('tahun', $tahun)->get();
+        $statusAnggota = User::where('id', auth()->user()->id)->first();
         
         return inertia('Account/Ekta/Index', [
             'biodata' => $biodata,
             'transactions' => $transactions,
+            'statusAnggota' => $statusAnggota,
         ]);
     }
 }

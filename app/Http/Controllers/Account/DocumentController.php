@@ -25,10 +25,12 @@ class DocumentController extends Controller
             ->where('tahun', $tahun)->get();
 
         $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
+        $statusAnggota = User::where('id', auth()->user()->id)->first();
 
         return inertia('Account/Documents/Index', [
             'transactions' => $transactions,
             'biodata' => $biodata,
+            'statusAnggota' => $statusAnggota,
         ]);
     }
 
