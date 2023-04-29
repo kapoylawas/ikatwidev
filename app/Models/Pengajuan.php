@@ -17,7 +17,7 @@ class Pengajuan extends Model
         'name',
         'kta',
         'tgl_mutasi',
-        'doc_mutasi',
+        'document',
         'keterangan',
         'tujuan_mutasi',
         'status',
