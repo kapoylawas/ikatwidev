@@ -234,7 +234,7 @@ export default function PengajuanIndex() {
                                                             e.target.value
                                                         )
                                                     }
-                                                    placeholder="Alamat Lengkap"
+                                                    placeholder="Keterangan Contoh : mutasi karena pindah tempat kerja"
                                                 />
                                             </div>
                                             {errors.keterangan && (
