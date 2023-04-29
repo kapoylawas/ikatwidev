@@ -33,8 +33,6 @@ export default function EktaIndex() {
         .replace('"', "");
 
 
-
-
     return (
         
         <>
@@ -88,10 +86,10 @@ export default function EktaIndex() {
                                                     className="tex"
                                                 >
                                                     <div className="row justify-content-center">
-                                                        <div className="col-md-4">
+                                                        <div className="col-md-3">
                                                             <table
                                                                 className="table-responsive"
-                                                                width="130%"
+                                                                width="150%"
                                                             >
                                                                 <tr>
                                                                     <td
@@ -189,57 +187,10 @@ export default function EktaIndex() {
                                                                 <tr>
                                                                     <td></td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td></td>
-                                                                </tr>
+                                                               
+                                                              
+                                                    
+                                                    
                                                                 <tr>
                                                                     <td>
                                                                         <strong
@@ -248,17 +199,24 @@ export default function EktaIndex() {
                                                                                     "0.875em",
                                                                             }}
                                                                         >
+                                                                        <div
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    "0.775em",
+                                                                            }}
+                                                                        >
                                                                             Berlaku
                                                                             Sampai
                                                                             : 20
                                                                             DESEMBER
                                                                             2024
+                                                                        </div>
                                                                         </strong>
                                                                     </td>
                                                                 </tr>
                                                             </table>
                                                         </div>
-                                                        <div className="col-md-6">
+                                                        <div className="col-md-9">
                                                             <table
                                                                 className="table-responsive "
                                                                 width="1300%"
