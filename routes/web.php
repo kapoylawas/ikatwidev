@@ -46,8 +46,11 @@ Route::prefix('account')->group(function() {
         //route resource tagihan upload dokumen   
         Route::resource('/documents', \App\Http\Controllers\Account\DocumentController::class, ['as' => 'account'])->middleware('permission:documents.index');
         
-        //route resource tagihan upload dokumen   
+        //route resource ejurnal
         Route::resource('/ejurnal', \App\Http\Controllers\Account\EjurnalController::class, ['as' => 'account'])->middleware('permission:documents.index');
+
+        //route resource pengajuan
+        Route::resource('/pengajuan', \App\Http\Controllers\Account\PengajuanController::class, ['as' => 'account'])->middleware('permission:documents.index');
 
         // cek status anggota STR
         Route::get('/documents/showstr/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showStr'])->name('account.documents.showstr');

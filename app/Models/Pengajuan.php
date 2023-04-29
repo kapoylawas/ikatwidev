@@ -20,6 +20,7 @@ class Pengajuan extends Model
         'doc_mutasi',
         'keterangan',
         'tujuan_mutasi',
+        'status',
     ];
 
     public function user()
