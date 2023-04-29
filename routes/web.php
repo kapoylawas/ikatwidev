@@ -133,6 +133,8 @@ Route::prefix('account')->group(function() {
             ->middleware('permission:sliders.index|sliders.create|sliders.delete');
 
         Route::get('/reports/transaction', [\App\Http\Controllers\Account\TransactionController::class, 'export'])->name('account.reports.transaction');
+
+        Route::get('/cetak/ekta', [\App\Http\Controllers\Account\EktaController::class, 'cetakekta'])->name('account.cetak.ekta');
     });
 });
 

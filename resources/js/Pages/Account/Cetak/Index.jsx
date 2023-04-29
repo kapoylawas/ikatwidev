@@ -1,5 +1,5 @@
 //import react
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -9,21 +9,12 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
 import { QRCodeSVG } from "qrcode.react";
 
-import ReactToPrint from 'react-to-print';
-
-export default function EktaIndex() {
+export default function CetakIndex() { 
     const { biodata, transactions, statusAnggota } = usePage().props;
 
     const [name] = useState(statusAnggota.status_anggota);
 
-
     const status = transactions.map((ts) => ts.status);
-
-    const componentRef = useRef()
-
-    const handlePrint = () =>{
-        window.print()
-    }
 
     const filter = status
         .toString()
@@ -33,16 +24,12 @@ export default function EktaIndex() {
         .replace('"', "");
 
 
-
-
-    return (
-        
+    return(
         <>
             <Head>
                 <title>User E-KTA - IKATWI</title>
             </Head>
-            <LayoutAccount>
-                <div className="col-md-12 mt-5">
+            <div className="col-md-12 mt-5">
                     {filter === "PAID" || name === "Anggota Kehormatan" ? (
                         <div className="card border-0 shadow-custom rounded">
                             <div className="card-header text-dark">
@@ -72,11 +59,10 @@ export default function EktaIndex() {
                                 </svg>
                                 E-KTA
                                 <span>
-                             <ReactToPrint trigger={() => <button className="btn btn-primary btn-sm me-2">print / download</button>} content={() => componentRef.current} />
                             </span>
                             </div>
                             
-                            <div ref={componentRef} className="card-body">
+                            <div className="card-body">
                                 <div className="row justify-content-center">
                                     <div className="col-md-6 mt-3">
                                         <div className="col-md-6 col-lg-4">
@@ -463,7 +449,6 @@ export default function EktaIndex() {
                         </div>
                     )}
                 </div>
-            </LayoutAccount>
         </>
-    );
+    )
 }
