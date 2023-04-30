@@ -20,8 +20,6 @@ export default function PengajuanCreate() {
     const status = transactions.map((ts) => ts.status);
     const [name] = useState(statusAnggota.status_anggota);
 
-    console.log(biodata);
-
     const filter = status
         .toString()
         .replace("[", "")

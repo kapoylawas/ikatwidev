@@ -9,6 +9,8 @@ use App\Models\Province;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class PengajuanController extends Controller
 {
@@ -85,8 +87,6 @@ class PengajuanController extends Controller
             // 'document'      => 'required|mimes:pdf',
         ]);
 
-        //get user by ID
-        // $user = User::findOrFail($request->user_id);
 
         //upload document
         $document = $request->file('document');
@@ -107,6 +107,77 @@ class PengajuanController extends Controller
         ]);
 
         //return back
+        return redirect()->route('account.pengajuan.index');
+    }
+
+    public function edit(Pengajuan $pengajuan)
+    {
+        $provinces = Province::all();
+        $cities = City::all();
+
+        return inertia('Account/Pengajuan/Edit', [
+            'pengajuan' => $pengajuan,
+            'provinces' => $provinces,
+            'cities' => $cities,
+        ]);
+    }
+
+    public function update(Request $request, Pengajuan $pengajuan)
+    {
+       
+        //check image update
+        if ($request->file('document')) {
+
+            //remove old image
+            Storage::disk('local')->delete('public/document/'.basename($pengajuan->document));
+        
+            //upload new image
+            $document = $request->file('document');
+            $document->storeAs('public/document', $document->hashName());
+
+            //update category with new image
+            $pengajuan->update([
+                'document'=> $document->hashName(),
+                'user_id'     => $request->user_id,
+                'name'      => $request->name,
+                'kta'      => $request->kta,
+                'province_id'      => $request->province_id,
+                'city_id'      => $request->city_id,
+                'tgl_mutasi'      => $request->tgl_mutasi,
+                'keterangan'      => $request->keterangan,
+                'tujuan_mutasi'      => $request->tujuan_mutasi,
+            ]);
+
+        }
+
+        //update without image
+        $pengajuan->update([
+            'user_id'     => $request->user_id,
+            'name'      => $request->name,
+            'kta'      => $request->kta,
+            'province_id'      => $request->province_id,
+            'city_id'      => $request->city_id,
+            'tgl_mutasi'      => $request->tgl_mutasi,
+            'keterangan'      => $request->keterangan,
+            'tujuan_mutasi'      => $request->tujuan_mutasi,
+        ]);
+
+        //redirect
+        return redirect()->route('account.pengajuan.index');
+    }
+
+    public function destroy($id)
+    {
+        //find by ID
+        $pengajuan = Pengajuan::findOrFail($id);
+
+        //remove image
+        Storage::disk('local')->delete('public/document/'.basename($pengajuan->document));
+
+        //delete
+        $pengajuan->delete();
+
+        //redirect
         return redirect()->route('account.pengajuan.index');
     }
 
