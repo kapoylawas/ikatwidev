@@ -20,6 +20,39 @@ class PengajuanController extends Controller
      */
     public function index()
     {
+
+        $searchString = request()->q;
+
+        $pengajuans = Pengajuan::whereHas('user', function ($query) use ($searchString){
+            $query->where('name', 'like', '%'.$searchString.'%');
+        })
+        ->with(['user' => function($query) use ($searchString){
+            $query->where('name', 'like', '%'.$searchString.'%');
+        }])->where('user_id', auth()->user()->id)->latest()->paginate(10);
+
+        $pengajuans->appends(['q' => request()->q]);
+
+
+        $tahun = date('Y');
+        $transactions = Transaction::with('user')
+            ->where('user_id', auth()->user()->id)
+            ->where('cek_ts', 1)
+            ->where('tahun', $tahun)->get();
+        $statusAnggota = User::where('id', auth()->user()->id)->first();
+        $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
+        
+            
+        return inertia('Account/Pengajuan/Index', [
+            'transactions' => $transactions,
+            'statusAnggota' => $statusAnggota,
+            'biodata' => $biodata,
+            'pengajuans' => $pengajuans
+        ]);
+    }
+
+    public function create()
+    {
+
         $tahun = date('Y');
         $transactions = Transaction::with('user')
             ->where('user_id', auth()->user()->id)
@@ -30,12 +63,12 @@ class PengajuanController extends Controller
         $provinces = Province::all();
         $cities = City::all();
             
-        return inertia('Account/Pengajuan/Index', [
+        return inertia('Account/Pengajuan/Create', [
             'transactions' => $transactions,
             'statusAnggota' => $statusAnggota,
             'biodata' => $biodata,
             'provinces' => $provinces,
-            'cities' => $cities
+            'cities' => $cities,
         ]);
     }
 
@@ -70,6 +103,7 @@ class PengajuanController extends Controller
             'tgl_mutasi'      => $request->tgl_mutasi,
             'keterangan'      => $request->keterangan,
             'tujuan_mutasi'      => $request->tujuan_mutasi,
+            'status'      => 'belum',
         ]);
 
         //return back
