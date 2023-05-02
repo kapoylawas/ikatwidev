@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('name');
             $table->string('kta');
-            $table->integer('province_id');
+            $table->foreignId('province_id')->references('id')->on('provinces')->cascadeOnDelete();
             $table->integer('city_id')->nullable();
             $table->string('tgl_mutasi');
             $table->string('doc_mutasi');

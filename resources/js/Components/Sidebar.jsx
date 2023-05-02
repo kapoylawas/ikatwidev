@@ -165,16 +165,33 @@ export default function Sidebar() {
                     <i className="fa fa-file-word me-2"></i> E-Jurnal
                 </Link>
 
-                <Link
-                    href="/account/pengajuan"
-                    className={`${
-                        url.startsWith("/account/pengajuan")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
-                >
-                    <i className="fa fa-file-word me-2"></i> Pengajuan
-                </Link>
+                {hasAnyPermission(["pengajuan.index"]) && (
+                    <Link
+                        href="/account/pengajuan"
+                        className={`${
+                            url.startsWith("/account/pengajuan")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-file-word me-2"></i> Pengajuan
+                        Mutasi
+                    </Link>
+                )}
+
+                {hasAnyPermission(["verifPengajuan.index"]) && (
+                    <Link
+                        href="/account/verifPengajuan"
+                        className={`${
+                            url.startsWith("/account/verifPengajuan")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-file-word me-2"></i> Verifikasi
+                        Mutasi
+                    </Link>
+                )}
 
                 {hasAnyPermission(["sliders.index"]) && (
                     <Link

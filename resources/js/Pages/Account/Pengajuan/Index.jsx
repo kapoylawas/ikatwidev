@@ -14,8 +14,7 @@ import Pagination from "../../../Shared/Pagination";
 import Delete from "../../../Shared/Delete";
 
 export default function PengajuanIndex() {
-    const { transactions, statusAnggota, biodata, pengajuans } =
-        usePage().props;
+    const { transactions, statusAnggota, biodata, pengajuans } = usePage().props;
 
     console.log("pengajuan", pengajuans);
 

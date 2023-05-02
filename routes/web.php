@@ -50,7 +50,10 @@ Route::prefix('account')->group(function() {
         Route::resource('/ejurnal', \App\Http\Controllers\Account\EjurnalController::class, ['as' => 'account'])->middleware('permission:documents.index');
 
         //route resource pengajuan
-        Route::resource('/pengajuan', \App\Http\Controllers\Account\PengajuanController::class, ['as' => 'account'])->middleware('permission:documents.index');
+        Route::resource('/pengajuan', \App\Http\Controllers\Account\PengajuanController::class, ['as' => 'account'])->middleware('permission:pengajuan.index');
+
+        //route resource pengajuan
+        Route::resource('/verifPengajuan', \App\Http\Controllers\Account\verifPengajuanController::class, ['as' => 'account'])->middleware('permission:verifPengajuan.index');
 
         // cek status anggota STR
         Route::get('/documents/showstr/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showStr'])->name('account.documents.showstr');

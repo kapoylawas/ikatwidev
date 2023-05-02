@@ -14,67 +14,34 @@ import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 
 export default function CategoryEdit() {
+
     const {
         errors,
         provinces,
         cities,
-        pengajuan,
+        verifPengajuan,
     } = usePage().props;
 
-    // console.log(pengajuan);
+    console.log(verifPengajuan);
 
-    const [id, setId] = useState(pengajuan.user_id);
-    const [nama, setNama] = useState(pengajuan.name);
-    const [kta, setKta] = useState(pengajuan.kta);
-    const [provinceID, setProvinceID] = useState(pengajuan.province_id);
-    const [cityID, setCityID] = useState(pengajuan.city_id);
-    const [tglmutasi, setTglmutasi] = useState(pengajuan.tgl_mutasi);
-    const [keterangan, setKeterangan] = useState(pengajuan.keterangan);
-    const [tujuan, setTujuan] = useState(pengajuan.tujuan_mutasi);
-    const [docmutasi, setDocmutasi] = useState(null);
+    const [id, setId] = useState(verifPengajuan.user_id);
+    const [nama, setNama] = useState(verifPengajuan.name);
+    const [kta, setKta] = useState(verifPengajuan.kta);
+    const [provinceID, setProvinceID] = useState(verifPengajuan.province_id);
+    const [cityID, setCityID] = useState(verifPengajuan.city_id);
+    const [tglmutasi, setTglmutasi] = useState(verifPengajuan.tgl_mutasi);
+    const [keterangan, setKeterangan] = useState(verifPengajuan.keterangan);
+    const [tujuan, setTujuan] = useState(verifPengajuan.tujuan_mutasi);
+    const [status, setStatus] = useState(verifPengajuan.status);
 
-    const updatePengajuan = async (e) => {
-        e.preventDefault();
-
-        //sending data
-        Inertia.post(
-            `/account/pengajuan/${pengajuan.id}`,
-            {
-                //data
-                user_id: id,
-                name: nama,
-                kta: kta,
-                province_id: provinceID,
-                city_id: cityID,
-                tgl_mutasi: tglmutasi,
-                keterangan: keterangan,
-                tujuan_mutasi: tujuan,
-                document: docmutasi,
-                _method: "PUT"
-            },
-            {
-                onSuccess: () => {
-                    //show alert
-                    Swal.fire({
-                        title: "Success!",
-                        text: "Data Pengajuan Anda Berhasil di Update!",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 2500,
-                    });
-                },
-            }
-        );
-    };
-
-    return (
+    return(
         <>
-            <Head>
+             <Head>
                 <title>Edit Pengajuan - IKATWI</title>
             </Head>
             <LayoutAccount>
-                <div className="card-body">
-                    <form onSubmit={updatePengajuan}>
+            <div className="card-body">
+                    <form>
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="mb-3">
@@ -175,26 +142,6 @@ export default function CategoryEdit() {
                                 </div>
                             )}
                         </div>
-
-                        <div className="col-md-12">
-                            <div className="mb-3">
-                                <label className="form-label fw-bold">
-                                    Document Mutasi
-                                </label>
-                                <input
-                                    type="file"
-                                    className="form-control"
-                                    onChange={(e) =>
-                                        setDocmutasi(e.target.files[0])
-                                    }
-                                />
-                            </div>
-                            {errors.document && (
-                                <div className="alert alert-danger">
-                                    {errors.document}
-                                </div>
-                            )}
-                        </div>
                         <div className="row mt-2">
                             <div className="col-md-12">
                                 <label className="form-label fw-bold">
@@ -247,6 +194,33 @@ export default function CategoryEdit() {
                                 )}
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="mb-1">
+                                <label className="form-label fw-bold">
+                                    Verifikasi
+                                </label>
+                                <select
+                                    className="form-select"
+                                    value={status}
+                                    onChange={(e) => setStatus(e.target.value)}
+                                >
+                                    <option value="">
+                                        -- Pilih Verifikasi --
+                                    </option>
+                                    <option value="belum">
+                                        belum
+                                    </option>
+                                    <option value="sudah">
+                                        sudah
+                                    </option>
+                                </select>
+                                {errors.tujuan_mutasi && (
+                                    <div className="alert alert-danger mt-2">
+                                        {errors.tujuan_mutasi}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
 
                         <div className="mt-3 mb-5">
                             <button
@@ -266,5 +240,5 @@ export default function CategoryEdit() {
                 </div>
             </LayoutAccount>
         </>
-    );
+    )
 }

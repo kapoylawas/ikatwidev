@@ -28,10 +28,37 @@ class Pengajuan extends Model
         return $this->belongsTo(User::class);
     }
 
+     /**
+     * province
+     *
+     * @return void
+     */
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function tujuan()
+    {
+        return $this->belongsTo(Province::class, 'tujuan_mutasi');
+    }
+
+    /**
+     * city
+     *
+     * @return void
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+
     protected function document(): Attribute
     {
         return Attribute::make(
             get: fn ($document) => asset('/storage/document/' . $document),
         );
     }
+
 }
