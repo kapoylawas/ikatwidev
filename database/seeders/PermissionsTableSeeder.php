@@ -44,6 +44,9 @@ class PermissionsTableSeeder extends Seeder
         //permission pengajuan admin
         Permission::create(['name' => 'verifPengajuan.index', 'guard_name' => 'web']);
 
+        // master dpw
+        Permission::create(['name' => 'dpw.index', 'guard_name' => 'web']);
+
         Permission::create(['name' => 'tagihan.index', 'guard_name' => 'web']);
 
         //permission categories

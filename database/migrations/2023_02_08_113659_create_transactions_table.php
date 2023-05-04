@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('courier_cost');
             $table->integer('weight')->nullable();
             $table->integer('cek_ts')->nullable();
+            $table->integer('tahun')->nullable();
             $table->text('address');
             $table->bigInteger('grand_total');
             $table->string('reference')->nullable();

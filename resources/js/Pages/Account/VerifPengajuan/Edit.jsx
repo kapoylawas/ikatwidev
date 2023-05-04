@@ -34,6 +34,40 @@ export default function CategoryEdit() {
     const [tujuan, setTujuan] = useState(verifPengajuan.tujuan_mutasi);
     const [status, setStatus] = useState(verifPengajuan.status);
 
+    const updatePengajuan = async (e) => {
+        e.preventDefault();
+
+        //sending data
+        Inertia.post(
+            `/account/verifPengajuan/${verifPengajuan.id}`,
+            {
+                //data
+                user_id: id,
+                name: nama,
+                kta: kta,
+                province_id: provinceID,
+                city_id: cityID,
+                tgl_mutasi: tglmutasi,
+                keterangan: keterangan,
+                tujuan_mutasi: tujuan,
+                status: status,
+                _method: "PUT"
+            },
+            {
+                onSuccess: () => {
+                    //show alert
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Data Pengajuan Anda Berhasil di Update!",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
+                },
+            }
+        );
+    };
+
     return(
         <>
              <Head>
@@ -41,7 +75,7 @@ export default function CategoryEdit() {
             </Head>
             <LayoutAccount>
             <div className="card-body">
-                    <form>
+                    <form onSubmit={updatePengajuan}>
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="mb-3">

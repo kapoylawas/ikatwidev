@@ -193,6 +193,20 @@ export default function Sidebar() {
                     </Link>
                 )}
 
+                {hasAnyPermission(["dpw.index"]) && (
+                    <Link
+                        href="/account/dpw"
+                        className={`${
+                            url.startsWith("/account/dpw")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-database me-2"></i> Master DPW
+                        
+                    </Link>
+                )}
+
                 {hasAnyPermission(["sliders.index"]) && (
                     <Link
                         href="/account/sliders"

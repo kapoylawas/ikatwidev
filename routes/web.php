@@ -53,6 +53,9 @@ Route::prefix('account')->group(function() {
         Route::resource('/pengajuan', \App\Http\Controllers\Account\PengajuanController::class, ['as' => 'account'])->middleware('permission:pengajuan.index');
 
         //route resource pengajuan
+        Route::resource('/dpw', \App\Http\Controllers\Account\DpwController::class, ['as' => 'account'])->middleware('permission:dpw.index');
+
+        //route resource pengajuan
         Route::resource('/verifPengajuan', \App\Http\Controllers\Account\verifPengajuanController::class, ['as' => 'account'])->middleware('permission:verifPengajuan.index');
 
         // cek status anggota STR
