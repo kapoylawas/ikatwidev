@@ -52,8 +52,11 @@ Route::prefix('account')->group(function() {
         //route resource pengajuan
         Route::resource('/pengajuan', \App\Http\Controllers\Account\PengajuanController::class, ['as' => 'account'])->middleware('permission:pengajuan.index');
 
-        //route resource pengajuan
+        //route resource dpw
         Route::resource('/dpw', \App\Http\Controllers\Account\DpwController::class, ['as' => 'account'])->middleware('permission:dpw.index');
+
+        //route resource dpc
+        Route::resource('/dpc', \App\Http\Controllers\Account\DpcController::class, ['as' => 'account'])->middleware('permission:dpc.index');
 
         //route resource pengajuan
         Route::resource('/verifPengajuan', \App\Http\Controllers\Account\verifPengajuanController::class, ['as' => 'account'])->middleware('permission:verifPengajuan.index');

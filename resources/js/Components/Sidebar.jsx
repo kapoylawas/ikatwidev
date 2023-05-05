@@ -62,6 +62,32 @@ export default function Sidebar() {
                     </Link>
                 )}
 
+                {hasAnyPermission(["dpw.index"]) && (
+                    <Link
+                        href="/account/dpw"
+                        className={`${
+                            url.startsWith("/account/dpw")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-database me-2"></i> Master DPW
+                    </Link>
+                )}
+
+                {hasAnyPermission(["dpc.index"]) && (
+                    <Link
+                        href="/account/dpc"
+                        className={`${
+                            url.startsWith("/account/dpc")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-database me-2"></i> Master DPC
+                    </Link>
+                )}
+
                 {hasAnyPermission(["tagihan.index"]) && (
                     <Link
                         href="/account/tagihan"
@@ -190,20 +216,6 @@ export default function Sidebar() {
                     >
                         <i className="fa fa-file-word me-2"></i> Verifikasi
                         Mutasi
-                    </Link>
-                )}
-
-                {hasAnyPermission(["dpw.index"]) && (
-                    <Link
-                        href="/account/dpw"
-                        className={`${
-                            url.startsWith("/account/dpw")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
-                    >
-                        <i className="fa fa-database me-2"></i> Master DPW
-                        
                     </Link>
                 )}
 

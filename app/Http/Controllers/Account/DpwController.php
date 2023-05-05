@@ -35,7 +35,7 @@ class DpwController extends Controller
          * validate
          */
         $this->validate($request, [
-            'name'          => 'required|unique:categories',
+            'name'          => 'required',
         ]);
 
         //create dpw

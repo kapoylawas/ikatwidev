@@ -10,23 +10,21 @@ import { Head, usePage } from "@inertiajs/inertia-react";
 //import Inertia adapter
 import { Inertia } from "@inertiajs/inertia";
 
-//import Swee
-import Swal from "sweetalert2";
+export default function DpcCreate() {
+    const { errors, provinces } = usePage().props;
 
-export default function DpwCreate() {
-    const { errors } = usePage().props;
-
-    //state
     const [name, setName] = useState("");
+    const [provinceID, setProvinceID] = useState("");
 
-    const storeDpw = async (e) => {
+    const storeDpc = async (e) => {
         e.preventDefault();
 
         //sending data
         Inertia.post(
-            "/account/dpw",
+            "/account/dpc",
             {
                 //data
+                province_id: provinceID,
                 name: name,
             },
             {
@@ -47,7 +45,7 @@ export default function DpwCreate() {
     return (
         <>
             <Head>
-                <title>Master Create DPW - IKATWI</title>
+                <title>Master Create DPC - IKATWI</title>
             </Head>
             <LayoutAccount>
                 <div className="row mt-4">
@@ -55,15 +53,47 @@ export default function DpwCreate() {
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
                                 <span className="font-weight-bold">
-                                    <i className="fa fa-folder"></i> Add New
-                                    DPW
+                                    <i className="fa fa-folder"></i> Add New DPW
                                 </span>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={storeDpw}>
+                                <form onSubmit={storeDpc}>
+                                <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                DPW
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={provinceID}
+                                                onChange={(e) =>
+                                                    setProvinceID(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select DPW --
+                                                </option>
+                                                {provinces.map((province) => (
+                                                    <option
+                                                        value={province.id}
+                                                        key={province.id}
+                                                    >
+                                                        {province.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            {errors.province_id && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.province_id}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            DPW Name
+                                            DPC Name
                                         </label>
                                         <input
                                             type="text"
