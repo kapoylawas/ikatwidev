@@ -14,14 +14,7 @@ import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 
 export default function CategoryEdit() {
-    const {
-        errors,
-        provinces,
-        cities,
-        pengajuan,
-    } = usePage().props;
-
-    // console.log(pengajuan);
+    const { errors, provinces, cities, pengajuan } = usePage().props;
 
     const [id, setId] = useState(pengajuan.user_id);
     const [nama, setNama] = useState(pengajuan.name);
@@ -31,6 +24,7 @@ export default function CategoryEdit() {
     const [tglmutasi, setTglmutasi] = useState(pengajuan.tgl_mutasi);
     const [keterangan, setKeterangan] = useState(pengajuan.keterangan);
     const [tujuan, setTujuan] = useState(pengajuan.tujuan_mutasi);
+    const [tujuandpc, setTujuandpc] = useState(pengajuan.dpc_mutasi);
     const [docmutasi, setDocmutasi] = useState(null);
 
     const updatePengajuan = async (e) => {
@@ -49,8 +43,9 @@ export default function CategoryEdit() {
                 tgl_mutasi: tglmutasi,
                 keterangan: keterangan,
                 tujuan_mutasi: tujuan,
+                dpc_mutasi: tujuandpc,
                 document: docmutasi,
-                _method: "PUT"
+                _method: "PUT",
             },
             {
                 onSuccess: () => {
@@ -243,6 +238,34 @@ export default function CategoryEdit() {
                                 {errors.tujuan_mutasi && (
                                     <div className="alert alert-danger mt-2">
                                         {errors.tujuan_mutasi}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="mb-1">
+                                <label className="form-label fw-bold">
+                                    Tujuan DPC
+                                </label>
+                                <select
+                                    className="form-select"
+                                    value={tujuandpc}
+                                    onChange={(e) =>
+                                        setTujuandpc(e.target.value)
+                                    }
+                                >
+                                    <option value="">
+                                        -- Pilih Tujuan DPC --
+                                    </option>
+                                    {cities.map((dpc) => (
+                                        <option value={dpc.id} key={dpc.id}>
+                                            {dpc.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.dpc_mutasi && (
+                                    <div className="alert alert-danger mt-2">
+                                        {errors.dpc_mutasi}
                                     </div>
                                 )}
                             </div>

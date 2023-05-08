@@ -32,6 +32,7 @@ export default function CategoryEdit() {
     const [tglmutasi, setTglmutasi] = useState(verifPengajuan.tgl_mutasi);
     const [keterangan, setKeterangan] = useState(verifPengajuan.keterangan);
     const [tujuan, setTujuan] = useState(verifPengajuan.tujuan_mutasi);
+    const [tujuandpc, setTujuandpc] = useState(verifPengajuan.dpc_mutasi);
     const [status, setStatus] = useState(verifPengajuan.status);
 
     const updatePengajuan = async (e) => {
@@ -50,6 +51,7 @@ export default function CategoryEdit() {
                 tgl_mutasi: tglmutasi,
                 keterangan: keterangan,
                 tujuan_mutasi: tujuan,
+                dpc_mutasi: tujuandpc,
                 status: status,
                 _method: "PUT"
             },
@@ -224,6 +226,34 @@ export default function CategoryEdit() {
                                 {errors.tujuan_mutasi && (
                                     <div className="alert alert-danger mt-2">
                                         {errors.tujuan_mutasi}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="mb-1">
+                                <label className="form-label fw-bold">
+                                    Tujuan DPC
+                                </label>
+                                <select
+                                    className="form-select"
+                                    value={tujuandpc}
+                                    onChange={(e) =>
+                                        setTujuandpc(e.target.value)
+                                    }
+                                >
+                                    <option value="">
+                                        -- Pilih Tujuan DPC --
+                                    </option>
+                                    {cities.map((dpc) => (
+                                        <option value={dpc.id} key={dpc.id}>
+                                            {dpc.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.dpc_mutasi && (
+                                    <div className="alert alert-danger mt-2">
+                                        {errors.dpc_mutasi}
                                     </div>
                                 )}
                             </div>

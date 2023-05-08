@@ -76,7 +76,15 @@ export default function VerifPengajuanIndex() {
                                                             width: "15%",
                                                         }}
                                                     >
-                                                        Tujuan Pindah
+                                                        Tujuan DPW
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        style={{
+                                                            width: "15%",
+                                                        }}
+                                                    >
+                                                        Tujuan DPC
                                                     </th>
                                                     <th
                                                         scope="col"
@@ -133,6 +141,9 @@ export default function VerifPengajuanIndex() {
                                                             </td>
                                                             <td>
                                                                 {vrf.tujuan.name}
+                                                            </td>
+                                                            <td>
+                                                                {vrf.tujuan_dpc.name}
                                                             </td>
                                                             <td>
                                                                 <a

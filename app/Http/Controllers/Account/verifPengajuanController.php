@@ -16,7 +16,7 @@ class verifPengajuanController extends Controller
     {
         $verif = Pengajuan::when(request()->q, function ($verif) {
             $verif = $verif->where('name', 'like', '%' . request()->q . '%');
-        })->with('province', 'city', 'tujuan')->latest()->paginate(10);
+        })->with('province', 'city', 'tujuan', 'tujuanDpc')->latest()->paginate(10);
 
         return inertia('Account/VerifPengajuan/Index', [
             'verif' => $verif,
@@ -60,6 +60,7 @@ class verifPengajuanController extends Controller
                 'tgl_mutasi'      => $request->tgl_mutasi,
                 'keterangan'      => $request->keterangan,
                 'tujuan_mutasi'      => $request->tujuan_mutasi,
+                'dpc_mutasi'      => $request->dpc_mutasi,
                 'status'      => $request->status,
             ]);
 
@@ -75,6 +76,7 @@ class verifPengajuanController extends Controller
             'tgl_mutasi'      => $request->tgl_mutasi,
             'keterangan'      => $request->keterangan,
             'tujuan_mutasi'      => $request->tujuan_mutasi,
+            'dpc_mutasi'      => $request->dpc_mutasi,
             'status'      => $request->status,
         ]);
 

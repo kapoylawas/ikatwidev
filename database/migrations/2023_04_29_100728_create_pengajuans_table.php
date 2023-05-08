@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('doc_mutasi');
             $table->string('keterangan');
             $table->string('tujuan_mutasi');
+            $table->string('dpc_mutasi')->nullable();
             $table->string('status');
             $table->timestamps();
         });

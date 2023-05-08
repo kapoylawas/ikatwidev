@@ -84,6 +84,7 @@ class PengajuanController extends Controller
             'tgl_mutasi'      => 'required',
             'keterangan'      => 'required',
             'tujuan_mutasi'      => 'required',
+            'dpc_mutasi'      => 'required',
             // 'document'      => 'required|mimes:pdf',
         ]);
 
@@ -103,6 +104,7 @@ class PengajuanController extends Controller
             'tgl_mutasi'      => $request->tgl_mutasi,
             'keterangan'      => $request->keterangan,
             'tujuan_mutasi'      => $request->tujuan_mutasi,
+            'dpc_mutasi'      => $request->dpc_mutasi,
             'status'      => 'belum',
         ]);
 
@@ -146,6 +148,7 @@ class PengajuanController extends Controller
                 'tgl_mutasi'      => $request->tgl_mutasi,
                 'keterangan'      => $request->keterangan,
                 'tujuan_mutasi'      => $request->tujuan_mutasi,
+                'dpc_mutasi'      => $request->dpc_mutasi,
             ]);
 
         }
@@ -160,6 +163,7 @@ class PengajuanController extends Controller
             'tgl_mutasi'      => $request->tgl_mutasi,
             'keterangan'      => $request->keterangan,
             'tujuan_mutasi'      => $request->tujuan_mutasi,
+            'dpc_mutasi'      => $request->dpc_mutasi,
         ]);
 
         //redirect

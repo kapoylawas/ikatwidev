@@ -20,6 +20,7 @@ class Pengajuan extends Model
         'document',
         'keterangan',
         'tujuan_mutasi',
+        'dpc_mutasi',
         'status',
     ];
 
@@ -41,6 +42,11 @@ class Pengajuan extends Model
     public function tujuan()
     {
         return $this->belongsTo(Province::class, 'tujuan_mutasi');
+    }
+
+    public function tujuanDpc()
+    {
+        return $this->belongsTo(City::class, 'dpc_mutasi');
     }
 
     /**

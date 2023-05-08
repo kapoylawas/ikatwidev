@@ -36,6 +36,7 @@ export default function PengajuanCreate() {
     const [docmutasi, setDocmutasi] = useState("");
     const [keterangan, setKeterangan] = useState("");
     const [tujuan, setTujuan] = useState("");
+    const [tujuandpc, setTujuandpc] = useState("");
 
     //method "storePengajuan"
     const storePengajuan = async (e) => {
@@ -55,6 +56,7 @@ export default function PengajuanCreate() {
                 document: docmutasi,
                 keterangan: keterangan,
                 tujuan_mutasi: tujuan,
+                dpc_mutasi: tujuandpc,
             },
             {
                 onSuccess: () => {
@@ -269,6 +271,37 @@ export default function PengajuanCreate() {
                                             {errors.tujuan_mutasi && (
                                                 <div className="alert alert-danger mt-2">
                                                     {errors.tujuan_mutasi}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label fw-bold">
+                                                Tujuan DPC
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={tujuandpc}
+                                                onChange={(e) =>
+                                                    setTujuandpc(e.target.value)
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Pilih Tujuan DPC --
+                                                </option>
+                                                {cities.map((dpc) => (
+                                                    <option
+                                                        value={dpc.id}
+                                                        key={dpc.id}
+                                                    >
+                                                        {dpc.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            {errors.dpc_mutasi && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.dpc_mutasi}
                                                 </div>
                                             )}
                                         </div>
