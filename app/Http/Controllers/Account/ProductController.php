@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\ProductImage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class ProductController extends Controller
@@ -60,6 +62,7 @@ class ProductController extends Controller
             'slug'          => Str::slug($request->title, '-'),
             'category_id'   => $request->category_id,
             'description'   => $request->description,
+            'status'   => 2,
         ]);
 
         //insert product size and price
@@ -91,6 +94,83 @@ class ProductController extends Controller
         return inertia('Account/Products/Show', [
             'product'   => $product,
         ]);
+    }
+
+    public function edit($id)
+    {
+        //get product
+        $product = Product::with('productSizes')->findOrFail($id);
+
+        //get all categories
+        $categories = Category::all();
+
+        //render with inertia
+        return inertia('Account/Products/Edit', [
+            'product'       => $product,
+            'categories'    => $categories
+        ]);
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Product $product)
+    {
+        /**
+         * Validate request
+         */
+        $this->validate($request, [
+            'title'         => 'required',
+            'category_id'   => 'required',
+            'description'   => 'required',
+            'product_sizes' => 'required|array'
+        ]);
+
+        /**
+         * Create product
+         */
+        $product->update([
+            'title'         => $request->title,
+            'slug'          => Str::slug($request->title, '-'),
+            'category_id'   => $request->category_id,
+            'description'   => $request->description,
+        ]);
+
+        //insert or update product size and price
+        if($request->product_sizes > 0) {
+
+            //delete array
+            $id = Arr::pluck($request->product_sizes, 'id');
+            $product->productSizes()->whereNotIn('id', $id)->delete();
+
+            foreach($request->product_sizes as $data) {
+
+                //check product size and price
+                $size = $product->productSizes()->where('product_id', $product->id)->where('size', $data['size'])->first();
+
+                if($size) {
+                    //update product size
+                    $size->update([
+                        'size'  => $data['size'],
+                        'price' => (int) $data['price'],
+                    ]);
+                } else {
+                    //insert product size
+                    $product->productSizes()->create([
+                        'size'   => $data['size'],
+                        'price'  => (int) $data['price']
+                    ]);
+                }
+
+            }
+        }
+
+        //redirect
+        return redirect()->route('account.products.index');
     }
 
     public function storeImageProduct(Request $request)

@@ -16,6 +16,9 @@ import Search from '../../../Shared/Search';
 //import component pagination
 import Pagination from '../../../Shared/Pagination';
 
+//import component delete
+import Delete from '../../../Shared/Delete';
+
 export default function ProductsIndex() {
     //destruct props "products"
     const { products } = usePage().props;
@@ -74,8 +77,8 @@ export default function ProductsIndex() {
                                                         {hasAnyPermission(['products.edit']) &&
                                                             <Link href={`/account/products/${product.id}/edit`} className="btn btn-primary btn-sm me-2"><i className="fa fa-pencil-alt"></i></Link>
                                                         }
-                                                        {hasAnyPermission(['products.delete']) &&
-                                                            <button onClick={() => deleteProduct(product.id)} className="btn btn-danger btn-sm"><i className="fa fa-trash"></i></button>
+                                                       {hasAnyPermission(['products.delete']) &&
+                                                            <Delete URL={'/account/products'} id={product.id} />
                                                         }
                                                     </td>
                                                 </tr>
