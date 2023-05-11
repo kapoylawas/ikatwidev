@@ -61,7 +61,7 @@ export default function AddToCart({ product_id, productImage, size, price, weigh
     return (
         <>
             <div className="justify-content-center fixed-bottom">
-                 <button onClick={() => addToCart()} className="btn btn-success btn-sm btn-cart p-2 pe-2"> <i className="fa fa-shopping-cart me-2"></i>Simpan</button>
+                 <button onClick={() => addToCart()} className="btn btn-success btn-sm btn-cart p-2 pe-2"> <i className="fa fa-shopping-cart me-2"></i>Add to Card</button>
             </div>
         </>
     )

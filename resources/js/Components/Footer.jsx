@@ -128,6 +128,9 @@ export default function Footer() {
                                             </a>
                                         </span>
                                     </div>
+                                    <div className="mt-4">
+                                        Kontak Support (085867544155), Email(ikatwipusat@gmail.com)
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-8 col-md-12 text-center order-sm-2 order-md-1 bg-light-custom py-4">
