@@ -28,7 +28,6 @@ export default function UserEdit() {
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota);
-    // console.log(statusAnggota);
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");

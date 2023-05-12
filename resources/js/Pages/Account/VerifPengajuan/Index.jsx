@@ -15,7 +15,6 @@ import Delete from "../../../Shared/Delete";
 
 export default function VerifPengajuanIndex() {
     const { verif } = usePage().props;
-    console.log(verif);
 
     return (
         <>

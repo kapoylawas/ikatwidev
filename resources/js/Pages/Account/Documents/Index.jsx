@@ -11,8 +11,6 @@ export default function DocumentsIndex() {
     //destruct props "users"
     const { transactions, biodata, statusAnggota } = usePage().props;
 
-    // console.log(biodata);
-
     const status = transactions.map((ts) => ts.status);
     const [name] = useState(statusAnggota.status_anggota);
 

@@ -13,7 +13,7 @@ import Search from "../../../Shared/Search";
 
 export default function WilayahCabangIndex() {
     const { wilayah } = usePage().props;
-    console.log(wilayah);
+
     return (
         <>
             <Head>

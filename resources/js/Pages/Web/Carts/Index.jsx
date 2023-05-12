@@ -18,7 +18,6 @@ export default function CartIndex() {
     //destruct props "carts"
     const { dataCarts, carts } = usePage().props;
 
-    console.log(carts);
 
     return (
         <>
