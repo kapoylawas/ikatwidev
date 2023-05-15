@@ -12,7 +12,7 @@ export default function Header() {
 
     return (
         <>
-            <nav className="navbar-expand-md navbar-dark fixed-top bg-green shadow">
+            <nav className="navbar-expand-md navbar-dark fixed-top bg-navbar shadow">
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-md-8">

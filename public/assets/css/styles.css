@@ -154,6 +154,10 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   background-color: #4a4b4a!important;
 }
 
+.bg-footer {
+  background-color: #238023!important;
+}
+
 .list-group-item-light {
   color: #fefefe!important;
   background-color: #4a4b4a!important;
@@ -470,6 +474,10 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   background-color: #161313;
 }
 
+.bg-navbar {
+  background-color: #238023;
+}
+
 .btn-cart {
   position: fixed;
   bottom: 100px;
@@ -639,6 +647,11 @@ p {
   width: 50px;
   white-space: nowrap;            /* because only the first line is indented */
 }
+
+h4 {
+  color: white;
+}
+
 
 
 /* kartu */

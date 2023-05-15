@@ -112,6 +112,42 @@ export default function HomeIndex() {
                                 </div>
 
                                 <div className="row justify-content-center">
+                                <div className="col-md-3 col-6 mb-3">
+                                        <Link
+                                            href="/history"
+                                            className="text-decoration-none text-dark"
+                                        >
+                                            <div className="card border-0 rounded-3  shadow-sm">
+                                                <div className="card-body text-center">
+                                                    <img
+                                                        src="/assets/images/script.png"
+                                                        width="50"
+                                                    />
+                                                    <p className="card-title mt-3">
+                                                        Sejarah
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <Link
+                                            href="/visimisi"
+                                            className="text-decoration-none text-dark"
+                                        >
+                                            <div className="card border-0 rounded-3  shadow-sm">
+                                                <div className="card-body text-center">
+                                                    <img
+                                                        src="/assets/images/purpose.png"
+                                                        width="50"
+                                                    />
+                                                    <p className="card-title mt-3">
+                                                        Visi & Misi
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
                                     {categories.map((category, index) => (
                                         <CardCategory
                                             category={category}
@@ -211,42 +247,7 @@ export default function HomeIndex() {
                                             </div>
                                         </Link>
                                     </div>
-                                    <div className="col-md-3 col-6 mb-3">
-                                        <Link
-                                            href="/history"
-                                            className="text-decoration-none text-dark"
-                                        >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
-                                                    <img
-                                                        src="/assets/images/script.png"
-                                                        width="50"
-                                                    />
-                                                    <p className="card-title mt-3">
-                                                        Sejarah
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                    <div className="col-md-3 col-6 mb-3">
-                                        <Link
-                                            href="/visimisi"
-                                            className="text-decoration-none text-dark"
-                                        >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
-                                                    <img
-                                                        src="/assets/images/purpose.png"
-                                                        width="50"
-                                                    />
-                                                    <p className="card-title mt-3">
-                                                        Visi & Misi
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                   
                                     <div className="col-md-3 col-6 mb-3">
                                         <a
                                             href="https://ikatwisiporlin-ktki.kemkes.go.id/"
@@ -288,7 +289,7 @@ export default function HomeIndex() {
                                 </div>
 
                                 {/** products */}
-                                <div className="row justify-content-between mb-3 mt-4">
+                                {/* <div className="row justify-content-between mb-3 mt-4">
                                     <div className="col-md-6 col-6 text-start">
                                         <strong>Kegiatan Terbaru</strong>
                                     </div>
@@ -303,16 +304,16 @@ export default function HomeIndex() {
                                             </strong>
                                         </Link>
                                     </div>
-                                </div>
+                                </div> */}
 
-                                <div className="row mb-5">
+                                {/* <div className="row mb-5">
                                     {products.map((product, index) => (
                                         <CardProduct
                                             product={product}
                                             key={index}
                                         />
                                     ))}
-                                </div>
+                                </div> */}
                             </div>
                             <Footer />
                         </div>

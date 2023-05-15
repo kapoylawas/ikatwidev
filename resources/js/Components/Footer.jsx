@@ -10,33 +10,18 @@ export default function Footer() {
             <div className="fade-in mb-5" style={{ marginBottom: "50px" }}>
                 <div className="row justify-content-center">
                     <div className="col-md-8">
-                        <div className="card bg-gray border-0 rounded shadow-sm">
+                        <div className="card bg-footer border-0 rounded shadow-sm">
                             <div className="card-header">
                                 <div className="col-sm-8 text-center col-md-12 order-sm-0 order-md-0 py-5">
-                                    <p className="mt-2 text-dark">
-                                        Website Ikatan Terapi Wicara Indonesia
-                                    </p>
+                                    <h4
+                                        style={{ color: "white" }}
+                                        className="mt-2"
+                                    >
+                                        <strong>
+                                            Dewan Ikatan Terapi Wicara Indonesia
+                                        </strong>
+                                    </h4>
                                     <div className="mt-4">
-                                        <span style={styles}>
-                                            <a
-                                                href="https://www.facebook.com/ikatwi.pusat"
-                                                title="Facebook"
-                                                className="text-decoration-none"
-                                                target="_blank"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="38"
-                                                    height="38"
-                                                    fill="currentColor"
-                                                    className="bi bi-facebook text-fb mb-2 icon-footer mr-4"
-                                                    viewBox="0 0 16 16"
-                                                >
-                                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
-                                                </svg>
-                                            </a>
-                                        </span>
-
                                         <span style={styles}>
                                             <a
                                                 href="https://www.instagram.com/ikatwipusat/"
@@ -45,6 +30,7 @@ export default function Footer() {
                                                 target="_blank"
                                             >
                                                 <svg
+                                                    style={{ color: "white" }}
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     className="icon icon-tabler icon-tabler-brand-instagram text-ig mb-2 mr-4"
                                                     width={37}
@@ -76,6 +62,7 @@ export default function Footer() {
                                                 target="_blank"
                                             >
                                                 <svg
+                                                    style={{ color: "white" }}
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     class="icon icon-tabler icon-tabler-brand-whatsapp mb-2 mr-4"
                                                     width={37}
@@ -106,6 +93,7 @@ export default function Footer() {
                                                 target="_blank"
                                             >
                                                 <svg
+                                                    style={{ color: "white" }}
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     className="icon icon-tabler icon-tabler-brand-youtube text-yt mb-2"
                                                     width="39"
@@ -127,14 +115,44 @@ export default function Footer() {
                                                 </svg>
                                             </a>
                                         </span>
+                                        <span style={styles}>
+                                            <a
+                                                href="https://www.facebook.com/ikatwi.pusat"
+                                                title="Facebook"
+                                                className="text-decoration-none"
+                                                target="_blank"
+                                            >
+                                                <svg
+                                                    style={{ color: "white" }}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="38"
+                                                    height="38"
+                                                    fill="currentColor"
+                                                    className="bi bi-facebook text-fb mb-2 icon-footer mr-4"
+                                                    viewBox="0 0 16 16"
+                                                >
+                                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
+                                                </svg>
+                                            </a>
+                                        </span>
                                     </div>
-                                    <div className="mt-4">
-                                        Kontak Support (085867544155), Email(ikatwipusat@gmail.com)
+                                    <div
+                                        style={{ color: "white" }}
+                                        className="mt-4"
+                                    >
+                                        <div className="fa fa-phone"></div>. 
+                                         Kontak Support (085867544155)
+                                        <br></br>
+                                         <div className="fa fa-envelope"></div>. 
+                                         Email(ikatwipusat@gmail.com)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-8 col-md-12 text-center order-sm-2 order-md-1 bg-light-custom py-4">
-                                ©{(new Date().getFullYear())} Pengurus Besar Ikatan Terapi Indonesia.
+                                <h4>
+                                    ©{new Date().getFullYear()} Pengurus Besar
+                                    Ikatan Terapi Indonesia.
+                                </h4>
                             </div>
                         </div>
                     </div>

@@ -40,7 +40,7 @@ export default function Menu() {
 
     return (
         <>
-            <nav className="navbar navbar-dark bg-green shadow navbar-expand fixed-bottom p-0">
+            <nav className="navbar navbar-dark bg-navbar shadow navbar-expand fixed-bottom p-0">
                 <div className="container">
                     <ul className="navbar-nav nav-justified justify-content-center justify-item-center w-100">
                         <li className="nav-item">
