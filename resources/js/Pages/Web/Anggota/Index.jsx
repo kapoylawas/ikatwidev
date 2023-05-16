@@ -223,14 +223,11 @@ export default function AnggotaIndex() {
                                                                                 }
                                                                             </td>
                                                                             <td>
-                                                                                {/* {
-                                                                                    anggota.nama_city
-                                                                                } */}
-                                                                                 {/* {anggota.city === 0 ? (
+                                                                                 {anggota.city === 0 ? (
                                                                                         <p>DPC tidak ada</p>
                                                                                     ) : (
                                                                                         anggota.city.name
-                                                                                )} */}
+                                                                                )}
                                                                             </td>
                                                                             <td>
                                                                                 {anggota.surat_strs.map((str) =>
