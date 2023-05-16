@@ -49,37 +49,37 @@ export default function Header() {
                                         className="mt-1"
                                     >
                                         <Link href="/history">
-                                            <Dropdown.Item>
+                                            <Dropdown.Item href="#/action-2">
                                                 Sejarah
                                             </Dropdown.Item>
                                         </Link>
 
                                         <Link href="/visimisi">
-                                            <Dropdown.Item>
+                                            <Dropdown.Item href="#/action-2">
                                                 Visi & Misi
                                             </Dropdown.Item>
                                         </Link>
 
                                         <Link href="/kegiatan">
-                                            <Dropdown.Item>
+                                            <Dropdown.Item href="#/action-3">
                                                 Kegiatan
                                             </Dropdown.Item>
                                         </Link>
 
                                         <Link href="/anggota">
-                                            <Dropdown.Item>
+                                            <Dropdown.Item href="#/action-4">
                                                 Anggota
                                             </Dropdown.Item>
                                         </Link>
 
                                         <Link href="/wilayah">
-                                            <Dropdown.Item>
+                                            <Dropdown.Item href="#/action-5">
                                                 Wilayah DPW
                                             </Dropdown.Item>
                                         </Link>
 
                                         <Link href="/wilayahdpc">
-                                            <Dropdown.Item>
+                                            <Dropdown.Item href="#/action-6">
                                                 Wilayah DPC
                                             </Dropdown.Item>
                                         </Link>
