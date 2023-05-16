@@ -2,10 +2,11 @@
 import React from "react";
 
 //import Link
-import { Link } from '@inertiajs/inertia-react';
+import { Link } from "@inertiajs/inertia-react";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 export default function Header() {
-
     let styles = {
         marginLeft: "7px",
     };
@@ -17,29 +18,85 @@ export default function Header() {
                     <div className="row justify-content-center">
                         <div className="col-md-7">
                             <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1">
-                                <Link href="/" className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none">
-                                    <img src="/assets/images/logo.png" width="50" /> {"  "}
-                                     <span style={styles}><h5> <strong> </strong> Ikatan Terapis Wicara Indonesia </h5></span>
-                                     
-                                        {/* <button className="btn btn-success-dark">
+                                <Link
+                                    href="/"
+                                    className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none"
+                                >
+                                    <img
+                                        src="/assets/images/logo.png"
+                                        width="50"
+                                    />{" "}
+                                    {"  "}
+                                    <span style={styles}>
+                                        <h5>
+                                            {" "}
+                                            <strong> </strong> Ikatan Terapis
+                                            Wicara Indonesia{" "}
+                                        </h5>
+                                    </span>
+                                    {/* <button className="btn btn-success-dark">
                                         <i className="fa fa-list-ul"></i></button> */}
-                                    
                                 </Link>
-                                <div id="page-content-wrapper">
-                                
-                                </div>
+                                <div id="page-content-wrapper"></div>
                             </header>
                         </div>
                         <div className="col-md-1">
                             <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1">
-                                <Link href="/" className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none">
-                                     
-                                        <button className="btn btn-dark mt-1">
-                                        <i className="fa fa-list-ul"></i></button>
-                                    
-                                </Link>
-                                <div id="page-content-wrapper">
-                                
+                                <div className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none">
+                                    <DropdownButton
+                                        id="dropdown-basic-button"
+                                        variant="success"
+                                        className="mt-1"
+                                    >
+                                        <Link href="/history">
+                                            <Dropdown.Item>
+                                                Sejarah
+                                            </Dropdown.Item>
+                                        </Link>
+
+                                        <Link href="/visimisi">
+                                            <Dropdown.Item>
+                                                Visi & Misi
+                                            </Dropdown.Item>
+                                        </Link>
+
+                                        <Link href="/kegiatan">
+                                            <Dropdown.Item>
+                                                Kegiatan
+                                            </Dropdown.Item>
+                                        </Link>
+
+                                        <Link href="/anggota">
+                                            <Dropdown.Item>
+                                                Anggota
+                                            </Dropdown.Item>
+                                        </Link>
+
+                                        <Link href="/wilayah">
+                                            <Dropdown.Item>
+                                                Wilayah DPW
+                                            </Dropdown.Item>
+                                        </Link>
+
+                                        <Link href="/wilayahdpc">
+                                            <Dropdown.Item>
+                                                Wilayah DPC
+                                            </Dropdown.Item>
+                                        </Link>
+
+                                        <Dropdown.Item
+                                            href="https://ikatwisiporlin-ktki.kemkes.go.id/"
+                                            target="_blank"
+                                        >
+                                            Siporlin
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                            href="https://siedunakes-ktki.kemkes.go.id/home/"
+                                            target="_blank"
+                                        >
+                                            Siedunakes
+                                        </Dropdown.Item>
+                                    </DropdownButton>
                                 </div>
                             </header>
                         </div>
@@ -47,6 +104,5 @@ export default function Header() {
                 </div>
             </nav>
         </>
-    )
-
+    );
 }
