@@ -180,16 +180,18 @@ export default function Sidebar() {
                     </Link>
                 )}
 
-                <Link
-                    href="/account/ejurnal"
-                    className={`${
-                        url.startsWith("/account/ejurnal")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
-                >
-                    <i className="fa fa-file-word me-2"></i> E-Jurnal
-                </Link>
+                {hasAnyPermission(["ejurnal.index"]) && (
+                    <Link
+                        href="/account/ejurnal"
+                        className={`${
+                            url.startsWith("/account/ejurnal")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-file-word me-2"></i> E-Jurnal
+                    </Link>
+                )}
 
                 {hasAnyPermission(["pengajuan.index"]) && (
                     <Link

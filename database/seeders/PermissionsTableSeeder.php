@@ -47,6 +47,9 @@ class PermissionsTableSeeder extends Seeder
         // master dpw
         Permission::create(['name' => 'dpw.index', 'guard_name' => 'web']);
 
+        // master ejurnal
+        Permission::create(['name' => 'ejurnal.index', 'guard_name' => 'web']);
+
         Permission::create(['name' => 'tagihan.index', 'guard_name' => 'web']);
 
         //permission categories
