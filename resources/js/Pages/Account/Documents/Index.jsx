@@ -29,7 +29,7 @@ export default function DocumentsIndex() {
             <LayoutAccount>
                 <div className="row mt-2 mb-4">
                     <div className="col-12">
-                        {filter === "PAID" || name === "Anggota Kehormatan" ? (
+                        {/* {filter === "PAID" || name === "Anggota Kehormatan" ? ( */}
                             <div className="card border-0 rounded shadow-sm border-top-admin">
                                 <div className="card-header">
                                     <span className="font-weight-bold">
@@ -101,7 +101,7 @@ export default function DocumentsIndex() {
                                     </table>
                                 </div>
                             </div>
-                        ) : (
+                        {/* ) : (
                             <div className="row mt-5">
                                 <div className="col-12 col-md-12 col-lg-12 mb-4">
                                     <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
@@ -111,7 +111,7 @@ export default function DocumentsIndex() {
                                     </div>
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </LayoutAccount>
