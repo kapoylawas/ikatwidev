@@ -287,6 +287,7 @@ export default function HomeIndex() {
                                         </a>
                                     </div>
                                 </div>
+                                
 
                                 {/** products */}
                                 {/* <div className="row justify-content-between mb-3 mt-4">
