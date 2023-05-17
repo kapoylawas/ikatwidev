@@ -117,13 +117,13 @@ export default function HomeIndex() {
                                             href="/history"
                                             className="text-decoration-none text-dark"
                                         >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/script.png"
                                                         width="50"
                                                     />
-                                                    <p className="card-title mt-3">
+                                                    <p className="kotak-title mt-3">
                                                         Sejarah
                                                     </p>
                                                 </div>
@@ -135,13 +135,13 @@ export default function HomeIndex() {
                                             href="/visimisi"
                                             className="text-decoration-none text-dark"
                                         >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/purpose.png"
                                                         width="50"
                                                     />
-                                                    <p className="card-title mt-3">
+                                                    <p className="kotak-title mt-3">
                                                         Visi & Misi
                                                     </p>
                                                 </div>
@@ -160,13 +160,13 @@ export default function HomeIndex() {
                                             href="/anggota"
                                             className="text-decoration-none text-dark"
                                         >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/organization.png"
                                                         width="50"
                                                     />
-                                                    <p className="card-title mt-3">
+                                                    <p className="kotak-title mt-3">
                                                         Anggota
                                                     </p>
                                                 </div>
@@ -178,8 +178,8 @@ export default function HomeIndex() {
                                             href="/wilayah"
                                             className="text-decoration-none text-dark"
                                         >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-map-search"
@@ -203,7 +203,7 @@ export default function HomeIndex() {
                                                         <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                                                         <path d="M20.2 20.2l1.8 1.8"></path>
                                                     </svg>
-                                                    <p className="card-title mt-3">
+                                                    <p className="kotak-title mt-3">
                                                         Wilayah DPW
                                                     </p>
                                                 </div>
@@ -215,8 +215,8 @@ export default function HomeIndex() {
                                             href="/wilayahdpc"
                                             className="text-decoration-none text-dark"
                                         >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="icon icon-tabler icon-tabler-map-search"
@@ -240,7 +240,7 @@ export default function HomeIndex() {
                                                         <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                                                         <path d="M20.2 20.2l1.8 1.8"></path>
                                                     </svg>
-                                                    <p className="card-title mt-3">
+                                                    <p className="kotak-title mt-3">
                                                         Wilayah DPC
                                                     </p>
                                                 </div>
@@ -254,13 +254,13 @@ export default function HomeIndex() {
                                             className="text-decoration-none text-dark"
                                             target="_blank"
                                         >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/siporlin.png"
                                                         width="50"
                                                     />
-                                                    <p className="card-title mt-3">
+                                                    <p className="kotak-title mt-3">
                                                         Siporlin
                                                     </p>
                                                 </div>
@@ -273,13 +273,13 @@ export default function HomeIndex() {
                                             className="text-decoration-none text-dark"
                                             target="_blank"
                                         >
-                                            <div className="card border-0 rounded-3  shadow-sm">
-                                                <div className="card-body text-center">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/insurance.png"
                                                         width="50"
                                                     />
-                                                    <p className="card-title mt-3">
+                                                    <p className="kotak-title mt-3">
                                                         Siedunakes
                                                     </p>
                                                 </div>
