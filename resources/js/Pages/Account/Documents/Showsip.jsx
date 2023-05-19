@@ -63,12 +63,6 @@ export default function DocumentShowstr() {
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    style={{ width: "7%" }}
-                                                >
-                                                    Tanggal SIP
-                                                </th>
-                                                <th
-                                                    scope="col"
                                                     style={{ width: "8%" }}
                                                 >
                                                     Tanggal Awal
@@ -117,9 +111,7 @@ export default function DocumentShowstr() {
                                                         <td className="text-center">
                                                             {sip.no_sip}
                                                         </td>
-                                                        <td className="text-center">
-                                                            {sip.date_sip}
-                                                        </td>
+                                                       
                                                         <td className="text-center">
                                                             {sip.date_start}
                                                         </td>

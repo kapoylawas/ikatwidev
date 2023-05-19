@@ -153,6 +153,20 @@ export default function Sidebar() {
                     </Link>
                 )}
 
+                {hasAnyPermission(["kegiatan.index"]) && (
+                    <Link
+                        href="/account/kegiatan"
+                        className={`${
+                            url.startsWith("/account/kegiatan")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-puzzle-piece me-2"></i>{" "}
+                        Agenda Kegiatan
+                    </Link>
+                )}
+
                 {hasAnyPermission(["ekta.index"]) && (
                     <Link
                         href="/account/ekta"

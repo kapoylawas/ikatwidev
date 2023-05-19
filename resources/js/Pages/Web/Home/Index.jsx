@@ -16,10 +16,13 @@ import CardCategory from "../../../Shared/CardCategory";
 //import component slider
 import CardProduct from "../../../Shared/CardProduct";
 import Footer from "../../../Components/Footer";
+import CardKegiatan from "../../../Shared/CardKegiatan";
 
 export default function HomeIndex() {
     //destruct props "sliders", "categories", "products"
-    const { auth, sliders, categories, products } = usePage().props;
+    const { auth, sliders, categories, products, kegiatans } = usePage().props;
+
+    console.log(kegiatans);
 
     const currentDate = new Date();
 
@@ -103,16 +106,13 @@ export default function HomeIndex() {
                                             href="/categories"
                                             className="text-dark"
                                         >
-                                            <strong>
-                                                Lihat Semua{" "}
-                                                <i className="fa fa-long-arrow-alt-right"></i>
-                                            </strong>
+                                            
                                         </Link>
                                     </div>
                                 </div>
 
                                 <div className="row justify-content-center">
-                                <div className="col-md-3 col-6 mb-3">
+                                    <div className="col-md-3 col-6 mb-3">
                                         <Link
                                             href="/history"
                                             className="text-decoration-none text-dark"
@@ -121,12 +121,9 @@ export default function HomeIndex() {
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/direktori.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-2"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        Sejarah & Pengurus
-                                                    </p>
                                                 </div>
                                             </div>
                                         </Link>
@@ -140,12 +137,9 @@ export default function HomeIndex() {
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/visimisi.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-2"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        Visi & Misi
-                                                    </p>
                                                 </div>
                                             </div>
                                         </Link>
@@ -159,12 +153,9 @@ export default function HomeIndex() {
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/kegiatan.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-2"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        Agenda Kegiatan
-                                                    </p>
                                                 </div>
                                             </div>
                                         </Link>
@@ -185,12 +176,9 @@ export default function HomeIndex() {
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/anggota.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-2"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        Anggota
-                                                    </p>
                                                 </div>
                                             </div>
                                         </Link>
@@ -200,16 +188,13 @@ export default function HomeIndex() {
                                             href="/wilayah"
                                             className="text-decoration-none text-dark"
                                         >
-                                             <div className="kotak border-0 rounded-3  shadow-sm">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/dpw.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-2"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        Wilayah DPW
-                                                    </p>
                                                 </div>
                                             </div>
                                         </Link>
@@ -219,37 +204,31 @@ export default function HomeIndex() {
                                             href="/wilayahdpc"
                                             className="text-decoration-none text-dark"
                                         >
-                                             <div className="kotak border-0 rounded-3  shadow-sm">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/dpc.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-2"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        Wilayah DPC
-                                                    </p>
                                                 </div>
                                             </div>
                                         </Link>
                                     </div>
-                                   
+
                                     <div className="col-md-3 col-6 mb-3">
                                         <a
                                             href="https://ikatwisiporlin-ktki.kemkes.go.id/"
                                             className="text-decoration-none text-dark"
                                             target="_blank"
                                         >
-                                             <div className="kotak border-0 rounded-3  shadow-sm">
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/siporlin.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-2"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        Siporlin
-                                                    </p>
                                                 </div>
                                             </div>
                                         </a>
@@ -264,18 +243,14 @@ export default function HomeIndex() {
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/icon/sidunakes.jpeg"
-                                                        width={80}
-                                                        className="mt-2"
+                                                        width={130}
+                                                        className="mt-2 mb-3"
                                                     />
-                                                    <p className="kotak-title mt-2">
-                                                        siedunakes
-                                                    </p>
                                                 </div>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
-                                
 
                                 {/** products */}
                                 {/* <div className="row justify-content-between mb-3 mt-4">
@@ -303,6 +278,27 @@ export default function HomeIndex() {
                                         />
                                     ))}
                                 </div> */}
+                                <div className="row justify-content-between mb-3">
+                                    <div className="col-md-6 col-6 text-start">
+                                        <strong> Agenda Kegiatan</strong>
+                                    </div>
+                                    <div className="col-md-6 col-6 text-end">
+                                        <Link
+                                            href="/categories"
+                                            className="text-dark"
+                                        >
+                                            
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    {kegiatans.map((kegiatan, index) => (
+                                        <CardKegiatan
+                                            kegiatan={kegiatan}
+                                            key={index}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                             <Footer />
                         </div>

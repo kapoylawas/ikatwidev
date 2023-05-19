@@ -66,12 +66,7 @@ export default function DocumentShowIjazah() {
                                                 >
                                                     Universitas
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "8%" }}
-                                                >
-                                                    Fakultas
-                                                </th>
+                                               
                                                 <th
                                                     scope="col"
                                                     style={{ width: "6%" }}
@@ -154,9 +149,7 @@ export default function DocumentShowIjazah() {
                                                                 ijazah.name_universitas
                                                             }
                                                         </td>
-                                                        <td className="text-center">
-                                                            {ijazah.fakultas}
-                                                        </td>
+                                                        
                                                         <td className="text-center">
                                                             {ijazah.jurusan}
                                                         </td>

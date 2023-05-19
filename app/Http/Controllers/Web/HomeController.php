@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Kegiatan;
 use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -27,10 +28,13 @@ class HomeController extends Controller
         //get products
         $products = Product::with('productImages', 'productSizes')->latest()->take(8)->get();
 
+        $kegiatans = Kegiatan::latest()->take(2)->get();
+
         return inertia('Web/Home/Index', [
             'sliders'       => $sliders,
             'categories'    => $categories,
-            'products'      => $products
+            'products'      => $products,
+            'kegiatans'      => $kegiatans
         ]);
     }
 }

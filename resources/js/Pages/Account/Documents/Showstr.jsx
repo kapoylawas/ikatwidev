@@ -62,12 +62,7 @@ export default function DocumentShowstr() {
                                                 >
                                                     No STR
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "7%" }}
-                                                >
-                                                    Tanggal STR
-                                                </th>
+                                              
                                                 <th
                                                     scope="col"
                                                     style={{ width: "8%" }}
@@ -118,9 +113,7 @@ export default function DocumentShowstr() {
                                                         <td className="text-center">
                                                             {strs.no_str}
                                                         </td>
-                                                        <td className="text-center">
-                                                            {strs.date_str}
-                                                        </td>
+                                                       
                                                         <td className="text-center">
                                                             {strs.date_start}
                                                         </td>
