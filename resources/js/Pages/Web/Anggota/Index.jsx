@@ -45,10 +45,10 @@ export default function AnggotaIndex() {
             </Head>
             <br />
             <LayoutWeb>
-                <div className="container" style={{ marginTop: "55px", marginBottom: "50px" }}>
+                <div className="container" style={{ marginTop: "65px", marginBottom: "50px" }}>
                     <div className="fade-in">
                         <div className="row justify-content-center">
-                            <div className="col-md-8">
+                            <div className="col-md-8 mt-5">
                                 <div className="input-group">
                                     <input
                                         type="text"

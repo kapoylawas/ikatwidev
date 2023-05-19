@@ -29,7 +29,7 @@ export default function HomeIndex() {
                 <title>IKATWI - Ikatan Terapis Wicara</title>
             </Head>
             <LayoutWeb>
-                <div className="container" style={{ marginTop: "100px" }}>
+                <div className="container" style={{ marginTop: "140px" }}>
                     {auth.user == null ? (
                         auth.user
                     ) : (
