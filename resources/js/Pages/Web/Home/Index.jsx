@@ -49,7 +49,7 @@ export default function HomeIndex() {
                                                     <img
                                                         src={auth.user.image}
                                                         className="rounded-3"
-                                                        width={"50"}
+                                                        width={"80"}
                                                         alt="Deskripsi gambar"
                                                         onError={(e) => {
                                                             e.target.onerror =
