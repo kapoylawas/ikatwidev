@@ -121,7 +121,7 @@ export default function HomeIndex() {
                                                 <div className="kotak-body text-center">
                                                     <img
                                                         src="/assets/images/script.png"
-                                                        width="50"
+                                                        width={80}
                                                     />
                                                     <p className="kotak-title mt-3">
                                                         Sejarah
@@ -138,22 +138,42 @@ export default function HomeIndex() {
                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
-                                                        src="/assets/images/purpose.png"
-                                                        width="50"
+                                                        src="/assets/images/icon/visimisi.jpeg"
+                                                        width={80}
+                                                        className="mt-2"
                                                     />
-                                                    <p className="kotak-title mt-3">
+                                                    <p className="kotak-title mt-2">
                                                         Visi & Misi
                                                     </p>
                                                 </div>
                                             </div>
                                         </Link>
                                     </div>
-                                    {categories.map((category, index) => (
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <Link
+                                            href="/kegiatan"
+                                            className="text-decoration-none text-dark"
+                                        >
+                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                                <div className="kotak-body text-center">
+                                                    <img
+                                                        src="/assets/images/icon/kegiatan.jpeg"
+                                                        width={80}
+                                                        className="mt-2"
+                                                    />
+                                                    <p className="kotak-title mt-2">
+                                                        Visi & Misi
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    {/* {categories.map((category, index) => (
                                         <CardCategory
                                             category={category}
                                             key={index}
                                         />
-                                    ))}
+                                    ))} */}
 
                                     <div className="col-md-3 col-6 mb-3">
                                         <Link
@@ -163,10 +183,11 @@ export default function HomeIndex() {
                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
-                                                        src="/assets/images/organization.png"
-                                                        width="50"
+                                                        src="/assets/images/icon/anggota.jpeg"
+                                                        width={80}
+                                                        className="mt-2"
                                                     />
-                                                    <p className="kotak-title mt-3">
+                                                    <p className="kotak-title mt-2">
                                                         Anggota
                                                     </p>
                                                 </div>
@@ -178,32 +199,14 @@ export default function HomeIndex() {
                                             href="/wilayah"
                                             className="text-decoration-none text-dark"
                                         >
-                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="icon icon-tabler icon-tabler-map-search"
-                                                        width={50}
-                                                        height={50}
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width={2}
-                                                        stroke="currentColor"
-                                                        fill="none"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    >
-                                                        <path
-                                                            stroke="none"
-                                                            d="M0 0h24v24H0z"
-                                                            fill="none"
-                                                        ></path>
-                                                        <path d="M11 18l-2 -1l-6 3v-13l6 -3l6 3l6 -3v8"></path>
-                                                        <path d="M9 4v13"></path>
-                                                        <path d="M15 7v5"></path>
-                                                        <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                                                        <path d="M20.2 20.2l1.8 1.8"></path>
-                                                    </svg>
-                                                    <p className="kotak-title mt-3">
+                                                    <img
+                                                        src="/assets/images/icon/dpw.jpeg"
+                                                        width={80}
+                                                        className="mt-2"
+                                                    />
+                                                    <p className="kotak-title mt-2">
                                                         Wilayah DPW
                                                     </p>
                                                 </div>
@@ -215,32 +218,14 @@ export default function HomeIndex() {
                                             href="/wilayahdpc"
                                             className="text-decoration-none text-dark"
                                         >
-                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="icon icon-tabler icon-tabler-map-search"
-                                                        width={50}
-                                                        height={50}
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width={2}
-                                                        stroke="currentColor"
-                                                        fill="none"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    >
-                                                        <path
-                                                            stroke="none"
-                                                            d="M0 0h24v24H0z"
-                                                            fill="none"
-                                                        ></path>
-                                                        <path d="M11 18l-2 -1l-6 3v-13l6 -3l6 3l6 -3v8"></path>
-                                                        <path d="M9 4v13"></path>
-                                                        <path d="M15 7v5"></path>
-                                                        <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                                                        <path d="M20.2 20.2l1.8 1.8"></path>
-                                                    </svg>
-                                                    <p className="kotak-title mt-3">
+                                                    <img
+                                                        src="/assets/images/icon/dpc.jpeg"
+                                                        width={80}
+                                                        className="mt-2"
+                                                    />
+                                                    <p className="kotak-title mt-2">
                                                         Wilayah DPC
                                                     </p>
                                                 </div>
@@ -254,13 +239,14 @@ export default function HomeIndex() {
                                             className="text-decoration-none text-dark"
                                             target="_blank"
                                         >
-                                            <div className="kotak border-0 rounded-3  shadow-sm">
+                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
-                                                        src="/assets/images/siporlin.png"
-                                                        width="50"
+                                                        src="/assets/images/icon/siporlin.jpeg"
+                                                        width={80}
+                                                        className="mt-2"
                                                     />
-                                                    <p className="kotak-title mt-3">
+                                                    <p className="kotak-title mt-2">
                                                         Siporlin
                                                     </p>
                                                 </div>
@@ -276,11 +262,12 @@ export default function HomeIndex() {
                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
-                                                        src="/assets/images/insurance.png"
-                                                        width="50"
+                                                        src="/assets/images/icon/sidunakes.jpeg"
+                                                        width={80}
+                                                        className="mt-2"
                                                     />
-                                                    <p className="kotak-title mt-3">
-                                                        Siedunakes
+                                                    <p className="kotak-title mt-2">
+                                                        siedunakes
                                                     </p>
                                                 </div>
                                             </div>
