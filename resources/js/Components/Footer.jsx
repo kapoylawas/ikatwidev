@@ -173,9 +173,11 @@ export default function Footer() {
                                 </div>
                             </div>
                             <div class="col-sm-8 col-md-12 text-center order-sm-2 order-md-1 bg-light-custom py-4">
-                                <h4>
+                                <h5>
+                                    <p  style={{ color: "white" }}>
                                     ©{new Date().getFullYear()} DPP Ikatan Terapis Wicara Indonesia.
-                                </h4>
+                                    </p>
+                                </h5>
                             </div>
                         </div>
                     </div>
