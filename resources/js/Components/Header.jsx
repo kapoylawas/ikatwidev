@@ -50,7 +50,7 @@ export default function Header() {
                                     >
                                         <Link href="/history">
                                             <Dropdown.Item href="#/action-2">
-                                                Sejarah
+                                                Sejarah & Pengurus
                                             </Dropdown.Item>
                                         </Link>
 
