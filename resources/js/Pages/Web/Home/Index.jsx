@@ -120,11 +120,12 @@ export default function HomeIndex() {
                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
-                                                        src="/assets/images/script.png"
+                                                        src="/assets/images/icon/direktori.jpeg"
                                                         width={80}
+                                                        className="mt-2"
                                                     />
-                                                    <p className="kotak-title mt-3">
-                                                        Sejarah
+                                                    <p className="kotak-title mt-2">
+                                                        Sejarah & Pengurus
                                                     </p>
                                                 </div>
                                             </div>
@@ -162,7 +163,7 @@ export default function HomeIndex() {
                                                         className="mt-2"
                                                     />
                                                     <p className="kotak-title mt-2">
-                                                        Visi & Misi
+                                                        Agenda Kegiatan
                                                     </p>
                                                 </div>
                                             </div>

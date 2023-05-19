@@ -181,6 +181,11 @@ Route::get('/berita', [\App\Http\Controllers\Web\BeritaController::class, 'index
 Route::get('/artikel', [\App\Http\Controllers\Web\ArtikelController::class, 'index'])->name('web.artikel.index');
 
 /**
+ * route category kegiatan
+ */
+Route::get('/kegiatan', [\App\Http\Controllers\Web\KegiatanController::class, 'index'])->name('web.kegiatan.index');
+
+/**
  * route category history
  */
 Route::get('/history', [\App\Http\Controllers\Web\HistoryController::class, 'index'])->name('web.history.index');

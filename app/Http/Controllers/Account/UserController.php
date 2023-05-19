@@ -24,7 +24,7 @@ class UserController extends Controller
             //get users
             $users = User::when(request()->q, function ($users) {
                 $users = $users->where('name', 'like', '%' . request()->q . '%');
-            })->with('roles', 'province', 'city')->latest()->paginate(10);
+            })->with('roles', 'province', 'city')->latest()->orderBy('no_anggota', 'ASC')->paginate(10);
         } else {
             $users = User::when(request()->q, function ($users) {
                 $users = $users->where('name', 'like', '%' . request()->q . '%');
