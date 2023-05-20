@@ -105,9 +105,7 @@ export default function HomeIndex() {
                                         <Link
                                             href="/categories"
                                             className="text-dark"
-                                        >
-                                            
-                                        </Link>
+                                        ></Link>
                                     </div>
                                 </div>
 
@@ -284,10 +282,13 @@ export default function HomeIndex() {
                                     </div>
                                     <div className="col-md-6 col-6 text-end">
                                         <Link
-                                            href="/categories"
+                                            href="/kegiatan"
                                             className="text-dark"
                                         >
-                                            
+                                            <strong>
+                                                Lihat Semua{" "}
+                                                <i className="fa fa-long-arrow-alt-right"></i>
+                                            </strong>
                                         </Link>
                                     </div>
                                 </div>
