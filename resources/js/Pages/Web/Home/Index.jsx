@@ -64,7 +64,7 @@ export default function HomeIndex() {
                                                     >
                                                         {auth.user.name}
                                                     </a>
-                                                    <button className="btn btn-success btn-block mt-2 mb-2">
+                                                    {/* <button className="btn btn-success btn-block mt-2 mb-2">
                                                         <span className="fa fa-envelope"></span>{" "}
                                                         {auth.user.email}
                                                     </button>
@@ -79,7 +79,7 @@ export default function HomeIndex() {
                                                         <span className="btn btn-danger btn-sm shadow-sm mb-2">
                                                             STR Anda Non Aktif
                                                         </span>
-                                                    )}
+                                                    )} */}
                                                 </div>
                                             </div>
                                         </div>
