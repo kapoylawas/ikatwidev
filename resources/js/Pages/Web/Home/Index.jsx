@@ -242,7 +242,7 @@ export default function HomeIndex() {
                                                     <img
                                                         src="/assets/images/icon/sidunakes.jpeg"
                                                         width={130}
-                                                        className="mt-2 mb-3"
+                                                        className="mt-2 mb-2"
                                                     />
                                                 </div>
                                             </div>
