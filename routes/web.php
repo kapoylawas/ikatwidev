@@ -121,6 +121,9 @@ Route::prefix('account')->group(function() {
         //route resource kegiatan
         Route::resource('/kegiatan', \App\Http\Controllers\Account\AdminKegiatanController::class, ['as' => 'account'])->middleware('permission:kegiatan.index');
 
+        //route resource Pengurus
+        Route::resource('/pengurus', \App\Http\Controllers\Account\PengurusController::class, ['as' => 'account'])->middleware('permission:pengurus.index');
+
         //route resource categories
         Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])
             ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');

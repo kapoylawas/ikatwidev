@@ -167,6 +167,20 @@ export default function Sidebar() {
                     </Link>
                 )}
 
+                {hasAnyPermission(["pengurus.index"]) && (
+                    <Link
+                        href="/account/pengurus"
+                        className={`${
+                            url.startsWith("/account/pengurus")
+                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                                : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
+                    >
+                        <i className="fa fa-puzzle-piece me-2"></i>{" "}
+                        Pengurus
+                    </Link>
+                )}
+
                 {hasAnyPermission(["ekta.index"]) && (
                     <Link
                         href="/account/ekta"

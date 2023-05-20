@@ -55,6 +55,9 @@ class PermissionsTableSeeder extends Seeder
         // admin kegiatan
         Permission::create(['name' => 'kegiatan.index', 'guard_name' => 'web']);
 
+        // admin kegiatan
+        Permission::create(['name' => 'pengurus.index', 'guard_name' => 'web']);
+
         //permission categories
         Permission::create(['name' => 'categories.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'categories.create', 'guard_name' => 'web']);
