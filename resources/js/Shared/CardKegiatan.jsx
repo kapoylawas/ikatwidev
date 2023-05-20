@@ -23,7 +23,7 @@ export default function CardKegiatan({ kegiatan }) {
                             )} */}
                         <img
                             src={kegiatan.image}
-                            className="w-100 rounded-top"
+                            className="w-60 rounded-top"
                         />
                     </div>
                     <div className="card-body h-100">
