@@ -28,7 +28,7 @@ export default function Dashboard() {
                 </div>
 
                 <hr></hr>
-                <div className="row mt-2">
+                {/* <div className="row mt-2">
                     <div className="col-12 col-lg-3 mb-4">
                         <div className="card border-0 shadow-sm overflow-hidden">
                             <div className="card-body p-0 d-flex align-items-center">
@@ -109,7 +109,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                </div>
+                </div> */}
 
                 {/* <body>
                     <section style={{ border: "1pxsolid" }}>
