@@ -7,7 +7,7 @@ import { Link } from "@inertiajs/inertia-react";
 export default function CardKegiatan({ kegiatan }) {
     return (
         <>
-            <div className="col-md-6 mb-4 col-6">
+            <div className="col-md-12 mb-4 col-12">
                 <div className="card border-0 h-100 rounded-3 shadow-sm product">
                     <div className="card-image">
                         {/* {kegiatan.image.length > 0 ? (
