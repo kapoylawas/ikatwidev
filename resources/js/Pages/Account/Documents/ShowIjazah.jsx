@@ -32,8 +32,19 @@ export default function DocumentShowIjazah() {
                                     Tambah
                                 </Link>
                             </div>
+                            <div className="col-md-3 col-12 mb-2">
+                                <Link
+                                    href={`/account/documents`}
+                                    className="btn btn-md btn-admin border-0 shadow w-100"
+                                    type="button"
+                                >
+                                    <i className="fa fa-arrow-left me-2"></i>
+                                    KEMBALI
+                                </Link>
+                            </div>
                         </div>
                     </div>
+                   
                 </div>
                 <div className="row mt-2">
                     <div className="col-12">
