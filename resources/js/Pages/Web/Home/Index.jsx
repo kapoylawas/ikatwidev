@@ -242,7 +242,7 @@ export default function HomeIndex() {
                                                     <img
                                                         src="/assets/images/icon/sidunakes.jpeg"
                                                         width={130}
-                                                        className="mt-2 mb-2"
+                                                        className="mt-2 mb-3"
                                                     />
                                                 </div>
                                             </div>
@@ -276,7 +276,7 @@ export default function HomeIndex() {
                                         />
                                     ))}
                                 </div> */}
-                                <div className="row justify-content-between mb-3">
+                                <div className="row justify-content-between mb-1">
                                     <div className="col-md-6 col-6 text-start">
                                         <strong> Agenda Kegiatan</strong>
                                     </div>
