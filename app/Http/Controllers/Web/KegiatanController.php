@@ -11,7 +11,7 @@ class KegiatanController extends Controller
     public function index() {
 
         //get products
-        $kegiatans = Kegiatan::with('productImages', 'productSizes')->latest()->paginate(8);
+        $kegiatans = Kegiatan::latest()->paginate(12);
 
         //render inertia
         return inertia('Web/Kegiatan/Index', [

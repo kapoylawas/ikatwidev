@@ -676,6 +676,13 @@ right: 20px;
 max-height: 120px;
 }
 
+.kegiatan img{
+position: center;
+top: 50px;
+right: 50px;
+max-height: 150px;
+}
+
 
 
 @media(max-width: 990px){
