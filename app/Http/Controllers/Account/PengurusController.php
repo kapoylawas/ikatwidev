@@ -14,7 +14,7 @@ class PengurusController extends Controller
 
         $pengurus = Pengurus::when(request()->q, function($pengurus) {
             $pengurus = $pengurus->where('name', 'like', '%'. request()->q . '%');
-        })->latest()->paginate(5);
+        })->orderBy('id', 'ASC')->paginate(10);
 
          //append query string to pagination links
          $pengurus->appends(['q' => request()->q]);
