@@ -54,7 +54,7 @@ export default function AnggotaIndex() {
                                         type="text"
                                         className="form-control"
                                         onChange={(e) => searchHandler(e)}
-                                        placeholder="search product here..."
+                                        placeholder="search Nama disini..."
                                     />
                                 </div>
                             </div>
