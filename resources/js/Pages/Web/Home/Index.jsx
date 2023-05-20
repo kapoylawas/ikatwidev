@@ -118,7 +118,7 @@ export default function HomeIndex() {
                                             <div className="kotak border-0 rounded-3  shadow-sm">
                                                 <div className="kotak-body text-center">
                                                     <img
-                                                        src="/assets/images/icon/direktori.jpeg"
+                                                        src="/assets/images/icon/profil.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
                                                     />
