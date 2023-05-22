@@ -15,7 +15,7 @@ class RoleController extends Controller
         //get roles
         $roles = Role::when(request()->q, function ($roles) {
             $roles = $roles->where('name', 'like', '%' . request()->q . '%');
-        })->with('permissions')->latest()->paginate(5);
+        })->with('permissions')->latest()->paginate(15);
 
         //append query string to pagination links
         $roles->appends(['q' => request()->q]);

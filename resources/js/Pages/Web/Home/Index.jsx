@@ -121,6 +121,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/profil.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>
@@ -137,6 +138,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/visimisi.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>
@@ -153,6 +155,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/kegiatan.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>
@@ -176,6 +179,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/anggota.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>
@@ -192,6 +196,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/dpw.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>
@@ -208,6 +213,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/dpc.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>
@@ -226,6 +232,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/siporlin.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>
@@ -243,6 +250,7 @@ export default function HomeIndex() {
                                                         src="/assets/images/icon/sidunakes.jpeg"
                                                         width={130}
                                                         className="mt-2 mb-2"
+                                                        alt="Deskripsi gambar"
                                                     />
                                                 </div>
                                             </div>

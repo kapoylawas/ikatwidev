@@ -25,6 +25,7 @@ export default function Header() {
                                     <img
                                         src="/assets/images/logo.png"
                                         width="50"
+                                        alt="Deskripsi gambar"
                                     />{" "}
                                     {"  "}
                                     <span style={styles}>
