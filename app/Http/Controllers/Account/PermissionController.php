@@ -19,7 +19,7 @@ class PermissionController extends Controller
         //get permissions
         $permissions = Permission::when(request()->q, function($permissions) {
             $permissions = $permissions->where('name', 'like', '%'. request()->q . '%');
-        })->latest()->paginate(5);
+        })->latest()->paginate(15);
 
         // dd($permissions);
 
