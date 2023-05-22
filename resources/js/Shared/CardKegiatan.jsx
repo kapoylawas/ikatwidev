@@ -24,6 +24,7 @@ export default function CardKegiatan({ kegiatan }) {
                         <img
                             src={kegiatan.image}
                             className="w-100 rounded-top"
+                            alt="Deskripsi gambar"
                         />
                     </div>
                     <div className="card-body h-50">

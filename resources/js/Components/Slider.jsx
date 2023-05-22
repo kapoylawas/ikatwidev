@@ -19,7 +19,7 @@ export default function Slider() {
                                 <div className="carousel-inner">
                                     {sliders.map((slider, index) => (
                                         <div className={`${index == 0 ? "active carousel-item" : "carousel-item"}`} key={index}>
-                                            <img src={slider.image} className="d-block img-carousel rounded-3" />
+                                            <img src={slider.image} className="d-block img-carousel rounded-3" alt="Deskripsi gambar" />
                                         </div>
                                     ))}
                                 </div>
