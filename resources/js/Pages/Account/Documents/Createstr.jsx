@@ -166,7 +166,7 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            File STR
+                                            File STR <li style={{ color: "red" }}>(File Wajib PDF, max 4 mb)</li>
                                         </label>
                                         <input
                                             type="file"

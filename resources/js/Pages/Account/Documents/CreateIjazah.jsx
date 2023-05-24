@@ -293,7 +293,7 @@ export default function DocumentCreateIjazah() {
                                             onChange={(e) =>
                                                 setIpk(e.target.value)
                                             }
-                                            placeholder="Tanggal Ijazah"
+                                            placeholder="Index Prestasi Akademik"
                                         />
                                     </div>
                                     {errors.no_ijazah && (
@@ -303,7 +303,7 @@ export default function DocumentCreateIjazah() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            File Transkip
+                                            File Transkip <li style={{ color: "red" }}>(File Wajib PDF, max 4 mb)</li>
                                         </label>
                                         <input
                                             type="file"
@@ -320,7 +320,7 @@ export default function DocumentCreateIjazah() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            File Ijazah
+                                            File Ijazah  <li style={{ color: "red" }}>(File Wajib PDF, max 4 mb)</li>
                                         </label>
                                         <input
                                             type="file"

@@ -152,7 +152,7 @@ class DocumentController extends Controller
          * Validate request
          */
         $this->validate($request, [
-            'image'      => 'required|mimes:pdf',
+            'image'      => 'required|mimes:pdf|max:4000',
             'no_str'      => 'required',
             'date_str'      => 'required',
             'date_start'      => 'required',
@@ -231,7 +231,7 @@ class DocumentController extends Controller
          * Validate request
          */
         $this->validate($request, [
-            'image'      => 'required|mimes:pdf',
+            'image'      => 'required|mimes:pdf|max:4000',
             'no_sip'      => 'required',
             'date_sip'      => 'required',
             'date_start'      => 'required',
@@ -317,8 +317,8 @@ class DocumentController extends Controller
             'no_ijazah'      => 'required',
             'date_ijazah'      => 'required',
             'ipk'      => 'required',
-            'transkip'      => 'required|mimes:pdf',
-            'ijazah'      => 'required|mimes:pdf',
+            'transkip'      => 'required|mimes:pdf|max:4000',
+            'ijazah'      => 'required|mimes:pdf|max:4000',
         ]);
 
         
