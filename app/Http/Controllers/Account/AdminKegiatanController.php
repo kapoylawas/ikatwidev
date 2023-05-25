@@ -59,4 +59,19 @@ class AdminKegiatanController extends Controller
         //redirect
         return redirect()->route('account.kegiatan.index');
     }
+
+    public function destroy($id)
+    {
+        //find by ID
+        $kegiatan = Kegiatan::findOrFail($id);
+
+        //remove image
+        Storage::disk('local')->delete('public/agenda/'.basename($kegiatan->image));
+
+        //delete
+        $kegiatan->delete();
+
+        //redirect
+        return redirect()->route('account.kegiatan.index');
+    }
 }
