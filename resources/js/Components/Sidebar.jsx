@@ -273,7 +273,7 @@ export default function Sidebar() {
                         <i className="fa fa-shield-alt me-2"></i> Roles
                     </Link>
                 )}
-                {hasAnyPermission(["permissions.index"]) && (
+                {/* {hasAnyPermission(["permissions.index"]) && ( */}
                     <Link
                         href="/account/permissions"
                         className={`${
@@ -284,7 +284,7 @@ export default function Sidebar() {
                     >
                         <i className="fa fa-key me-2"></i> Permissions
                     </Link>
-                )}
+                {/* )} */}
                 {hasAnyPermission(["users.index"]) && (
                     <Link
                         href="/account/users"
