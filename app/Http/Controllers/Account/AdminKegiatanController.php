@@ -33,6 +33,53 @@ class AdminKegiatanController extends Controller
         return inertia('Account/Kegiatan/Create');
     }
 
+    public function edit(Kegiatan $kegiatan)
+    {
+        return inertia('Account/Kegiatan/Edit', [
+            'kegiatan' => $kegiatan,
+        ]);
+    }
+
+    public function update(Request $request, Kegiatan $kegiatan)
+    {
+        /**
+         * validate
+         */
+        $this->validate($request, [
+            'name'          => 'required|unique:kegiatans,name,'.$kegiatan->id,
+        ]);
+
+        //check image update
+        if ($request->file('image')) {
+
+            //remove old image
+            Storage::disk('local')->delete('public/agenda/'.basename($kegiatan->image));
+        
+            //upload new image
+            $image = $request->file('image');
+            $image->storeAs('public/agenda', $image->hashName());
+
+            //update category with new image
+            $kegiatan->update([
+                'image'=> $image->hashName(),
+                'name' => $request->name,
+                'link'          => $request->link,
+                'slug'          => Str::slug($request->name, '-')
+            ]);
+
+        }
+
+        //update category without image
+        $kegiatan->update([
+            'name'          => $request->name,
+            'link'          => $request->link,
+            'slug'          => Str::slug($request->name, '-')
+        ]);
+
+        //redirect
+        return redirect()->route('account.kegiatan.index');
+    }
+
     public function store(Request $request)
     {
         /**
