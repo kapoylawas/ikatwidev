@@ -76,13 +76,19 @@ export default function DocumentShowstr() {
                                                     scope="col"
                                                     style={{ width: "8%" }}
                                                 >
-                                                    Tanggal Awal
+                                                    Tanggal pengesahan SIP
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     style={{ width: "8%" }}
                                                 >
-                                                    Tanggal Akhir
+                                                     Masa Berlaku SIP
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style={{ width: "8%" }}
+                                                >
+                                                     Kabupaten/Kota penerbit SIP
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -128,6 +134,9 @@ export default function DocumentShowstr() {
                                                         </td>
                                                         <td className="text-center">
                                                             {sip.date_end}
+                                                        </td>
+                                                        <td className="text-center">
+                                                            {sip.penerbit}
                                                         </td>
                                                         <td>
                                                             {new Date(

@@ -19,9 +19,9 @@ export default function DocumentCreatestr() {
     //define state
     const [filestr, setFilestr] = useState("");
     const [nostr, setNostr] = useState("");
-    const [datestr, setDatestr] = useState("");
     const [datestart, setDatestart] = useState("");
     const [dateend, setDateend] = useState("");
+    const [nosertifikat, setNosertifikat] = useState("");
 
     //method storeImage
     const storeStr = async (e) => {
@@ -34,9 +34,9 @@ export default function DocumentCreatestr() {
                 //data
                 image: filestr,
                 no_str: nostr,
-                date_str: datestr,
                 date_start: datestart,
                 date_end: dateend,
+                no_sertifikat: nosertifikat,
                 user_id: users.id,
             },
             {
@@ -96,7 +96,7 @@ export default function DocumentCreatestr() {
                                             No STR
                                         </label>
                                         <input
-                                            type="number"
+                                            type="text"
                                             className="form-control"
                                             value={nostr}
                                             onChange={(e) =>
@@ -112,25 +112,7 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Date STR
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="form-control"
-                                            value={datestr}
-                                            onChange={(e) =>
-                                                setDatestr(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    {errors.date_str && (
-                                        <div className="alert alert-danger">
-                                            {errors.date_str}
-                                        </div>
-                                    )}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            Tanggal Dibuat STR
+                                        Tanggal Pengesahan STR
                                         </label>
                                         <input
                                             type="date"
@@ -148,7 +130,7 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Tanggal Kaduluarsa STR
+                                        Tanggal Berlaku STR
                                         </label>
                                         <input
                                             type="date"
@@ -162,6 +144,25 @@ export default function DocumentCreatestr() {
                                     {errors.date_end && (
                                         <div className="alert alert-danger">
                                             {errors.date_end}
+                                        </div>
+                                    )}
+                                     <div className="mb-3">
+                                        <label className="form-label fw-bold">
+                                        Nomor sertifikat kompetensi
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={nosertifikat}
+                                            onChange={(e) =>
+                                                setNosertifikat(e.target.value)
+                                            }
+                                            placeholder="Nomor sertifikat kompetensi"
+                                        />
+                                    </div>
+                                    {errors.no_sertifikat && (
+                                        <div className="alert alert-danger">
+                                            {errors.no_sertifikat}
                                         </div>
                                     )}
                                     <div className="mb-3">

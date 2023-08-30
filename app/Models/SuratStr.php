@@ -16,6 +16,7 @@ class SuratStr extends Model
         'date_str',
         'date_start',
         'date_end',
+        'no_sertifikat',
         'image',
     ];
 

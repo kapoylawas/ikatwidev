@@ -156,6 +156,7 @@ class DocumentController extends Controller
             'no_str'      => 'required',
             'date_str'      => 'required',
             'date_start'      => 'required',
+            'no_sertifikat'      => 'required',
             'date_end'      => 'required',
         ]);
 
@@ -173,6 +174,7 @@ class DocumentController extends Controller
             'date_str'     => $request->date_str,
             'date_start'     => $request->date_start,
             'date_end'     => $request->date_end,
+            'no_sertifikat'     => $request->no_sertifikat,
             'user_id'     => $user,
         ]);
 
