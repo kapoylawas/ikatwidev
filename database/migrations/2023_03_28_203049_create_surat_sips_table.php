@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('date_sip');
             $table->string('date_start');
             $table->string('date_end');
+            $table->string('penerbit');
             $table->string('image');
             $table->timestamps();
         });

@@ -102,21 +102,6 @@ export default function DocumentCreateIjazah() {
                             </div>
                             <div className="card-body">
                                 <form onSubmit={storeIjazah}>
-                                    {/* <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            Ijazah terakhir pendidikan terapis
-                                            wicara
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={ijazahAkhir}
-                                            onChange={(e) =>
-                                                setIjazahAkhir(e.target.value)
-                                            }
-                                            placeholder="Ijazah Terakhir"
-                                        />
-                                    </div> */}
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
@@ -140,6 +125,11 @@ export default function DocumentCreateIjazah() {
                                                        DIII
                                                 </option>
                                                 <option
+                                                    value="D4"
+                                                >
+                                                       D4
+                                                </option>
+                                                <option
                                                     value="S1"
                                                 >
                                                         S1
@@ -148,6 +138,11 @@ export default function DocumentCreateIjazah() {
                                                     value="S2"
                                                 >
                                                         S2
+                                                </option>
+                                                <option
+                                                    value="S3"
+                                                >
+                                                        S3
                                                 </option>
                                                 
                                             </select>
@@ -208,7 +203,7 @@ export default function DocumentCreateIjazah() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Akredetasi
+                                        Akreditasi
                                         </label>
                                         <input
                                             type="text"
@@ -217,7 +212,7 @@ export default function DocumentCreateIjazah() {
                                             onChange={(e) =>
                                                 setAkredetasi(e.target.value)
                                             }
-                                            placeholder="Akredetasi jurusan"
+                                            placeholder="Akreditasi jurusan"
                                         />
                                     </div>
                                     {errors.akredetasi && (

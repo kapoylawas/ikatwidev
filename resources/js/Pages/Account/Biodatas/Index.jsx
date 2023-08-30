@@ -126,14 +126,14 @@ export default function EktaIndex() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat</td>
+                                        <td>Alamat Domisili /Alamat KTP</td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {biodata.alamat}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat Pekerjaan</td>
+                                        <td>Alamat Bekerja/ Tempat Bekerja</td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {biodata.lokasi_pekerjaan}

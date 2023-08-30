@@ -226,7 +226,6 @@ class DocumentController extends Controller
 
     public function storeSip(Request $request)
     {
-        // dd($request->all());
         /**
          * Validate request
          */
@@ -236,6 +235,7 @@ class DocumentController extends Controller
             'date_sip'      => 'required',
             'date_start'      => 'required',
             'date_end'      => 'required',
+            'penerbit'      => 'required',
         ]);
 
         //get user by ID
@@ -252,6 +252,7 @@ class DocumentController extends Controller
             'date_sip'     => $request->date_sip,
             'date_start'     => $request->date_start,
             'date_end'     => $request->date_end,
+            'penerbit'     => $request->penerbit,
             'user_id'     => $user,
         ]);
 

@@ -22,6 +22,7 @@ export default function DocumentCreatesip() {
     const [datesip, setDatesip] = useState("");
     const [datestart, setDatestart] = useState("");
     const [dateend, setDateend] = useState("");
+    const [penerbit, setPenerbit] = useState("");
 
     // method store sip
     const storeSip = async (e) => {
@@ -37,6 +38,7 @@ export default function DocumentCreatesip() {
                 date_sip: datesip,
                 date_start: datestart,
                 date_end: dateend,
+                penerbit: penerbit,
                 user_id: users.id,
             },
             {
@@ -96,7 +98,7 @@ export default function DocumentCreatesip() {
                                             No SIP
                                         </label>
                                         <input
-                                            type="number"
+                                            type="text"
                                             className="form-control"
                                             value={nosip}
                                             onChange={(e) =>
@@ -112,7 +114,7 @@ export default function DocumentCreatesip() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Date SIP
+                                        Tanggal pengesahan SIP
                                         </label>
                                         <input
                                             type="date"
@@ -130,7 +132,7 @@ export default function DocumentCreatesip() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Tanggal Dibuat SIP
+                                        Tanggal Mulai Berlaku SIP
                                         </label>
                                         <input
                                             type="date"
@@ -148,7 +150,7 @@ export default function DocumentCreatesip() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            Tanggal Kaduluarsa SIP
+                                        Masa Berlaku SIP
                                         </label>
                                         <input
                                             type="date"
@@ -181,7 +183,25 @@ export default function DocumentCreatesip() {
                                             {errors.file}
                                         </div>
                                     )}
-
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">
+                                            Kabupaten/Kota penerbit SIP
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={penerbit}
+                                            onChange={(e) =>
+                                                setPenerbit(e.target.value)
+                                            }
+                                            placeholder="Kabupaten/Kota penerbit SIP"
+                                        />
+                                    </div>
+                                    {errors.penerbit && (
+                                        <div className="alert alert-danger">
+                                            {errors.penerbit}
+                                        </div>
+                                    )}
                                     <div>
                                         <button
                                             type="submit"

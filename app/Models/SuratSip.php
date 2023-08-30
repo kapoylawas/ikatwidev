@@ -16,6 +16,7 @@ class SuratSip extends Model
         'date_sip',
         'date_start',
         'date_end',
+        'penerbit',
         'image',
     ];
 
