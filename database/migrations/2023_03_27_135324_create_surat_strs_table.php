@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('date_str');
             $table->string('date_start');
             $table->string('date_end');
+            $table->string('no_sertifikat');
             $table->string('image');
             $table->timestamps();
         });
