@@ -10,16 +10,21 @@ import { Head } from "@inertiajs/inertia-react";
 //import axios
 import axios from "axios";
 
-export default function AnggotaIndex() {
+export default function AnggotaIndex({ provinces, cities }) {
     //define state
     const [anggotas, setAnggota] = useState([]);
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [selectedProvince, setSelectedProvince] = useState("");
+    const [selectedCity, setSelectedCity] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+
     const currentDate = new Date();
 
     //define method "searchhandler"
-    const searchHandler = (e) => {
+    // const searchHandler = (e) => {
+    const searchHandler = (q, dpc, dpw) => {
         //set isLoading to true
         setIsLoading(true);
 
@@ -28,7 +33,8 @@ export default function AnggotaIndex() {
 
         axios
             .post(`/searchAnggota`, {
-                q: e.target.value,
+                // q: e.target.value,
+                q, dpc, dpw
             })
             .then((response) => {
                 //set isLoading to false
@@ -36,6 +42,24 @@ export default function AnggotaIndex() {
                 //set response to state
                 setAnggota(response.data.anggota.data);
             });
+    };
+
+    const handleInputChange = (e) => {
+        const term = e.target.value;
+        setSearchTerm(term);
+        searchHandler(term, selectedCity, selectedProvince);
+    };
+
+    const handleProvinceChange = (e) => {
+        const selectedProvinceValue = e.target.value;
+        setSelectedProvince(selectedProvinceValue);
+        searchHandler(searchTerm, selectedCity, selectedProvinceValue);
+    };
+
+    const handleCityChange = (e) => {
+        const selectedCityValue = e.target.value;
+        setSelectedCity(selectedCityValue);
+        searchHandler(searchTerm, selectedCityValue, selectedProvince);
     };
 
     return (
@@ -53,9 +77,36 @@ export default function AnggotaIndex() {
                                     <input
                                         type="text"
                                         className="form-control"
-                                        onChange={(e) => searchHandler(e)}
-                                        placeholder="search Nama disini..."
+                                        // onChange={(e) => searchHandler(e)}
+                                        onChange={handleInputChange}
+                                        placeholder="Cari disini..."
                                     />
+                                </div>
+                                <div className="input-group mt-2">
+                                    <select
+                                        className="form-select mx-2"
+                                        onChange={handleProvinceChange}
+                                        value={selectedProvince}
+                                    >
+                                        <option value="">Pilih DPW</option>
+                                        {provinces.map((province) => (
+                                            <option key={province.id} value={province.id}>
+                                                {province.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <select
+                                        className="form-select mx-2"
+                                        onChange={handleCityChange}
+                                        value={selectedCity}
+                                    >
+                                        <option value="">Pilih DPC</option>
+                                        {cities.map((city) => (
+                                            <option key={city.id} value={city.id}>
+                                                {city.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                             <div
@@ -223,10 +274,10 @@ export default function AnggotaIndex() {
                                                                                 }
                                                                             </td>
                                                                             <td>
-                                                                                 {anggota.city === 0 ? (
-                                                                                        <p>DPC tidak ada</p>
-                                                                                    ) : (
-                                                                                        anggota.city.name
+                                                                                {anggota.city === 0 ? (
+                                                                                    <p>DPC tidak ada</p>
+                                                                                ) : (
+                                                                                    anggota.city.name
                                                                                 )}
                                                                             </td>
                                                                             <td>
@@ -245,7 +296,7 @@ export default function AnggotaIndex() {
                                                                                         str.date_end
                                                                                     )
                                                                                 ) >=
-                                                                                currentDate ? (
+                                                                                    currentDate ? (
                                                                                     <span className="btn btn-success btn-sm shadow-sm border-0 ms-2 mb-2">
                                                                                         Aktif
                                                                                     </span>
