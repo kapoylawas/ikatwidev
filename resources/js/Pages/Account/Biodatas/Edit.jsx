@@ -30,6 +30,12 @@ export default function UserEdit() {
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota);
+    const [pendidikan, setPendidikan] = useState("");
+    const [nonlinear, setNonlinear] = useState("");
+    const [kepegawaian, setKepegawaian] = useState("");
+    const [bekerja, setBekerja] = useState("");
+    const [istitusi, setIstitusi] = useState("");
+    const [almtistitusi, setAlmtistitusi] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
@@ -220,7 +226,7 @@ export default function UserEdit() {
                                                 className="form-select"
                                                 value={statusAnggota}
                                                 onChange={(e) =>
-                                                    setStatusAnggota(
+                                                    setPendidikan(
                                                         e.target.value
                                                     )
                                                 }
@@ -254,7 +260,7 @@ export default function UserEdit() {
                                                 className="form-select"
                                                 value={statusAnggota}
                                                 onChange={(e) =>
-                                                    setStatusAnggota(
+                                                    setNonlinear(
                                                         e.target.value
                                                     )
                                                 }
@@ -289,7 +295,7 @@ export default function UserEdit() {
                                                 className="form-select"
                                                 value={statusAnggota}
                                                 onChange={(e) =>
-                                                    setStatusAnggota(
+                                                    setKepegawaian(
                                                         e.target.value
                                                     )
                                                 }
@@ -304,6 +310,7 @@ export default function UserEdit() {
                                                 </option>
                                                 <option value="PNS">PNS</option>
                                                 <option value="PPK">PPK</option>
+                                                <option value="BB">Belum Bekerja</option>
                                                 <option value="Wiraswasta">
                                                     Wiraswasta
                                                 </option>
@@ -324,7 +331,7 @@ export default function UserEdit() {
                                                 className="form-select"
                                                 value={statusAnggota}
                                                 onChange={(e) =>
-                                                    setStatusAnggota(
+                                                    setBekerja(
                                                         e.target.value
                                                     )
                                                 }
@@ -522,6 +529,55 @@ export default function UserEdit() {
                                             {errors.email && (
                                                 <div className="alert alert-danger">
                                                     {errors.email}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="row mt-2">
+                                        <div className="col-md-12">
+                                            <label className="mb-1">
+                                                Nama Istitusi
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    onChange={(e) =>
+                                                        setIstitusi(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Nama Istitusi"
+                                                />
+                                            </div>
+                                            {errors.alamat && (
+                                                <div className="alert alert-danger">
+                                                    {errors.alamat}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row mt-2">
+                                        <div className="col-md-12">
+                                            <label className="mb-1">
+                                                Alamat Istitusi
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    onChange={(e) =>
+                                                        setAlmtistitusi(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Alamat Lengkap Istitusi"
+                                                />
+                                            </div>
+                                            {errors.alamat && (
+                                                <div className="alert alert-danger">
+                                                    {errors.alamat}
                                                 </div>
                                             )}
                                         </div>

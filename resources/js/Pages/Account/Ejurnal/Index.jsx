@@ -1,5 +1,5 @@
 //import react
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -11,7 +11,7 @@ export default function EjurnalIndex() {
     const { transactions, statusAnggota } = usePage().props;
 
     const status = transactions.map((ts) => ts.status);
-    const [name] = useState(statusAnggota.status_anggota);  
+    const [name] = useState(statusAnggota.status_anggota);
 
     const filter = status
         .toString()
@@ -26,7 +26,7 @@ export default function EjurnalIndex() {
                 <title>User E-Jurnal - IKATWI</title>
             </Head>
             <LayoutAccount>
-                <div className="col-md-12 mt-5">
+                {/* <div className="col-md-12 mt-5">
                     {filter === "PAID" || name === "Anggota Kehormatan" ? (
                         <></>
                     ) : (
@@ -38,7 +38,15 @@ export default function EjurnalIndex() {
                             </div>
                         </div>
                     )}
-                </div>
+                </div> */}
+                <iframe
+                    title="Contoh Iframe"
+                    width="1030"
+                    height="600"
+                    src="https://www.asha.org/"
+                    // frameBorder="0"
+                    allowFullScreen
+                />
             </LayoutAccount>
         </>
     );
