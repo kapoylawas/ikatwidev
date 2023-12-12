@@ -14,8 +14,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 export default function Register() {
-    
-    const { errors, provinces} = usePage().props;
+    const { errors, provinces } = usePage().props;
 
     // state user
     const [name, setName] = useState("");
@@ -28,52 +27,71 @@ export default function Register() {
     const [cityID, setCityID] = useState("");
     const [cities, setCities] = useState([]);
 
+    const [isChecked, setChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setChecked(!isChecked);
+    };
+
+    const handleRegisterClick = () => {
+        // Logika yang ingin Anda jalankan saat tombol "Register" diklik
+        if (isChecked) {
+            // Lakukan sesuatu
+            console.log("Register button clicked!");
+        } else {
+            // Lakukan sesuatu jika checkbox tidak dicentang
+            console.log("Checkbox harus dicentang untuk mendaftar.");
+        }
+    };
 
     //method getCityByProvince
     const getCityByProvince = async (province_id) => {
-
         //set state province ID
         setProvinceID(province_id);
 
         //get cities by province id
-        axios.get(`/register/cities?province_id=${province_id}`)
-            .then(response => {
+        axios
+            .get(`/register/cities?province_id=${province_id}`)
+            .then((response) => {
                 setCities(response.data);
-            })
-    }
+            });
+    };
 
     const showCity = (city_id) => {
         //set state cityID
-        setCityID(city_id)
-    }
+        setCityID(city_id);
+    };
 
     //function "registerHandler"
     const registerHandler = async (e) => {
         e.preventDefault();
 
         //register
-        Inertia.post("/register", {
-            name: name,
-            nik: nik,
-            province_id: provinceID,
-            city_id: cityID,
-            email: email,
-            alamat: alamat,
-            password: password,
-            password_confirmation: passwordConfirmation,
-        },{
-            onSuccess: () => {
-
-                //show alert
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Register saved successfully!',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+        Inertia.post(
+            "/register",
+            {
+                name: name,
+                nik: nik,
+                province_id: provinceID,
+                city_id: cityID,
+                email: email,
+                alamat: alamat,
+                password: password,
+                password_confirmation: passwordConfirmation,
+            },
+            {
+                onSuccess: () => {
+                    //show alert
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Register saved successfully!",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                },
             }
-        });
+        );
     };
 
     return (
@@ -183,7 +201,11 @@ export default function Register() {
                                             <select
                                                 className="form-select"
                                                 value={provinceID}
-                                                onChange={(e) => getCityByProvince(e.target.value)}
+                                                onChange={(e) =>
+                                                    getCityByProvince(
+                                                        e.target.value
+                                                    )
+                                                }
                                             >
                                                 <option value="">
                                                     -- Select DPW --
@@ -209,13 +231,23 @@ export default function Register() {
                                             <label className="form-label">
                                                 DPC
                                             </label>
-                                            <select className="form-select" onChange={(e) => showCity(e.target.value)}>
-                                                <option value="">-- Select City --</option>
-                                                {
-                                                    cities.map((city, index) => (
-                                                        <option key={index} value={city.id}>{city.name}</option>
-                                                    ))
+                                            <select
+                                                className="form-select"
+                                                onChange={(e) =>
+                                                    showCity(e.target.value)
                                                 }
+                                            >
+                                                <option value="">
+                                                    -- Select City --
+                                                </option>
+                                                {cities.map((city, index) => (
+                                                    <option
+                                                        key={index}
+                                                        value={city.id}
+                                                    >
+                                                        {city.name}
+                                                    </option>
+                                                ))}
                                             </select>
                                             {errors.city_id && (
                                                 <div className="alert alert-danger mt-2">
@@ -302,10 +334,22 @@ export default function Register() {
                                             </div>
                                         </div>
                                     </div>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={isChecked}
+                                            onChange={handleCheckboxChange}
+                                            className="ml-1"
+                                        /> 
+                                        Saya setuju dengan syarat dan ketentuan
+                                        untuk mengisi data dengan benar
+                                    </label>
 
                                     <button
                                         className="btn btn-success shadow-sm rounded-sm px-4 w-100"
                                         type="submit"
+                                        onClick={handleRegisterClick}
+                                        disabled={!isChecked}
                                     >
                                         REGISTER
                                     </button>

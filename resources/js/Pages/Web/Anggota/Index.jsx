@@ -9,6 +9,7 @@ import { Head } from "@inertiajs/inertia-react";
 
 //import axios
 import axios from "axios";
+import Pagination from "../../../Shared/Pagination";
 
 export default function AnggotaIndex({ provinces, cities }) {
     //define state
@@ -195,7 +196,7 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                     >
                                                                         DPC
                                                                     </th>
-                                                                    <th
+                                                                    {/* <th
                                                                         scope="col"
                                                                         style={{
                                                                             width: "10%",
@@ -210,7 +211,7 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                         }}
                                                                     >
                                                                         Experide
-                                                                    </th>
+                                                                    </th> */}
                                                                     <th
                                                                         scope="col"
                                                                         style={{
@@ -280,7 +281,7 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                                     anggota.city.name
                                                                                 )}
                                                                             </td>
-                                                                            <td>
+                                                                            {/* <td>
                                                                                 {anggota.surat_strs.map((str) =>
                                                                                     str.no_str
                                                                                 )}
@@ -289,7 +290,7 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                                 {anggota.surat_strs.map((str) =>
                                                                                     str.date_end
                                                                                 )}
-                                                                            </td>
+                                                                            </td> */}
                                                                             <td>
                                                                                 {new Date(
                                                                                     anggota.surat_strs.map((str) =>
@@ -312,6 +313,7 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                             </tbody>
                                                         </table>
                                                     </div>
+                                                    {/* <Pagination links={anggotas.links} align={"end"} /> */}
                                                 </div>
                                             </div>
                                         </div>

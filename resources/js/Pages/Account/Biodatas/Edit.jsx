@@ -24,14 +24,15 @@ export default function UserEdit() {
     const [alamat, setAlamat] = useState(biodata.alamat);
     const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir);
     const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir);
-    const [lokasipekerjaan, setLokasipekerjaan] = useState(biodata.lokasi_pekerjaan);
+    const [lokasipekerjaan, setLokasipekerjaan] = useState(
+        biodata.lokasi_pekerjaan
+    );
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota);
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
-    
 
     //method updateUser
     const updateUser = async (e) => {
@@ -213,6 +214,168 @@ export default function UserEdit() {
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
+                                                Jenjang Pendidikan
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={statusAnggota}
+                                                onChange={(e) =>
+                                                    setStatusAnggota(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Jenjang Pendidikan
+                                                    --
+                                                </option>
+                                                <option value="D3">DIII</option>
+                                                <option value="D4">DIV</option>
+                                                <option value="S2">
+                                                    S2 (Magister Terapi Wicara)
+                                                </option>
+                                                <option value="S3">
+                                                    S3 (Doctor Terapi Wicara)
+                                                </option>
+                                            </select>
+                                            {errors.status_anggota && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.status_anggota}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Jenjang Pendidikan Non Linear
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={statusAnggota}
+                                                onChange={(e) =>
+                                                    setStatusAnggota(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Jenjang Pendidikan
+                                                    Non Linear --
+                                                </option>
+                                                <option value="Sarjana">
+                                                    Sarjana
+                                                </option>
+                                                <option value="Magister">
+                                                    Magister
+                                                </option>
+                                                <option value="Doctor">
+                                                    Doctor
+                                                </option>
+                                            </select>
+                                            {errors.status_anggota && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.status_anggota}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Status Kepegawaian
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={statusAnggota}
+                                                onChange={(e) =>
+                                                    setStatusAnggota(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Status Kepegawaian
+                                                    --
+                                                </option>
+                                                <option value="BLU">BLU</option>
+                                                <option value="Swasta">
+                                                    Swasta
+                                                </option>
+                                                <option value="PNS">PNS</option>
+                                                <option value="PPK">PPK</option>
+                                                <option value="Wiraswasta">
+                                                    Wiraswasta
+                                                </option>
+                                            </select>
+                                            {errors.status_anggota && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.status_anggota}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
+                                                Tempat Bekerja
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={statusAnggota}
+                                                onChange={(e) =>
+                                                    setStatusAnggota(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Tempat Bekerja --
+                                                </option>
+                                                <option value="klinikswasta">
+                                                    Klinik Swasta
+                                                </option>
+                                                <option value="rss">
+                                                    Rumah Sakit Swasta
+                                                </option>
+                                                <option value="rsup">
+                                                    Rumah Sakit Umum Pusat
+                                                </option>
+                                                <option value="rsud">
+                                                    Rumah Sakit Umum Daerah
+                                                </option>
+                                                <option value="rsm">
+                                                    Rumah Sakit Militer
+                                                </option>
+                                                <option value="rsk">
+                                                    Rumah Sakit Khusus
+                                                </option>
+                                                <option value="rsk">
+                                                    Rumah Sakit Khusus
+                                                </option>
+                                                <option value="puskesmas">
+                                                    Puskesmas
+                                                </option>
+                                                <option value="slb">
+                                                    Sekolah Luar Biasa
+                                                </option>
+                                                <option value="bb">
+                                                    Belum Bekerja 
+                                                </option>
+                                                <option value="freelance">
+                                                    Freelance
+                                                </option>
+                                            </select>
+                                            {errors.status_anggota && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.status_anggota}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="mb-1">
+                                            <label className="form-label">
                                                 Status Anggota
                                             </label>
                                             <select
@@ -226,24 +389,18 @@ export default function UserEdit() {
                                                 }
                                             >
                                                 <option value="">
-                                                    -- Select Status Keanggotaan --
+                                                    -- Select Status Keanggotaan
+                                                    --
                                                 </option>
-                                                <option
-                                                    value="Anggota Biasa"
-                                                >
-                                                        Anggota Biasa
+                                                <option value="Anggota Biasa">
+                                                    Anggota Biasa
                                                 </option>
-                                                <option
-                                                    value="Anggota Luar Biasa"
-                                                >
-                                                        Anggota Luar Biasa
+                                                <option value="Anggota Luar Biasa">
+                                                    Anggota Luar Biasa
                                                 </option>
-                                                <option
-                                                    value="Anggota Kehormatan"
-                                                >
-                                                        Anggota Kehormatan
+                                                <option value="Anggota Kehormatan">
+                                                    Anggota Kehormatan
                                                 </option>
-                                                
                                             </select>
                                             {errors.status_anggota && (
                                                 <div className="alert alert-danger mt-2">
@@ -252,7 +409,7 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
-                                    
+
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
@@ -287,7 +444,7 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
-                                    
+
                                     <div className="row mt-2">
                                         <div className="mb-1">
                                             <label className="form-label">
@@ -408,7 +565,9 @@ export default function UserEdit() {
                                                     className="form-control"
                                                     value={lokasipekerjaan}
                                                     onChange={(e) =>
-                                                        setLokasipekerjaan(e.target.value)
+                                                        setLokasipekerjaan(
+                                                            e.target.value
+                                                        )
                                                     }
                                                     placeholder="Alamat Lokasi Pekerjaan"
                                                 />
