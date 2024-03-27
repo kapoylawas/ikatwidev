@@ -21,7 +21,7 @@ class CheckoutController extends Controller
     public function index()
     {
         //check if cart empty
-        if(Cart::where('user_id', auth()->user()->id)->count() == 0) {
+        if (Cart::where('user_id', auth()->user()->id)->count() == 0) {
             return redirect()->route('web.carts.index');
         }
 
@@ -72,7 +72,7 @@ class CheckoutController extends Controller
 
         return response()->json($response['rajaongkir']['results'][0]['costs']);
     }
-    
+
     /**
      * store
      *
@@ -90,17 +90,17 @@ class CheckoutController extends Controller
         // set log parameter (default : true)
         $duitkuConfig->setDuitkuLogs(false);
 
-        
+
         DB::transaction(function () use ($duitkuConfig, $request) {
-            
+
             $tahun = date("Y");
             $paymentAmount      = $request->grand_total;
             $email              = $request->email;
-            $merchantOrderId    = 'INV-'.time();
-            $productDetails     = "Pembayaran untuk Invoice : ". $merchantOrderId;
+            $merchantOrderId    = 'INV-' . time();
+            $productDetails     = "Pembayaran untuk Invoice : " . $merchantOrderId;
             $customerVaName     = $request->name;
-            $callbackUrl        = config('app.url').'/callback'; // url for callback
-            $returnUrl          = config('app.url').'/account/transactions/'.$merchantOrderId; // url for redirect
+            $callbackUrl        = config('app.url') . '/callback'; // url for callback
+            $returnUrl          = config('app.url') . '/account/transactions/' . $merchantOrderId; // url for redirect
             $expiryPeriod       = 1440; // set the expired time in minutes
 
             //create transaction
@@ -125,21 +125,21 @@ class CheckoutController extends Controller
             // Item Details
             $item_details = [];
 
-            foreach(Cart::with('product')->where('user_id', auth()->user()->id)->get() as $cart) {
-                
+            foreach (Cart::with('product')->where('user_id', auth()->user()->id)->get() as $cart) {
+
                 //insert product ke table transaction_details
                 $transaction->transactionDetails()->create([
-                    'transaction_id'    => $transaction->id,   
+                    'transaction_id'    => $transaction->id,
                     'product_id'        => $cart->product->id,
                     'product_image'     => basename($cart->product_image),
                     'size'              => $cart->size,
                     'qty'               => $cart->qty,
                     'price'             => $cart->price,
                     'tahun'             => $cart->tahun,
-                ]); 
-                
+                ]);
+
                 //assign item details
-                $item_details [] = array(
+                $item_details[] = array(
                     'name'      => $cart->product->title,
                     'price'     => $cart->price,
                     'quantity'  => $cart->qty,
@@ -156,13 +156,13 @@ class CheckoutController extends Controller
                 'firstName'         => $request->name,
                 'email'             => $request->email,
                 'billingAddress'    => array(
-                                        'firstName'     => $request->name,
-                                        'address'       => $request->address,
-                                    ),
+                    'firstName'     => $request->name,
+                    'address'       => $request->address,
+                ),
                 'shippingAddress'   => array(
-                                        'firstName'     => $request->name,
-                                        'address'       => $request->address,
-                                    ),
+                    'firstName'     => $request->name,
+                    'address'       => $request->address,
+                ),
             );
 
             $payload = array(
@@ -191,7 +191,6 @@ class CheckoutController extends Controller
 
                 //make response "invoice"
                 $this->response['invoice'] = $transaction->invoice;
-
             } catch (Exception $e) {
                 echo $e->getMessage();
             }

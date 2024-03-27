@@ -259,7 +259,7 @@ export default function HomeIndex() {
                                 </div>
 
                                 {/** products */}
-                                {/* <div className="row justify-content-between mb-3 mt-4">
+                                <div className="row justify-content-between mb-3 mt-4">
                                     <div className="col-md-6 col-6 text-start">
                                         <strong>Kegiatan Terbaru</strong>
                                     </div>
@@ -274,16 +274,16 @@ export default function HomeIndex() {
                                             </strong>
                                         </Link>
                                     </div>
-                                </div> */}
+                                </div>
 
-                                {/* <div className="row mb-5">
+                                <div className="row mb-5">
                                     {products.map((product, index) => (
                                         <CardProduct
                                             product={product}
                                             key={index}
                                         />
                                     ))}
-                                </div> */}
+                                </div>
                                 <div className="row justify-content-between mb-1">
                                     <div className="col-md-6 col-6 text-start">
                                         <strong> Agenda Kegiatan</strong>

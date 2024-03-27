@@ -33,16 +33,16 @@ export default function Register() {
         setChecked(!isChecked);
     };
 
-    const handleRegisterClick = () => {
-        // Logika yang ingin Anda jalankan saat tombol "Register" diklik
-        if (isChecked) {
-            // Lakukan sesuatu
-            console.log("Register button clicked!");
-        } else {
-            // Lakukan sesuatu jika checkbox tidak dicentang
-            console.log("Checkbox harus dicentang untuk mendaftar.");
-        }
-    };
+    // const handleRegisterClick = () => {
+    //     // Logika yang ingin Anda jalankan saat tombol "Register" diklik
+    //     if (isChecked) {
+    //         // Lakukan sesuatu
+    //         console.log("Register button clicked!");
+    //     } else {
+    //         // Lakukan sesuatu jika checkbox tidak dicentang
+    //         console.log("Checkbox harus dicentang untuk mendaftar.");
+    //     }
+    // };
 
     //method getCityByProvince
     const getCityByProvince = async (province_id) => {
@@ -90,7 +90,7 @@ export default function Register() {
                         timer: 1500,
                     });
                 },
-            }
+            },
         );
     };
 
@@ -127,13 +127,14 @@ export default function Register() {
                                                     <i className="fa fa-user"></i>
                                                 </span>
                                                 <input
-                                                    type="number"
+                                                    type="text"
                                                     className="form-control"
                                                     value={nik}
                                                     onChange={(e) =>
                                                         setNik(e.target.value)
                                                     }
                                                     placeholder="No Induk Kependudukan"
+                                                    maxLength={16}
                                                 />
                                             </div>
                                             {errors.nik && (
@@ -177,7 +178,7 @@ export default function Register() {
                                                     <i className="fa fa-envelope"></i>
                                                 </span>
                                                 <input
-                                                    type="text"
+                                                    type="email"
                                                     className="form-control"
                                                     value={email}
                                                     onChange={(e) =>
@@ -203,7 +204,7 @@ export default function Register() {
                                                 value={provinceID}
                                                 onChange={(e) =>
                                                     getCityByProvince(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                             >
@@ -271,7 +272,7 @@ export default function Register() {
                                                     value={alamat}
                                                     onChange={(e) =>
                                                         setAlamat(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Alamat Lengkap Anda"
@@ -300,7 +301,7 @@ export default function Register() {
                                                     value={password}
                                                     onChange={(e) =>
                                                         setPassword(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Password"
@@ -326,7 +327,7 @@ export default function Register() {
                                                     value={passwordConfirmation}
                                                     onChange={(e) =>
                                                         setPasswordConfirmation(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Password Confirmation"
@@ -334,22 +335,20 @@ export default function Register() {
                                             </div>
                                         </div>
                                     </div>
-                                    <label>
+                                    {/* <label>
                                         <input
                                             type="checkbox"
                                             checked={isChecked}
                                             onChange={handleCheckboxChange}
                                             className="ml-1"
-                                        /> 
+                                        />
                                         Saya setuju dengan syarat dan ketentuan
                                         untuk mengisi data dengan benar
-                                    </label>
+                                    </label> */}
 
                                     <button
                                         className="btn btn-success shadow-sm rounded-sm px-4 w-100"
                                         type="submit"
-                                        onClick={handleRegisterClick}
-                                        disabled={!isChecked}
                                     >
                                         REGISTER
                                     </button>
