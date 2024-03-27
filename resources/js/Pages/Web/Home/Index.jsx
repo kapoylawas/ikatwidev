@@ -259,7 +259,7 @@ export default function HomeIndex() {
                                 </div>
 
                                 {/** products */}
-                                <div className="row justify-content-between mb-3 mt-4">
+                                {/* <div className="row justify-content-between mb-3 mt-4">
                                     <div className="col-md-6 col-6 text-start">
                                         <strong>Kegiatan Terbaru</strong>
                                     </div>
@@ -283,7 +283,7 @@ export default function HomeIndex() {
                                             key={index}
                                         />
                                     ))}
-                                </div>
+                                </div> */}
                                 <div className="row justify-content-between mb-1">
                                     <div className="col-md-6 col-6 text-start">
                                         <strong> Agenda Kegiatan</strong>
