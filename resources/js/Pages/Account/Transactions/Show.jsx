@@ -91,7 +91,8 @@ export default function TransactionShow() {
                                         <td>:</td>
                                         <td className="p-3">
                                             {transaction.status == 'UNPAID' &&
-                                                <a href={`https://app-sandbox.duitku.com/redirect_checkout?reference=${transaction.reference}&lang=id`} className="btn btn-success btn-sm border-0 shadow-sm">PAY NOW</a>
+                                                // <a href={`https://app-sandbox.duitku.com/redirect_checkout?reference=${transaction.reference}&lang=id`} className="btn btn-success btn-sm border-0 shadow-sm">PAY NOW</a>
+                                                <a href={`${transaction.paymentUrl}&lang=id`} className="btn btn-success btn-sm border-0 shadow-sm">PAY NOW</a>
                                             }
                                             {transaction.status == 'PAID' &&
                                                 <button className="btn btn-sm btn-success border-0 shadow-sm"><i className="fa fa-check-circle"></i> PAID</button>
