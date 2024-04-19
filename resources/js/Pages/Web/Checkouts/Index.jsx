@@ -77,7 +77,7 @@ export default function CheckoutIndex() {
                                 
                                 <div className="card border-0 rounded-3 shadow-sm">
                                     <div className="card-header">
-                                        <i className="fa fa-shopping-cart"></i> Shipping Information
+                                        <i className="fa fa-shopping-cart"></i> Tagihan Information
                                     </div>
                                     <div className="card-body">
 

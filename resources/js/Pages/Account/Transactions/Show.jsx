@@ -1,17 +1,16 @@
-//import react  
+//import react
 import React from "react";
 
 //import layout
-import LayoutAccount from '../../../Layouts/Account';
+import LayoutAccount from "../../../Layouts/Account";
 
 //import Head, usePage
-import { Head, usePage } from '@inertiajs/inertia-react';
+import { Head, usePage } from "@inertiajs/inertia-react";
 
 //import formatPrice
-import FormatPrice from '../../../Utils/FormatPrice';
+import FormatPrice from "../../../Utils/FormatPrice";
 
 export default function TransactionShow() {
-
     //destruct props "transaction"
     const { transaction } = usePage().props;
     return (
@@ -22,124 +21,142 @@ export default function TransactionShow() {
             <LayoutAccount>
                 <div className="row mt-4 mb-4">
                     <div className="col-12">
-
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
-                                <span className="font-weight-bold"><i className="fa fa-shopping-cart"></i> Detail Transaction</span>
+                                <span className="font-weight-bold">
+                                    <i className="fa fa-shopping-cart"></i>{" "}
+                                    Detail Transaction
+                                </span>
                             </div>
                             <div className="card-body">
-
                                 <table className="table table-bordered">
                                     <tr>
-                                        <td style={{ width: '25%' }}>
+                                        <td style={{ width: "25%" }}>
                                             NO. INVOICE
                                         </td>
-                                        <td style={{ width: '1%' }}>:</td>
+                                        <td style={{ width: "1%" }}>:</td>
                                         <td className="p-2">
                                             {transaction.invoice}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            FULL NAME
-                                        </td>
+                                        <td>FULL NAME</td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {transaction.user.name}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            DPC
-                                        </td>
+                                        <td>DPC</td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {transaction.city.name}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            DPW
-                                        </td>
+                                        <td>DPW</td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {transaction.province.name}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            IURAN
-                                        </td>
+                                        <td>IURAN</td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {transaction.tahun}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            GRAND TOTAL
-                                        </td>
+                                        <td>GRAND TOTAL</td>
                                         <td>:</td>
                                         <td className="p-2">
-                                            Rp. {FormatPrice(transaction.grand_total)}
+                                            Rp.{" "}
+                                            {FormatPrice(
+                                                transaction.grand_total,
+                                            )}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            STATUS
-                                        </td>
+                                        <td>STATUS</td>
                                         <td>:</td>
                                         <td className="p-3">
-                                            {transaction.status == 'UNPAID' &&
-                                                // <a href={`https://app-sandbox.duitku.com/redirect_checkout?reference=${transaction.reference}&lang=id`} className="btn btn-success btn-sm border-0 shadow-sm">PAY NOW</a>
-                                                <a href={`${transaction.paymentUrl}&lang=id`} className="btn btn-success btn-sm border-0 shadow-sm">PAY NOW</a>
+                                            {
+                                                transaction.status ==
+                                                    "UNPAID" && (
+                                                    <a
+                                                        href={`https://app-prod.duitku.com/redirect_checkout?reference=${transaction.reference}&lang=id`}
+                                                        className="btn btn-success btn-sm border-0 shadow-sm"
+                                                    >
+                                                        PAY NOW
+                                                    </a>
+                                                )
+                                                // <a href={`${transaction.reference}&lang=id`} className="btn btn-success btn-sm border-0 shadow-sm">PAY NOW</a>
                                             }
-                                            {transaction.status == 'PAID' &&
-                                                <button className="btn btn-sm btn-success border-0 shadow-sm"><i className="fa fa-check-circle"></i> PAID</button>
-                                            }
-                                            {transaction.status == 'CANCELLED' &&
-                                                <button className="btn btn-sm btn-danger border-0 shadow-sm"><i className="fa fa-times"></i> CANCELLED</button>
-                                            }
+                                            {transaction.status == "PAID" && (
+                                                <button className="btn btn-sm btn-success border-0 shadow-sm">
+                                                    <i className="fa fa-check-circle"></i>{" "}
+                                                    PAID
+                                                </button>
+                                            )}
+                                            {transaction.status ==
+                                                "CANCELLED" && (
+                                                <button className="btn btn-sm btn-danger border-0 shadow-sm">
+                                                    <i className="fa fa-times"></i>{" "}
+                                                    CANCELLED
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 </table>
-
                             </div>
                         </div>
 
                         <div className="card border-0 rounded shadow-sm border-top-admin mt-4">
                             <div className="card-header">
-                                <span className="font-weight-bold"><i className="fa fa-shopping-bag"></i> Detail Product</span>
+                                <span className="font-weight-bold">
+                                    <i className="fa fa-shopping-bag"></i>{" "}
+                                    Detail Product
+                                </span>
                             </div>
                             <div className="card-body">
-                                {transaction.transaction_details.map((detail, index) => (
-                                    <div key={index}>
-                                        <div className="row g-0">
-                                            {/* <div className="col-md-3 col-3">
+                                {transaction.transaction_details.map(
+                                    (detail, index) => (
+                                        <div key={index}>
+                                            <div className="row g-0">
+                                                {/* <div className="col-md-3 col-3">
                                                 <img src={detail.product_image} className="img-fluid rounded-3" />
                                             </div> */}
-                                            <div className="col-md-9 col-9">
-                                                <div className="card-body">
-                                                    <h4 className="card-title">{detail.product.title}, {detail.tahun}</h4>
+                                                <div className="col-md-9 col-9">
+                                                    <div className="card-body">
+                                                        <h4 className="card-title">
+                                                            {
+                                                                detail.product
+                                                                    .title
+                                                            }
+                                                            , {detail.tahun}
+                                                        </h4>
 
-                                                   
-                                                    <hr />
+                                                        <hr />
 
-                                                    <h5>Rp. {FormatPrice(detail.price)}</h5>
-
+                                                        <h5>
+                                                            Rp.{" "}
+                                                            {FormatPrice(
+                                                                detail.price,
+                                                            )}
+                                                        </h5>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <hr />
                                         </div>
-                                        <hr />
-                                    </div>
-                                ))}
+                                    ),
+                                )}
                             </div>
                         </div>
-
                     </div>
                 </div>
             </LayoutAccount>
         </>
-    )
-
+    );
 }
