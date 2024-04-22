@@ -95,7 +95,7 @@ class RegisterController extends Controller
                 'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
                 'size'    => 'Uang registrasi',
                 'qty'    => 1,
-                'price'         => 50000,
+                'price'         => 150000,
                 'tahun'           => '-',
                 'weight'        => $request->weight
             ]);
