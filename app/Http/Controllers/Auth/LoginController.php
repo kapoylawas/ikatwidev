@@ -60,7 +60,7 @@ class LoginController extends Controller
                     'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
                     'size'    => 'Iuran',
                     'qty'    => 1,
-                    'price'         => (auth()->user()->status_anggota == 'Anggota Luar Biasa') ?  100000 : 50000,
+                    'price'         => (auth()->user()->status_anggota == 'Anggota Luar Biasa') ?  100000 : 100000,
                     'tahun'           => $tahun,
                     'weight'        => $request->weight
                 ]);
