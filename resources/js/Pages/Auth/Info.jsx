@@ -32,12 +32,12 @@ export default function Info() {
                                         <ol>
                                             <li>
                                                 Untuk Tutorial Pengisian Data
-                                                Bisa Didownload{" "}
+                                                Bisa Didownload  <i className="fa fa-long-arrow-alt-right"></i> {" "}
                                                 <a href="#">(Turorial PDF)</a>
                                             </li>
                                             <li>
                                                 Untuk Pakta Integritas Dapat Di
-                                                Download ->{" "}
+                                                Download  <i className="fa fa-long-arrow-alt-right"></i> {" "}
                                                 <a
                                                     target="_blank"
                                                     href="/assets/files/pakta_integritas.pdf"
