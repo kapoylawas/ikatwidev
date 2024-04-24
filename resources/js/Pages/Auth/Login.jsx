@@ -127,7 +127,7 @@ export default function Login() {
                         </div>
                         <div className="register text-center mt-3">
                             Belum Punya Akun?{" "}
-                            <Link href="/register">Register!</Link>
+                            <Link href="/info">Register!</Link>
                         </div>
                         <div className="register text-center mt-3">
                             <Link href="/forgot-password">Lupa Password?</Link>

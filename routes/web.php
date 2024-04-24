@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//route info index
+Route::get('/info', [\App\Http\Controllers\Auth\InfoController::class, 'index'])->name('info')->middleware('guest');
+
 //route register index
 Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register')->middleware('guest');
 
@@ -31,7 +34,7 @@ Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'store
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout')->middleware('auth');
 
 //prefix "account"
-Route::prefix('account')->group(function() {
+Route::prefix('account')->group(function () {
     //middleware "auth"
     Route::group(['middleware' => ['auth']], function () {
         //route dashboard
@@ -45,7 +48,7 @@ Route::prefix('account')->group(function() {
 
         //route resource tagihan upload dokumen   
         Route::resource('/documents', \App\Http\Controllers\Account\DocumentController::class, ['as' => 'account'])->middleware('permission:documents.index');
-        
+
         //route resource ejurnal
         Route::resource('/ejurnal', \App\Http\Controllers\Account\EjurnalController::class, ['as' => 'account'])->middleware('permission:documents.index');
 
@@ -73,7 +76,7 @@ Route::prefix('account')->group(function() {
         //route store image product
         Route::post('/documents/storestr', [\App\Http\Controllers\Account\DocumentController::class, 'storeStr'])->name('account.documents.storestr');
 
-         // show sip
+        // show sip
         Route::get('/documents/showsip/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showSip'])->name('account.documents.showsip');
 
         //  show create sip
