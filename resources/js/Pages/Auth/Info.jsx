@@ -37,8 +37,11 @@ export default function Info() {
                                             </li>
                                             <li>
                                                 Untuk Pakta Integritas Dapat Di
-                                                Download{" "}
-                                                <a href="#">
+                                                Download ->{" "}
+                                                <a
+                                                    target="_blank"
+                                                    href="/assets/files/pakta_integritas.pdf"
+                                                >
                                                     (Pakta Integrita PDF)
                                                 </a>
                                             </li>

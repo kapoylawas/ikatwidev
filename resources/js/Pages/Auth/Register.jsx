@@ -28,6 +28,12 @@ export default function Register() {
     const [filePaktaIntegritas, setFilePaktaIntegritas] = useState("");
     const [cities, setCities] = useState([]);
 
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    };
+
     //method getCityByProvince
     const getCityByProvince = async (province_id) => {
         //set state province ID
@@ -274,11 +280,13 @@ export default function Register() {
                                         <div className="col-md-12">
                                             <div className="mb-1">
                                                 <label className="form-label">
-                                                    Upload Pakta Integritas Format PDF Dan Ukuran 2mb
+                                                    Upload Pakta Integritas
+                                                    Format PDF Dan Ukuran 2mb
                                                 </label>
                                                 <input
                                                     type="file"
                                                     className="form-control"
+                                                    accept=".pdf"
                                                     onChange={(e) =>
                                                         setFilePaktaIntegritas(
                                                             e.target.files[0]
@@ -324,7 +332,7 @@ export default function Register() {
                                             <label className="mb-1">
                                                 Password Confirmation
                                             </label>
-                                            <div className="input-group mb-3">
+                                            <div className="input-group mb-2">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-lock"></i>
                                                 </span>
@@ -342,20 +350,21 @@ export default function Register() {
                                             </div>
                                         </div>
                                     </div>
-                                    {/* <label>
-                                        <input
-                                            type="checkbox"
-                                            checked={isChecked}
-                                            onChange={handleCheckboxChange}
-                                            className="ml-1"
-                                        />
-                                        Saya setuju dengan syarat dan ketentuan
-                                        untuk mengisi data dengan benar
-                                    </label> */}
-
+                                    <div className="text-center mb-2">
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={isChecked}
+                                                onChange={handleCheckboxChange}
+                                            />
+                                            {"  "} Bahwa Saya Mengisi Dengan
+                                            Benar
+                                        </label>
+                                    </div>
                                     <button
                                         className="btn btn-success shadow-sm rounded-sm px-4 w-100"
                                         type="submit"
+                                        disabled={!isChecked}
                                     >
                                         REGISTER
                                     </button>
