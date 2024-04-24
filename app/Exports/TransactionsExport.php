@@ -11,7 +11,7 @@ class TransactionsExport implements FromView
 {
     public function view(): View
     {
-        $data = Transaction::with('user')->get();
+        $data = Transaction::with('user', 'province')->get();
 
         return view('transaction', [
             'data' => $data,
