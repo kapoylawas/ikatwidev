@@ -25,24 +25,8 @@ export default function Register() {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [provinceID, setProvinceID] = useState("");
     const [cityID, setCityID] = useState("");
+    const [filePaktaIntegritas, setFilePaktaIntegritas] = useState("");
     const [cities, setCities] = useState([]);
-
-    const [isChecked, setChecked] = useState(false);
-
-    const handleCheckboxChange = () => {
-        setChecked(!isChecked);
-    };
-
-    // const handleRegisterClick = () => {
-    //     // Logika yang ingin Anda jalankan saat tombol "Register" diklik
-    //     if (isChecked) {
-    //         // Lakukan sesuatu
-    //         console.log("Register button clicked!");
-    //     } else {
-    //         // Lakukan sesuatu jika checkbox tidak dicentang
-    //         console.log("Checkbox harus dicentang untuk mendaftar.");
-    //     }
-    // };
 
     //method getCityByProvince
     const getCityByProvince = async (province_id) => {
@@ -76,6 +60,7 @@ export default function Register() {
                 city_id: cityID,
                 email: email,
                 alamat: alamat,
+                filepakta: filePaktaIntegritas,
                 password: password,
                 password_confirmation: passwordConfirmation,
             },
@@ -90,7 +75,7 @@ export default function Register() {
                         timer: 1500,
                     });
                 },
-            },
+            }
         );
     };
 
@@ -102,10 +87,10 @@ export default function Register() {
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-md-6 mt-80">
-                        <div className="text-center mb-4">
+                        <div className="text-center mb-2">
                             <img src="/assets/images/logo.png" width={"60"} />
                             <h4>
-                                <strong>IKATWI</strong>
+                                <strong className="text-black">IKATWI</strong>
                             </h4>
                         </div>
                         <div className="card border-0 rounded-3 shadow-sm border-top-success">
@@ -204,7 +189,7 @@ export default function Register() {
                                                 value={provinceID}
                                                 onChange={(e) =>
                                                     getCityByProvince(
-                                                        e.target.value,
+                                                        e.target.value
                                                     )
                                                 }
                                             >
@@ -262,7 +247,7 @@ export default function Register() {
                                             <label className="mb-1">
                                                 Alamat
                                             </label>
-                                            <div className="input-group mb-3">
+                                            <div className="input-group mb-2">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-folder"></i>
                                                 </span>
@@ -272,7 +257,7 @@ export default function Register() {
                                                     value={alamat}
                                                     onChange={(e) =>
                                                         setAlamat(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Alamat Lengkap Anda"
@@ -285,7 +270,29 @@ export default function Register() {
                                             )}
                                         </div>
                                     </div>
-
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="mb-1">
+                                                <label className="form-label">
+                                                    Upload Pakta Integritas Format PDF Dan Ukuran 2mb
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    className="form-control"
+                                                    onChange={(e) =>
+                                                        setFilePaktaIntegritas(
+                                                            e.target.files[0]
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            {errors.filepakta && (
+                                                <div className="alert alert-danger">
+                                                    {errors.filepakta}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                     <div className="row">
                                         <div className="col-md-6">
                                             <label className="mb-1">
@@ -301,7 +308,7 @@ export default function Register() {
                                                     value={password}
                                                     onChange={(e) =>
                                                         setPassword(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Password"
@@ -327,7 +334,7 @@ export default function Register() {
                                                     value={passwordConfirmation}
                                                     onChange={(e) =>
                                                         setPasswordConfirmation(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Password Confirmation"

@@ -38,6 +38,7 @@ class User extends Authenticatable
         'str',
         'sip',
         'lokasi_pekerjaan',
+        'filepakta',
         'status_anggota',
     ];
 
@@ -75,6 +76,13 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn ($sip) => asset('/storage/sip/' . $sip),
+        );
+    }
+
+    protected function filepakta(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($filepakta) => asset('/storage/filepakta/' . $filepakta),
         );
     }
 

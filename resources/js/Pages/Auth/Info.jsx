@@ -1,11 +1,8 @@
 //import hook react
-import React, { useState } from "react";
+import React from "react";
 
 //import Head, usePage and Link
-import { Head, usePage, Link } from "@inertiajs/inertia-react";
-
-//import inertia adapter
-import { Inertia } from "@inertiajs/inertia";
+import { Head, Link } from "@inertiajs/inertia-react";
 
 export default function Info() {
     return (

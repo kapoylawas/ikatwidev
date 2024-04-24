@@ -45,6 +45,7 @@ class RegisterController extends Controller
                 'nik'      => 'required|max:16|min:16|unique:users',
                 'email'     => 'required|email|unique:users',
                 'alamat'      => 'required',
+                'filepakta'      => 'required|mimes:pdf|max:2048',
                 'password'  => 'required|confirmed',
             ],
             [
@@ -59,11 +60,18 @@ class RegisterController extends Controller
                 'email.email' => 'email harus format EMAIL',
                 'email.unique' => 'email sudah terdaftar',
                 'alamat.required' => 'alamat tidak boleh kosong',
+                'filepakta.required' => 'File pakta integritas tidak boleh kosong',
+                'filepakta.mimes' => 'File pakta integritas harus PDF',
+                'filepakta.required' => 'File pakta integritas harus 2mb',
                 'password.required' => 'password tidak boleh kosong',
                 'password.confirmed' => 'password harus sama',
             ]
         );
         
+         //upload image
+         $filepakta = $request->file('filepakta');
+         $filepakta->storeAs('public/filepakta', $filepakta->hashName());
+
         $maxuser = User::count();
 
         //insert data user
@@ -75,6 +83,7 @@ class RegisterController extends Controller
             'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,
+            'filepakta' => $filepakta->hashName(),
             'password'  => bcrypt($request->password)
         ]);
 
