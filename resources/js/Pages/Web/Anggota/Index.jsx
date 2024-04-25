@@ -14,6 +14,7 @@ import Pagination from "../../../Shared/Pagination";
 export default function AnggotaIndex({ provinces, cities }) {
     //define state
     const [anggotas, setAnggota] = useState([]);
+    console.log(anggotas);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -196,22 +197,6 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                     >
                                                                         DPC
                                                                     </th>
-                                                                    {/* <th
-                                                                        scope="col"
-                                                                        style={{
-                                                                            width: "10%",
-                                                                        }}
-                                                                    >
-                                                                        No str
-                                                                    </th>
-                                                                    <th
-                                                                        scope="col"
-                                                                        style={{
-                                                                            width: "13%",
-                                                                        }}
-                                                                    >
-                                                                        Experide
-                                                                    </th> */}
                                                                     <th
                                                                         scope="col"
                                                                         style={{
@@ -219,7 +204,7 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                         }}
                                                                     >
                                                                         Status
-                                                                        STR
+                                                                        SIP
                                                                     </th>
                                                                 </tr>
                                                             </thead>
@@ -281,19 +266,9 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                                     anggota.city.name
                                                                                 )}
                                                                             </td>
-                                                                            {/* <td>
-                                                                                {anggota.surat_strs.map((str) =>
-                                                                                    str.no_str
-                                                                                )}
-                                                                            </td>
-                                                                            <td>
-                                                                                {anggota.surat_strs.map((str) =>
-                                                                                    str.date_end
-                                                                                )}
-                                                                            </td> */}
                                                                             <td>
                                                                                 {new Date(
-                                                                                    anggota.surat_strs.map((str) =>
+                                                                                    anggota.surat_sip.map((str) =>
                                                                                         str.date_end
                                                                                     )
                                                                                 ) >=
