@@ -84,7 +84,7 @@ export default function Login() {
                                 />
                             </Link>
                             <h4>
-                                <strong>IKATWI</strong>
+                                <strong className="text-black">IKATWI</strong>
                             </h4>
                         </div>
                         <div className="card border-0 rounded-3 shadow-sm border-top-success">
