@@ -154,13 +154,13 @@ class UserController extends Controller
         $this->validate(
             $request,
             [
-                'email'    => 'required|unique:users,email,' . $user->id,
+                /* 'email'    => 'required|unique:users,email,' . $user->id,
+                'alamat'      => 'required', */
                 'name'     => 'required',
                 'name'      => 'required',
                 'province_id'      => 'required',
                 'city_id'      => 'required',
-                'nik'      => 'required|max:16|min:16',
-                'alamat'      => 'required',
+                /* 'nik'      => 'required|max:16|min:16', */
                 'password'  => 'required|confirmed',
                 'password' => 'nullable|confirmed',
             ],
@@ -168,13 +168,13 @@ class UserController extends Controller
                 'name.required' => 'name tidak boleh kosong',
                 'province_id.required' => 'DPW tidak boleh kosong',
                 'city_id.required' => 'DPC tidak boleh kosong',
-                'nik.required' => 'nik tidak boleh kosong',
+                /* 'nik.required' => 'nik tidak boleh kosong',
                 'nik.max' => 'nik harus 16 angka',
-                'nik.min' => 'nik harus 16 angka',
-                'email.required' => 'email tidak boleh kosong',
+                'nik.min' => 'nik harus 16 angka', */
+               /*  'email.required' => 'email tidak boleh kosong',
                 'email.email' => 'email harus format EMAIL',
                 'email.unique' => 'email sudah terdaftar',
-                'alamat.required' => 'alamat tidak boleh kosong',
+                'alamat.required' => 'alamat tidak boleh kosong', */
                 'password.required' => 'password tidak boleh kosong',
             ]
         );
