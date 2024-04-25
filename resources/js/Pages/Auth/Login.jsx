@@ -264,7 +264,7 @@ export default function Login() {
                                             <strong>Silakan pilih anggota lama atau anggota baru.</strong>
                                         </div>
                                         <div className="alert alert-info border-0 shadow-sm mt-3 mb-2">
-                                            <strong>(BILAH BARU REGISTER PILIH ANGGOTA BARU)</strong>
+                                            <strong>(JIKA BARU REGISTER PILIH ANGGOTA BARU)</strong>
                                         </div>
                                     </div>
                                 )}
