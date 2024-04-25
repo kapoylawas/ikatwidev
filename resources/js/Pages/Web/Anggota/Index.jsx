@@ -14,7 +14,6 @@ import Pagination from "../../../Shared/Pagination";
 export default function AnggotaIndex({ provinces, cities }) {
     //define state
     const [anggotas, setAnggota] = useState([]);
-    console.log(anggotas);
 
     const [isLoading, setIsLoading] = useState(false);
 

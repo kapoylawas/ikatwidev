@@ -159,10 +159,6 @@ export default function Dashboard() {
                     </section>
                 </body> */}
 
-
-
-               
-
                 {hasAnyPermission(["dashboard.statistics"]) && (
                     <div className="row mt-2">
                         <div className="col-12 col-lg-3 mb-4">

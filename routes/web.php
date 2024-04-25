@@ -27,8 +27,11 @@ Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 
 //route login index
 Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'index'])->name('login')->middleware('guest');
 
-//route login store
-Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'store'])->name('login.store')->middleware('guest');
+//route login store anggota lama
+Route::post('/loginAnggotaLama', [\App\Http\Controllers\Auth\LoginController::class, 'store'])->name('login.store')->middleware('guest');
+
+//route login store anggota baru
+Route::post('/loginAnggotaBaru', [\App\Http\Controllers\Auth\LoginController::class, 'storeAnggotaBaru'])->name('login.storeAnggotaBaru')->middleware('guest');
 
 //route logout
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout')->middleware('auth');
