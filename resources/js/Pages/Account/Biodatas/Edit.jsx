@@ -30,12 +30,12 @@ export default function UserEdit() {
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota);
-    const [pendidikan, setPendidikan] = useState("");
-    const [nonlinear, setNonlinear] = useState("");
-    const [kepegawaian, setKepegawaian] = useState("");
-    const [bekerja, setBekerja] = useState("");
-    const [istitusi, setIstitusi] = useState("");
-    const [almtistitusi, setAlmtistitusi] = useState("");
+    const [pendidikan, setPendidikan] = useState(biodata.pendidikan);
+    const [nonlinear, setNonlinear] = useState(biodata.nonlinear);
+    const [kepegawaian, setKepegawaian] = useState(biodata.kepegawaian);
+    const [bekerja, setBekerja] = useState(biodata.bekerja);
+    const [istitusi, setIstitusi] = useState(biodata.istitusi);
+    const [almtistitusi, setAlmtistitusi] = useState(biodata.almtistitusi);
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
@@ -61,6 +61,12 @@ export default function UserEdit() {
                 image: image,
                 province_id: provinceID,
                 city_id: cityID,
+                pendidikan: pendidikan,
+                nonlinear: nonlinear,
+                kepegawaian: kepegawaian,
+                bekerja: bekerja,
+                istitusi: istitusi,
+                almtistitusi: almtistitusi,
                 password: password,
                 password_confirmation: passwordConfirmation,
                 _method: "PUT",
@@ -224,7 +230,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={statusAnggota}
+                                                value={pendidikan}
                                                 onChange={(e) =>
                                                     setPendidikan(
                                                         e.target.value
@@ -258,7 +264,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={statusAnggota}
+                                                value={nonlinear}
                                                 onChange={(e) =>
                                                     setNonlinear(
                                                         e.target.value
@@ -293,7 +299,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={statusAnggota}
+                                                value={kepegawaian}
                                                 onChange={(e) =>
                                                     setKepegawaian(
                                                         e.target.value
@@ -329,7 +335,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={statusAnggota}
+                                                value={bekerja}
                                                 onChange={(e) =>
                                                     setBekerja(
                                                         e.target.value
@@ -387,7 +393,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={statusAnggota}
+                                                value={istitusi}
                                                 disabled
                                                 onChange={(e) =>
                                                     setStatusAnggota(
@@ -542,6 +548,7 @@ export default function UserEdit() {
                                             <div className="input-group mb-3">
                                                 <textarea
                                                     type="text"
+                                                    value={istitusi}
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         setIstitusi(
@@ -566,6 +573,7 @@ export default function UserEdit() {
                                             <div className="input-group mb-3">
                                                 <textarea
                                                     type="text"
+                                                    value={almtistitusi}
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         setAlmtistitusi(

@@ -14,7 +14,7 @@ class BiodataController extends Controller
 {
     public function index()
     {
-        
+
         $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
 
         $tahun = date('Y');
@@ -75,6 +75,12 @@ class BiodataController extends Controller
                     'tgl_lahir'     => $request->tgl_lahir,
                     'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
                     'status_anggota'     => $request->status_anggota,
+                    'pendidikan'     => $request->pendidikan,
+                    'nonlinear'     => $request->nonlinear,
+                    'kepegawaian'     => $request->kepegawaian,
+                    'bekerja'     => $request->bekerja,
+                    'istitusi'     => $request->istitusi,
+                    'almtistitusi'     => $request->almtistitusi,
                     'province_id'      => $request->province_id,
                     'city_id'      => $request->city_id,
                     'image' => $image->hashName(),
@@ -91,11 +97,16 @@ class BiodataController extends Controller
                     'tgl_lahir'     => $request->tgl_lahir,
                     'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
                     'status_anggota'     => $request->status_anggota,
+                    'pendidikan'     => $request->pendidikan,
+                    'nonlinear'     => $request->nonlinear,
+                    'kepegawaian'     => $request->kepegawaian,
+                    'bekerja'     => $request->bekerja,
+                    'istitusi'     => $request->istitusi,
+                    'almtistitusi'     => $request->almtistitusi,
                     'province_id'      => $request->province_id,
                     'city_id'      => $request->city_id,
                 ]);
             }
-            
         } else {
             $biodata->update([
                 'name'      => $request->name,
@@ -108,6 +119,12 @@ class BiodataController extends Controller
                 'tgl_lahir'     => $request->tgl_lahir,
                 'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
                 'status_anggota'     => $request->status_anggota,
+                'pendidikan'     => $request->pendidikan,
+                'nonlinear'     => $request->nonlinear,
+                'kepegawaian'     => $request->kepegawaian,
+                'bekerja'     => $request->bekerja,
+                'istitusi'     => $request->istitusi,
+                'almtistitusi'     => $request->almtistitusi,
                 'province_id'      => $request->province_id,
                 'city_id'      => $request->city_id,
                 'password' => bcrypt($request->password)

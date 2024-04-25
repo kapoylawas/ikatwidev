@@ -40,6 +40,12 @@ class User extends Authenticatable
         'lokasi_pekerjaan',
         'filepakta',
         'status_anggota',
+        'pendidikan',
+        'nonlinear',
+        'kepegawaian',
+        'bekerja',
+        'istitusi',
+        'almtistitusi',
     ];
 
     /**
