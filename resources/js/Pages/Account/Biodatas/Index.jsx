@@ -64,19 +64,110 @@ export default function EktaIndex() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>FULL NAME</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.name}</td>
-                                    </tr>
-                                    <tr>
                                         <td>NIK</td>
                                         <td>:</td>
                                         <td className="p-2">{biodata.nik}</td>
                                     </tr>
                                     <tr>
-                                        <td>Email</td>
+                                        <td>Nama Lengkap dan Gelar</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Email</td>
                                         <td>:</td>
                                         <td className="p-2">{biodata.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tempat Lahir</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.tempat_lahir}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal Lahir</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.tgl_lahir}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>No. Tlpn/HP</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.phone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Sesuai KTP</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.alamat}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-bold">Riwayat Pendidikan</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pendidikan Terapi Wicara</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.pendidikan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nama Perguruan Tinggi Terapi Wicara</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.istitusi}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Perguruan Tinggi Terapi Wicara</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.almtistitusi}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pendidikan Non Terapi Wicara</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.nonlinear}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-bold">informasi Pekerjaan</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Kepegawaian</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.kepegawaian}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tempat Bekerja</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.bekerja}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nama Institusi Tempat Bekerja</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.lokasi_pekerjaan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Institusi Tempat Bekerja</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            {biodata.alamat_tempat_bekerja}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-bold">Status Keanggotaan :</td>
                                     </tr>
                                     <tr>
                                         <td>DPW</td>
@@ -105,40 +196,7 @@ export default function EktaIndex() {
                                         <td className="p-2">
                                             {biodata.status_anggota}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.phone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tempat Lahir</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.tempat_lahir}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal Lahir</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.tgl_lahir}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Domisili /Alamat KTP</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.alamat}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Bekerja/ Tempat Bekerja</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.lokasi_pekerjaan}
-                                        </td>
-                                    </tr>
+                                    </tr>                                   
                                     <tr>
                                         <td>Status Member Aktif</td>
                                         <td>:</td>
