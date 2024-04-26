@@ -289,11 +289,14 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
-
+                                    <hr />
+                                    <label className="form-label fw-bold">
+                                        Riwayat Pendidikan :
+                                    </label>
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
-                                                Jenjang Pendidikan
+                                                Pendidikan Terapi Wicara
                                             </label>
                                             <select
                                                 className="form-select"
@@ -320,6 +323,54 @@ export default function UserEdit() {
                                             {errors.status_anggota && (
                                                 <div className="alert alert-danger mt-2">
                                                     {errors.status_anggota}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row mt-2">
+                                        <div className="col-md-12">
+                                            <label className="mb-1">
+                                                Nama Perguruan Tinggi Terapi Wicara
+                                            </label>
+                                            <div className="input-group mb-1">
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    onChange={(e) =>
+                                                        setIstitusi(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    placeholder="Nama Istitusi"
+                                                />
+                                            </div>
+                                            {errors.alamat && (
+                                                <div className="alert alert-danger">
+                                                    {errors.alamat}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row mt-2">
+                                        <div className="col-md-12">
+                                            <label className="mb-1">
+                                                Alamat Perguruan Tinggi Terapi Wicara
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    onChange={(e) =>
+                                                        setAlmtistitusi(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    placeholder="Alamat Lengkap Istitusi"
+                                                />
+                                            </div>
+                                            {errors.alamat && (
+                                                <div className="alert alert-danger">
+                                                    {errors.alamat}
                                                 </div>
                                             )}
                                         </div>
@@ -556,54 +607,7 @@ export default function UserEdit() {
                                         </div>
                                     </div>
 
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
-                                                Nama Istitusi
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    onChange={(e) =>
-                                                        setIstitusi(
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    placeholder="Nama Istitusi"
-                                                />
-                                            </div>
-                                            {errors.alamat && (
-                                                <div className="alert alert-danger">
-                                                    {errors.alamat}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
-                                                Alamat Istitusi
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    onChange={(e) =>
-                                                        setAlmtistitusi(
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    placeholder="Alamat Lengkap Istitusi"
-                                                />
-                                            </div>
-                                            {errors.alamat && (
-                                                <div className="alert alert-danger">
-                                                    {errors.alamat}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+                                    
 
                                     {/*  */}
 
