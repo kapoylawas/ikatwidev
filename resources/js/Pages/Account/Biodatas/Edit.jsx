@@ -107,15 +107,19 @@ export default function UserEdit() {
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
                                 <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Edit New
-                                    User
+                                    <i className="fa fa-users"></i> Edit User
+                                    Ikatwi
                                 </span>
                             </div>
+
                             <div className="card-body">
+                                <label className="form-label fw-bold">
+                                    Riwayat Pendidikan :
+                                </label>
                                 <form onSubmit={updateUser}>
                                     <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            Image
+                                        <label className="form-label">
+                                            Pas Foto
                                         </label>
                                         <input
                                             type="file"
@@ -330,7 +334,8 @@ export default function UserEdit() {
                                     <div className="row mt-2">
                                         <div className="col-md-12">
                                             <label className="mb-1">
-                                                Nama Perguruan Tinggi Terapi Wicara
+                                                Nama Perguruan Tinggi Terapi
+                                                Wicara
                                             </label>
                                             <div className="input-group mb-1">
                                                 <textarea
@@ -354,7 +359,8 @@ export default function UserEdit() {
                                     <div className="row mt-2">
                                         <div className="col-md-12">
                                             <label className="mb-1">
-                                                Alamat Perguruan Tinggi Terapi Wicara
+                                                Alamat Perguruan Tinggi Terapi
+                                                Wicara
                                             </label>
                                             <div className="input-group mb-3">
                                                 <textarea
@@ -606,8 +612,6 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
-
-                                    
 
                                     {/*  */}
 
