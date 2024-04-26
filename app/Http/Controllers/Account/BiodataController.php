@@ -48,12 +48,8 @@ class BiodataController extends Controller
         ]);
     }
 
-    public function update(Request $request, User $biodata)
+    /* public function update(Request $request, User $biodata)
     {
-        // dd($request->all());
-        /**
-         * check password is empty
-         */
         if ($request->password == '') {
 
             if ($request->file('image')) {
@@ -130,6 +126,42 @@ class BiodataController extends Controller
                 'password' => bcrypt($request->password)
             ]);
         }
+
+        //redirect
+        return redirect()->route('account.biodatas.index');
+    } */
+
+    public function update(Request $request, User $biodata)
+    {
+        // upload new image
+        $image = $request->file('image');
+        if ($image != null) {
+            $image->storeAs('public/users', $image->hashName());
+        }
+
+        $biodata->update([
+            'name'      => $request->name,
+            'nik'      => $request->nik,
+            'email'     => $request->email,
+            'alamat'     => $request->alamat,
+            'no_str'     => $request->no_str,
+            'phone'     => $request->phone,
+            'tempat_lahir'     => $request->tempat_lahir,
+            'tgl_lahir'     => $request->tgl_lahir,
+            'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
+            'status_anggota'     => $request->status_anggota,
+            'pendidikan'     => $request->pendidikan,
+            'nonlinear'     => $request->nonlinear,
+            'kepegawaian'     => $request->kepegawaian,
+            'bekerja'     => $request->bekerja,
+            'istitusi'     => $request->istitusi,
+            'almtistitusi'     => $request->almtistitusi,
+            'province_id'      => $request->province_id,
+            'city_id'      => $request->city_id,
+            'image' => ($image != null) ? $image->hashName() : null,
+            'password' => bcrypt($request->password)
+        ]);
+
 
         //redirect
         return redirect()->route('account.biodatas.index');
