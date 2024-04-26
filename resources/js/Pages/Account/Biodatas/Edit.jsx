@@ -321,15 +321,14 @@ export default function UserEdit() {
                                                 }
                                             >
                                                 <option value="">
-                                                    -- Select Jenjang Pendidikan
-                                                    --
+                                                    -- Select Jenjang Pendidikan --
                                                 </option>
                                                 <option value="D3">DIII</option>
                                                 <option value="D4">DIV</option>
-                                                <option value="S2">
+                                                <option value="S2 (Magister Terapi Wicara)">
                                                     S2 (Magister Terapi Wicara)
                                                 </option>
-                                                <option value="S3">
+                                                <option value="S3 (Doktor Terapi Wicara)">
                                                     S3 (Doktor Terapi Wicara)
                                                 </option>
                                             </select>
@@ -430,7 +429,7 @@ export default function UserEdit() {
                                     </div>
                                     <hr />
                                     <label className="form-label fw-bold">
-                                        informasi Pekerjaan :
+                                        Informasi Pekerjaan :
                                     </label>
                                     <div className="row">
                                         <div className="mb-1">
@@ -460,7 +459,7 @@ export default function UserEdit() {
                                                 <option value="PPPK">
                                                     PPPK
                                                 </option>
-                                                <option value="BB">
+                                                <option value="Belum Bekerja">
                                                     Belum Bekerja
                                                 </option>
                                             </select>
@@ -486,40 +485,40 @@ export default function UserEdit() {
                                                 <option value="">
                                                     -- Select Tempat Bekerja --
                                                 </option>
-                                                <option value="klinikswasta">
+                                                <option value="Klinik Swasta">
                                                     Klinik Swasta
                                                 </option>
-                                                <option value="rss">
+                                                <option value="Rumah Sakit Swasta">
                                                     Rumah Sakit Swasta
                                                 </option>
-                                                <option value="rsup">
+                                                <option value="Rumah Sakit Umum Pusat">
                                                     Rumah Sakit Umum Pusat
                                                 </option>
-                                                <option value="rsud">
+                                                <option value="Rumah Sakit Umum Daerah">
                                                     Rumah Sakit Umum Daerah
                                                 </option>
-                                                <option value="rsm">
+                                                <option value="Rumah Sakit Militer">
                                                     Rumah Sakit Militer
                                                 </option>
-                                                <option value="rsk">
+                                                <option value="Rumah Sakit Khusus">
                                                     Rumah Sakit Khusus
                                                 </option>
-                                                <option value="puskesmas">
+                                                <option value="Puskesmas">
                                                     Puskesmas
                                                 </option>
-                                                <option value="slb">
+                                                <option value="Sekolah Luar Biasa">
                                                     Sekolah Luar Biasa
                                                 </option>
-                                                <option value="perguruan_tinggi">
+                                                <option value="Perguruan Tinggi">
                                                     Perguruan Tinggi
                                                 </option>
-                                                <option value="bb">
+                                                <option value="Belum Bekerja">
                                                     Belum Bekerja
                                                 </option>
-                                                <option value="freelance">
+                                                <option value="Freelance">
                                                     Freelance
                                                 </option>
-                                                <option value="lainnya">
+                                                <option value="Lainnya">
                                                     Lainnya
                                                 </option>
                                             </select>
