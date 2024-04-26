@@ -156,6 +156,7 @@ class BiodataController extends Controller
             'bekerja'     => $request->bekerja,
             'istitusi'     => $request->istitusi,
             'almtistitusi'     => $request->almtistitusi,
+            'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
             'image' => ($image != null) ? $image->hashName() : null,
