@@ -1,5 +1,5 @@
 //import react
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -35,17 +35,24 @@ export default function EktaIndex() {
                                 <span className="font-weight-bold">
                                     <i className="fa fa-users"></i> Biodata
                                 </span>
-                                    <span>
-                                        <Link
-                                            href={`/account/biodatas/${biodata.id}/edit`}
-                                            className="btn btn-primary mr-4"
-                                        >
-                                            <i className="fa fa-pencil-alt"> </i>{" "}
-                                        </Link>
-                                    </span>
+                                <span>
+                                    <Link
+                                        href={`/account/biodatas/${biodata.id}/edit`}
+                                        className="btn btn-primary mr-4"
+                                    >
+                                        <i className="fa fa-pencil-alt"> </i>{" "}
+                                    </Link>
+                                </span>
                             </div>
                             <div className="card-body">
                                 <table className="table table-bordered">
+                                    <tr>
+                                        <td className="fw-bold">
+                                            Biodata Pribadi
+                                        </td>
+                                        <td></td>
+                                        <td className="p-2"></td>
+                                    </tr>
                                     <tr>
                                         <td>Foto</td>
                                         <td>:</td>
@@ -105,7 +112,9 @@ export default function EktaIndex() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="fw-bold">Riwayat Pendidikan</td>
+                                        <td className="fw-bold">
+                                            Riwayat Pendidikan
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Pendidikan Terapi Wicara</td>
@@ -115,14 +124,19 @@ export default function EktaIndex() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Nama Perguruan Tinggi Terapi Wicara</td>
+                                        <td>
+                                            Nama Perguruan Tinggi Terapi Wicara
+                                        </td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {biodata.istitusi}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat Perguruan Tinggi Terapi Wicara</td>
+                                        <td>
+                                            Alamat Perguruan Tinggi Terapi
+                                            Wicara
+                                        </td>
                                         <td>:</td>
                                         <td className="p-2">
                                             {biodata.almtistitusi}
@@ -136,7 +150,9 @@ export default function EktaIndex() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="fw-bold">informasi Pekerjaan</td>
+                                        <td className="fw-bold">
+                                            informasi Pekerjaan
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Status Kepegawaian</td>
@@ -167,7 +183,9 @@ export default function EktaIndex() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="fw-bold">Status Keanggotaan :</td>
+                                        <td className="fw-bold">
+                                            Status Keanggotaan :
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>DPW</td>
@@ -196,12 +214,13 @@ export default function EktaIndex() {
                                         <td className="p-2">
                                             {biodata.status_anggota}
                                         </td>
-                                    </tr>                                   
+                                    </tr>
                                     <tr>
                                         <td>Status Member Aktif</td>
                                         <td>:</td>
                                         <td className="p-2">
-                                            {filter === "PAID" || name === "Anggota Kehormatan" ? (
+                                            {filter === "PAID" ||
+                                            name === "Anggota Kehormatan" ? (
                                                 <QRCodeSVG
                                                     value={biodata.name}
                                                     style={{ marginLeft: "2%" }}
