@@ -151,7 +151,7 @@ export default function EktaIndex() {
                                     </tr>
                                     <tr>
                                         <td className="fw-bold">
-                                            informasi Pekerjaan
+                                            Informasi Pekerjaan
                                         </td>
                                     </tr>
                                     <tr>

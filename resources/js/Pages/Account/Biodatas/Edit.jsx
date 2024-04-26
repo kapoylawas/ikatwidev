@@ -27,7 +27,9 @@ export default function UserEdit() {
     const [lokasipekerjaan, setLokasipekerjaan] = useState(
         biodata.lokasi_pekerjaan,
     );
-    const [alamatTempatBekerja, setAlamatTempatBekerja] = useState(biodata.alamat_tempat_bekerja);
+    const [alamatTempatBekerja, setAlamatTempatBekerja] = useState(
+        biodata.alamat_tempat_bekerja,
+    );
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota);
@@ -508,14 +510,17 @@ export default function UserEdit() {
                                                 <option value="slb">
                                                     Sekolah Luar Biasa
                                                 </option>
+                                                <option value="perguruan_tinggi">
+                                                    Perguruan Tinggi
+                                                </option>
                                                 <option value="bb">
                                                     Belum Bekerja
                                                 </option>
                                                 <option value="freelance">
                                                     Freelance
                                                 </option>
-                                                <option value="lainya">
-                                                    Lainya
+                                                <option value="lainnya">
+                                                    Lainnya
                                                 </option>
                                             </select>
                                             {errors.status_anggota && (
