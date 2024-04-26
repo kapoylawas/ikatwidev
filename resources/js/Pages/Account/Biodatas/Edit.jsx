@@ -25,7 +25,7 @@ export default function UserEdit() {
     const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir);
     const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir);
     const [lokasipekerjaan, setLokasipekerjaan] = useState(
-        biodata.lokasi_pekerjaan
+        biodata.lokasi_pekerjaan,
     );
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
@@ -76,7 +76,7 @@ export default function UserEdit() {
                         timer: 1500,
                     });
                 },
-            }
+            },
         );
     };
 
@@ -194,6 +194,54 @@ export default function UserEdit() {
                                         </div>
                                     </div>
                                     <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Tempat Lahir
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={tempatlahir}
+                                                    onChange={(e) =>
+                                                        setTempatlahir(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    placeholder="Enter Tempat Kelahiran"
+                                                />
+                                            </div>
+                                            {errors.tempat_lahir && (
+                                                <div className="alert alert-danger">
+                                                    {errors.tempat_lahir}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Tanggal Lahir
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    value={tgllahir}
+                                                    onChange={(e) =>
+                                                        setTgllahir(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    placeholder="Enter Tanggal Lahir"
+                                                />
+                                            </div>
+                                            {errors.email && (
+                                                <div className="alert alert-danger">
+                                                    {errors.email}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
                                                 No. Tlpn/HP
@@ -228,7 +276,7 @@ export default function UserEdit() {
                                                     value={alamat}
                                                     onChange={(e) =>
                                                         setAlamat(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Alamat Lengkap Sesuai KTP"
@@ -252,7 +300,7 @@ export default function UserEdit() {
                                                 value={statusAnggota}
                                                 onChange={(e) =>
                                                     setPendidikan(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                             >
@@ -285,9 +333,7 @@ export default function UserEdit() {
                                                 className="form-select"
                                                 value={statusAnggota}
                                                 onChange={(e) =>
-                                                    setNonlinear(
-                                                        e.target.value
-                                                    )
+                                                    setNonlinear(e.target.value)
                                                 }
                                             >
                                                 <option value="">
@@ -321,7 +367,7 @@ export default function UserEdit() {
                                                 value={statusAnggota}
                                                 onChange={(e) =>
                                                     setKepegawaian(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                             >
@@ -335,7 +381,9 @@ export default function UserEdit() {
                                                 </option>
                                                 <option value="PNS">PNS</option>
                                                 <option value="PPK">PPK</option>
-                                                <option value="BB">Belum Bekerja</option>
+                                                <option value="BB">
+                                                    Belum Bekerja
+                                                </option>
                                                 <option value="Wiraswasta">
                                                     Wiraswasta
                                                 </option>
@@ -356,9 +404,7 @@ export default function UserEdit() {
                                                 className="form-select"
                                                 value={statusAnggota}
                                                 onChange={(e) =>
-                                                    setBekerja(
-                                                        e.target.value
-                                                    )
+                                                    setBekerja(e.target.value)
                                                 }
                                             >
                                                 <option value="">
@@ -392,7 +438,7 @@ export default function UserEdit() {
                                                     Sekolah Luar Biasa
                                                 </option>
                                                 <option value="bb">
-                                                    Belum Bekerja 
+                                                    Belum Bekerja
                                                 </option>
                                                 <option value="freelance">
                                                     Freelance
@@ -416,7 +462,7 @@ export default function UserEdit() {
                                                 disabled
                                                 onChange={(e) =>
                                                     setStatusAnggota(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                             >
@@ -453,7 +499,7 @@ export default function UserEdit() {
                                                 value={provinceID}
                                                 onChange={(e) =>
                                                     setProvinceID(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                             >
@@ -510,55 +556,6 @@ export default function UserEdit() {
                                         </div>
                                     </div>
 
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Tempat Lahir
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={tempatlahir}
-                                                    onChange={(e) =>
-                                                        setTempatlahir(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Tempat Kelahiran"
-                                                />
-                                            </div>
-                                            {errors.tempat_lahir && (
-                                                <div className="alert alert-danger">
-                                                    {errors.tempat_lahir}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Tanggal Lahir
-                                                </label>
-                                                <input
-                                                    type="date"
-                                                    className="form-control"
-                                                    value={tgllahir}
-                                                    onChange={(e) =>
-                                                        setTgllahir(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Tanggal Lahir"
-                                                />
-                                            </div>
-                                            {errors.email && (
-                                                <div className="alert alert-danger">
-                                                    {errors.email}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
                                     <div className="row mt-2">
                                         <div className="col-md-12">
                                             <label className="mb-1">
@@ -570,7 +567,7 @@ export default function UserEdit() {
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         setIstitusi(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Nama Istitusi"
@@ -594,7 +591,7 @@ export default function UserEdit() {
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         setAlmtistitusi(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Alamat Lengkap Istitusi"
@@ -609,7 +606,6 @@ export default function UserEdit() {
                                     </div>
 
                                     {/*  */}
-                                    
 
                                     <div className="row">
                                         <div className="mb-1">
@@ -623,7 +619,7 @@ export default function UserEdit() {
                                                     value={lokasipekerjaan}
                                                     onChange={(e) =>
                                                         setLokasipekerjaan(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Alamat Lokasi Pekerjaan"
@@ -644,7 +640,7 @@ export default function UserEdit() {
                                                     value={password}
                                                     onChange={(e) =>
                                                         setPassword(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Enter Password"
@@ -667,7 +663,7 @@ export default function UserEdit() {
                                                     value={passwordConfirmation}
                                                     onChange={(e) =>
                                                         setPasswordConfirmation(
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     placeholder="Enter Password Confirmation"
