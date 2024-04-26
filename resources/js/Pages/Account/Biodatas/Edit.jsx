@@ -30,12 +30,12 @@ export default function UserEdit() {
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota);
-    const [pendidikan, setPendidikan] = useState(biodata.pendidikan);
-    const [nonlinear, setNonlinear] = useState(biodata.nonlinear);
-    const [kepegawaian, setKepegawaian] = useState(biodata.kepegawaian);
-    const [bekerja, setBekerja] = useState(biodata.bekerja);
-    const [istitusi, setIstitusi] = useState(biodata.istitusi);
-    const [almtistitusi, setAlmtistitusi] = useState(biodata.almtistitusi);
+    const [pendidikan, setPendidikan] = useState("");
+    const [nonlinear, setNonlinear] = useState("");
+    const [kepegawaian, setKepegawaian] = useState("");
+    const [bekerja, setBekerja] = useState("");
+    const [istitusi, setIstitusi] = useState("");
+    const [almtistitusi, setAlmtistitusi] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [image, setImage] = useState("");
@@ -61,12 +61,6 @@ export default function UserEdit() {
                 image: image,
                 province_id: provinceID,
                 city_id: cityID,
-                pendidikan: pendidikan,
-                nonlinear: nonlinear,
-                kepegawaian: kepegawaian,
-                bekerja: bekerja,
-                istitusi: istitusi,
-                almtistitusi: almtistitusi,
                 password: password,
                 password_confirmation: passwordConfirmation,
                 _method: "PUT",
@@ -158,8 +152,8 @@ export default function UserEdit() {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Name dan Gelar
+                                                <label className="form-label">
+                                                    Nama dan Gelar
                                                 </label>
                                                 <input
                                                     type="text"
@@ -179,8 +173,8 @@ export default function UserEdit() {
                                         </div>
                                         <div className="col-md-6">
                                             <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Email Address
+                                                <label className="form-label">
+                                                    Alamat Email
                                                 </label>
                                                 <input
                                                     type="text"
@@ -202,7 +196,7 @@ export default function UserEdit() {
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
-                                                Phone
+                                                No. Tlpn/HP
                                             </label>
                                             <div className="input-group mb-3">
                                                 <input
@@ -222,6 +216,31 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
+                                    <div className="row mt-2">
+                                        <div className="col-md-12">
+                                            <label className="mb-1">
+                                                Alamat Sesuai KTP
+                                            </label>
+                                            <div className="input-group mb-3">
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={alamat}
+                                                    onChange={(e) =>
+                                                        setAlamat(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Alamat Lengkap Sesuai KTP"
+                                                />
+                                            </div>
+                                            {errors.alamat && (
+                                                <div className="alert alert-danger">
+                                                    {errors.alamat}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
 
                                     <div className="row">
                                         <div className="mb-1">
@@ -230,7 +249,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={pendidikan}
+                                                value={statusAnggota}
                                                 onChange={(e) =>
                                                     setPendidikan(
                                                         e.target.value
@@ -264,7 +283,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={nonlinear}
+                                                value={statusAnggota}
                                                 onChange={(e) =>
                                                     setNonlinear(
                                                         e.target.value
@@ -299,7 +318,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={kepegawaian}
+                                                value={statusAnggota}
                                                 onChange={(e) =>
                                                     setKepegawaian(
                                                         e.target.value
@@ -335,7 +354,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={bekerja}
+                                                value={statusAnggota}
                                                 onChange={(e) =>
                                                     setBekerja(
                                                         e.target.value
@@ -393,7 +412,7 @@ export default function UserEdit() {
                                             </label>
                                             <select
                                                 className="form-select"
-                                                value={istitusi}
+                                                value={statusAnggota}
                                                 disabled
                                                 onChange={(e) =>
                                                     setStatusAnggota(
@@ -548,7 +567,6 @@ export default function UserEdit() {
                                             <div className="input-group mb-3">
                                                 <textarea
                                                     type="text"
-                                                    value={istitusi}
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         setIstitusi(
@@ -573,7 +591,6 @@ export default function UserEdit() {
                                             <div className="input-group mb-3">
                                                 <textarea
                                                     type="text"
-                                                    value={almtistitusi}
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         setAlmtistitusi(
@@ -592,31 +609,7 @@ export default function UserEdit() {
                                     </div>
 
                                     {/*  */}
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
-                                                Alamat
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={alamat}
-                                                    onChange={(e) =>
-                                                        setAlamat(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Alamat Lengkap"
-                                                />
-                                            </div>
-                                            {errors.alamat && (
-                                                <div className="alert alert-danger">
-                                                    {errors.alamat}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+                                    
 
                                     <div className="row">
                                         <div className="mb-1">
