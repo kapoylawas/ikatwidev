@@ -89,26 +89,25 @@ class RegisterController extends Controller
 
         // dd($user->id);
 
-        $tahun = date('Y');
-        $cektransaction = Transaction::where('user_id', $user->id)
-            ->where('tahun', $tahun)->first();
-        $cekcart = Cart::where('user_id', $user->id)
-            ->where('tahun', $tahun)->first();
-
+        // $tahun = date('Y');
+        // $cektransaction = Transaction::where('user_id', $user->id)
+        //     ->where('tahun', $tahun)->first();
+        // $cekcart = Cart::where('user_id', $user->id)
+        //     ->where('tahun', $tahun)->first();
 
         // kondisi jika di tabel transcation dan cart ada user dan tahun maka tidak insert
-        if (!$cektransaction && !$cekcart) {
-            Cart::insert([
-                'user_id'       =>  $user->id,
-                'product_id'    => 1,
-                'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
-                'size'    => 'Uang registrasi',
-                'qty'    => 1,
-                'price'         => 150000,
-                'tahun'           => '-',
-                'weight'        => $request->weight
-            ]);
-        }
+        // if (!$cektransaction && !$cekcart) {
+        //     Cart::insert([
+        //         'user_id'       =>  $user->id,
+        //         'product_id'    => 1,
+        //         'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
+        //         'size'    => 'Uang registrasi',
+        //         'qty'    => 1,
+        //         'price'         => 150000,
+        //         'tahun'           => '-',
+        //         'weight'        => $request->weight
+        //     ]);
+        // }
 
         //find role "member
         $role = Role::findByName('member');
