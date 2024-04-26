@@ -42,7 +42,6 @@ class LoginController extends Controller
 
             $tahun = date('Y');
             $status = User::where('status_anggota', auth()->user()->status_anggota);
-            // dd($status);
 
             $cektransaction = Transaction::where('user_id', auth()->user()->id)
                 ->where('tahun', $tahun)->first();
@@ -101,9 +100,6 @@ class LoginController extends Controller
             //     //remove data carts
             //     Transaction::with('user')->where('user_id', auth()->user()->id)->delete();
             // }
-
-            
-
 
             //redirect route dashboard
             return redirect()->route('account.dashboard');
