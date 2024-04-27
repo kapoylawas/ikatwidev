@@ -242,6 +242,37 @@ export default function EktaIndex() {
                                             )}
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td className="fw-bold">
+                                            Berkas Pakta Integritas :
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <div className="row justify-content-center">
+                                                <div className="col-md-12">
+                                                    <div className="card rounded">
+                                                        <div className="text-center">
+                                                            File Pakta Integritas
+                                                        </div>
+                                                        <iframe
+                                                            src={biodata.filepakta}
+                                                            title="Embedded Content"
+                                                            className="embed-responsive-item"
+                                                            height="400"
+                                                            allowFullScreen
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/* <tr>
+                                        <td>File</td>
+                                        <td>:</td>
+                                        <td className="p-2">
+                                            
+                                        </td>
+                                    </tr> */}
                                 </table>
                             </div>
                         </div>

@@ -91,6 +91,12 @@ export default function UserIndex() {
                                                 </th>
                                                 <th
                                                     scope="col"
+                                                    style={{ width: "3%" }}
+                                                >
+                                                    File Pakta Integritas
+                                                </th>
+                                                <th
+                                                    scope="col"
                                                     style={{ width: "15%" }}
                                                 >
                                                     DPW
@@ -141,6 +147,9 @@ export default function UserIndex() {
                                                     </td>
                                                     <td>{user.no_anggota}</td>
                                                     <td>{user.name}</td>
+                                                    <td>
+                                                    <a href={user.filepakta} target="_blank">Lihat File</a>
+                                                    </td>
                                                     <td>
                                                         {user.province.name}
                                                     </td>
