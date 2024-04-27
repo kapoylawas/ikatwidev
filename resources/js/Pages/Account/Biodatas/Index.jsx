@@ -252,15 +252,29 @@ export default function EktaIndex() {
                                                 <div className="col-md-12">
                                                     <div className="card rounded">
                                                         <div className="text-center">
-                                                            File Pakta Integritas
+                                                            File Pakta
+                                                            Integritas
                                                         </div>
-                                                        <iframe
-                                                            src={biodata.filepakta}
+                                                        { biodata.filepakta === null ? (
+                                                            <div className="col-12 col-md-12 col-lg-12 mb-4">
+                                                            <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
+                                                                <h5>
+                                                                    Belum Upload Pakta Integritas
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        ) : (
+                                                            <iframe
+                                                            src={
+                                                                biodata.filepakta
+                                                            }
                                                             title="Embedded Content"
                                                             className="embed-responsive-item"
                                                             height="400"
                                                             allowFullScreen
                                                         />
+                                                        )}
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
