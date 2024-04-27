@@ -15,6 +15,9 @@ export default function EktaIndex() {
     const status = transactions.map((ts) => ts.status);
     const [name] = useState(statusAnggota.status_anggota);
 
+    const filePakta = biodata.filepakta
+
+
     const filter = status
         .toString()
         .replace("[", "")
@@ -255,7 +258,7 @@ export default function EktaIndex() {
                                                             File Pakta
                                                             Integritas
                                                         </div>
-                                                        { biodata.filepakta === null ? (
+                                                        { filePakta === null ? (
                                                             <div className="col-12 col-md-12 col-lg-12 mb-4">
                                                             <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
                                                                 <h5>
