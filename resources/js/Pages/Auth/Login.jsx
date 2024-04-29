@@ -68,7 +68,7 @@ export default function Login() {
                                 <div>
                                     <form onSubmit={loginHandlerLama}>
                                         <label className="mb-1">
-                                            No Anggota
+                                            f No Anggota
                                         </label>
                                         <div className="input-group mb-3">
                                             <span className="input-group-text">
