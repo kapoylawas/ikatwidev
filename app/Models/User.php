@@ -47,6 +47,7 @@ class User extends Authenticatable
         'istitusi',
         'almtistitusi',
         'alamat_tempat_bekerja',
+        'confirm',
     ];
 
     /**
