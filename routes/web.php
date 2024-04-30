@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//route info index
-Route::get('/info', [\App\Http\Controllers\Auth\InfoController::class, 'index'])->name('info')->middleware('guest');
+// //route info index
+// Route::get('/info', [\App\Http\Controllers\Auth\InfoController::class, 'index'])->name('info')->middleware('guest');
 
-//route register index
-Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register')->middleware('guest');
+// //route register index
+// Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register')->middleware('guest');
 
 Route::get('/register/cities', [\App\Http\Controllers\Auth\RegisterController::class, 'getCities'])->name('register');
 
