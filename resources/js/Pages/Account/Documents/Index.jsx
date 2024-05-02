@@ -1,5 +1,5 @@
 //import react
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -10,6 +10,8 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 export default function DocumentsIndex() {
     //destruct props "users"
     const { transactions, biodata, statusAnggota } = usePage().props;
+
+    console.log(biodata);
 
     const status = transactions.map((ts) => ts.status);
     const [name] = useState(statusAnggota.status_anggota);
@@ -30,77 +32,89 @@ export default function DocumentsIndex() {
                 <div className="row mt-2 mb-4">
                     <div className="col-12">
                         {/* {filter === "PAID" || name === "Anggota Kehormatan" ? ( */}
-                            <div className="card border-0 rounded shadow-sm border-top-admin">
-                                <div className="card-header">
-                                    <span className="font-weight-bold">
-                                        <i className="fa fa-users"></i> Berkas
-                                        Document
-                                    </span>
-                                </div>
-                                <div className="card-body">
-                                    <table className="table table-bordered">
-                                        <tr>
-                                            <td>FULL NAME</td>
-                                            <td>:</td>
-                                            <td className="p-2">
-                                                {biodata.name}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td>:</td>
-                                            <td className="p-2">
-                                                {biodata.email}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ijazah</td>
-                                            <td>:</td>
-                                            <td>
-                                                <Link
-                                                    href={`/account/documents/showIjazah/${biodata.id}`}
-                                                    className="btn"
-                                                >
-                                                    <i className="fa fa-plus-circle">
-                                                        {" "}
-                                                        Lihat
-                                                    </i>{" "}
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SIP</td>
-                                            <td>:</td>
-                                            <td>
-                                                <Link
-                                                    href={`/account/documents/showsip/${biodata.id}`}
-                                                    className="btn"
-                                                >
-                                                    <i className="fa fa-plus-circle">
-                                                        {" "}
-                                                        Lihat
-                                                    </i>{" "}
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>STR</td>
-                                            <td>:</td>
-                                            <td>
-                                                <Link
-                                                    href={`/account/documents/showstr/${biodata.id}`}
-                                                    className="btn"
-                                                >
-                                                    <i className="fa fa-plus-circle">
-                                                        {" "}
-                                                        Lihat
-                                                    </i>{" "}
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                        <div className="card border-0 rounded shadow-sm border-top-admin">
+                            <div className="card-header">
+                                <span className="font-weight-bold">
+                                    <i className="fa fa-users"></i> Berkas
+                                    Document
+                                </span>
                             </div>
+                            <div className="card-body">
+                                <table className="table table-bordered">
+                                    <tr>
+                                        <td>FULL NAME</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>:</td>
+                                        <td className="p-2">{biodata.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ijazah</td>
+                                        <td>:</td>
+                                        <td>
+                                            <Link
+                                                href={`/account/documents/showIjazah/${biodata.id}`}
+                                                className="btn"
+                                            >
+                                                <i className="fa fa-plus-circle">
+                                                    {" "}
+                                                    Lihat
+                                                </i>{" "}
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>SIP</td>
+                                        <td>:</td>
+                                        <td>
+                                            <Link
+                                                href={`/account/documents/showsip/${biodata.id}`}
+                                                className="btn"
+                                            >
+                                                <i className="fa fa-plus-circle">
+                                                    {" "}
+                                                    Lihat
+                                                </i>{" "}
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>STR</td>
+                                        <td>:</td>
+                                        <td>
+                                            <Link
+                                                href={`/account/documents/showstr/${biodata.id}`}
+                                                className="btn"
+                                            >
+                                                <i className="fa fa-plus-circle">
+                                                    {" "}
+                                                    Lihat
+                                                </i>{" "}
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pakta Integritas</td>
+                                        <td>:</td>
+                                        <td>
+                                            <a
+                                                href={biodata.filepakta}
+                                                target="_blank"
+                                            >
+                                                {" "}
+                                                <i className="fa fa-eye">
+                                                    {" "}
+                                                    Lihat
+                                                </i>{" "}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         {/* ) : (
                             <div className="row mt-5">
                                 <div className="col-12 col-md-12 col-lg-12 mb-4">
