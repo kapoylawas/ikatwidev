@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 
 class CheckoutController extends Controller
@@ -28,9 +29,12 @@ class CheckoutController extends Controller
         //get all provinces
         $provinces = Province::all();
 
+        $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
+
         //return
         return inertia('Web/Checkouts/Index', [
-            'provinces' => $provinces
+            'provinces' => $provinces,
+            'biodata' => $biodata
         ]);
     }
 
