@@ -154,10 +154,8 @@ class DocumentController extends Controller
         $this->validate($request, [
             'image'      => 'required|mimes:pdf|max:4000',
             'no_str'      => 'required',
-            // 'date_str'      => 'required',
             'date_start'      => 'required',
             'no_sertifikat'      => 'required',
-            'date_end'      => 'required',
         ]);
 
         //get user by ID
@@ -171,9 +169,7 @@ class DocumentController extends Controller
          $user->suratStrs()->create([
             'image'     => $image->hashName(),
             'no_str'     => $request->no_str,
-            // 'date_str'     => $request->date_str,
             'date_start'     => $request->date_start,
-            'date_end'     => $request->date_end,
             'no_sertifikat'     => $request->no_sertifikat,
             'user_id'     => $user,
         ]);
@@ -319,20 +315,12 @@ class DocumentController extends Controller
             'tahun_lulus'      => 'required',
             'no_ijazah'      => 'required',
             'date_ijazah'      => 'required',
-            'ipk'      => 'required',
-            'transkip'      => 'required|mimes:pdf|max:4000',
             'ijazah'      => 'required|mimes:pdf|max:4000',
         ]);
 
         
         //get user by ID
         $user = User::findOrFail($request->user_id);
-        
-        // dd($user);
-
-        // //upload transkip
-        $transkip = $request->file('transkip');
-        $transkip->storeAs('public/transkip', $transkip->hashName());
 
         // // // upload ijazah
         $ijazah = $request->file('ijazah');
@@ -347,9 +335,7 @@ class DocumentController extends Controller
              'tahun_lulus'     => $request->tahun_lulus,
              'no_ijazah'     => $request->no_ijazah,
              'date_ijazah'     => $request->date_ijazah,
-             'ipk'     => $request->ipk,
              'user_id'     => $user,
-             'transkip'     => $transkip->hashName(),
              'ijazah'     => $ijazah->hashName(),
         ]);
 

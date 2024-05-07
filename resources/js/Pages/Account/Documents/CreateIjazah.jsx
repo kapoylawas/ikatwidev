@@ -24,8 +24,7 @@ export default function DocumentCreateIjazah() {
     const [tahunlulus, setTahunlulus] = useState("");
     const [noijazah, setNoijazah] = useState("");
     const [dateijazah, setDateijazah] = useState("");
-    const [ipk, setIpk] = useState("");
-    const [transkip, setTranskip] = useState("");
+
     const [ijazah, setIjazah] = useState("");
 
     // store metod upload ijazah
@@ -45,8 +44,6 @@ export default function DocumentCreateIjazah() {
                 tahun_lulus: tahunlulus,
                 no_ijazah: noijazah,
                 date_ijazah: dateijazah,
-                ipk: ipk,
-                transkip: transkip,
                 ijazah: ijazah,
             },
             {
@@ -67,7 +64,6 @@ export default function DocumentCreateIjazah() {
             }
         );
     };
-    
 
     return (
         <>
@@ -105,7 +101,8 @@ export default function DocumentCreateIjazah() {
                                     <div className="row">
                                         <div className="mb-1">
                                             <label className="form-label">
-                                                Ijazah terakhir pendidikan terapis wicara
+                                                Ijazah terakhir pendidikan
+                                                terapis wicara
                                             </label>
                                             <select
                                                 className="form-select"
@@ -119,32 +116,13 @@ export default function DocumentCreateIjazah() {
                                                 <option value="">
                                                     -- Pilih Ijazah Terakhir --
                                                 </option>
-                                                <option
-                                                    value="DIII"
-                                                >
-                                                       DIII
+                                                <option value="DIII">
+                                                    DIII
                                                 </option>
-                                                <option
-                                                    value="D4"
-                                                >
-                                                       D4
-                                                </option>
-                                                <option
-                                                    value="S1"
-                                                >
-                                                        S1
-                                                </option>
-                                                <option
-                                                    value="S2"
-                                                >
-                                                        S2
-                                                </option>
-                                                <option
-                                                    value="S3"
-                                                >
-                                                        S3
-                                                </option>
-                                                
+                                                <option value="D4">D4</option>
+                                                <option value="S1">S1</option>
+                                                <option value="S2">S2</option>
+                                                <option value="S3">S3</option>
                                             </select>
                                             {errors.status_anggota && (
                                                 <div className="alert alert-danger mt-2">
@@ -203,7 +181,7 @@ export default function DocumentCreateIjazah() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                        Akreditasi
+                                            Akreditasi
                                         </label>
                                         <input
                                             type="text"
@@ -277,45 +255,13 @@ export default function DocumentCreateIjazah() {
                                             {errors.no_ijazah}
                                         </div>
                                     )}
+
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            IPK
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={ipk}
-                                            onChange={(e) =>
-                                                setIpk(e.target.value)
-                                            }
-                                            placeholder="Index Prestasi Akademik"
-                                        />
-                                    </div>
-                                    {errors.no_ijazah && (
-                                        <div className="alert alert-danger">
-                                            {errors.no_ijazah}
-                                        </div>
-                                    )}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            File Transkip <li style={{ color: "red" }}>(File Wajib PDF, max 4 mb)</li>
-                                        </label>
-                                        <input
-                                            type="file"
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setTranskip(e.target.files[0])
-                                            }
-                                        />
-                                    </div>
-                                    {errors.transkip && (
-                                        <div className="alert alert-danger">
-                                            {errors.transkip}
-                                        </div>
-                                    )}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            File Ijazah  <li style={{ color: "red" }}>(File Wajib PDF, max 4 mb)</li>
+                                            File Ijazah{" "}
+                                            <li style={{ color: "red" }}>
+                                                (File Wajib PDF, max 4 mb)
+                                            </li>
                                         </label>
                                         <input
                                             type="file"
