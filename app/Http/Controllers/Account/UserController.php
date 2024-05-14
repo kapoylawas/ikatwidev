@@ -19,7 +19,7 @@ class UserController extends Controller
 
         $role = auth()->user()->getRoleNames();
 
-        if ($role[0] == 'admin') {
+        if ($role[0] == 'admin' || $role[0] == 'admin wilayah') {
 
             //get users
             $users = User::when(request()->q, function ($users) {
