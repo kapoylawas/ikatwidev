@@ -370,6 +370,9 @@ export default function UserEdit() {
                                                 <option value="Stikes Mercubaktijaya Padang">
                                                     Stikes Mercubaktijaya Padang
                                                 </option>
+                                                <option value="Lain-Lain">
+                                                    Lain-Lain
+                                                </option>
                                             </select>
                                             {errors.istitusi && (
                                                 <div className="alert alert-danger">
