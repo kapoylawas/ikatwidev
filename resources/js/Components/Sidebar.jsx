@@ -88,7 +88,7 @@ export default function Sidebar() {
                     </Link>
                 )}
 
-                {hasAnyPermission(["tagihan.index"]) && (
+                {/* {hasAnyPermission(["tagihan.index"]) && (
                     <Link
                         href="/account/tagihan"
                         className={`${
@@ -99,7 +99,7 @@ export default function Sidebar() {
                     >
                         <i className="fa fa-money-bill me-2"></i> Tagihan Iuran
                     </Link>
-                )}
+                )} */}
 
                 {hasAnyPermission(["products.index"]) && (
                     <Link
