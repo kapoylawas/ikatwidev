@@ -70,7 +70,7 @@ export default function EktaIndex() {
                                 </svg>
                                 E-KTA
                                 <span>
-                             <ReactToPrint trigger={() => <button className="btn btn-primary btn-sm me-2">print / download</button>} content={() => componentRef.current} />
+                             {/* <ReactToPrint trigger={() => <button className="btn btn-primary btn-sm me-2">print / download</button>} content={() => componentRef.current} /> */}
                             </span>
                             </div>
                             
@@ -207,7 +207,7 @@ export default function EktaIndex() {
                                                                         >
                                                                             Berlaku
                                                                             Sampai
-                                                                            : 20
+                                                                            : 31
                                                                             DESEMBER
                                                                             2024
                                                                         </div>

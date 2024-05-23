@@ -35,16 +35,18 @@ export default function TransactionIndex() {
                             <div class="col-md-8 col-12 mb-2">
                                 <Search URL={"/account/transactions"} />
                             </div>
-                            <div class="col-md-4 col-12 mb-2">
-                                <a
-                                    href="/account/reports/transaction"
-                                    target="_blank"
-                                    class="btn btn-admin btn-md border-0 shadow w-100 text-white"
-                                >
-                                    <i class="fa fa-file-excel"></i> DOWNLOAD
-                                    EXCEL
-                                </a>
-                            </div>
+                            {hasAnyPermission(["roles.index"]) && (
+                                <div class="col-md-4 col-12 mb-2">
+                                    <a
+                                        href="/account/reports/transaction"
+                                        target="_blank"
+                                        class="btn btn-admin btn-md border-0 shadow w-100 text-white"
+                                    >
+                                        <i class="fa fa-file-excel"></i>{" "}
+                                        DOWNLOAD EXCEL
+                                    </a>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

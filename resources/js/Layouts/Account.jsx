@@ -58,7 +58,7 @@ export default function LayoutAccount({ children }) {
                 <div className="bg-dark" id="sidebar-wrapper">
                     <div className="sidebar-heading bg-light text-center">
                         <img  src="/assets/images/logo.png" width={"23"} />
-                        <strong> ADMIN IKATWI</strong> <small></small>
+                        <strong>IKATWI</strong> <small></small>
                     </div>
                     <Sidebar />
                 </div>

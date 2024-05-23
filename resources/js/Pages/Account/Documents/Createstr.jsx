@@ -20,7 +20,6 @@ export default function DocumentCreatestr() {
     const [filestr, setFilestr] = useState("");
     const [nostr, setNostr] = useState("");
     const [datestart, setDatestart] = useState("");
-    const [dateend, setDateend] = useState("");
     const [nosertifikat, setNosertifikat] = useState("");
 
     //method storeImage
@@ -35,7 +34,6 @@ export default function DocumentCreatestr() {
                 image: filestr,
                 no_str: nostr,
                 date_start: datestart,
-                date_end: dateend,
                 no_sertifikat: nosertifikat,
                 user_id: users.id,
             },
@@ -112,7 +110,7 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                        Tanggal Pengesahan STR
+                                            Tanggal Pengesahan STR
                                         </label>
                                         <input
                                             type="date"
@@ -130,25 +128,7 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                        Tanggal Berlaku STR
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="form-control"
-                                            value={dateend}
-                                            onChange={(e) =>
-                                                setDateend(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    {errors.date_end && (
-                                        <div className="alert alert-danger">
-                                            {errors.date_end}
-                                        </div>
-                                    )}
-                                     <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                        Nomor sertifikat kompetensi
+                                            Nomor sertifikat kompetensi
                                         </label>
                                         <input
                                             type="text"
@@ -167,7 +147,10 @@ export default function DocumentCreatestr() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">
-                                            File STR <li style={{ color: "red" }}>(File Wajib PDF, max 4 mb)</li>
+                                            File STR{" "}
+                                            <li style={{ color: "red" }}>
+                                                (File Wajib PDF, max 4 mb)
+                                            </li>
                                         </label>
                                         <input
                                             type="file"

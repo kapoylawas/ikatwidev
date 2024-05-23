@@ -19,7 +19,10 @@ import StoreCheckout from './StoreCheckout';
 export default function CheckoutIndex() {
 
     //destruct props "provinces"
-    const { provinces, dataCarts } = usePage().props;
+    const { provinces, dataCarts, biodata } = usePage().props;
+
+    const dpw = biodata.province.id
+    const dpc = biodata.city.id
 
     //define state
     const [provinceID, setProvinceID] = useState('');
@@ -82,27 +85,11 @@ export default function CheckoutIndex() {
                                     <div className="card-body">
 
                                         <div className="mb-3">
-                                            <label className="mb-2 fw-bold">DPW</label>
-                                            <select className="form-select" onChange={(e) => getCityByProvince(e.target.value)}>
-                                                <option value="">-- Select Province --</option>
-                                                {
-                                                    provinces.map((province, index) => (
-                                                        <option key={index} value={province.id}>{province.name}</option>
-                                                    ))
-                                                }
-                                            </select>
+                                            <label className="mb-2 fw-bold">{biodata.province.name}</label>
                                         </div>
 
                                         <div className="mb-3">
-                                            <label className="mb-2 fw-bold">DPC</label>
-                                            <select className="form-select" onChange={(e) => showCourierExpedition(e.target.value)}>
-                                                <option value="">-- Select City --</option>
-                                                {
-                                                    cities.map((city, index) => (
-                                                        <option key={index} value={city.id}>{city.name}</option>
-                                                    ))
-                                                }
-                                            </select>
+                                            <label className="mb-2 fw-bold">{biodata.city.name}</label>
                                         </div>
 
                                         
@@ -137,8 +124,8 @@ export default function CheckoutIndex() {
                                 </div>
 
                                 <StoreCheckout    
-                                    provinceID={provinceID}
-                                    cityID={cityID}
+                                    provinceID={dpw}
+                                    cityID={dpc}
                                     grandTotal={grandTotal}
                                     // courierName={courierName}
                                     // courierService={courierService}

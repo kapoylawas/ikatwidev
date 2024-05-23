@@ -11,7 +11,7 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 import Delete from "../../../Shared/Delete";
 
 export default function DocumentShowstr() {
-    const { users } = usePage().props;  
+    const { users } = usePage().props;
     const currentDate = new Date();
 
     return (
@@ -45,9 +45,8 @@ export default function DocumentShowstr() {
                             </div>
                         </div>
                     </div>
-                    
                 </div>
-        
+
                 <div className="row mt-2">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-admin">
@@ -73,7 +72,7 @@ export default function DocumentShowstr() {
                                                 >
                                                     No STR
                                                 </th>
-                                              
+
                                                 <th
                                                     scope="col"
                                                     style={{ width: "8%" }}
@@ -92,19 +91,19 @@ export default function DocumentShowstr() {
                                                 >
                                                     Nomor sertifikat kompetensi
                                                 </th>
-                                                <th
+                                                {/*  <th
                                                     scope="col"
                                                     style={{ width: "3%" }}
                                                 >
                                                     Status
-                                                </th>
+                                                </th> */}
                                                 <th
                                                     scope="col"
                                                     style={{ width: "30%" }}
                                                 >
                                                     File
                                                 </th>
-                                               
+
                                                 <th
                                                     scope="col"
                                                     style={{ width: "5%" }}
@@ -130,7 +129,7 @@ export default function DocumentShowstr() {
                                                         <td className="text-center">
                                                             {strs.no_str}
                                                         </td>
-                                                       
+
                                                         <td className="text-center">
                                                             {strs.date_start}
                                                         </td>
@@ -140,13 +139,13 @@ export default function DocumentShowstr() {
                                                         <td className="text-center">
                                                             {strs.no_sertifikat}
                                                         </td>
-                                                        <td>
+                                                        {/* <td>
                                                             {new Date(
                                                                 strs.date_end
                                                             ) >= currentDate
                                                                 ? "Aktif"
                                                                 : "Tidak Aktif"}
-                                                        </td>
+                                                        </td> */}
                                                         <td className="text-center">
                                                             <iframe
                                                                 src={strs.image}
@@ -159,7 +158,12 @@ export default function DocumentShowstr() {
                                                             ></iframe>
                                                         </td>
                                                         <td className="text-center">
-                                                             <Delete URL={"/account/documents/hapus_str"} id={strs.id} />
+                                                            <Delete
+                                                                URL={
+                                                                    "/account/documents/hapus_str"
+                                                                }
+                                                                id={strs.id}
+                                                            />
                                                         </td>
                                                     </tr>
                                                 )

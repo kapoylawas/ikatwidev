@@ -245,7 +245,7 @@ export default function EktaIndex() {
                                             )}
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {/* <tr>
                                         <td className="fw-bold">
                                             Berkas Pakta Integritas :
                                         </td>
@@ -282,7 +282,7 @@ export default function EktaIndex() {
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> */}
                                     {/* <tr>
                                         <td>File</td>
                                         <td>:</td>

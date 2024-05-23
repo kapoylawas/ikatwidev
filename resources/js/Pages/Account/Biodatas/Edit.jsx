@@ -25,10 +25,10 @@ export default function UserEdit() {
     const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir);
     const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir);
     const [lokasipekerjaan, setLokasipekerjaan] = useState(
-        biodata.lokasi_pekerjaan,
+        biodata.lokasi_pekerjaan
     );
     const [alamatTempatBekerja, setAlamatTempatBekerja] = useState(
-        biodata.alamat_tempat_bekerja,
+        biodata.alamat_tempat_bekerja
     );
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
@@ -86,7 +86,7 @@ export default function UserEdit() {
                         timer: 1500,
                     });
                 },
-            },
+            }
         );
     };
 
@@ -218,7 +218,7 @@ export default function UserEdit() {
                                                     value={tempatlahir}
                                                     onChange={(e) =>
                                                         setTempatlahir(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Enter Tempat Kelahiran"
@@ -241,7 +241,7 @@ export default function UserEdit() {
                                                     value={tgllahir}
                                                     onChange={(e) =>
                                                         setTgllahir(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Enter Tanggal Lahir"
@@ -289,7 +289,7 @@ export default function UserEdit() {
                                                     value={alamat}
                                                     onChange={(e) =>
                                                         setAlamat(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Alamat Lengkap Sesuai KTP"
@@ -316,12 +316,13 @@ export default function UserEdit() {
                                                 value={pendidikan}
                                                 onChange={(e) =>
                                                     setPendidikan(
-                                                        e.target.value,
+                                                        e.target.value
                                                     )
                                                 }
                                             >
                                                 <option value="">
-                                                    -- Select Jenjang Pendidikan --
+                                                    -- Select Jenjang Pendidikan
+                                                    --
                                                 </option>
                                                 <option value="D3">DIII</option>
                                                 <option value="D4">DIV</option>
@@ -345,22 +346,37 @@ export default function UserEdit() {
                                                 Nama Perguruan Tinggi Terapi
                                                 Wicara
                                             </label>
-                                            <div className="input-group mb-1">
-                                                <textarea
-                                                    type="text"
-                                                    value={istitusi}
-                                                    className="form-control"
-                                                    onChange={(e) =>
-                                                        setIstitusi(
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    placeholder="Nama Perguruan Tinggi Terapi Wicara"
-                                                />
-                                            </div>
-                                            {errors.alamat && (
+                                            <select
+                                                className="form-select"
+                                                value={istitusi}
+                                                onChange={(e) =>
+                                                    setIstitusi(e.target.value)
+                                                }
+                                            >
+                                                <option value="">
+                                                    -- Select Perguruan Tinggi
+                                                    Terapi Wicara --
+                                                </option>
+                                                <option value="Poltekes Kemenkes Surakarta">
+                                                    Poltekes Kemenkes Surakarta
+                                                </option>
+                                                <option value="Akademi Terapi Wicara Yayasan Bina Wicara Jakarta">
+                                                    Akademi Terapi Wicara
+                                                    Yayasan Bina Wicara Jakarta
+                                                </option>
+                                                <option value="Politeknik AL Islam Bandung">
+                                                    Politeknik AL Islam Bandung
+                                                </option>
+                                                <option value="Stikes Mercubaktijaya Padang">
+                                                    Stikes Mercubaktijaya Padang
+                                                </option>
+                                                <option value="Lain-Lain">
+                                                    Lain-Lain
+                                                </option>
+                                            </select>
+                                            {errors.istitusi && (
                                                 <div className="alert alert-danger">
-                                                    {errors.alamat}
+                                                    {errors.istitusi}
                                                 </div>
                                             )}
                                         </div>
@@ -378,15 +394,15 @@ export default function UserEdit() {
                                                     value={almtistitusi}
                                                     onChange={(e) =>
                                                         setAlmtistitusi(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Alamat Lengkap Istitusi"
                                                 />
                                             </div>
-                                            {errors.alamat && (
+                                            {errors.almtistitusi && (
                                                 <div className="alert alert-danger">
-                                                    {errors.alamat}
+                                                    {errors.almtistitusi}
                                                 </div>
                                             )}
                                         </div>
@@ -441,7 +457,7 @@ export default function UserEdit() {
                                                 value={kepegawaian}
                                                 onChange={(e) =>
                                                     setKepegawaian(
-                                                        e.target.value,
+                                                        e.target.value
                                                     )
                                                 }
                                             >
@@ -541,7 +557,7 @@ export default function UserEdit() {
                                                     value={lokasipekerjaan}
                                                     onChange={(e) =>
                                                         setLokasipekerjaan(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder=" Nama Institusi Tempat Bekerja"
@@ -561,7 +577,7 @@ export default function UserEdit() {
                                                     value={alamatTempatBekerja}
                                                     onChange={(e) =>
                                                         setAlamatTempatBekerja(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder=" Nama Institusi Tempat Bekerja"
@@ -584,7 +600,7 @@ export default function UserEdit() {
                                                 disabled
                                                 onChange={(e) =>
                                                     setStatusAnggota(
-                                                        e.target.value,
+                                                        e.target.value
                                                     )
                                                 }
                                             >
@@ -620,7 +636,7 @@ export default function UserEdit() {
                                                 value={provinceID}
                                                 onChange={(e) =>
                                                     setProvinceID(
-                                                        e.target.value,
+                                                        e.target.value
                                                     )
                                                 }
                                             >
@@ -688,7 +704,7 @@ export default function UserEdit() {
                                                     value={password}
                                                     onChange={(e) =>
                                                         setPassword(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Enter Password"
@@ -711,7 +727,7 @@ export default function UserEdit() {
                                                     value={passwordConfirmation}
                                                     onChange={(e) =>
                                                         setPasswordConfirmation(
-                                                            e.target.value,
+                                                            e.target.value
                                                         )
                                                     }
                                                     placeholder="Enter Password Confirmation"
