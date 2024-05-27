@@ -88,7 +88,7 @@ export default function Sidebar() {
                     </Link>
                 )}
 
-                {/* {hasAnyPermission(["tagihan.index"]) && (
+                {hasAnyPermission(["tagihan.index"]) && (
                     <Link
                         href="/account/tagihan"
                         className={`${
@@ -99,7 +99,7 @@ export default function Sidebar() {
                     >
                         <i className="fa fa-money-bill me-2"></i> Tagihan Iuran
                     </Link>
-                )} */}
+                )}
 
                 {hasAnyPermission(["products.index"]) && (
                     <Link
@@ -162,8 +162,8 @@ export default function Sidebar() {
                                 : "list-group-item list-group-item-action list-group-item-light p-3"
                         }`}
                     >
-                        <i className="fa fa-puzzle-piece me-2"></i>{" "}
-                        Agenda Kegiatan
+                        <i className="fa fa-puzzle-piece me-2"></i> Agenda
+                        Kegiatan
                     </Link>
                 )}
 
@@ -176,8 +176,7 @@ export default function Sidebar() {
                                 : "list-group-item list-group-item-action list-group-item-light p-3"
                         }`}
                     >
-                        <i className="fa fa-puzzle-piece me-2"></i>{" "}
-                        Pengurus
+                        <i className="fa fa-puzzle-piece me-2"></i> Pengurus
                     </Link>
                 )}
 
