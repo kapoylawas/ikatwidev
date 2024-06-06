@@ -25,7 +25,7 @@ class TransactionController extends Controller
         /**
          * get transactions
          */
-        if ($role[0] == 'admin') {
+        if ($role[0] == 'admin' || $role[0] == 'bendahara') {
 
             $transactions = Transaction::whereHas('user', function ($query) use ($searchString){
                 $query->where('name', 'like', '%'.$searchString.'%');
