@@ -33,16 +33,7 @@ class TransactionController extends Controller
             ->with(['user' => function($query) use ($searchString){
                 $query->where('name', 'like', '%'.$searchString.'%');
             }])->latest()->paginate(10);
-            //get transactions
-            // $transactions = Transaction::with('user')->when(request()->q, function ($categories) {
-            //     $categories = $categories->where('invoice', 'like', '%' . request()->q . '%');
-            // })->latest()->paginate(5);
         } else {
-
-            //get transactions
-            // $transactions = Transaction::with('user')->when(request()->q, function ($categories) {
-            //     $categories = $categories->where('invoice', 'like', '%' . request()->q . '%');
-            // })->where('user_id', auth()->user()->id)->latest()->paginate(5);
             $transactions = Transaction::whereHas('user', function ($query) use ($searchString){
                 $query->where('name', 'like', '%'.$searchString.'%');
             })

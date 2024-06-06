@@ -35,7 +35,7 @@ export default function TransactionIndex() {
                             <div class="col-md-8 col-12 mb-2">
                                 <Search URL={"/account/transactions"} />
                             </div>
-                            {hasAnyPermission(["roles.index"]) && (
+                            {hasAnyPermission(["permissions.index"]) && (
                                 <div class="col-md-4 col-12 mb-2">
                                     <a
                                         href="/account/reports/transaction"
@@ -121,7 +121,7 @@ export default function TransactionIndex() {
                                                         <td>
                                                             Rp.{" "}
                                                             {FormatPrice(
-                                                                transaction.grand_total
+                                                                transaction.grand_total,
                                                             )}
                                                         </td>
                                                         <td className="text-center">
@@ -165,7 +165,7 @@ export default function TransactionIndex() {
                                                             )}
                                                         </td>
                                                     </tr>
-                                                )
+                                                ),
                                             )}
                                         </tbody>
                                     </table>
