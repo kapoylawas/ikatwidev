@@ -129,10 +129,10 @@ export default function Login() {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="register text-center mt-3">
+                        <div className="register text-center mt-3">
                             Belum Punya Akun?{" "}
                             <Link href="/info">Register!</Link>
-                        </div> */}
+                        </div>
                         <div className="register text-center mt-3">
                             <Link href="/forgot-password">Lupa Password?</Link>
                         </div>

@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 // //route info index
-// Route::get('/info', [\App\Http\Controllers\Auth\InfoController::class, 'index'])->name('info')->middleware('guest');
+Route::get('/info', [\App\Http\Controllers\Auth\InfoController::class, 'index'])->name('info')->middleware('guest');
 
 // //route register index
-// Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register')->middleware('guest');
+Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register')->middleware('guest');
 
 Route::get('/register/cities', [\App\Http\Controllers\Auth\RegisterController::class, 'getCities'])->name('register');
 
@@ -159,6 +159,8 @@ Route::prefix('account')->group(function () {
         Route::get('/reports/transaction', [\App\Http\Controllers\Account\TransactionController::class, 'export'])->name('account.reports.transaction');
 
         Route::get('/cetak/ekta', [\App\Http\Controllers\Account\EktaController::class, 'cetakekta'])->name('account.cetak.ekta');
+
+        Route::put('/user/verifNoAnggota/{id}', [\App\Http\Controllers\Account\UserController::class, 'verifNoAnggota']);
     });
 });
 

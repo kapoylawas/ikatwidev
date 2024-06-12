@@ -30,6 +30,8 @@ export default function Register() {
 
     const [isChecked, setIsChecked] = useState(false);
 
+    const adminAlan = `https://wa.me/6289657839449`;
+
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
     };
@@ -106,7 +108,17 @@ export default function Register() {
                                         REGISTER AKUN ANGGOTA
                                     </h6>
                                     <hr />
+                                    <div className="alert alert-danger border-0 shadow-sm mb-2">
+                                        Setelah Register Silahkan Menghubungi,{" "}
+                                        <br />
+                                        <a target="_blank" href={adminAlan}>
+                                            {" "}
+                                            {""} Hp.089657839449
+                                        </a>
+                                        <strong> Admin </strong>
+                                    </div>
                                 </div>
+
                                 <form onSubmit={registerHandler}>
                                     <div className="row">
                                         <div className="mb-1">

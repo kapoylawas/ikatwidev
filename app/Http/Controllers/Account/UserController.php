@@ -29,9 +29,9 @@ class UserController extends Controller
             $users = User::when(request()->q, function ($users) {
                 $users = $users->where('name', 'like', '%' . request()->q . '%');
             })->with('roles', 'province', 'city')
-              ->where('id', auth()->user()->id)
-            //   ->where('province_id', auth()->user()->province_id)
-              ->latest()->paginate(10);
+                ->where('id', auth()->user()->id)
+                //   ->where('province_id', auth()->user()->province_id)
+                ->latest()->paginate(10);
         }
 
         //append query string to pagination links
@@ -160,7 +160,6 @@ class UserController extends Controller
                 'name'      => 'required',
                 'province_id'      => 'required',
                 'city_id'      => 'required',
-                /* 'nik'      => 'required|max:16|min:16', */
                 'password'  => 'required|confirmed',
                 'password' => 'nullable|confirmed',
             ],
@@ -168,13 +167,6 @@ class UserController extends Controller
                 'name.required' => 'name tidak boleh kosong',
                 'province_id.required' => 'DPW tidak boleh kosong',
                 'city_id.required' => 'DPC tidak boleh kosong',
-                /* 'nik.required' => 'nik tidak boleh kosong',
-                'nik.max' => 'nik harus 16 angka',
-                'nik.min' => 'nik harus 16 angka', */
-               /*  'email.required' => 'email tidak boleh kosong',
-                'email.email' => 'email harus format EMAIL',
-                'email.unique' => 'email sudah terdaftar',
-                'alamat.required' => 'alamat tidak boleh kosong', */
                 'password.required' => 'password tidak boleh kosong',
             ]
         );
@@ -192,6 +184,8 @@ class UserController extends Controller
                 $image = $request->file('image');
                 $image->storeAs('public/users', $image->hashName());
 
+                $maxuser = User::whereNotNull('no_anggota')->count() + 2;
+
                 $user->update([
                     'name'      => $request->name,
                     'province_id'      => $request->province_id,
@@ -201,10 +195,13 @@ class UserController extends Controller
                     'alamat'     => $request->alamat,
                     'no_str'     => $request->no_str,
                     'status_anggota'     => $request->status_anggota,
+                    'no_anggota'      => '10' . $maxuser,
                     'date_exprd'     => $request->date_exprd,
                     'image' => $image->hashName(),
                 ]);
             } else {
+                $maxuser = User::whereNotNull('no_anggota')->count() + 2;
+
                 $user->update([
                     'name'      => $request->name,
                     'province_id'      => $request->province_id,
@@ -214,10 +211,13 @@ class UserController extends Controller
                     'alamat'     => $request->alamat,
                     'no_str'     => $request->no_str,
                     'status_anggota'     => $request->status_anggota,
+                    'no_anggota'      => '10' . $maxuser,
                     'date_exprd'     => $request->date_exprd,
                 ]);
             }
         } else {
+            $maxuser = User::whereNotNull('no_anggota')->count() + 2;
+
             $user->update([
                 'name'      => $request->name,
                 'province_id'      => $request->province_id,
@@ -228,10 +228,10 @@ class UserController extends Controller
                 'no_str'     => $request->no_str,
                 'date_exprd'     => $request->date_exprd,
                 'status_anggota'     => $request->status_anggota,
+                'no_anggota'      => '10' . $maxuser,
                 'password' => bcrypt($request->password)
             ]);
         }
-
 
         //assign roles to user
         $user->syncRoles($request->roles);
@@ -246,7 +246,7 @@ class UserController extends Controller
 
         $data = [];
 
-        foreach($user as $u){
+        foreach ($user as $u) {
             if (strtotime(date('Y-m-d')) >= strtotime($u->date_exprd)) {
                 $data[] = $u->id;
             }
@@ -266,7 +266,7 @@ class UserController extends Controller
 
         $data = [];
 
-        foreach($user as $u){
+        foreach ($user as $u) {
             if (strtotime(date('Y-m-d')) >= strtotime($u->date_end)) {
                 $data[] = $u->id;
             }
@@ -287,6 +287,21 @@ class UserController extends Controller
 
         //delete user
         $user->delete();
+
+        //redirect
+        return redirect()->route('account.users.index');
+    }
+
+    public function verifNoAnggota($id)
+    {
+
+        $user = User::findOrFail($id);
+
+        $maxuser = User::count();
+
+        $user->update([
+            'no_anggota'      => '10' . $maxuser + 1,
+        ]);
 
         //redirect
         return redirect()->route('account.users.index');

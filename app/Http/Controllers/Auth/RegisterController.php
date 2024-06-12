@@ -72,43 +72,20 @@ class RegisterController extends Controller
          $filepakta = $request->file('filepakta');
          $filepakta->storeAs('public/filepakta', $filepakta->hashName());
 
-        $maxuser = User::count();
+        // $maxuser = User::count();
 
         //insert data user
         $user = User::create([
             'name'      => $request->name,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
-            'no_anggota'      => '10'.$maxuser+1,
+            // 'no_anggota'      => '10'.$maxuser+1,
             'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,
             'filepakta' => $filepakta->hashName(),
             'password'  => bcrypt($request->password)
         ]);
-
-        // dd($user->id);
-/* 
-        $tahun = date('Y');
-        $cektransaction = Transaction::where('user_id', $user->id)
-            ->where('tahun', $tahun)->first();
-        $cekcart = Cart::where('user_id', $user->id)
-            ->where('tahun', $tahun)->first();
-
-
-        // kondisi jika di tabel transcation dan cart ada user dan tahun maka tidak insert
-        if (!$cektransaction && !$cekcart) {
-            Cart::insert([
-                'user_id'       =>  $user->id,
-                'product_id'    => 1,
-                'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
-                'size'    => 'Uang registrasi',
-                'qty'    => 1,
-                'price'         => 150000,
-                'tahun'           => '-',
-                'weight'        => $request->weight
-            ]);
-        } */
 
         //find role "member
         $role = Role::findByName('member');

@@ -471,7 +471,7 @@ export default function UserEdit() {
                                             type="submit"
                                             className="btn btn-md btn-success me-2"
                                         >
-                                            <i className="fa fa-save"></i> Save
+                                            <i className="fa fa-save"></i> Verif
                                         </button>
                                         <button
                                             type="reset"
