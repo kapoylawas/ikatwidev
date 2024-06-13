@@ -124,7 +124,7 @@ export default function UserIndex() {
                                         </thead>
                                         <tbody>
                                             {users.data.map((user, index) => (
-                                                <tr key={index}>
+                                                <tr className={`verif-${user.confirm == 'true'}`} key={index}>
                                                     <td className="text-center">
                                                         {++index +
                                                             (users.current_page -
@@ -145,7 +145,7 @@ export default function UserIndex() {
                                                             }}
                                                         />
                                                     </td>
-                                                    <td>{user.no_anggota}</td>
+                                                    <td >{user.no_anggota}</td>
                                                     <td>{user.name}</td>
                                                     <td>
                                                     <a href={user.filepakta} target="_blank">Lihat File</a>

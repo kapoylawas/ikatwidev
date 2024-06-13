@@ -79,7 +79,7 @@ class RegisterController extends Controller
             'name'      => $request->name,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
-            // 'no_anggota'      => '10'.$maxuser+1,
+            'confirm'      => 'false',
             'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,
