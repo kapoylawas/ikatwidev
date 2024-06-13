@@ -369,7 +369,7 @@ export default function Register() {
                                                 checked={isChecked}
                                                 onChange={handleCheckboxChange}
                                             />
-                                            {"  "} Bahwa Saya Mengisi Dengan
+                                            {"  "} Bahwa Saya Mengisi Data Dengan
                                             Benar
                                         </label>
                                     </div>
