@@ -68,6 +68,9 @@ Route::prefix('account')->group(function () {
         Route::resource('/verifPengajuan', \App\Http\Controllers\Account\verifPengajuanController::class, ['as' => 'account'])->middleware('permission:verifPengajuan.index');
 
         // cek status anggota STR
+        Route::get('/users/verifikasiAnggota/{id}', [\App\Http\Controllers\Account\UserController::class, 'verifikasiAnggota']);
+
+        // cek status anggota STR
         Route::get('/documents/showstr/{id}', [\App\Http\Controllers\Account\DocumentController::class, 'showStr'])->name('account.documents.showstr');
 
         // create anggota STR
@@ -160,7 +163,7 @@ Route::prefix('account')->group(function () {
 
         Route::get('/cetak/ekta', [\App\Http\Controllers\Account\EktaController::class, 'cetakekta'])->name('account.cetak.ekta');
 
-        Route::put('/user/verifNoAnggota/{id}', [\App\Http\Controllers\Account\UserController::class, 'verifNoAnggota']);
+        Route::put('/users/verifNoAnggota/{user}', [\App\Http\Controllers\Account\UserController::class, 'updateVerifikasiAnggota']);
     });
 });
 

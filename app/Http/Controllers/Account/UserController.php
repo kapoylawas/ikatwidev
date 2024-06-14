@@ -144,6 +144,25 @@ class UserController extends Controller
         ]);
     }
 
+    public function verifikasiAnggota($id)
+    {
+
+        //get user
+        $user = User::with('roles')->findOrFail($id);
+
+        //get roles
+        $roles = Role::all();
+        $provinces = Province::all();
+        $cities = City::all();
+
+        return inertia('Account/Users/VerifikasiAnggota', [
+            'user' => $user,
+            'roles' => $roles,
+            'provinces' => $provinces,
+            'cities' => $cities
+        ]);
+    }
+
     public function update(Request $request, User $user)
     {
         // dd($request->all());
@@ -184,7 +203,6 @@ class UserController extends Controller
                 $image = $request->file('image');
                 $image->storeAs('public/users', $image->hashName());
 
-                $maxuser = User::whereNotNull('no_anggota')->count() + 2;
 
                 $user->update([
                     'name'      => $request->name,
@@ -196,13 +214,10 @@ class UserController extends Controller
                     'no_str'     => $request->no_str,
                     'confirm'      => 'true',
                     'status_anggota'     => $request->status_anggota,
-                    'no_anggota'      => '10' . $maxuser,
                     'date_exprd'     => $request->date_exprd,
                     'image' => $image->hashName(),
                 ]);
             } else {
-                $maxuser = User::whereNotNull('no_anggota')->count() + 2;
-
                 $user->update([
                     'name'      => $request->name,
                     'province_id'      => $request->province_id,
@@ -213,13 +228,10 @@ class UserController extends Controller
                     'no_str'     => $request->no_str,
                     'confirm'      => 'true',
                     'status_anggota'     => $request->status_anggota,
-                    'no_anggota'      => '10' . $maxuser,
                     'date_exprd'     => $request->date_exprd,
                 ]);
             }
         } else {
-            $maxuser = User::whereNotNull('no_anggota')->count() + 2;
-
             $user->update([
                 'name'      => $request->name,
                 'province_id'      => $request->province_id,
@@ -231,7 +243,6 @@ class UserController extends Controller
                 'confirm'      => 'true',
                 'date_exprd'     => $request->date_exprd,
                 'status_anggota'     => $request->status_anggota,
-                'no_anggota'      => '10' . $maxuser,
                 'password' => bcrypt($request->password)
             ]);
         }
@@ -295,15 +306,15 @@ class UserController extends Controller
         return redirect()->route('account.users.index');
     }
 
-    public function verifNoAnggota($id)
+    public function updateVerifikasiAnggota(Request $request, User $user)
     {
 
-        $user = User::findOrFail($id);
-
-        $maxuser = User::count();
+        $maxuser = User::whereNotNull('no_anggota')->count() + 2;
 
         $user->update([
-            'no_anggota'      => '10' . $maxuser + 1,
+            'name'      => $request->name,
+            'confirm'      => 'true',
+            'no_anggota'      => '10' . $maxuser,
         ]);
 
         //redirect

@@ -1,5 +1,5 @@
 //import react
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -13,8 +13,9 @@ import { Inertia } from "@inertiajs/inertia";
 //import Sweet Alert
 import Swal from "sweetalert2";
 
-export default function UserEdit() {
-    const { errors, roles, provinces, cities, user } = usePage().props;
+export default function UserVerifikasiAnggota() {
+    const { errors, provinces, cities, user } = usePage().props;
+    const status = user.confirm;
 
     // state user
     const [name, setName] = useState(user.name);
@@ -24,31 +25,11 @@ export default function UserEdit() {
     const [provinceID, setProvinceID] = useState(user.province_id);
     const [cityID, setCityID] = useState(user.city_id);
     const [statusAnggota, setStatusAnggota] = useState(user.status_anggota);
-    const [rolesData, setRolesData] = useState(
-        user.roles.map((obj) => obj.name)
-    );
-    const [password, setPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [image, setImage] = useState("");
-    const [nostr, setNostr] = useState(user.no_str);
-    const [dateexprd, setDateExprd] = useState(user.date_exprd);
+    const [confirm, setConfirm] = useState(user.confirm);
 
-    //define method "handleCheckboxChange"
-    const handleCheckboxChange = (e) => {
-        //define data
-        let data = rolesData;
-
-        //check item already exists, if so, remove with filter
-        if (data.some((name) => name === e.target.value)) {
-            data = data.filter((name) => name !== e.target.value);
-        } else {
-            //push new item to array
-            data.push(e.target.value);
-        }
-
-        //set data to state
-        setRolesData(data);
-    };
+    useEffect(() => {
+        setConfirm(status === "true");
+    }, [status]);
 
     //method "updateUser"
     const updateUser = async (e) => {
@@ -56,22 +37,10 @@ export default function UserEdit() {
 
         //sending data
         Inertia.post(
-            `/account/users/${user.id}`,
+            `/account/users/verifNoAnggota/${user.id}`,
             {
                 //data
                 name: name,
-                email: email,
-                nik: nik,
-                province_id: provinceID,
-                city_id: cityID,
-                alamat: alamat,
-                image: image,
-                status_anggota: statusAnggota,
-                no_str: nostr,
-                date_exprd: dateexprd,
-                password: password,
-                password_confirmation: passwordConfirmation,
-                roles: rolesData,
                 _method: "PUT",
             },
             {
@@ -116,8 +85,8 @@ export default function UserEdit() {
                         <div className="card border-0 rounded shadow-sm border-top-admin">
                             <div className="card-header">
                                 <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Edit New
-                                    User
+                                    <i className="fa fa-users"></i> Verifikasi
+                                    No Anggota User
                                 </span>
                             </div>
                             <div className="card-body">
@@ -145,71 +114,6 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
-
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                No STR
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={nostr}
-                                                    onChange={(e) =>
-                                                        setNostr(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Tanggal Expired STR"
-                                                />
-                                            </div>
-                                            {errors.date_start && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.date_start}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                Tanggal expired
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="date"
-                                                    className="form-control"
-                                                    value={dateexprd}
-                                                    onChange={(e) =>
-                                                        setDateExprd(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Tanggal Expired STR"
-                                                />
-                                            </div>
-                                            {errors.date_exprd && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.date_exprd}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            Image
-                                        </label>
-                                        <input
-                                            type="file"
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setImage(e.target.files[0])
-                                            }
-                                        />
-                                    </div>
-
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-3">
@@ -333,24 +237,18 @@ export default function UserEdit() {
                                                 }
                                             >
                                                 <option value="">
-                                                    -- Select Status Keanggotaan --
+                                                    -- Select Status Keanggotaan
+                                                    --
                                                 </option>
-                                                <option
-                                                    value="Anggota Biasa"
-                                                >
-                                                        Anggota Biasa
+                                                <option value="Anggota Biasa">
+                                                    Anggota Biasa
                                                 </option>
-                                                <option
-                                                    value="Anggota Luar Biasa"
-                                                >
-                                                        Anggota Luar Biasa
+                                                <option value="Anggota Luar Biasa">
+                                                    Anggota Luar Biasa
                                                 </option>
-                                                <option
-                                                    value="Anggota Kehormatan"
-                                                >
-                                                        Anggota Kehormatan
+                                                <option value="Anggota Kehormatan">
+                                                    Anggota Kehormatan
                                                 </option>
-                                                
                                             </select>
                                             {errors.status_anggota && (
                                                 <div className="alert alert-danger mt-2">
@@ -384,101 +282,25 @@ export default function UserEdit() {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Password
-                                                </label>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    value={password}
-                                                    onChange={(e) =>
-                                                        setPassword(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Password"
-                                                />
-                                            </div>
-                                            {errors.password && (
-                                                <div className="alert alert-danger">
-                                                    {errors.password}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Password Confirmation
-                                                </label>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    value={passwordConfirmation}
-                                                    onChange={(e) =>
-                                                        setPasswordConfirmation(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Password Confirmation"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label className="fw-bold">Roles</label>
-                                        <br />
-                                        {roles.map((role, index) => (
-                                            <div
-                                                className="form-check form-check-inline"
-                                                key={index}
-                                            >
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    value={role.name}
-                                                    defaultChecked={rolesData.some(
-                                                        (name) =>
-                                                            name ===
-                                                                role.name ??
-                                                            true
-                                                    )}
-                                                    onChange={
-                                                        handleCheckboxChange
-                                                    }
-                                                    id={`check-${role.id}`}
-                                                />
-                                                <label
-                                                    className="form-check-label"
-                                                    htmlFor={`check-${role.id}`}
-                                                >
-                                                    {role.name}
-                                                </label>
-                                            </div>
-                                        ))}
-
-                                        {errors.roles && (
-                                            <div className="alert alert-danger mt-2">
-                                                {errors.roles}
-                                            </div>
-                                        )}
-                                    </div>
                                     <div>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-md btn-success me-2"
-                                        >
-                                            <i className="fa fa-save"></i> Simpan
-                                        </button>
-                                        <button
-                                            type="reset"
-                                            className="btn btn-md btn-warning"
-                                        >
-                                            <i className="fa fa-redo"></i> Reset
-                                        </button>
+                                        {confirm ? (
+                                            <button
+                                                type="submit"
+                                                disabled
+                                                className="btn btn-md btn-success me-2"
+                                            >
+                                                <i className="fa fa-save"></i>{" "}
+                                                Sudah Di Verif
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="submit"
+                                                className="btn btn-md btn-success me-2"
+                                            >
+                                                <i className="fa fa-save"></i>{" "}
+                                                Verifikasi No Anggota
+                                            </button>
+                                        )}
                                     </div>
                                 </form>
                             </div>

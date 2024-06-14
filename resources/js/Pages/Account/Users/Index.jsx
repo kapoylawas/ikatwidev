@@ -107,7 +107,7 @@ export default function UserIndex() {
                                                 >
                                                     DPC
                                                 </th>
-                                               
+
                                                 <th
                                                     scope="col"
                                                     style={{ width: "10%" }}
@@ -124,7 +124,12 @@ export default function UserIndex() {
                                         </thead>
                                         <tbody>
                                             {users.data.map((user, index) => (
-                                                <tr className={`verif-${user.confirm == 'true'}`} key={index}>
+                                                <tr
+                                                    className={`verif-${
+                                                        user.confirm == "true"
+                                                    }`}
+                                                    key={index}
+                                                >
                                                     <td className="text-center">
                                                         {++index +
                                                             (users.current_page -
@@ -145,10 +150,17 @@ export default function UserIndex() {
                                                             }}
                                                         />
                                                     </td>
-                                                    <td >{user.no_anggota}</td>
+                                                    <td>{user.no_anggota}</td>
                                                     <td>{user.name}</td>
                                                     <td>
-                                                    <a href={user.filepakta} target="_blank">Lihat File</a>
+                                                        <a
+                                                            href={
+                                                                user.filepakta
+                                                            }
+                                                            target="_blank"
+                                                        >
+                                                            Lihat File
+                                                        </a>
                                                     </td>
                                                     <td>
                                                         {user.province.name}
@@ -181,6 +193,16 @@ export default function UserIndex() {
                                                                 className="btn btn-primary btn-sm me-2"
                                                             >
                                                                 <i className="fa fa-pencil-alt"></i>
+                                                            </Link>
+                                                        )}
+                                                        {hasAnyPermission([
+                                                            "users.edit",
+                                                        ]) && (
+                                                            <Link
+                                                                href={`/account/users/verifikasiAnggota/${user.id}`}
+                                                                className="btn btn-primary btn-sm me-2"
+                                                            >
+                                                                Verif
                                                             </Link>
                                                         )}
                                                         {hasAnyPermission([
