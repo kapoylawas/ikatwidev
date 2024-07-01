@@ -338,7 +338,7 @@ class UserController extends Controller
     public function updateVerifikasiAnggota(Request $request, User $user)
     {
 
-        $maxuser = User::whereNotNull('no_anggota')->count() + 3;
+        $maxuser = User::whereNotNull('no_anggota')->count() + 2;
 
         $user->update([
             'name'      => $request->name,
