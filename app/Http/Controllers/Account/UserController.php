@@ -24,22 +24,51 @@ class UserController extends Controller
             //get users
             $users = User::when(request()->q, function ($users) {
                 $users = $users->where('name', 'like', '%' . request()->q . '%');
-            })->with('roles', 'province', 'city')->orderBy('no_anggota', 'ASC')->paginate(20);
+            })->with('roles', 'province', 'city')
+                ->where('confirm', 'true')
+                ->orderBy('no_anggota', 'ASC')
+                ->paginate(20);
         } else {
             $users = User::when(request()->q, function ($users) {
                 $users = $users->where('name', 'like', '%' . request()->q . '%');
             })->with('roles', 'province', 'city')
                 ->where('id', auth()->user()->id)
-                //   ->where('province_id', auth()->user()->province_id)
+                ->where('confirm', 'true')
                 ->latest()->paginate(10);
         }
 
         //append query string to pagination links
         $users->appends(['q' => request()->q]);
 
+
+        // get user where confirm = false
+        $role2 = auth()->user()->getRoleNames();
+
+        if ($role2[0] == 'admin' || $role2[0] == 'admin wilayah') {
+            //get users
+            $users2 = User::when(request()->query, function ($users2) {
+                $users2 = $users2->where('name', 'like', '%' . request()->qr . '%');
+            })
+                ->with('roles', 'province', 'city')
+                ->where('confirm', 'false')
+                ->orderBy('no_anggota', 'ASC')
+                ->paginate(50)
+                ->withQueryString();
+        } else {
+            $users2 = User::when(request()->qr, function ($users2) {
+                $users2 = $users2->where('name', 'like', '%' . request()->qr . '%');
+            })
+                ->with('roles', 'province', 'city')
+                ->where('id', auth()->user()->id)
+                ->where('confirm', 'false')
+                ->paginate(50)
+                ->withQueryString();
+        }
+
         //return inertia
         return inertia('Account/Users/Index', [
-            'users' => $users
+            'users' => $users,
+            'users2' => $users2
         ]);
     }
 
