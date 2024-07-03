@@ -124,7 +124,7 @@ class User extends Authenticatable
     {
         return $query->with(['transaction' => function ($query) {
             $query->orderByDesc('tahun')
-                ->limit(1);
+                ->limit(100);
         }]);
     }
 
