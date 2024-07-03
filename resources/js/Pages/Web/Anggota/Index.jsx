@@ -25,25 +25,28 @@ export default function AnggotaIndex({ provinces, cities }) {
 
     //define method "searchhandler"
     // const searchHandler = (e) => {
-    const searchHandler = (q, dpc, dpw) => {
-        //set isLoading to true
-        setIsLoading(true);
+        const searchHandler = (q, dpc, dpw) => {
+            //set isLoading to true
+            setIsLoading(true);
 
-        //set products to null
-        setAnggota([]);
+            //set products to null
+            setAnggota([]);
 
-        axios
-            .post(`/searchAnggota`, {
-                // q: e.target.value,
-                q, dpc, dpw
-            })
-            .then((response) => {
-                //set isLoading to false
-                setIsLoading(false);
-                //set response to state
-                setAnggota(response.data.anggota.data);
-            });
-    };
+            axios
+                .post(`/searchAnggota`, {
+                    // q: e.target.value,
+                    q,
+                    dpc,
+                    dpw,
+                })
+                .then((response) => {
+                    console.log("data", response);
+                    //set isLoading to false
+                    setIsLoading(false);
+                    //set response to state
+                    setAnggota(response.data.anggota.data);
+                });
+        };
 
     const handleInputChange = (e) => {
         const term = e.target.value;
@@ -70,7 +73,10 @@ export default function AnggotaIndex({ provinces, cities }) {
             </Head>
             <br />
             <LayoutWeb>
-                <div className="container" style={{ marginTop: "65px", marginBottom: "50px" }}>
+                <div
+                    className="container"
+                    style={{ marginTop: "65px", marginBottom: "50px" }}
+                >
                     <div className="fade-in">
                         <div className="row justify-content-center">
                             <div className="col-md-8 mt-5">
@@ -91,7 +97,10 @@ export default function AnggotaIndex({ provinces, cities }) {
                                     >
                                         <option value="">Pilih DPW</option>
                                         {provinces.map((province) => (
-                                            <option key={province.id} value={province.id}>
+                                            <option
+                                                key={province.id}
+                                                value={province.id}
+                                            >
                                                 {province.name}
                                             </option>
                                         ))}
@@ -103,7 +112,10 @@ export default function AnggotaIndex({ provinces, cities }) {
                                     >
                                         <option value="">Pilih DPC</option>
                                         {cities.map((city) => (
-                                            <option key={city.id} value={city.id}>
+                                            <option
+                                                key={city.id}
+                                                value={city.id}
+                                            >
                                                 {city.name}
                                             </option>
                                         ))}
@@ -205,6 +217,15 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                         Status
                                                                         SIP
                                                                     </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        style={{
+                                                                            width: "14%",
+                                                                        }}
+                                                                    >
+                                                                        Status
+                                                                        Iuran
+                                                                    </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -255,30 +276,75 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                                             </td>
                                                                             <td>
                                                                                 {
-                                                                                    anggota.province.name
+                                                                                    anggota
+                                                                                        .province
+                                                                                        .name
                                                                                 }
                                                                             </td>
                                                                             <td>
-                                                                                {anggota.city === 0 ? (
-                                                                                    <p>DPC tidak ada</p>
+                                                                                {anggota.city ===
+                                                                                0 ? (
+                                                                                    <p>
+                                                                                        DPC
+                                                                                        tidak
+                                                                                        ada
+                                                                                    </p>
                                                                                 ) : (
-                                                                                    anggota.city.name
+                                                                                    anggota
+                                                                                        .city
+                                                                                        .name
                                                                                 )}
                                                                             </td>
                                                                             <td>
                                                                                 {new Date(
-                                                                                    anggota.surat_sip.map((str) =>
-                                                                                        str.date_end
+                                                                                    anggota.surat_sip.map(
+                                                                                        (
+                                                                                            str
+                                                                                        ) =>
+                                                                                            str.date_end
                                                                                     )
                                                                                 ) >=
-                                                                                    currentDate ? (
+                                                                                currentDate ? (
                                                                                     <span className="btn btn-success btn-sm shadow-sm border-0 ms-2 mb-2">
                                                                                         Aktif
                                                                                     </span>
                                                                                 ) : (
                                                                                     <span className="btn btn-danger btn-sm shadow-sm border-0 ms-2 mb-2">
-                                                                                        Non Aktif
+                                                                                        Non
+                                                                                        Aktif
                                                                                     </span>
+                                                                                )}
+                                                                            </td>
+                                                                            <td>
+                                                                                {anggota.transaction.map(
+                                                                                    (
+                                                                                        item
+                                                                                    ) => (
+                                                                                        <tr
+                                                                                            key={
+                                                                                                item.id
+                                                                                            }
+                                                                                        >
+                                                                                            <td>
+                                                                                                {item
+                                                                                                .length ===
+                                                                                                0 ? (
+                                                                                                    <span className="btn btn-warning btn-sm shadow-sm border-0 ms-2 mb-2">
+                                                                                                        Belum
+                                                                                                        Bayar
+                                                                                                    </span>
+                                                                                                ) : (
+                                                                                                    <span className="btn btn-success btn-sm shadow-sm border-0 ms-2 mb-2">
+                                                                                                        {
+                                                                                                            item.tahun
+                                                                                                        }
+                                                                                                        ,
+                                                                                                        {item.status}
+                                                                                                    </span>
+                                                                                                )}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    )
                                                                                 )}
                                                                             </td>
                                                                         </tr>

@@ -71,7 +71,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    
+
 
     protected function image(): Attribute
     {
@@ -94,7 +94,7 @@ class User extends Authenticatable
         );
     }
 
-     /**
+    /**
      * province
      *
      * @return void
@@ -114,13 +114,26 @@ class User extends Authenticatable
         return $this->belongsTo(City::class);
     }
 
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    // Definisikan scope withLatestTransaction pada model User
+    public function scopeWithLatestTransaction($query)
+    {
+        return $query->with(['transaction' => function ($query) {
+            $query->orderByDesc('tahun')
+                ->limit(1);
+        }]);
+    }
+
 
     public function getPermissionArray()
     {
-        return $this->getAllPermissions()->mapWithKeys(function($pr){
+        return $this->getAllPermissions()->mapWithKeys(function ($pr) {
             return [$pr['name'] => true];
         });
-   
     }
 
     protected function avatar(): Attribute

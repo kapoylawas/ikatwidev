@@ -48,14 +48,14 @@ class SearchAnggotaController extends Controller
         $dpw = $request->dpw;
         $collation = 'utf8mb4_general_ci';
 
-        $anggota = User::with('province', 'city', 'suratStrs', 'suratSip');
-        if(!empty($dpc)){
+        $anggota = User::with('province', 'city', 'suratStrs', 'suratSip')->withLatestTransaction([0]);
+        if (!empty($dpc)) {
             $anggota = $anggota->where('city_id', $dpc);
         }
-        if(!empty($dpw)){
+        if (!empty($dpw)) {
             $anggota = $anggota->where('province_id', $dpw);
         }
-        if(!empty($words)){
+        if (!empty($words)) {
             $anggota = $anggota->where(DB::raw("name COLLATE {$collation}"), 'like', '%' . $words . '%')
                 ->orWhere(DB::raw("no_anggota COLLATE {$collation}"), 'like', '%' . $words . '%')
                 ->orWhere(DB::raw("no_str COLLATE {$collation}"), 'like', '%' . $words . '%')
