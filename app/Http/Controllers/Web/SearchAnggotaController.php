@@ -48,7 +48,7 @@ class SearchAnggotaController extends Controller
         $dpw = $request->dpw;
         $collation = 'utf8mb4_general_ci';
 
-        $anggota = User::with('province', 'city', 'suratStrs', 'suratSip')->withLatestTransaction([0]);
+        $anggota = User::with('province', 'city', 'suratStrs', 'suratSip')->withLatestTransaction();
         if (!empty($dpc)) {
             $anggota = $anggota->where('city_id', $dpc);
         }
