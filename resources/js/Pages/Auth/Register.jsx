@@ -30,7 +30,7 @@ export default function Register() {
 
     const [isChecked, setIsChecked] = useState(false);
 
-    const adminAlan = `https://wa.me/6289657839449`;
+    const adminAlan = `https://wa.me/6285752145518`;
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
@@ -113,7 +113,7 @@ export default function Register() {
                                         <br />
                                         <a target="_blank" href={adminAlan}>
                                             {" "}
-                                            {""} Hp.089657839449
+                                            {""} Hp.085752145518
                                         </a>
                                         <strong> Admin </strong>
                                     </div>
