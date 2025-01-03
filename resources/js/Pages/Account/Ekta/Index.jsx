@@ -33,6 +33,7 @@ export default function EktaIndex() {
         .replace('"', "");
 
 
+    const years = new Date().getFullYear();
     return (
         
         <>
@@ -209,7 +210,7 @@ export default function EktaIndex() {
                                                                             Sampai
                                                                             : 31
                                                                             DESEMBER
-                                                                            2024
+                                                                            {years}
                                                                         </div>
                                                                         </strong>
                                                                     </td>
