@@ -70,7 +70,7 @@ class SearchAnggotaController extends Controller
                 });
         }
 
-        $anggota = $anggota->paginate(100);
+        $anggota = $anggota->paginate(500);
 
         return response()->json([
             'anggota' => $anggota,
