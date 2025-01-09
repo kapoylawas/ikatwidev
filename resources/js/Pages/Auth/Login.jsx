@@ -134,7 +134,7 @@ export default function Login() {
                             <Link href="/info">Register!</Link>
                         </div>
                         <div className="register text-center mt-3">
-                            <Link href="/forgot-password">Lupa Password?</Link>
+                            <Link href="/reset-password">Lupa Password?</Link>
                         </div>
                     </div>
                 </div>
