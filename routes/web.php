@@ -1,6 +1,8 @@
 <?php
 
+use App\Exports\UsersExport;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,6 +172,10 @@ Route::prefix('account')->group(function () {
         Route::get('/cetak/ekta', [\App\Http\Controllers\Account\EktaController::class, 'cetakekta'])->name('account.cetak.ekta');
 
         Route::put('/users/verifNoAnggota/{user}', [\App\Http\Controllers\Account\UserController::class, 'updateVerifikasiAnggota']);
+
+        Route::get('export-users', function () {
+            return Excel::download(new UsersExport, 'usrs.xlsx');
+        });
     });
 });
 

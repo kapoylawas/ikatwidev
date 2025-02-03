@@ -43,9 +43,21 @@ export default function UserIndex() {
                                         Add
                                     </Link>
                                 </div>
-                                <div className="col-md-9 col-12 mb-2">
+                                <div className="col-md-6 col-12 mb-2">
                                     <Search URL={"/account/users"} />
                                 </div>
+
+                                <div class="col-md-3 col-12 mb-2">
+                                    <a
+                                        href="/account/export-users"
+                                        target="_blank"
+                                        class="btn btn-admin btn-md border-0 shadow w-100 text-white"
+                                    >
+                                        <i class="fa fa-file-excel"></i>{" "}
+                                        DOWNLOAD EXCEL
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                     )}
@@ -123,16 +135,15 @@ export default function UserIndex() {
                                         <tbody>
                                             {users2.data.map((user, index) => (
                                                 <tr
-                                                    className={`verif-${
-                                                        user.confirm == "true"
-                                                    }`}
+                                                    className={`verif-${user.confirm == "true"
+                                                        }`}
                                                     key={index}
                                                 >
                                                     <td className="text-center">
                                                         {++index +
                                                             (users.current_page -
                                                                 1) *
-                                                                users.per_page}
+                                                            users.per_page}
                                                     </td>
                                                     <td className="text-center">
                                                         <img
@@ -186,33 +197,33 @@ export default function UserIndex() {
                                                         {hasAnyPermission([
                                                             "users.edit",
                                                         ]) && (
-                                                            <Link
-                                                                href={`/account/users/${user.id}/edit`}
-                                                                className="btn btn-primary btn-sm me-2"
-                                                            >
-                                                                <i className="fa fa-pencil-alt"></i>
-                                                            </Link>
-                                                        )}
+                                                                <Link
+                                                                    href={`/account/users/${user.id}/edit`}
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    <i className="fa fa-pencil-alt"></i>
+                                                                </Link>
+                                                            )}
                                                         {hasAnyPermission([
                                                             "users.edit",
                                                         ]) && (
-                                                            <Link
-                                                                href={`/account/users/verifikasiAnggota/${user.id}`}
-                                                                className="btn btn-primary btn-sm me-2"
-                                                            >
-                                                                Verif
-                                                            </Link>
-                                                        )}
+                                                                <Link
+                                                                    href={`/account/users/verifikasiAnggota/${user.id}`}
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    Verif
+                                                                </Link>
+                                                            )}
                                                         {hasAnyPermission([
                                                             "users.delete",
                                                         ]) && (
-                                                            <Delete
-                                                                URL={
-                                                                    "/account/users"
-                                                                }
-                                                                id={user.id}
-                                                            />
-                                                        )}
+                                                                <Delete
+                                                                    URL={
+                                                                        "/account/users"
+                                                                    }
+                                                                    id={user.id}
+                                                                />
+                                                            )}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -296,16 +307,15 @@ export default function UserIndex() {
                                         <tbody>
                                             {users.data.map((user, index) => (
                                                 <tr
-                                                    className={`verif-${
-                                                        user.confirm == "true"
-                                                    }`}
+                                                    className={`verif-${user.confirm == "true"
+                                                        }`}
                                                     key={index}
                                                 >
                                                     <td className="text-center">
                                                         {++index +
                                                             (users.current_page -
                                                                 1) *
-                                                                users.per_page}
+                                                            users.per_page}
                                                     </td>
                                                     <td className="text-center">
                                                         <img
@@ -359,33 +369,33 @@ export default function UserIndex() {
                                                         {hasAnyPermission([
                                                             "users.edit",
                                                         ]) && (
-                                                            <Link
-                                                                href={`/account/users/${user.id}/edit`}
-                                                                className="btn btn-primary btn-sm me-2"
-                                                            >
-                                                                <i className="fa fa-pencil-alt"></i>
-                                                            </Link>
-                                                        )}
+                                                                <Link
+                                                                    href={`/account/users/${user.id}/edit`}
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    <i className="fa fa-pencil-alt"></i>
+                                                                </Link>
+                                                            )}
                                                         {hasAnyPermission([
                                                             "users.edit",
                                                         ]) && (
-                                                            <Link
-                                                                href={`/account/users/verifikasiAnggota/${user.id}`}
-                                                                className="btn btn-primary btn-sm me-2"
-                                                            >
-                                                                Verif
-                                                            </Link>
-                                                        )}
+                                                                <Link
+                                                                    href={`/account/users/verifikasiAnggota/${user.id}`}
+                                                                    className="btn btn-primary btn-sm me-2"
+                                                                >
+                                                                    Verif
+                                                                </Link>
+                                                            )}
                                                         {hasAnyPermission([
                                                             "users.delete",
                                                         ]) && (
-                                                            <Delete
-                                                                URL={
-                                                                    "/account/users"
-                                                                }
-                                                                id={user.id}
-                                                            />
-                                                        )}
+                                                                <Delete
+                                                                    URL={
+                                                                        "/account/users"
+                                                                    }
+                                                                    id={user.id}
+                                                                />
+                                                            )}
                                                     </td>
                                                 </tr>
                                             ))}

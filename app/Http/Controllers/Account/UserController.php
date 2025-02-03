@@ -10,7 +10,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Storage;
-
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -348,5 +349,5 @@ class UserController extends Controller
 
         //redirect
         return redirect()->route('account.users.index');
-    }
+    }    
 }
