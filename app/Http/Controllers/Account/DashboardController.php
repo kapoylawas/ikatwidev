@@ -23,6 +23,16 @@ class DashboardController extends Controller
         $expired = Transaction::where('status', 'EXPIRED')->count();
         $cancelled  = Transaction::where('status', 'CANCELLED')->count();
         $user = User::count();
+        $pns = User::where('kepegawaian', 'PNS')->count();
+        $swasta = User::where('kepegawaian', 'Swasta')->count();
+        $kontrak = User::where('kepegawaian', 'BLU/KONTRAK')->count();
+        $pppk = User::where('kepegawaian', 'PPPK')->count();
+        $belumBekerja = User::where('kepegawaian', 'Belum Bekerja')->count();
+        $poltekesKemenkesSurakarta = User::where('istitusi', 'Poltekes Kemenkes Surakarta')->count();
+        $akademiTerapiWicaraYayasanBinaWicaraJakarta = User::where('istitusi', 'Akademi Terapi Wicara Yayasan Bina Wicara Jakarta')->count();
+        $politeknikAlIslamBandung = User::where('istitusi', 'Politeknik AL Islam Bandung')->count();
+        $stikesMercubaktijayaPadang = User::where('istitusi', 'Stikes Mercubaktijaya Padang')->count();
+        $lainLain = User::where('istitusi', 'Lain-Lain')->count();
 
         // jumlah transaksi user
         $unpaiduser = Transaction::where('status', 'UNPAID')->where('user_id', auth()->user()->id)->count();
@@ -40,7 +50,17 @@ class DashboardController extends Controller
                 'paiduser' => $paiduser,
                 'expireduser' => $expireduser,
                 'cancelleduser' => $cancelleduser,
-                'user' => $user
+                'user' => $user,
+                'pns' => $pns,
+                'swasta' => $swasta,
+                'kontrak' => $kontrak,
+                'pppk' => $pppk,
+                'belumBekerja' => $belumBekerja,
+                'poltekesKemenkesSurakarta' => $poltekesKemenkesSurakarta,
+                'akademiTerapiWicaraYayasanBinaWicaraJakarta' => $akademiTerapiWicaraYayasanBinaWicaraJakarta,
+                'politeknikAlIslamBandung' => $politeknikAlIslamBandung,
+                'stikesMercubaktijayaPadang' => $stikesMercubaktijayaPadang,
+                'lainLain' => $lainLain,
             ]
         ]);
     }
