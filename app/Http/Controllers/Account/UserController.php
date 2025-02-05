@@ -144,6 +144,7 @@ class UserController extends Controller
             'nik'      => $request->nik,
             'email'     => $request->email,
             'alamat'     => $request->alamat,
+            'kelengkapan'     => false,
             'password'  => bcrypt($request->password),
             'image' => $image->hashName()
         ]);

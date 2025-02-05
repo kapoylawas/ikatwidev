@@ -50,85 +50,6 @@ class BiodataController extends Controller
 
     public function update(Request $request, User $biodata)
     {
-        // if ($request->password == '') {
-
-        //     if ($request->file('image')) {
-
-        //         // upload new image
-        //         $image = $request->file('image');
-        //         $image->storeAs('public/users', $image->hashName());
-
-        //         $biodata->update([
-        //             'name'      => $request->name,
-        //             'nik'      => $request->nik,
-        //             'email'     => $request->email,
-        //             'alamat'     => $request->alamat,
-        //             'no_str'     => $request->no_str,
-        //             'phone'     => $request->phone,
-        //             'tempat_lahir'     => $request->tempat_lahir,
-        //             'tgl_lahir'     => $request->tgl_lahir,
-        //             'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
-        //             'status_anggota'     => $request->status_anggota,
-        //             'pendidikan'     => $request->pendidikan,
-        //             'nonlinear'     => $request->nonlinear,
-        //             'kepegawaian'     => $request->kepegawaian,
-        //             'bekerja'     => $request->bekerja,
-        //             'istitusi'     => $request->istitusi,
-        //             'almtistitusi'     => $request->almtistitusi,
-        //             'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
-        //             'province_id'      => $request->province_id,
-        //             'city_id'      => $request->city_id,
-        //             'image' => $image->hashName(),
-        //         ]);
-        //     } else {
-        //         $biodata->update([
-        //             'name'      => $request->name,
-        //             'nik'      => $request->nik,
-        //             'email'     => $request->email,
-        //             'alamat'     => $request->alamat,
-        //             'no_str'     => $request->no_str,
-        //             'phone'     => $request->phone,
-        //             'tempat_lahir'     => $request->tempat_lahir,
-        //             'tgl_lahir'     => $request->tgl_lahir,
-        //             'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
-        //             'status_anggota'     => $request->status_anggota,
-        //             'pendidikan'     => $request->pendidikan,
-        //             'nonlinear'     => $request->nonlinear,
-        //             'kepegawaian'     => $request->kepegawaian,
-        //             'bekerja'     => $request->bekerja,
-        //             'istitusi'     => $request->istitusi,
-        //             'almtistitusi'     => $request->almtistitusi,
-        //             'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
-        //             'province_id'      => $request->province_id,
-        //             'city_id'      => $request->city_id,
-        //         ]);
-        //     }
-        // } else {
-        //     $biodata->update([
-        //         'name'      => $request->name,
-        //         'nik'      => $request->nik,
-        //         'email'     => $request->email,
-        //         'alamat'     => $request->alamat,
-        //         'no_str'     => $request->no_str,
-        //         'phone'     => $request->phone,
-        //         'tempat_lahir'     => $request->tempat_lahir,
-        //         'tgl_lahir'     => $request->tgl_lahir,
-        //         'lokasi_pekerjaan'     => $request->lokasi_pekerjaan,
-        //         'status_anggota'     => $request->status_anggota,
-        //         'pendidikan'     => $request->pendidikan,
-        //         'nonlinear'     => $request->nonlinear,
-        //         'kepegawaian'     => $request->kepegawaian,
-        //         'bekerja'     => $request->bekerja,
-        //         'istitusi'     => $request->istitusi,
-        //         'almtistitusi'     => $request->almtistitusi,
-        //         'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
-        //         'province_id'      => $request->province_id,
-        //         'city_id'      => $request->city_id,
-        //         'password' => bcrypt($request->password)
-        //     ]);
-        // }
-
-
 
         if ($request->file('image')) {
             //remove old image
@@ -158,6 +79,7 @@ class BiodataController extends Controller
                 'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
                 'province_id'      => $request->province_id,
                 'city_id'      => $request->city_id,
+                'kelengkapan'     => true,
                 'image' => $image->hashName(),
             ]);
         }
@@ -182,6 +104,7 @@ class BiodataController extends Controller
             'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
+            'kelengkapan'     => true,
         ]);
 
         if ($request->password == '') {
@@ -206,6 +129,7 @@ class BiodataController extends Controller
                 'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
                 'province_id'      => $request->province_id,
                 'city_id'      => $request->city_id,
+                'kelengkapan'     => true,
             ]);
         } else {
 
@@ -228,6 +152,7 @@ class BiodataController extends Controller
                 'almtistitusi'     => $request->almtistitusi,
                 'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
                 'province_id'      => $request->province_id,
+                'kelengkapan'     => true,
                 'city_id'      => $request->city_id,
                 'password' => bcrypt($request->password)
             ]);
