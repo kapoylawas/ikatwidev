@@ -158,4 +158,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ijazah::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
 }

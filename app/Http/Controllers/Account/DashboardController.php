@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -61,6 +62,8 @@ class DashboardController extends Controller
             ->distinct()
             ->count('users.id');
 
+        $kelengkapan = User::where('kelengkapan', 'true')->count();
+
         $countNoSIP = DB::table('users')
             ->leftJoin('surat_sips', 'users.id', '=', 'surat_sips.user_id')
             ->whereNull('surat_sips.id')
@@ -70,6 +73,19 @@ class DashboardController extends Controller
             ->leftJoin('surat_strs', 'users.id', '=', 'surat_strs.user_id')
             ->whereNull('surat_strs.id')
             ->count('users.id');
+
+
+        $currentYear = Carbon::now()->year;
+
+        $paidUsersCount = User::whereHas('transactions', function ($query) use ($currentYear) {
+            $query->where('status', 'paid')
+                  ->where('tahun', $currentYear);
+        })->count();
+
+        $unpaidUsersCount = User::whereDoesntHave('transactions', function ($query) use ($currentYear) {
+            $query->where('status', 'unpaid')
+                  ->whereYear('tahun', $currentYear);
+        })->count();
 
         // jumlah transaksi user
         $unpaiduser = Transaction::where('status', 'UNPAID')->where('user_id', auth()->user()->id)->count();
@@ -120,6 +136,11 @@ class DashboardController extends Controller
                 'D4' => $D4,
                 'S2' => $S2,
                 'S3' => $S3,
+                'countSIP' => $countSIP,
+                'countSTR' => $countSTR,
+                'kelengkapan' => $kelengkapan,
+                'paidUsersCount' => $paidUsersCount,
+                'unpaidUsersCount' => $unpaidUsersCount,
             ],
             'usersCountByProvince' => $usersCountByProvince
         ]);

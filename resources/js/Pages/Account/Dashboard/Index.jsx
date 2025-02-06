@@ -17,18 +17,24 @@ export default function Dashboard() {
     //destruct props
     const { auth, count, usersCountByProvince } = usePage().props;
 
+    const currentYear = new Date().getFullYear();
     const provinceLabels = usersCountByProvince.map(item => item.province_name);
     const provinceCounts = usersCountByProvince.map(item => item.user_count);
     const categories = [...provinceLabels];
 
-    // Function to generate a random color
-    const getRandomColor = () => {
+    // Function to generate random colors 
+    const getRandomColorPie = () => {
         const letters = '0123456789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
+    };
+
+    // Function to generate random colors
+    const generateRandomColors = (count) => {
+        return Array.from({ length: count }, () => getRandomColorPie());
     };
 
     // Create series data with random colors
@@ -56,17 +62,36 @@ export default function Dashboard() {
         dataLabels: {
             enabled: true,
         },
-        colors: provinceCounts.map(() => getRandomColor()), // Assign random colors to the bars
+        colors: provinceCounts.map(() => getRandomColorPie()), // Assign random colors to the bars
     };
 
     // Data for the pie chart
     const statusPekerjaan = {
-        series: [count.pns, count.swasta, count.kontrak, count.pppk, count.belumBekerja],
+        series: [
+            count.pns,
+            count.swasta,
+            count.kontrak,
+            count.pppk,
+            count.belumBekerja
+        ],
         options: {
             chart: {
                 type: 'pie',
             },
-            labels: ['PNS', 'Swasta', 'BLU/KONTRAK', 'PPPK', 'Belum Bekerja'],
+            labels: [
+                `PNS: ${count.pns}`,
+                `Swasta: ${count.swasta}`,
+                `BLU/KONTRAK: ${count.kontrak}`,
+                `PPPK: ${count.pppk}`,
+                `Belum Bekerja: ${count.belumBekerja}`
+            ],
+            colors: generateRandomColors(
+                count.pns,
+                count.swasta,
+                count.kontrak,
+                count.pppk,
+                count.belumBekerja
+            ),
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -83,12 +108,31 @@ export default function Dashboard() {
 
     // lulusan univ
     const lulusanUniv = {
-        series: [count.poltekesKemenkesSurakarta, count.akademiTerapiWicaraYayasanBinaWicaraJakarta, count.politeknikAlIslamBandung, count.stikesMercubaktijayaPadang, count.lainLain],
+        series: [
+            count.poltekesKemenkesSurakarta,
+            count.akademiTerapiWicaraYayasanBinaWicaraJakarta,
+            count.politeknikAlIslamBandung,
+            count.stikesMercubaktijayaPadang,
+            count.lainLain
+        ],
         options: {
             chart: {
                 type: 'pie',
             },
-            labels: ['Poltekes Kemenkes Surakarta', 'Akademi Terapi Wicara Yayasan Bina Wicara Jakarta', 'Politeknik AL Islam Bandung', 'Stikes Mercubaktijaya Padang', 'Lain-Lain'],
+            labels: [
+                `Poltekes Kemenkes Surakarta: ${count.poltekesKemenkesSurakarta}`,
+                `Akademi Terapi Wicara Yayasan Bina Wicara Jakarta: ${count.akademiTerapiWicaraYayasanBinaWicaraJakarta}`,
+                `Politeknik AL Islam Bandung: ${count.politeknikAlIslamBandung}`,
+                `Stikes Mercubaktijaya Padang: ${count.stikesMercubaktijayaPadang}`,
+                `Lain-Lain: ${count.lainLain}`
+            ],
+            colors: generateRandomColors(
+                count.poltekesKemenkesSurakarta,
+                count.akademiTerapiWicaraYayasanBinaWicaraJakarta,
+                count.politeknikAlIslamBandung,
+                count.stikesMercubaktijayaPadang,
+                count.lainLain
+            ),
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -124,19 +168,33 @@ export default function Dashboard() {
                 type: 'pie',
             },
             labels: [
-                'Klinik Swasta',
-                'Rumah Sakit Swasta',
-                'Rumah Sakit Umum Pusat',
-                'Rumah Sakit Umum Daerah',
-                'Rumah Sakit Militer',
-                'Rumah Sakit Khusus',
-                'Puskesmas',
-                'Sekolah Luar Biasa',
-                'Perguruan Tinggi',
-                'Belum Bekerja',
-                'Freelance',
-                'Lainnya'
+                `Klinik Swasta: ${count.klinikSwasta}`,
+                `Rumah Sakit Swasta: ${count.rumahSakitSwasta}`,
+                `Rumah Sakit Umum Pusat: ${count.rumahSakitUmumPusat}`,
+                `Rumah Sakit Umum Daerah: ${count.rumahSakitUmumDaerah}`,
+                `Rumah Sakit Militer: ${count.rumahSakitMiliter}`,
+                `Rumah Sakit Khusus: ${count.rumahSakitKhusus}`,
+                `Puskesmas: ${count.puskesmas}`,
+                `Sekolah Luar Biasa: ${count.sekolahLuarBiasa}`,
+                `Perguruan Tinggi: ${count.perguruanTinggi}`,
+                `Belum Bekerja: ${count.belum_bekerja}`,
+                `Freelance: ${count.freelance}`,
+                `Lainnya: ${count.lainnya}`
             ],
+            colors: generateRandomColors(
+                count.klinikSwasta,
+                count.rumahSakitSwasta,
+                count.rumahSakitUmumPusat,
+                count.rumahSakitUmumDaerah,
+                count.rumahSakitMiliter,
+                count.rumahSakitKhusus,
+                count.puskesmas,
+                count.sekolahLuarBiasa,
+                count.perguruanTinggi,
+                count.belum_bekerja,
+                count.freelance,
+                count.lainnya,
+            ),
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -164,11 +222,71 @@ export default function Dashboard() {
                 type: 'pie',
             },
             labels: [
-                'DIII',
-                'DIV',
-                'S2 (Magister Terapi Wicara)',
-                'S3 (Doktor Terapi Wicara)',
+                `DIII: ${count.D3}`,
+                `DIV: ${count.D4}`,
+                `S2 (Magister Terapi Wicara): ${count.S2}`,
+                `S3 (Doktor Terapi Wicara): ${count.S3}`,
             ],
+            colors: generateRandomColors(count.D3, count.D4, count.S2, count.S3),
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        }
+    };
+
+    // tempat bekerja
+    const dataKelengkapan = {
+        series: [
+            count.kelengkapan,
+            count.countSIP,
+            count.countSTR,
+        ],
+        options: {
+            chart: {
+                type: 'pie',
+            },
+            labels: [
+                `Melengkapi Data: ${count.kelengkapan}`,
+                `Memiliki SIP: ${count.countSIP}`,
+                `Memiliki STR: ${count.countSTR}`,
+            ],
+            colors: generateRandomColors(count.kelengkapan, count.countSIP, count.countSTR), // Terapkan warna acak di sini
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        }
+    };
+
+    const dataIuran = {
+        series: [
+            count.paidUsersCount,
+            count.unpaidUsersCount,
+        ],
+        options: {
+            chart: {
+                type: 'pie',
+            },
+            labels: [
+                `Sudah Membayar tahun ${currentYear} : ${count.paidUsersCount}`,
+                `Belum Membayar tahun ${currentYear} : ${count.unpaidUsersCount}`,
+            ],
+            colors: generateRandomColors(count.paidUsersCount, count.unpaidUsersCount), // Terapkan warna acak di sini
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -283,7 +401,6 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="container mt-4">
                             <div class="card col-md-12">
                                 <div class="card-header">
@@ -305,6 +422,12 @@ export default function Dashboard() {
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link" id="user-tab" data-bs-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="false">User Total DPW</a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="kelengkapan-tab" data-bs-toggle="tab" href="#kelengkapan" role="tab" aria-controls="kelengkapan" aria-selected="false">Kelengkapan Data</a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="iuran-tab" data-bs-toggle="tab" href="#iuran" role="tab" aria-controls="iuran" aria-selected="false">Iuran</a>
                                         </li>
                                     </ul>
                                     <div className="tab-content" id="myTabContent">
@@ -382,6 +505,38 @@ export default function Dashboard() {
                                                                 series={seriesData}
                                                                 type="bar"
                                                                 height={350}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="tab-pane fade" id="kelengkapan" role="tabpanel" aria-labelledby="kelengkapan-tab">
+                                            <div className="row mt-2 justify-content-center">
+                                                <div className="col-12 col-lg-7 mb-4">
+                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
+                                                        <div className="card-body">
+                                                            <Chart
+                                                                options={dataKelengkapan.options}
+                                                                series={dataKelengkapan.series}
+                                                                type="pie"
+                                                                width="100%"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="tab-pane fade" id="iuran" role="tabpanel" aria-labelledby="iuran-tab">
+                                            <div className="row mt-2 justify-content-center">
+                                                <div className="col-12 col-lg-7 mb-4">
+                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
+                                                        <div className="card-body">
+                                                            <Chart
+                                                                options={dataIuran.options}
+                                                                series={dataIuran.series}
+                                                                type="pie"
+                                                                width="100%"
                                                             />
                                                         </div>
                                                     </div>
