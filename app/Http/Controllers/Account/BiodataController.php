@@ -79,7 +79,7 @@ class BiodataController extends Controller
                 'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
                 'province_id'      => $request->province_id,
                 'city_id'      => $request->city_id,
-                'kelengkapan'     => true,
+                'kelengkapan'     => 'true',
                 'image' => $image->hashName(),
             ]);
         }
@@ -104,7 +104,7 @@ class BiodataController extends Controller
             'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
-            'kelengkapan'     => true,
+            'kelengkapan'     => 'true',
         ]);
 
         if ($request->password == '') {
@@ -129,7 +129,7 @@ class BiodataController extends Controller
                 'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
                 'province_id'      => $request->province_id,
                 'city_id'      => $request->city_id,
-                'kelengkapan'     => true,
+                'kelengkapan'     => 'true',
             ]);
         } else {
 
@@ -152,7 +152,7 @@ class BiodataController extends Controller
                 'almtistitusi'     => $request->almtistitusi,
                 'alamat_tempat_bekerja'     => $request->alamat_tempat_bekerja,
                 'province_id'      => $request->province_id,
-                'kelengkapan'     => true,
+                'kelengkapan'     => 'true',
                 'city_id'      => $request->city_id,
                 'password' => bcrypt($request->password)
             ]);
