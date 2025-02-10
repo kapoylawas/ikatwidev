@@ -15,12 +15,28 @@ import Chart from 'react-apexcharts';
 
 export default function Dashboard() {
     //destruct props
-    const { auth, count, usersCountByProvince } = usePage().props;
+    const { auth, count, usersCountByProvince, usersCountByProvincebyBekerja } = usePage().props;
+
 
     const currentYear = new Date().getFullYear();
     const provinceLabels = usersCountByProvince.map(item => item.province_name);
     const provinceCounts = usersCountByProvince.map(item => item.user_count);
     const categories = [...provinceLabels];
+
+
+    const provinceNames = usersCountByProvincebyBekerja.map(item => item.province_name);
+    const belumBekerjaCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.belum_bekerja) || 0);
+    const freelanceCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.freelance) || 0);
+    const klinikSwastaCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.klinik_swasta) || 0);
+    const perguruanTinggiCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.perguruan_tinggi) || 0);
+    const puskesmasCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.puskesmas_count) || 0);
+    const rumahSakitKhususCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.rumah_sakit_khusus) || 0);
+    const rumahSakitMiliterCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.rumah_sakit_militer) || 0);
+    const rumahSakitSwastaCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.rumah_sakit_swasta) || 0);
+    const rumahSakitUmumDaerahCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.rumah_sakit_umum_daerah) || 0);
+    const rumahSakitUmumPusatCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.rumah_sakit_umum_pusat) || 0);
+    const sekolahLuarBiasaCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.sekolah_luar_biasa) || 0);
+
 
     // Function to generate random colors 
     const getRandomColorPie = () => {
@@ -36,6 +52,78 @@ export default function Dashboard() {
     const generateRandomColors = (count) => {
         return Array.from({ length: count }, () => getRandomColorPie());
     };
+
+    // Data untuk grafik bar
+    const barChartByBekerjaOptions = {
+        chart: {
+            type: 'bar',
+            height: 350,
+        },
+        xaxis: {
+            categories: provinceNames, // Menggunakan nama provinsi
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                endingShape: 'rounded',
+            },
+        },
+        dataLabels: {
+            enabled: true,
+        },
+        colors: generateRandomColors(3), // Menggunakan warna acak untuk bar
+    };
+
+    // Create series data for the new bar chart
+    // Create series data for the new bar chart
+    const barChartByBekerjaSeriesData = [
+        {
+            name: 'Belum Bekerja',
+            data: belumBekerjaCounts,
+        },
+        {
+            name: 'Freelance',
+            data: freelanceCounts,
+        },
+        {
+            name: 'Klinik Swasta',
+            data: klinikSwastaCounts,
+        },
+        {
+            name: 'Perguruan Tinggi',
+            data: perguruanTinggiCounts,
+        },
+        {
+            name: 'Puskesmas',
+            data: puskesmasCounts,
+        },
+        {
+            name: 'Rumah Sakit Khusus',
+            data: rumahSakitKhususCounts,
+        },
+        {
+            name: 'Rumah Sakit Militer',
+            data: rumahSakitMiliterCounts,
+        },
+        {
+            name: 'Rumah Sakit Swasta',
+            data: rumahSakitSwastaCounts,
+        },
+        {
+            name: 'Rumah Sakit Umum Daerah',
+            data: rumahSakitUmumDaerahCounts,
+        },
+        {
+            name: 'Rumah Sakit Umum Pusat',
+            data: rumahSakitUmumPusatCounts,
+        },
+        {
+            name: 'Sekolah Luar Biasa',
+            data: sekolahLuarBiasaCounts,
+        },
+    ];
+
 
     // Create series data with random colors
     const seriesData = [{
@@ -435,6 +523,9 @@ export default function Dashboard() {
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link" id="iuran-tab" data-bs-toggle="tab" href="#iuran" role="tab" aria-controls="iuran" aria-selected="false">Iuran</a>
                                         </li>
+                                        <li className="nav-item" role="presentation">
+                                            <a className="nav-link" id="bekerja-tab" data-bs-toggle="tab" href="#bekerja" role="tab" aria-controls="bekerja" aria-selected="false">Total Pekerjaan DPW</a>
+                                        </li>
                                     </ul>
                                     <div className="tab-content" id="myTabContent">
                                         <div className="tab-pane fade show active" id="status" role="tabpanel" aria-labelledby="status-tab">
@@ -547,6 +638,169 @@ export default function Dashboard() {
                                                                 type="pie"
                                                                 width="100%"
                                                             />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="tab-pane fade" id="bekerja" role="tabpanel" aria-labelledby="bekerja-tab">
+                                            <div className="row mt-2 justify-content-center">
+                                                <div className="col-12 col-lg-10 mb-4">
+                                                    <div className="alert alert-success border-0 shadow-sm mb-3">
+                                                        Total User Aktif : <strong>{count.totalUserAktif}</strong>
+                                                    </div>
+                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
+                                                        <div className="card-body">
+                                                            <Chart
+                                                                options={barChartByBekerjaOptions}
+                                                                series={barChartByBekerjaSeriesData}
+                                                                type="bar"
+                                                                height={350}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="card border-0 rounded shadow-sm border-top-admin mt-3">
+                                                        <div className="card-header">
+                                                            <span className="font-weight-bold">
+                                                                <i className="fa fa-folder"></i> TOTAL PEKERJAAN PER DPW
+                                                            </span>
+                                                        </div>
+                                                        <div className="card-body">
+                                                            <div className="table-responsive">
+                                                                <table className="table table-bordered table-striped table-hovered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                Nama DPW
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                belum bekerja
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                freelance
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                klinik swasta
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                lainnya
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                perguruan tinggi
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                puskesmas
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                rumah sakit khusus
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                rumah sakit militer
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                rumah sakit swasta
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                rumah sakit umum daerah
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "15%" }}
+                                                                            >
+                                                                                rumah sakit umum pusat
+                                                                            </th>
+                                                                            <th
+                                                                                scope="col"
+                                                                                style={{ width: "25%" }}
+                                                                            >
+                                                                                sekolah luar biasa
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {usersCountByProvincebyBekerja.map(
+                                                                            (total, index) => (
+                                                                                <tr key={index}>
+
+                                                                                    <td className="text-center">
+                                                                                        {total.province_name}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.belum_bekerja}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.freelance}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.klinik_swasta}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.lainnya}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.perguruan_tinggi}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.puskesmas_count}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.rumah_sakit_khusus}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.rumah_sakit_militer}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.rumah_sakit_swasta}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.rumah_sakit_umum_daerah}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.rumah_sakit_umum_pusat}
+                                                                                    </td>
+                                                                                    <td className="text-center">
+                                                                                        {total.rumah_sakit_umum_pusat}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            )
+                                                                        )}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

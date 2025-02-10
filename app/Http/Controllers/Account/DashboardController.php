@@ -88,7 +88,26 @@ class DashboardController extends Controller
         })->count();
 
         $totalUserAktif = User::where('confirm', 'true')->count();
-        // dd($totalUserAktif);
+        
+        $usersCountByProvincebyBekerja = DB::table('provinces')
+                ->leftJoin('users', 'provinces.id', '=', 'users.province_id')
+                ->select(
+                    'provinces.name as province_name',
+                    DB::raw('SUM(CASE WHEN users.bekerja = "klinikSwasta" THEN 1 ELSE 0 END) as klinik_swasta'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Swasta" THEN 1 ELSE 0 END) as rumah_sakit_swasta'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Umum Pusat" THEN 1 ELSE 0 END) as rumah_sakit_umum_pusat'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Umum Daerah" THEN 1 ELSE 0 END) as rumah_sakit_umum_daerah'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Militer" THEN 1 ELSE 0 END) as rumah_sakit_militer'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Khusus" THEN 1 ELSE 0 END) as rumah_sakit_khusus'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Puskesmas" THEN 1 ELSE 0 END) as puskesmas_count'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Sekolah Luar Biasa" THEN 1 ELSE 0 END) as sekolah_luar_biasa'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Perguruan Tinggi" THEN 1 ELSE 0 END) as perguruan_tinggi'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Belum Bekerja" THEN 1 ELSE 0 END) as belum_bekerja'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Freelance" THEN 1 ELSE 0 END) as freelance'),
+                    DB::raw('SUM(CASE WHEN users.bekerja = "Lainnya" THEN 1 ELSE 0 END) as lainnya')
+                )
+                ->groupBy('provinces.id')
+                ->get();
 
         // jumlah transaksi user
         $unpaiduser = Transaction::where('status', 'UNPAID')->where('user_id', auth()->user()->id)->count();
@@ -146,7 +165,8 @@ class DashboardController extends Controller
                 'unpaidUsersCount' => $unpaidUsersCount,
                 'totalUserAktif' => $totalUserAktif,
             ],
-            'usersCountByProvince' => $usersCountByProvince
+            'usersCountByProvince' => $usersCountByProvince,
+            'usersCountByProvincebyBekerja' => $usersCountByProvincebyBekerja,
         ]);
     }
 }
