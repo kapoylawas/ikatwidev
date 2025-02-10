@@ -83,7 +83,8 @@ export default function Dashboard() {
                 `Swasta: ${count.swasta}`,
                 `BLU/KONTRAK: ${count.kontrak}`,
                 `PPPK: ${count.pppk}`,
-                `Belum Bekerja: ${count.belumBekerja}`
+                `Belum Bekerja: ${count.belumBekerja}`,
+                `Total User Aktif: ${count.totalUserAktif}`
             ],
             colors: generateRandomColors(
                 count.pns,
@@ -124,7 +125,8 @@ export default function Dashboard() {
                 `Akademi Terapi Wicara Yayasan Bina Wicara Jakarta: ${count.akademiTerapiWicaraYayasanBinaWicaraJakarta}`,
                 `Politeknik AL Islam Bandung: ${count.politeknikAlIslamBandung}`,
                 `Stikes Mercubaktijaya Padang: ${count.stikesMercubaktijayaPadang}`,
-                `Lain-Lain: ${count.lainLain}`
+                `Lain-Lain: ${count.lainLain}`,
+                `Total User Aktif: ${count.totalUserAktif}`
             ],
             colors: generateRandomColors(
                 count.poltekesKemenkesSurakarta,
@@ -179,7 +181,8 @@ export default function Dashboard() {
                 `Perguruan Tinggi: ${count.perguruanTinggi}`,
                 `Belum Bekerja: ${count.belum_bekerja}`,
                 `Freelance: ${count.freelance}`,
-                `Lainnya: ${count.lainnya}`
+                `Lainnya: ${count.lainnya}`,
+                `Total User Aktif: ${count.totalUserAktif}`
             ],
             colors: generateRandomColors(
                 count.klinikSwasta,
@@ -226,6 +229,7 @@ export default function Dashboard() {
                 `DIV: ${count.D4}`,
                 `S2 (Magister Terapi Wicara): ${count.S2}`,
                 `S3 (Doktor Terapi Wicara): ${count.S3}`,
+                `Total User Aktif: ${count.totalUserAktif}`
             ],
             colors: generateRandomColors(count.D3, count.D4, count.S2, count.S3),
             responsive: [{
@@ -257,6 +261,7 @@ export default function Dashboard() {
                 `Melengkapi Data: ${count.kelengkapan}`,
                 `Memiliki SIP: ${count.countSIP}`,
                 `Memiliki STR: ${count.countSTR}`,
+                `Total User Aktif: ${count.totalUserAktif}`
             ],
             colors: generateRandomColors(count.kelengkapan, count.countSIP, count.countSTR), // Terapkan warna acak di sini
             responsive: [{
@@ -285,6 +290,7 @@ export default function Dashboard() {
             labels: [
                 `Sudah Membayar tahun ${currentYear} : ${count.paidUsersCount}`,
                 `Belum Membayar tahun ${currentYear} : ${count.unpaidUsersCount}`,
+                `Total User Aktif: ${count.totalUserAktif}`
             ],
             colors: generateRandomColors(count.paidUsersCount, count.unpaidUsersCount), // Terapkan warna acak di sini
             responsive: [{
@@ -498,6 +504,9 @@ export default function Dashboard() {
                                         <div className="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
                                             <div className="row mt-2 justify-content-center">
                                                 <div className="col-12 col-lg-10 mb-4">
+                                                    <div className="alert alert-success border-0 shadow-sm mb-3">
+                                                        Total User Aktif : <strong>{count.totalUserAktif}</strong>
+                                                    </div>
                                                     <div className="card border-0 rounded shadow-sm overflow-hidden">
                                                         <div className="card-body">
                                                             <Chart

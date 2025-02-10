@@ -87,6 +87,9 @@ class DashboardController extends Controller
                   ->whereYear('tahun', $currentYear);
         })->count();
 
+        $totalUserAktif = User::where('confirm', 'true')->count();
+        // dd($totalUserAktif);
+
         // jumlah transaksi user
         $unpaiduser = Transaction::where('status', 'UNPAID')->where('user_id', auth()->user()->id)->count();
         $paiduser = Transaction::where('status', 'PAID')->where('user_id', auth()->user()->id)->count();
@@ -141,6 +144,7 @@ class DashboardController extends Controller
                 'kelengkapan' => $kelengkapan,
                 'paidUsersCount' => $paidUsersCount,
                 'unpaidUsersCount' => $unpaidUsersCount,
+                'totalUserAktif' => $totalUserAktif,
             ],
             'usersCountByProvince' => $usersCountByProvince
         ]);
