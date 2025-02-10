@@ -57,22 +57,24 @@ export default function Dashboard() {
     const barChartByBekerjaOptions = {
         chart: {
             type: 'bar',
-            height: 350,
+            height: 550,
         },
         xaxis: {
             categories: provinceNames, // Menggunakan nama provinsi
         },
         plotOptions: {
             bar: {
-                horizontal: false,
+                horizontal: true,
                 columnWidth: '55%',
                 endingShape: 'rounded',
             },
         },
         dataLabels: {
             enabled: true,
+            style: {
+                colors: ['#000'], // Mengatur warna angka total menjadi hitam
+            },
         },
-        colors: generateRandomColors(3), // Menggunakan warna acak untuk bar
     };
 
     // Create series data for the new bar chart
@@ -645,7 +647,7 @@ export default function Dashboard() {
                                         </div>
                                         <div className="tab-pane fade" id="bekerja" role="tabpanel" aria-labelledby="bekerja-tab">
                                             <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-10 mb-4">
+                                                <div className="col-12 col-lg-12 mb-4">
                                                     <div className="alert alert-success border-0 shadow-sm mb-3">
                                                         Total User Aktif : <strong>{count.totalUserAktif}</strong>
                                                     </div>
@@ -655,7 +657,7 @@ export default function Dashboard() {
                                                                 options={barChartByBekerjaOptions}
                                                                 series={barChartByBekerjaSeriesData}
                                                                 type="bar"
-                                                                height={350}
+                                                                height={2050}
                                                             />
                                                         </div>
                                                     </div>
