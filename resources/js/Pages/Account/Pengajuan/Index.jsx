@@ -49,7 +49,7 @@ export default function PengajuanIndex() {
                     </div>
                 </div>
                 <div className="col-md-12 mt-2">
-                    {filter === "PAID" || name === "Anggota Kehormatan" ? (
+                    {/* {filter === "PAID" || name === "Anggota Kehormatan" ? ( */}
                         <>
                             <div className="row mt-2 mb-4">
                                 <div className="col-12">
@@ -200,7 +200,7 @@ export default function PengajuanIndex() {
                                 </div>
                             </div>
                         </>
-                    ) : (
+                    {/* ) : (
                         <div className="row mt-5">
                             <div className="col-12 col-md-12 col-lg-12 mb-4">
                                 <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
@@ -208,7 +208,7 @@ export default function PengajuanIndex() {
                                 </div>
                             </div>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </LayoutAccount>
         </>

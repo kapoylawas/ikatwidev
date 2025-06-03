@@ -89,9 +89,9 @@ class PengajuanController extends Controller
         ]);
 
 
-        //upload document
-        $document = $request->file('document');
-        $document->storeAs('public/document', $document->hashName());
+        // //upload document
+        // $document = $request->file('document');
+        // $document->storeAs('public/document', $document->hashName());
 
          //insert database
         Pengajuan::create([
@@ -100,7 +100,7 @@ class PengajuanController extends Controller
             'kta'      => $request->kta,
             'province_id'      => $request->province_id,
             'city_id'      => $request->city_id,
-            'document'         => $document->hashName(),
+            // 'document'         => $document->hashName(),
             'tgl_mutasi'      => $request->tgl_mutasi,
             'keterangan'      => $request->keterangan,
             'tujuan_mutasi'      => $request->tujuan_mutasi,

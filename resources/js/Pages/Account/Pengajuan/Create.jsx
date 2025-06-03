@@ -33,7 +33,7 @@ export default function PengajuanCreate() {
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [tglmutasi, setTglmutasi] = useState("");
-    const [docmutasi, setDocmutasi] = useState("");
+    // const [docmutasi, setDocmutasi] = useState("");
     const [keterangan, setKeterangan] = useState("");
     const [tujuan, setTujuan] = useState("");
     const [tujuandpc, setTujuandpc] = useState("");
@@ -53,7 +53,7 @@ export default function PengajuanCreate() {
                 province_id: provinceID,
                 city_id: cityID,
                 tgl_mutasi: tglmutasi,
-                document: docmutasi,
+                // document: docmutasi,
                 keterangan: keterangan,
                 tujuan_mutasi: tujuan,
                 dpc_mutasi: tujuandpc,
@@ -80,7 +80,7 @@ export default function PengajuanCreate() {
             </Head>
             <LayoutAccount>
                 <div className="col-md-12 mt-2">
-                    {filter === "PAID" || name === "Anggota Kehormatan" ? (
+                    {/* {filter === "PAID" || name === "Anggota Kehormatan" ? ( */}
                         <>
                             <div className="card-body">
                                 <form onSubmit={storePengajuan}>
@@ -198,7 +198,7 @@ export default function PengajuanCreate() {
                                         )}
                                     </div>
 
-                                    <div className="col-md-12">
+                                    {/* <div className="col-md-12">
                                         <div className="mb-3">
                                             <label className="form-label fw-bold">
                                                 Document Mutasi
@@ -218,7 +218,7 @@ export default function PengajuanCreate() {
                                                 {errors.document}
                                             </div>
                                         )}
-                                    </div>
+                                    </div> */}
                                     <div className="row mt-2">
                                         <div className="col-md-12">
                                             <label className="form-label fw-bold">
@@ -339,7 +339,7 @@ export default function PengajuanCreate() {
                                 </form>
                             </div>
                         </>
-                    ) : (
+                    {/* ) : (
                         <div className="row mt-5">
                             <div className="col-12 col-md-12 col-lg-12 mb-4">
                                 <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
@@ -347,7 +347,7 @@ export default function PengajuanCreate() {
                                 </div>
                             </div>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </LayoutAccount>
         </>
