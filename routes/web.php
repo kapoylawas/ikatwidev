@@ -69,6 +69,9 @@ Route::prefix('account')->group(function () {
         //route resource dpw
         Route::resource('/dpw', \App\Http\Controllers\Account\DpwController::class, ['as' => 'account'])->middleware('permission:dpw.index');
 
+        //route resource print
+        Route::resource('/print', \App\Http\Controllers\Account\PengajuanPrintController::class, ['as' => 'account'])->middleware('permission:pengajuan.index');
+
         //route resource dpc
         Route::resource('/dpc', \App\Http\Controllers\Account\DpcController::class, ['as' => 'account'])->middleware('permission:dpc.index');
 

@@ -26,10 +26,10 @@ class Pengajuan extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-     /**
+    /**
      * province
      *
      * @return void
@@ -63,8 +63,7 @@ class Pengajuan extends Model
     protected function document(): Attribute
     {
         return Attribute::make(
-            get: fn ($document) => asset('/storage/document/' . $document),
+            get: fn($document) => asset('/storage/document/' . $document),
         );
     }
-
 }

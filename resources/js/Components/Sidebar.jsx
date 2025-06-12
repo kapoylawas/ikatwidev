@@ -27,11 +27,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["dashboard.index"]) && (
                     <Link
                         href="/account/dashboard"
-                        className={`${
-                            url.startsWith("/account/dashboard")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/dashboard")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-tachometer-alt me-2"></i> Dashboard
                     </Link>
@@ -39,11 +38,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["categories.index"]) && (
                     <Link
                         href="/account/categories"
-                        className={`${
-                            url.startsWith("/account/categories")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/categories")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-folder me-2"></i> Categories
                     </Link>
@@ -52,11 +50,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["biodatas.index"]) && (
                     <Link
                         href="/account/biodatas"
-                        className={`${
-                            url.startsWith("/account/biodatas")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/biodatas")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-user me-2"></i> Biodata
                     </Link>
@@ -65,11 +62,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["dpw.index"]) && (
                     <Link
                         href="/account/dpw"
-                        className={`${
-                            url.startsWith("/account/dpw")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/dpw")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-database me-2"></i> Master DPW
                     </Link>
@@ -78,11 +74,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["dpc.index"]) && (
                     <Link
                         href="/account/dpc"
-                        className={`${
-                            url.startsWith("/account/dpc")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/dpc")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-database me-2"></i> Master DPC
                     </Link>
@@ -91,11 +86,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["tagihan.index"]) && (
                     <Link
                         href="/account/tagihan"
-                        className={`${
-                            url.startsWith("/account/tagihan")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/tagihan")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-money-bill me-2"></i> Tagihan Iuran
                     </Link>
@@ -104,11 +98,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["products.index"]) && (
                     <Link
                         href="/account/products"
-                        className={`${
-                            url.startsWith("/account/products")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/products")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-shopping-bag me-2"></i> Kegiatan
                     </Link>
@@ -116,11 +109,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["wilayah.index"]) && (
                     <Link
                         href="/account/wilayah"
-                        className={`${
-                            url.startsWith("/account/wilayah")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/wilayah")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-map-marker me-2"></i> Wilayah DPW
                     </Link>
@@ -129,11 +121,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["wilayah.index"]) && (
                     <Link
                         href="/account/areadpc"
-                        className={`${
-                            url.startsWith("/account/areadpc")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/areadpc")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-map me-2"></i> Wilayah DPC
                     </Link>
@@ -142,11 +133,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["transactions.index"]) && (
                     <Link
                         href="/account/transactions"
-                        className={`${
-                            url.startsWith("/account/transactions")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/transactions")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-shopping-cart me-2"></i>{" "}
                         Transactions
@@ -156,11 +146,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["kegiatan.index"]) && (
                     <Link
                         href="/account/kegiatan"
-                        className={`${
-                            url.startsWith("/account/kegiatan")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/kegiatan")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-puzzle-piece me-2"></i> Agenda
                         Kegiatan
@@ -170,11 +159,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["pengurus.index"]) && (
                     <Link
                         href="/account/pengurus"
-                        className={`${
-                            url.startsWith("/account/pengurus")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/pengurus")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-puzzle-piece me-2"></i> Pengurus
                     </Link>
@@ -183,11 +171,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["ekta.index"]) && (
                     <Link
                         href="/account/ekta"
-                        className={`${
-                            url.startsWith("/account/ekta")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/ekta")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-id-card me-2"></i> E-KTA
                     </Link>
@@ -196,11 +183,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["documents.index"]) && (
                     <Link
                         href="/account/documents"
-                        className={`${
-                            url.startsWith("/account/documents")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/documents")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-file-pdf me-2"></i> Dokumen
                         Kelengkapan
@@ -210,11 +196,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["ejurnal.index"]) && (
                     <Link
                         href="/account/ejurnal"
-                        className={`${
-                            url.startsWith("/account/ejurnal")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/ejurnal")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-file-word me-2"></i> E-Jurnal
                     </Link>
@@ -223,11 +208,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["pengajuan.index"]) && (
                     <Link
                         href="/account/pengajuan"
-                        className={`${
-                            url.startsWith("/account/pengajuan")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/pengajuan")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-file-word me-2"></i> Pengajuan
                         Mutasi
@@ -237,25 +221,36 @@ export default function Sidebar() {
                 {hasAnyPermission(["verifPengajuan.index"]) && (
                     <Link
                         href="/account/verifPengajuan"
-                        className={`${
-                            url.startsWith("/account/verifPengajuan")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/verifPengajuan")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-file-word me-2"></i> Verifikasi
                         Mutasi
                     </Link>
                 )}
 
+                {hasAnyPermission(["verifPengajuan.index"]) && (
+                    <Link
+                        href="/account/print"
+                        className={`${url.startsWith("/account/print")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
+                    >
+                        <i className="fa fa-file-word me-2"></i> Pengajuan
+                        Print
+                    </Link>
+                )}
+
                 {hasAnyPermission(["sliders.index"]) && (
                     <Link
                         href="/account/sliders"
-                        className={`${
-                            url.startsWith("/account/sliders")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/sliders")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-images me-2"></i> Sliders
                     </Link>
@@ -263,11 +258,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["roles.index"]) && (
                     <Link
                         href="/account/roles"
-                        className={`${
-                            url.startsWith("/account/roles")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/roles")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-shield-alt me-2"></i> Roles
                     </Link>
@@ -275,11 +269,10 @@ export default function Sidebar() {
                 {hasAnyPermission(["permissions.index"]) && (
                     <Link
                         href="/account/permissions"
-                        className={`${
-                            url.startsWith("/account/permissions")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/permissions")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-key me-2"></i> Permissions
                     </Link>
@@ -287,32 +280,29 @@ export default function Sidebar() {
                 {hasAnyPermission(["users.index"]) && (
                     <Link
                         href="/account/users"
-                        className={`${
-                            url.startsWith("/account/users")
-                                ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                                : "list-group-item list-group-item-action list-group-item-light p-3"
-                        }`}
+                        className={`${url.startsWith("/account/users")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
                     >
                         <i className="fa fa-users me-2"></i> Users
                     </Link>
                 )}
                 <Link
                     onClick={logoutHandler}
-                    className={`${
-                        url.startsWith("/logout")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
+                    className={`${url.startsWith("/logout")
+                        ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                        : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
                 >
                     <i className="fa fa-sign-out-alt me-2"></i> Logout
                 </Link>
                 <Link
                     href="/"
-                    className={`${
-                        url.startsWith("home")
-                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
-                            : "list-group-item list-group-item-action list-group-item-light p-3"
-                    }`}
+                    className={`${url.startsWith("home")
+                        ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                        : "list-group-item list-group-item-action list-group-item-light p-3"
+                        }`}
                 >
                     <i className="fa fa-sign-out-alt me-2"></i> Home
                 </Link>

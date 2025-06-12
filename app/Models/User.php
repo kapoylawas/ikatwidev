@@ -77,21 +77,21 @@ class User extends Authenticatable
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($image) => asset('/storage/users/' . $image),
+            get: fn($image) => asset('/storage/users/' . $image),
         );
     }
 
     protected function sip(): Attribute
     {
         return Attribute::make(
-            get: fn ($sip) => asset('/storage/sip/' . $sip),
+            get: fn($sip) => asset('/storage/sip/' . $sip),
         );
     }
 
     protected function filepakta(): Attribute
     {
         return Attribute::make(
-            get: fn ($filepakta) => asset('/storage/filepakta/' . $filepakta),
+            get: fn($filepakta) => asset('/storage/filepakta/' . $filepakta),
         );
     }
 
@@ -140,7 +140,7 @@ class User extends Authenticatable
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value != '' ? asset('/storage/avatars/' . $value) : 'https://ui-avatars.com/api/?name=' . str_replace(' ', '+', $this->name) . '&background=4e73df&color=ffffff&size=100',
+            get: fn($value) => $value != '' ? asset('/storage/avatars/' . $value) : 'https://ui-avatars.com/api/?name=' . str_replace(' ', '+', $this->name) . '&background=4e73df&color=ffffff&size=100',
         );
     }
 
@@ -164,4 +164,9 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
+    public function pengajuan()
+    {
+        return $this->hasOne(Pengajuan::class, 'user_id', 'id');
+        // atau hasMany jika satu user bisa memiliki banyak pengajuan
+    }
 }

@@ -127,7 +127,7 @@ export default function VerifPengajuanIndex() {
                                                                 {++index +
                                                                     (verif.current_page -
                                                                         1) *
-                                                                        verif.per_page}
+                                                                    verif.per_page}
                                                             </td>
                                                             <td>
                                                                 {vrf.name}
@@ -145,18 +145,14 @@ export default function VerifPengajuanIndex() {
                                                                 {vrf.tujuan_dpc.name}
                                                             </td>
                                                             <td>
-                                                                <a
-                                                                    className="btn btn-admin"
-                                                                    target="_blank"
-                                                                    href={
-                                                                        vrf.document
-                                                                    }
+
+                                                                <Link
+                                                                    href={`/account/verifPengajuan/print/${vrf.id}`}
+                                                                    className="btn btn-primary btn-sm me-2"
                                                                 >
-                                                                    <i className="fa fa-pdf">
-                                                                        {" "}
-                                                                        Lihat
-                                                                    </i>{" "}
-                                                                </a>
+                                                                    Print
+                                                                </Link>
+
                                                             </td>
                                                             <td>
                                                                 {
@@ -166,20 +162,20 @@ export default function VerifPengajuanIndex() {
                                                             <td>
                                                                 {vrf.status ==
                                                                     "sudah" && (
-                                                                    <button className="btn btn-sm btn-success">
-                                                                        <i className="fa fa-check-circle"></i>{" "}
-                                                                        Sudah
-                                                                        disetujui
-                                                                    </button>
-                                                                )}
+                                                                        <button className="btn btn-sm btn-success">
+                                                                            <i className="fa fa-check-circle"></i>{" "}
+                                                                            Sudah
+                                                                            disetujui
+                                                                        </button>
+                                                                    )}
                                                                 {vrf.status ==
                                                                     "belum" && (
-                                                                    <button className="btn btn-sm btn-danger">
-                                                                        <i className="fa fa-times"></i>{" "}
-                                                                        Belum
-                                                                        disetujui
-                                                                    </button>
-                                                                )}
+                                                                        <button className="btn btn-sm btn-danger">
+                                                                            <i className="fa fa-times"></i>{" "}
+                                                                            Belum
+                                                                            disetujui
+                                                                        </button>
+                                                                    )}
                                                             </td>
                                                             <td className="text-center">
                                                                 <Link
