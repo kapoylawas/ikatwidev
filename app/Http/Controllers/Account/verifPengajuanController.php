@@ -64,26 +64,29 @@ class verifPengajuanController extends Controller
                 'tujuan_mutasi' => $request->tujuan_mutasi,
                 'dpc_mutasi'    => $request->dpc_mutasi,
                 'status'        => $request->status,
+                'keterangan_revisi' => $request->keterangan_revisi,
             ]);
 
-            // 2. Update tabel users
-            $user = User::where('id', $request->user_id)->first();
+            // 2. Update tabel users HANYA JIKA status disetujui
+            if ($request->status === 'setujui') { // Sesuaikan dengan nilai yang digunakan untuk status "setujui"
+                $user = User::where('id', $request->user_id)->first();
 
-            if (!$user) {
-                throw new \Exception("User dengan ID {$request->user_id} tidak ditemukan");
+                if (!$user) {
+                    throw new \Exception("User dengan ID {$request->user_id} tidak ditemukan");
+                }
+
+                // Jika tujuan_mutasi dan dpc_mutasi ada di request, update user
+                if ($request->filled('tujuan_mutasi') && $request->filled('dpc_mutasi')) {
+                    $user->province_id = $request->tujuan_mutasi;
+                    $user->city_id = $request->dpc_mutasi;
+                } else {
+                    // Fallback ke nilai sebelumnya jika tidak diisi
+                    $user->province_id = $request->province_id;
+                    $user->city_id = $request->city_id;
+                }
+
+                $user->save();
             }
-
-            // Jika tujuan_mutasi dan dpc_mutasi ada di request, update user
-            if ($request->filled('tujuan_mutasi') && $request->filled('dpc_mutasi')) {
-                $user->province_id = $request->tujuan_mutasi; // atau logika mapping yang sesuai
-                $user->city_id = $request->dpc_mutasi; // atau logika mapping yang sesuai
-            } else {
-                // Fallback ke nilai sebelumnya jika tidak diisi
-                $user->province_id = $request->province_id;
-                $user->city_id = $request->city_id;
-            }
-
-            $user->save();
 
             DB::commit();
 

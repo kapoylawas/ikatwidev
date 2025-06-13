@@ -33,6 +33,7 @@ export default function CategoryEdit() {
     const [tujuan, setTujuan] = useState(verifPengajuan.tujuan_mutasi);
     const [tujuandpc, setTujuandpc] = useState(verifPengajuan.dpc_mutasi);
     const [status, setStatus] = useState(verifPengajuan.status);
+    const [keteranganRefisi, setKeteranganRefisi] = useState(verifPengajuan.keterangan_revisi);
 
     const updatePengajuan = async (e) => {
         e.preventDefault();
@@ -52,6 +53,7 @@ export default function CategoryEdit() {
                 tujuan_mutasi: tujuan,
                 dpc_mutasi: tujuandpc,
                 status: status,
+                keterangan_revisi: keteranganRefisi,
                 _method: "PUT"
             },
             {
@@ -69,13 +71,13 @@ export default function CategoryEdit() {
         );
     };
 
-    return(
+    return (
         <>
-             <Head>
+            <Head>
                 <title>Edit Pengajuan - IKATWI</title>
             </Head>
             <LayoutAccount>
-            <div className="card-body">
+                <div className="card-body">
                     <form onSubmit={updatePengajuan}>
                         <div className="row">
                             <div className="col-md-12">
@@ -270,16 +272,42 @@ export default function CategoryEdit() {
                                     <option value="">
                                         -- Pilih Verifikasi --
                                     </option>
-                                    <option value="belum">
-                                        belum
+                                    <option value="tolak">
+                                        tolak
                                     </option>
-                                    <option value="sudah">
-                                        sudah
+                                    <option value="setujui">
+                                        setujui
+                                    </option>
+                                    <option value="revisi">
+                                        revisi
                                     </option>
                                 </select>
                                 {errors.tujuan_mutasi && (
                                     <div className="alert alert-danger mt-2">
                                         {errors.tujuan_mutasi}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="col-md-12">
+                                <label className="form-label fw-bold">
+                                    Keterangan Refisi
+                                </label>
+                                <div className="input-group mb-3">
+                                    <textarea
+                                        type="text"
+                                        className="form-control"
+                                        value={keteranganRefisi}
+                                        onChange={(e) =>
+                                            setKeteranganRefisi(e.target.value)
+                                        }
+                                        placeholder="Keterangan Refisi"
+                                    />
+                                </div>
+                                {errors.keterangan_revisi && (
+                                    <div className="alert alert-danger">
+                                        {errors.keterangan_revisi}
                                     </div>
                                 )}
                             </div>

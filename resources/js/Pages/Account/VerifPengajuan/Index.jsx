@@ -91,22 +91,6 @@ export default function VerifPengajuanIndex() {
                                                             width: "15%",
                                                         }}
                                                     >
-                                                        Document
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{
-                                                            width: "15%",
-                                                        }}
-                                                    >
-                                                        Keterangan
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        style={{
-                                                            width: "15%",
-                                                        }}
-                                                    >
                                                         Status
                                                     </th>
                                                     <th
@@ -145,23 +129,8 @@ export default function VerifPengajuanIndex() {
                                                                 {vrf.tujuan_dpc.name}
                                                             </td>
                                                             <td>
-
-                                                                <Link
-                                                                    href={`/account/verifPengajuan/print/${vrf.id}`}
-                                                                    className="btn btn-primary btn-sm me-2"
-                                                                >
-                                                                    Print
-                                                                </Link>
-
-                                                            </td>
-                                                            <td>
-                                                                {
-                                                                    vrf.keterangan
-                                                                }
-                                                            </td>
-                                                            <td>
                                                                 {vrf.status ==
-                                                                    "sudah" && (
+                                                                    "setujui" && (
                                                                         <button className="btn btn-sm btn-success">
                                                                             <i className="fa fa-check-circle"></i>{" "}
                                                                             Sudah
@@ -174,6 +143,20 @@ export default function VerifPengajuanIndex() {
                                                                             <i className="fa fa-times"></i>{" "}
                                                                             Belum
                                                                             disetujui
+                                                                        </button>
+                                                                    )}
+                                                                {vrf.status ==
+                                                                    "tolak" && (
+                                                                        <button className="btn btn-sm btn-danger">
+                                                                            <i className="fa fa-times"></i>{" "}
+                                                                            Di tolak
+                                                                        </button>
+                                                                    )}
+                                                                {vrf.status ==
+                                                                    "revisi" && (
+                                                                        <button className="btn btn-sm btn-info">
+                                                                            <i className="fa fa-times"></i>{" "}
+                                                                            Di revisi
                                                                         </button>
                                                                     )}
                                                             </td>

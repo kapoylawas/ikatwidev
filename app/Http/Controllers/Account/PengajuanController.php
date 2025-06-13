@@ -25,12 +25,12 @@ class PengajuanController extends Controller
 
         $searchString = request()->q;
 
-        $pengajuans = Pengajuan::whereHas('user', function ($query) use ($searchString){
-            $query->where('name', 'like', '%'.$searchString.'%');
+        $pengajuans = Pengajuan::whereHas('user', function ($query) use ($searchString) {
+            $query->where('name', 'like', '%' . $searchString . '%');
         })
-        ->with(['user' => function($query) use ($searchString){
-            $query->where('name', 'like', '%'.$searchString.'%');
-        }])->where('user_id', auth()->user()->id)->latest()->paginate(10);
+            ->with(['user' => function ($query) use ($searchString) {
+                $query->where('name', 'like', '%' . $searchString . '%');
+            }])->where('user_id', auth()->user()->id)->latest()->paginate(10);
 
         $pengajuans->appends(['q' => request()->q]);
 
@@ -42,8 +42,8 @@ class PengajuanController extends Controller
             ->where('tahun', $tahun)->get();
         $statusAnggota = User::where('id', auth()->user()->id)->first();
         $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
-        
-            
+
+
         return inertia('Account/Pengajuan/Index', [
             'transactions' => $transactions,
             'statusAnggota' => $statusAnggota,
@@ -64,7 +64,7 @@ class PengajuanController extends Controller
         $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
         $provinces = Province::all();
         $cities = City::all();
-            
+
         return inertia('Account/Pengajuan/Create', [
             'transactions' => $transactions,
             'statusAnggota' => $statusAnggota,
@@ -93,7 +93,7 @@ class PengajuanController extends Controller
         // $document = $request->file('document');
         // $document->storeAs('public/document', $document->hashName());
 
-         //insert database
+        //insert database
         Pengajuan::create([
             'user_id'     => $request->user_id,
             'name'      => $request->name,
@@ -106,6 +106,7 @@ class PengajuanController extends Controller
             'tujuan_mutasi'      => $request->tujuan_mutasi,
             'dpc_mutasi'      => $request->dpc_mutasi,
             'status'      => 'belum',
+
         ]);
 
         //return back
@@ -126,20 +127,20 @@ class PengajuanController extends Controller
 
     public function update(Request $request, Pengajuan $pengajuan)
     {
-       
+
         //check image update
         if ($request->file('document')) {
 
             //remove old image
-            Storage::disk('local')->delete('public/document/'.basename($pengajuan->document));
-        
+            Storage::disk('local')->delete('public/document/' . basename($pengajuan->document));
+
             //upload new image
             $document = $request->file('document');
             $document->storeAs('public/document', $document->hashName());
 
             //update category with new image
             $pengajuan->update([
-                'document'=> $document->hashName(),
+                'document' => $document->hashName(),
                 'user_id'     => $request->user_id,
                 'name'      => $request->name,
                 'kta'      => $request->kta,
@@ -150,7 +151,6 @@ class PengajuanController extends Controller
                 'tujuan_mutasi'      => $request->tujuan_mutasi,
                 'dpc_mutasi'      => $request->dpc_mutasi,
             ]);
-
         }
 
         //update without image
@@ -176,7 +176,7 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::findOrFail($id);
 
         //remove image
-        Storage::disk('local')->delete('public/document/'.basename($pengajuan->document));
+        Storage::disk('local')->delete('public/document/' . basename($pengajuan->document));
 
         //delete
         $pengajuan->delete();
@@ -184,5 +184,4 @@ class PengajuanController extends Controller
         //redirect
         return redirect()->route('account.pengajuan.index');
     }
-
 }
