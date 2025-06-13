@@ -231,7 +231,7 @@ export default function Sidebar() {
                     </Link>
                 )}
 
-                {hasAnyPermission(["verifPengajuan.index"]) && (
+                {hasAnyPermission(["pengajuan.index"]) && (
                     <Link
                         href="/account/print"
                         className={`${url.startsWith("/account/print")

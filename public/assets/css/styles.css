@@ -700,6 +700,21 @@ h4 {
     background-color: #ed9797 !important;
 }
 
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 2px 0;
+}
+
+.badge-revisi {
+  background-color: #ed1212;
+  color: #fffcfc;
+  border: 1px solid #ddd;
+}
+
 
 /* kartu */
 

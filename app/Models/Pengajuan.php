@@ -42,12 +42,12 @@ class Pengajuan extends Model
 
     public function tujuan()
     {
-        return $this->belongsTo(Province::class, 'tujuan_mutasi');
+        return $this->belongsTo(Province::class, 'tujuan_mutasi', 'id');
     }
 
     public function tujuanDpc()
     {
-        return $this->belongsTo(City::class, 'dpc_mutasi');
+        return $this->belongsTo(City::class, 'dpc_mutasi', 'id');
     }
 
     /**

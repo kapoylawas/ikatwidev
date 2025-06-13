@@ -253,16 +253,16 @@ export default function PengajuanPrintIndex() {
                         </div>
 
                         {/* Nomor Surat */}
-                        <div style={{ textAlign: 'right', marginBottom: '1.5rem' }}>
+                        {/* <div style={{ textAlign: 'right', marginBottom: '1.5rem' }}>
                             <div>Nomor: {data.nomorSurat}</div>
                             <div>Hal: Permohonan Mutasi Keanggotaan</div>
                             <div>{data.tempat}, {data.tanggal}</div>
-                        </div>
+                        </div> */}
 
                         {/* Isi Surat */}
                         <div className="content-block">
                             <p>Kepada Yth:</p>
-                            <p style={{ fontWeight: 'bold', marginLeft: '2rem' }}>Ketua {data.tujuanDPW}</p>
+                            <p style={{ fontWeight: 'bold', marginLeft: '2rem' }}>Ketua Ikatwi Pusat</p>
                             <p style={{ marginLeft: '2rem' }}>di Tempat</p>
                         </div>
 
@@ -278,28 +278,49 @@ export default function PengajuanPrintIndex() {
                             <tbody>
                                 <tr>
                                     <td>Nama Lengkap</td>
-                                    <td>: {data.nama}</td>
+                                    <td>: {biodata.name}</td>
                                 </tr>
                                 <tr>
                                     <td>Nomor KTA</td>
-                                    <td>: {data.nomorKTA}</td>
+                                    <td>: {biodata.no_anggota}</td>
                                 </tr>
                                 <tr>
                                     <td>Asal DPW</td>
-                                    <td>: {data.asalDPW}</td>
+                                    <td>: {biodata.province.name}</td>
                                 </tr>
                                 <tr>
                                     <td>Asal DPC</td>
-                                    <td>: {data.asalDPC}</td>
+                                    <td>: {biodata.city.name}</td>
                                 </tr>
                             </tbody>
                         </table>
 
                         <div className="content-block">
                             <p style={{ textIndent: '2rem' }}>
-                                untuk dimutasikan ke wilayah {data.tujuanDPW}, DPC {data.tujuanDPC}.
+                                Mengajukan mutasi keanggotaan IKATWI dengan tujuan :.
                             </p>
                         </div>
+
+                        <table className="data-table">
+                            <tbody>
+                                <tr>
+                                    <td>Nama Lengkap</td>
+                                    <td>: {biodata.name}</td>
+                                </tr>
+                                <tr>
+                                    <td>Nomor KTA</td>
+                                    <td>: {biodata.no_anggota}</td>
+                                </tr>
+                                <tr>
+                                    <td>Asal DPW</td>
+                                    <td>: {biodata.province.name}</td>
+                                </tr>
+                                <tr>
+                                    <td>Asal DPC</td>
+                                    <td>: {biodata.city.name}</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
                         {/* Kelengkapan Dokumen */}
                         <div className="content-block">
@@ -321,8 +342,8 @@ export default function PengajuanPrintIndex() {
                         </div>
 
                         <div className="content-block">
-                            <p style={{ textIndent: '2rem' }}>
-                                Demikian permohonan ini kami sampaikan, atas perhatian dan kerjasamanya kami ucapkan terima kasih.
+                            <p>
+                                Demikian formulir ini dibuat sebagai catatan mutasi keanggotaan atas nama di atas.
                             </p>
                         </div>
 
@@ -330,23 +351,23 @@ export default function PengajuanPrintIndex() {
                         <div className="signature-block" style={{ marginLeft: 'auto', width: 'fit-content' }}>
                             <p>Hormat kami,</p>
                             <div style={{ marginTop: '10px', position: 'relative' }}>
-                                <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Ketua {data.asalDPW}</p>
+                                <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Ketua Ikatwi Pusat</p>
                                 <div style={{ marginTop: '60px' }}>
                                     <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{data.nama}</p>
-                                    <p>NIK: {data.nomorKTA}</p>
+                                    {/* <p>NIK: {data.nomorKTA}</p> */}
                                 </div>
                             </div>
                         </div>
 
                         {/* Tembusan */}
-                        <div style={{ marginTop: '3rem' }}>
+                        {/* <div style={{ marginTop: '3rem' }}>
                             <p style={{ fontWeight: 'bold' }}>Tembusan:</p>
                             <ol style={{ listStyleType: 'decimal', marginLeft: '1.5rem' }}>
                                 <li>Ketua Umum IKATWI Pusat</li>
                                 <li>Ketua {data.tujuanDPC}</li>
                                 <li>Arsip</li>
                             </ol>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </LayoutAccount>

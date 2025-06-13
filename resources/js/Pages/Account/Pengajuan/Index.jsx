@@ -133,7 +133,7 @@ export default function PengajuanIndex() {
                                                                 </td>
                                                                 <td>
                                                                     {pengajuan.status ==
-                                                                        "sudah" && (
+                                                                        "setujui" && (
                                                                             <button className="btn btn-sm btn-success">
                                                                                 <i className="fa fa-check-circle"></i>{" "}
                                                                                 Sudah disetujui
@@ -145,6 +145,28 @@ export default function PengajuanIndex() {
                                                                                 <i className="fa fa-times"></i>{" "}
                                                                                 Belum disetujui
                                                                             </button>
+                                                                        )}
+                                                                    {pengajuan.status ==
+                                                                        "revisi" && ( 
+                                                                            <>
+                                                                                <button className="btn btn-sm btn-info">
+                                                                                    <i className="fa fa-times"></i>{" "}
+                                                                                    Revisi
+                                                                                </button>
+                                                                                <br />
+                                                                                <span className="badge badge-revisi"> {pengajuan.keterangan_revisi } </span>
+                                                                            </>
+                                                                        )}
+                                                                    {pengajuan.status ==
+                                                                        "tolak" && (
+                                                                            <>
+                                                                                <button className="btn btn-sm btn-danger">
+                                                                                    <i className="fa fa-times"></i>{" "}
+                                                                                    Di Tolak
+                                                                                </button>
+                                                                                <br />
+                                                                                <span className="badge badge-revisi"> {pengajuan.keterangan_revisi } </span>
+                                                                            </>
                                                                         )}
                                                                 </td>
                                                                 <td className="text-center">
