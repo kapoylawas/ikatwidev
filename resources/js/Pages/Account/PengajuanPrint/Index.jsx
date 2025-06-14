@@ -4,7 +4,6 @@ import { Head, usePage } from "@inertiajs/inertia-react";
 
 export default function PengajuanPrintIndex() {
     const { biodata } = usePage().props;
-    console.log(biodata);
 
     // Data contoh
     const data = {
@@ -312,12 +311,12 @@ export default function PengajuanPrintIndex() {
                                     <td>: {biodata.no_anggota}</td>
                                 </tr>
                                 <tr>
-                                    <td>Asal DPW</td>
-                                    <td>: {biodata.province.name}</td>
+                                    <td>DPW</td>
+                                    <td>: {biodata.pengajuan.tujuan.name}</td>
                                 </tr>
                                 <tr>
-                                    <td>Asal DPC</td>
-                                    <td>: {biodata.city.name}</td>
+                                    <td>DPC</td>
+                                    <td>: {biodata.pengajuan.tujuan_dpc.name}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -353,7 +352,7 @@ export default function PengajuanPrintIndex() {
                             <div style={{ marginTop: '10px', position: 'relative' }}>
                                 <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Ketua Ikatwi Pusat</p>
                                 <div style={{ marginTop: '60px' }}>
-                                    <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{data.nama}</p>
+                                    {/* <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{data.nama}</p> */}
                                     {/* <p>NIK: {data.nomorKTA}</p> */}
                                 </div>
                             </div>
