@@ -312,11 +312,11 @@ export default function PengajuanPrintIndex() {
                                 </tr>
                                 <tr>
                                     <td>DPW</td>
-                                    <td>: {biodata.pengajuan.tujuan.name}</td>
+                                    <td>: {biodata.pengajuan?.tujuan?.name || '-'}</td>
                                 </tr>
                                 <tr>
                                     <td>DPC</td>
-                                    <td>: {biodata.pengajuan.tujuan_dpc.name}</td>
+                                    <td>: {biodata.pengajuan?.tujuan_dpc?.name || '-'}</td>
                                 </tr>
                             </tbody>
                         </table>
