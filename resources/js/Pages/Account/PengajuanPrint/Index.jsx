@@ -3,7 +3,28 @@ import LayoutAccount from "../../../Layouts/Account";
 import { Head, usePage } from "@inertiajs/inertia-react";
 
 export default function PengajuanPrintIndex() {
-    const { biodata } = usePage().props;
+    const { biodata } = usePage().props; 
+       
+    const noUruts = biodata.no_anggota
+    
+    const noSurat = noUruts.slice(0, 3);
+
+    const dateString = "100720";
+
+    // Ambil bagian bulan (2 digit di tengah: posisi 2-4)
+    const monthNumber = parseInt(dateString.substring(2, 4));
+    
+    // Konversi angka ke Romawi
+    const romanNumerals = [
+        '', 'I', 'II', 'III', 'IV', 'V', 'VI', 
+        'VII', 'VIII', 'IX', 'X', 'XI', 'XII'
+    ];
+
+    const bulanRomawi = romanNumerals[monthNumber]
+
+    console.log(bulanRomawi);
+    
+    
 
     // Data contoh
     const data = {
@@ -242,34 +263,45 @@ export default function PengajuanPrintIndex() {
                     {/* Surat Resmi */}
                     <div className="body print">
                         {/* Kop Surat */}
-                        <div className="letter-head">
-                            <div style={{ fontSize: '18pt', fontWeight: 'bold', marginBottom: '5px' }}>
-                                IKATAN TERAPIS WICARA INDONESIA (IKATWI)
+                        <div className="letter-head" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                            {/* Logo container */}
+                            <div style={{ width: '100px' }}> {/* Adjust width as needed */}
+                                <img 
+                                    src="/assets/images/logo.png" 
+                                    alt="IKATWI Logo" 
+                                    style={{ width: '100%', height: 'auto' }}
+                                />
                             </div>
-                            <div style={{ fontSize: '14pt', marginBottom: '10px' }}>The Indonesian Speech Therapist Association</div>
-                            <div style={{ fontSize: '11pt' }}>Kampus Jurusan Terapi Wicara Poltekkes Kemenkes Surakarta</div>
-                            <div style={{ fontSize: '11pt' }}>Jl. Letjend Sutoyo, Mojosongo, Jebres, Surakarta, Jawa Tengah, Indonesia Hotline: 085 867 544 115</div>
-                            <div style={{ fontSize: '11pt' }}>Website: www.ikatwi.or.id | Email: ikatwipusat@gmail.com , sekretaris.dppikatwi@gmail.com</div>
+                            
+                            {/* Text container */}
+                            <div>
+                                <div style={{ fontSize: '14pt', fontWeight: 'bold', marginBottom: '5px' }}>
+                                    IKATAN TERAPIS WICARA INDONESIA (IKATWI)
+                                </div>
+                                <div style={{ fontSize: '14pt', marginBottom: '10px' }}>The Indonesian Speech Therapist Association</div>
+                                <div style={{ fontSize: '9pt' }}>Kampus Jurusan Terapi Wicara Poltekkes Kemenkes Surakarta</div>
+                                <div style={{ fontSize: '9pt' }}>Jl. Letjend Sutoyo, Mojosongo, Jebres, Surakarta, Jawa Tengah, Indonesia Hotline: 085867544115</div>
+                                <div style={{ fontSize: '9pt' }}>Website: www.ikatwi.or.id | Email: ikatwipusat@gmail.com , sekretaris.dppikatwi@gmail.com</div>
+                            </div>
                         </div>
 
                         {/* Nomor Surat */}
-                        {/* <div style={{ textAlign: 'right', marginBottom: '1.5rem' }}>
-                            <div>Nomor: {data.nomorSurat}</div>
-                            <div>Hal: Permohonan Mutasi Keanggotaan</div>
-                            <div>{data.tempat}, {data.tanggal}</div>
-                        </div> */}
+                        <div style={{ textAlign: 'center', marginBottom: '2.0rem' }}>
+                            <div><b>FORMULIR MUTASI</b></div>
+                            <div><b>ANGGOTA IKATWI</b></div>
+                            <div><b>No. : {noSurat}/IKATWI/MUT/{bulanRomawi}/{new Date().getFullYear()}</b></div>
+                        </div>
 
                         {/* Isi Surat */}
-                        <div className="content-block">
+                        {/* <div className="content-block">
                             <p>Kepada Yth:</p>
                             <p style={{ fontWeight: 'bold', marginLeft: '2rem' }}>Ketua Ikatwi Pusat</p>
                             <p style={{ marginLeft: '2rem' }}>di Tempat</p>
-                        </div>
+                        </div> */}
 
                         <div className="content-block">
-                            <p style={{ textIndent: '2rem' }}>Dengan hormat,</p>
                             <p style={{ textIndent: '2rem', marginTop: '1rem' }}>
-                                Bersama ini kami sampaikan permohonan mutasi keanggotaan atas:
+                                Data Anggota IKATWI berikut, yaitu:
                             </p>
                         </div>
 
@@ -297,7 +329,7 @@ export default function PengajuanPrintIndex() {
 
                         <div className="content-block">
                             <p style={{ textIndent: '2rem' }}>
-                                Mengajukan mutasi keanggotaan IKATWI dengan tujuan :.
+                                Mengajukan mutasi keanggotaan IKATWI dengan tujuan :
                             </p>
                         </div>
 
@@ -348,26 +380,30 @@ export default function PengajuanPrintIndex() {
                         </div>
 
                         {/* Tanda Tangan */}
-                        <div className="signature-block" style={{ marginLeft: 'auto', width: 'fit-content' }}>
-                            <p>Hormat kami,</p>
-                            <div style={{ marginTop: '10px', position: 'relative' }}>
-                                <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Ketua Ikatwi Pusat</p>
-                                <div style={{ marginTop: '60px' }}>
-                                    {/* <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{data.nama}</p> */}
-                                    {/* <p>NIK: {data.nomorKTA}</p> */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            {/* Signature Block Kanan (untuk Ketua) */}
+                            <div className="signature-block" style={{ width: '55%', textAlign: 'left' }}>
+                                <p>(Tempat, Tanggal )</p>
+                                <div style={{ marginTop: '40px' }}>
+                                    <div style={{ marginTop: '60px' }}>
+                                        <p style={{fontSize: '9pt',fontWeight: 'bold', textDecoration: 'underline' }}>Admin Verifikator Wilayah</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Signature Block Kiri */}
+                            <div className="signature-block" style={{ width: '50%', textAlign: 'left' }}>
+                                <div style={{ marginTop: '40px' }}>
+                                    <p style={{ textAlign: 'center' }}>Mengetahui,</p>
+                                    <p style={{fontSize: '9pt', marginTop: '20px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'nowrap' }}>DEWAN PENGURUS PUSAT IKATWI</p>
+                                    <p style={{ fontSize: '9pt', fontWeight: 'bold', textAlign: 'center' }}>KETUA UMUM</p>
+                                    <div style={{ marginTop: '60px' }}>
+                                        <p style={{fontSize: '8pt', fontWeight: 'bold', textDecoration: 'underline', textAlign: 'center' }}>Hafidz Triantoro Aji P., SST.TW, MPH</p>
+                                        <p style={{ textAlign: 'center' }}>No. KTA: 100685</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Tembusan */}
-                        {/* <div style={{ marginTop: '3rem' }}>
-                            <p style={{ fontWeight: 'bold' }}>Tembusan:</p>
-                            <ol style={{ listStyleType: 'decimal', marginLeft: '1.5rem' }}>
-                                <li>Ketua Umum IKATWI Pusat</li>
-                                <li>Ketua {data.tujuanDPC}</li>
-                                <li>Arsip</li>
-                            </ol>
-                        </div> */}
                     </div>
                 </div>
             </LayoutAccount>
