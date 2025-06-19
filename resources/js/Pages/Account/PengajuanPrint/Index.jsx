@@ -244,11 +244,12 @@ export default function PengajuanPrintIndex() {
                         {/* Kop Surat */}
                         <div className="letter-head">
                             <div style={{ fontSize: '18pt', fontWeight: 'bold', marginBottom: '5px' }}>
-                                IKATAN TERAPIS WICARA INDONESIA
+                                IKATAN TERAPIS WICARA INDONESIA (IKATWI)
                             </div>
-                            <div style={{ fontSize: '14pt', marginBottom: '10px' }}>(IKATWI)</div>
-                            <div style={{ fontSize: '11pt' }}>Jl. Prof. Dr. Soepomo No. 123, Jakarta 12345</div>
-                            <div style={{ fontSize: '11pt' }}>Telp. (021) 1234567 | Email: sekretariat@ikatwi.org</div>
+                            <div style={{ fontSize: '14pt', marginBottom: '10px' }}>The Indonesian Speech Therapist Association</div>
+                            <div style={{ fontSize: '11pt' }}>Kampus Jurusan Terapi Wicara Poltekkes Kemenkes Surakarta</div>
+                            <div style={{ fontSize: '11pt' }}>Jl. Letjend Sutoyo, Mojosongo, Jebres, Surakarta, Jawa Tengah, Indonesia Hotline: 085 867 544 115</div>
+                            <div style={{ fontSize: '11pt' }}>Website: www.ikatwi.or.id | Email: ikatwipusat@gmail.com , sekretaris.dppikatwi@gmail.com</div>
                         </div>
 
                         {/* Nomor Surat */}
