@@ -1,1 +1,0 @@
-import{R as e,H as t}from"./app.5cfc6ce5.js";import{L as n}from"./Account.1b1e7b90.js";import"./Dropdown.3b9c49f0.js";function u(){return e.createElement(e.Fragment,null,e.createElement(t,null,e.createElement("title",null,"Print Pengajuan - IKATWI")),e.createElement(n,null))}export{u as default};
