@@ -22,6 +22,7 @@ class Pengajuan extends Model
         'tujuan_mutasi',
         'dpc_mutasi',
         'status',
+        'no_urut',
         'keterangan_revisi',
     ];
 

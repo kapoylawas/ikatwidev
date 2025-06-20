@@ -1,13 +1,11 @@
 import React from "react";
 import LayoutAccount from "../../../Layouts/Account";
 import { Head, usePage } from "@inertiajs/inertia-react";
+import { QRCodeSVG } from "qrcode.react";
+
 
 export default function PengajuanPrintIndex() {
     const { biodata } = usePage().props;
-
-    const noUruts = biodata.no_anggota
-
-    const noSurat = noUruts.slice(3, 6);
 
     const dateString = "100720";
 
@@ -16,11 +14,13 @@ export default function PengajuanPrintIndex() {
 
     // Konversi angka ke Romawi
     const romanNumerals = [
-        '', 'I', 'II', 'III', 'IV', 'V', 'VI',
+        '', '', 'I', 'II', 'III', 'IV', 'V', 'VI',
         'VII', 'VIII', 'IX', 'X', 'XI', 'XII'
     ];
 
     const bulanRomawi = romanNumerals[monthNumber]
+
+    const status = biodata.pengajuan.status
 
 
     // Data contoh
@@ -286,7 +286,7 @@ export default function PengajuanPrintIndex() {
                         <div style={{ textAlign: 'center', marginBottom: '2.0rem' }}>
                             <div><b>FORMULIR MUTASI</b></div>
                             <div><b>ANGGOTA IKATWI</b></div>
-                            <div><b>No. : {noSurat}/IKATWI/MUT/{bulanRomawi}/{new Date().getFullYear()}</b></div>
+                            <div><b>No. : {biodata.pengajuan.no_urut}/IKATWI/MUT/{bulanRomawi}/{new Date().getFullYear()}</b></div>
                         </div>
 
                         {/* Isi Surat */}
@@ -394,9 +394,24 @@ export default function PengajuanPrintIndex() {
                                     <p style={{ textAlign: 'center' }}>Mengetahui,</p>
                                     <p style={{ fontSize: '9pt', marginTop: '20px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'nowrap' }}>DEWAN PENGURUS PUSAT IKATWI</p>
                                     <p style={{ fontSize: '9pt', fontWeight: 'bold', textAlign: 'center' }}>KETUA UMUM</p>
-                                    <div style={{ marginTop: '60px' }}>
-                                        <p style={{ fontSize: '8pt', fontWeight: 'bold', textDecoration: 'underline', textAlign: 'center' }}>Hafidz Triantoro Aji P., SST.TW, MPH</p>
-                                        <p style={{ fontSize: '8pt', textAlign: 'center' }}>No. KTA: 100685</p>
+                                    <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
+                                        <div style={{ textAlign: 'center' }}>
+                                            {status === 'setujui' ? (
+                                                <>
+                                                    <QRCodeSVG
+                                                        value="Hafidz Triantoro Aji P., SST.TW, MPH, No. KTA: 100685"
+                                                        size={111}
+                                                        renderAs="canvas"
+                                                    />
+                                                </>
+                                            ) : (
+                                                <p style={{ fontSize: '9pt', fontStyle: 'italic', color: '#999' }}>
+                                                    Belum disetujui
+                                                </p>
+                                            )}
+                                            <p style={{ fontSize: '8pt', fontWeight: 'bold', textDecoration: 'underline', marginTop: '8px' }}>Hafidz Triantoro Aji P., SST.TW, MPH</p>
+                                            <p style={{ fontSize: '8pt' }}>No. KTA: 100685</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -167,15 +167,6 @@ export default function VerifPengajuanIndex() {
                                                                 >
                                                                     <i className="fa fa-pencil-alt"></i>
                                                                 </Link>
-
-                                                                <Delete
-                                                                    URL={
-                                                                        "/account/verifPengajuan"
-                                                                    }
-                                                                    id={
-                                                                        vrf.id
-                                                                    }
-                                                                />
                                                             </td>
                                                         </tr>
                                                     )
