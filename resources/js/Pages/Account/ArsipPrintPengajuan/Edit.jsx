@@ -1,11 +1,30 @@
-import React from "react";
+//import react
+import React, { useState } from "react";
+
+//import layout
 import LayoutAccount from "../../../Layouts/Account";
+
+//import Head, usePage
 import { Head, usePage } from "@inertiajs/inertia-react";
 
-export default function PengajuanPrintIndex() {
-    const { biodata } = usePage().props;
+//import Inertia adapter
+import { Inertia } from "@inertiajs/inertia";
 
-    const noUruts = biodata.no_anggota
+//import Sweet Alert
+import Swal from "sweetalert2";
+
+export default function ArsipPrintPengajuanEdit() {
+
+    const {
+        errors,
+        provinces,
+        cities,
+        arsip,
+    } = usePage().props;
+
+    console.log(arsip);
+
+    const noUruts = arsip.user.no_anggota
 
     const noSurat = noUruts.slice(3, 6);
 
@@ -37,6 +56,7 @@ export default function PengajuanPrintIndex() {
         tempat: "Bandung",
         nomorSurat: "123/IKATWI-DPB/VI/2025"
     };
+
 
     // Fungsi untuk handle print
     const handlePrint = () => {
@@ -133,120 +153,122 @@ export default function PengajuanPrintIndex() {
         printWindow.document.close();
     };
 
+
+
     return (
         <>
             <Head>
-                <title>Formulir Mutasi Anggota - IKATWI</title>
+                <title>Arsip Berkas Anggota - IKATWI</title>
                 <style>{`
-                    @page {
-                        size: A4;
-                        margin: 2.5cm;
-                    }
-                    body.print {
-                        font-family: "Times New Roman", Times, serif;
-                        line-height: 1.6;
-                        color: #333;
-                    }
-                    .container-surat {
-                        max-width: 800px;
-                        margin: 0 auto;
-                        padding: 20px;
-                    }
-                    .letter-head {
-                        border-bottom: 3px double #333;
-                        padding-bottom: 1rem;
-                        margin-bottom: 1.5rem;
-                        text-align: center;
-                    }
-                    .letter-title {
-                        font-size: 14pt;
-                        text-align: center;
-                        text-decoration: underline;
-                        margin: 1.5rem 0;
-                        font-weight: bold;
-                    }
-                    .content-block {
-                        margin-bottom: 1.2rem;
-                        text-align: justify;
-                    }
-                    .signature-block {
-                        margin-top: 4rem;
-                        text-align: right;
-                        padding-right: 20%;
-                    }
-                    .checkbox {
-                        display: inline-block;
-                        width: 18px;
-                        height: 18px;
-                        border: 1px solid #333;
-                        margin-right: 8px;
-                        text-align: center;
-                        vertical-align: middle;
-                        position: relative;
-                        top: -1px;
-                    }
-                    .checked {
-                        background-color: #333;
-                        color: white;
-                    }
-                    .data-table {
-                        margin: 1rem 0;
-                        width: 100%;
-                    }
-                    .data-table td {
-                        padding: 0.2rem 0;
-                        vertical-align: top;
-                    }
-                    .data-table td:first-child {
-                        width: 35%;
-                        font-weight: 500;
-                    }
-                    .no-print {
-                        text-align: center;
-                        margin-bottom: 2rem;
-                    }
-                    .print-btn {
-                        padding: 10px 25px;
-                        background: #2c5282;
-                        color: white;
-                        border: none;
-                        border-radius: 4px;
-                        font-size: 16px;
-                        cursor: pointer;
-                        transition: all 0.3s;
-                    }
-                    .print-btn:hover {
-                        background: #1a365d;
-                        transform: translateY(-2px);
-                        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-                    }
-                    @media print {
-                        .no-print {
-                            display: none !important;
-                        }
-                        body, body.print {
-                            font-size: 12pt;
-                        }
-                        .container-surat {
-                            padding: 0;
-                        }
-                        body {
-                            -webkit-print-color-adjust: exact;
-                            print-color-adjust: exact;
-                        }
-                    }
-                    @media (max-width: 768px) {
-                        .container-surat {
-                            padding: 15px;
-                        }
-                        .data-table td:first-child {
-                            width: 40%;
-                        }
-                        .signature-block {
-                            padding-right: 10%;
-                        }
-                    }
-                `}</style>
+                                @page {
+                                    size: A4;
+                                    margin: 2.5cm;
+                                }
+                                body.print {
+                                    font-family: "Times New Roman", Times, serif;
+                                    line-height: 1.6;
+                                    color: #333;
+                                }
+                                .container-surat {
+                                    max-width: 800px;
+                                    margin: 0 auto;
+                                    padding: 20px;
+                                }
+                                .letter-head {
+                                    border-bottom: 3px double #333;
+                                    padding-bottom: 1rem;
+                                    margin-bottom: 1.5rem;
+                                    text-align: center;
+                                }
+                                .letter-title {
+                                    font-size: 14pt;
+                                    text-align: center;
+                                    text-decoration: underline;
+                                    margin: 1.5rem 0;
+                                    font-weight: bold;
+                                }
+                                .content-block {
+                                    margin-bottom: 1.2rem;
+                                    text-align: justify;
+                                }
+                                .signature-block {
+                                    margin-top: 4rem;
+                                    text-align: right;
+                                    padding-right: 20%;
+                                }
+                                .checkbox {
+                                    display: inline-block;
+                                    width: 18px;
+                                    height: 18px;
+                                    border: 1px solid #333;
+                                    margin-right: 8px;
+                                    text-align: center;
+                                    vertical-align: middle;
+                                    position: relative;
+                                    top: -1px;
+                                }
+                                .checked {
+                                    background-color: #333;
+                                    color: white;
+                                }
+                                .data-table {
+                                    margin: 1rem 0;
+                                    width: 100%;
+                                }
+                                .data-table td {
+                                    padding: 0.2rem 0;
+                                    vertical-align: top;
+                                }
+                                .data-table td:first-child {
+                                    width: 35%;
+                                    font-weight: 500;
+                                }
+                                .no-print {
+                                    text-align: center;
+                                    margin-bottom: 2rem;
+                                }
+                                .print-btn {
+                                    padding: 10px 25px;
+                                    background: #2c5282;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 4px;
+                                    font-size: 16px;
+                                    cursor: pointer;
+                                    transition: all 0.3s;
+                                }
+                                .print-btn:hover {
+                                    background: #1a365d;
+                                    transform: translateY(-2px);
+                                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                                }
+                                @media print {
+                                    .no-print {
+                                        display: none !important;
+                                    }
+                                    body, body.print {
+                                        font-size: 12pt;
+                                    }
+                                    .container-surat {
+                                        padding: 0;
+                                    }
+                                    body {
+                                        -webkit-print-color-adjust: exact;
+                                        print-color-adjust: exact;
+                                    }
+                                }
+                                @media (max-width: 768px) {
+                                    .container-surat {
+                                        padding: 15px;
+                                    }
+                                    .data-table td:first-child {
+                                        width: 40%;
+                                    }
+                                    .signature-block {
+                                        padding-right: 10%;
+                                    }
+                                }
+                            `}</style>
             </Head>
             <LayoutAccount>
                 <div className="container-surat">
@@ -291,10 +313,10 @@ export default function PengajuanPrintIndex() {
 
                         {/* Isi Surat */}
                         {/* <div className="content-block">
-                            <p>Kepada Yth:</p>
-                            <p style={{ fontWeight: 'bold', marginLeft: '2rem' }}>Ketua Ikatwi Pusat</p>
-                            <p style={{ marginLeft: '2rem' }}>di Tempat</p>
-                        </div> */}
+                                       <p>Kepada Yth:</p>
+                                       <p style={{ fontWeight: 'bold', marginLeft: '2rem' }}>Ketua Ikatwi Pusat</p>
+                                       <p style={{ marginLeft: '2rem' }}>di Tempat</p>
+                                   </div> */}
 
                         <div className="content-block">
                             <p style={{ textIndent: '2rem', marginTop: '1rem' }}>
@@ -307,19 +329,19 @@ export default function PengajuanPrintIndex() {
                             <tbody>
                                 <tr>
                                     <td>Nama Lengkap</td>
-                                    <td>: {biodata.name}</td>
+                                    <td>: {arsip.name}</td>
                                 </tr>
                                 <tr>
                                     <td>Nomor KTA</td>
-                                    <td>: {biodata.no_anggota}</td>
+                                    <td>: {arsip.user.no_anggota}</td>
                                 </tr>
                                 <tr>
                                     <td>Asal DPW</td>
-                                    <td>: {biodata.province.name}</td>
+                                    <td>: {arsip.province.name}</td>
                                 </tr>
                                 <tr>
                                     <td>Asal DPC</td>
-                                    <td>: {biodata.city.name}</td>
+                                    <td>: {arsip.city.name}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -334,19 +356,19 @@ export default function PengajuanPrintIndex() {
                             <tbody>
                                 <tr>
                                     <td>Nama Lengkap</td>
-                                    <td>: {biodata.name}</td>
+                                    <td>: {arsip.name}</td>
                                 </tr>
                                 <tr>
                                     <td>Nomor KTA</td>
-                                    <td>: {biodata.no_anggota}</td>
+                                    <td>: {arsip.no_anggota}</td>
                                 </tr>
                                 <tr>
                                     <td>DPW</td>
-                                    <td>: {biodata.pengajuan?.tujuan?.name || '-'}</td>
+                                    <td>: {arsip.pengajuan?.tujuan?.name || '-'}</td>
                                 </tr>
                                 <tr>
                                     <td>DPC</td>
-                                    <td>: {biodata.pengajuan?.tujuan_dpc?.name || '-'}</td>
+                                    <td>: {arsip.pengajuan?.tujuan_dpc?.name || '-'}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -405,5 +427,5 @@ export default function PengajuanPrintIndex() {
                 </div>
             </LayoutAccount>
         </>
-    );
+    )
 }

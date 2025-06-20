@@ -22,6 +22,9 @@ export default function CategoryEdit() {
         verifPengajuan,
     } = usePage().props;
 
+    console.log(verifPengajuan);
+
+
 
     const [id, setId] = useState(verifPengajuan.user_id);
     const [nama, setNama] = useState(verifPengajuan.name);

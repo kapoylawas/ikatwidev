@@ -244,6 +244,18 @@ export default function Sidebar() {
                     </Link>
                 )}
 
+                {hasAnyPermission(["verifPengajuan.index"]) && (
+                    <Link
+                        href="/account/arsips"
+                        className={`${url.startsWith("/account/arsips")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
+                    >
+                        <i className="fa fa-file-word me-2"></i> Arsip Pengajuan
+                    </Link>
+                )}
+
                 {hasAnyPermission(["sliders.index"]) && (
                     <Link
                         href="/account/sliders"
