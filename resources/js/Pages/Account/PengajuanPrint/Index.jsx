@@ -20,7 +20,7 @@ export default function PengajuanPrintIndex() {
 
     const bulanRomawi = romanNumerals[monthNumber]
 
-    const status = biodata.pengajuan.status
+    const status = biodata?.pengajuan?.status || 'default_value';
 
 
     // Data contoh
@@ -286,7 +286,7 @@ export default function PengajuanPrintIndex() {
                         <div style={{ textAlign: 'center', marginBottom: '2.0rem' }}>
                             <div><b>FORMULIR MUTASI</b></div>
                             <div><b>ANGGOTA IKATWI</b></div>
-                            <div><b>No. : {biodata.pengajuan.no_urut}/IKATWI/MUT/{bulanRomawi}/{new Date().getFullYear()}</b></div>
+                            <div><b>No. : {biodata?.pengajuan?.no_urut || 'Belum ada nomor urut dan belum di setuji'}/IKATWI/MUT/{bulanRomawi}/{new Date().getFullYear()}</b></div>
                         </div>
 
                         {/* Isi Surat */}
