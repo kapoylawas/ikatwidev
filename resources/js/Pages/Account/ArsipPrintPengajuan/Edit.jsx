@@ -24,7 +24,6 @@ export default function ArsipPrintPengajuanEdit() {
         arsip,
     } = usePage().props;
 
-    console.log(arsip);
 
     const noUruts = arsip.user.no_anggota
 
@@ -37,16 +36,13 @@ export default function ArsipPrintPengajuanEdit() {
 
     // Konversi angka ke Romawi
     const romanNumerals = [
-        '', 'I', 'II', 'III', 'IV', 'V', 'VI',
+        '', '', 'I', 'II', 'III', 'IV', 'V', 'VI',
         'VII', 'VIII', 'IX', 'X', 'XI', 'XII'
     ];
 
     const bulanRomawi = romanNumerals[monthNumber]
 
     const status = arsip.status
-
-    console.log(status);
-
 
 
     // Data contoh
