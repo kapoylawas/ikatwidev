@@ -33,31 +33,73 @@ export default function PengajuanCreate() {
     const [provinceID, setProvinceID] = useState(biodata.province_id);
     const [cityID, setCityID] = useState(biodata.city_id);
     const [tglmutasi, setTglmutasi] = useState("");
-    // const [docmutasi, setDocmutasi] = useState("");
     const [keterangan, setKeterangan] = useState("");
     const [tujuan, setTujuan] = useState("");
     const [tujuandpc, setTujuandpc] = useState("");
+    const [tipePindah, setTipePindah] = useState("");
+    const [filteredCities, setFilteredCities] = useState([]);
+
+    // Reset tujuan ketika tipe pindah berubah
+    const handleTipePindahChange = (e) => {
+        const selectedTipe = e.target.value;
+        setTipePindah(selectedTipe);
+
+        if (selectedTipe === "dpc") {
+            // Jika pindah DPC, otomatis isi tujuan_mutasi dengan DPW Asal
+            setTujuan(provinceID);
+            setFilteredCities(cities.filter(city => city.province_id == provinceID));
+        } else {
+            setTujuan("");
+            setFilteredCities([]);
+        }
+        setTujuandpc("");
+    };
+
+    // Filter cities ketika tujuan DPW berubah (untuk pindah DPW)
+    const handleTujuanChange = (e) => {
+        const selectedProvinceId = e.target.value;
+        setTujuan(selectedProvinceId);
+
+        if (selectedProvinceId) {
+            // Filter cities berdasarkan province yang dipilih
+            const filtered = cities.filter(city => city.province_id == selectedProvinceId);
+            setFilteredCities(filtered);
+        } else {
+            setFilteredCities([]);
+        }
+        setTujuandpc(""); // Reset DPC ketika DPW berubah
+    };
 
     //method "storePengajuan"
     const storePengajuan = async (e) => {
         e.preventDefault();
 
+        // Prepare data based on tipe pindah
+        const formData = {
+            user_id: id,
+            name: nama,
+            kta: kta,
+            province_id: provinceID,
+            city_id: cityID,
+            tgl_mutasi: tglmutasi,
+            keterangan: keterangan,
+            tipe_pindah: tipePindah,
+        };
+
+        // Add conditional fields based on tipe pindah
+        if (tipePindah === "dpw") {
+            formData.tujuan_mutasi = tujuan;
+            formData.dpc_mutasi = tujuandpc;
+        } else if (tipePindah === "dpc") {
+            // Untuk pindah DPC, tujuan_mutasi adalah DPW Asal (province_id)
+            formData.tujuan_mutasi = provinceID;
+            formData.dpc_mutasi = tujuandpc;
+        }
+
         //sending data
         Inertia.post(
             "/account/pengajuan",
-            {
-                //data
-                user_id: id,
-                name: nama,
-                kta: kta,
-                province_id: provinceID,
-                city_id: cityID,
-                tgl_mutasi: tglmutasi,
-                // document: docmutasi,
-                keterangan: keterangan,
-                tujuan_mutasi: tujuan,
-                dpc_mutasi: tujuandpc,
-            },
+            formData,
             {
                 onSuccess: () => {
                     //show alert
@@ -73,6 +115,18 @@ export default function PengajuanCreate() {
         );
     };
 
+    // Dapatkan nama DPW Asal untuk ditampilkan
+    const getDpwAsalName = () => {
+        const dpwAsal = provinces.find(province => province.id == provinceID);
+        return dpwAsal ? dpwAsal.name : "DPW Asal";
+    };
+
+    // Dapatkan nama DPW Tujuan untuk ditampilkan
+    const getDpwTujuanName = () => {
+        const dpwTujuan = provinces.find(province => province.id == tujuan);
+        return dpwTujuan ? dpwTujuan.name : "DPW Tujuan";
+    };
+
     return (
         <>
             <Head>
@@ -80,53 +134,72 @@ export default function PengajuanCreate() {
             </Head>
             <LayoutAccount>
                 <div className="col-md-12 mt-2">
-                    {/* {filter === "PAID" || name === "Anggota Kehormatan" ? ( */}
-                        <>
-                            <div className="card-body">
-                                <form onSubmit={storePengajuan}>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Nama
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={nama}
-                                                    onChange={(e) =>
-                                                        setNama(e.target.value)
-                                                    }
-                                                    disabled
-                                                />
-                                            </div>
-                                        </div>
+                    <div className="card border-0 shadow-sm">
+                        <div className="card-header bg-primary text-white">
+                            <h5 className="card-title mb-0">
+                                <i className="fas fa-exchange-alt me-2"></i>
+                                Form Pengajuan Mutasi
+                            </h5>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={storePengajuan}>
+                                {/* Data Diri Section */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h6 className="text-primary mb-3 border-bottom pb-2">
+                                            <i className="fas fa-user me-2"></i>
+                                            Data Diri
+                                        </h6>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    KTA
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={kta}
-                                                    onChange={(e) =>
-                                                        setKta(e.target.value)
-                                                    }
-                                                    disabled
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
+                                    <div className="col-md-6">
+                                        <div className="mb-3">
                                             <label className="form-label fw-bold">
-                                                DPW
+                                                Nama Lengkap
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control bg-light"
+                                                value={nama}
+                                                onChange={(e) =>
+                                                    setNama(e.target.value)
+                                                }
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">
+                                                Nomor KTA
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control bg-light"
+                                                value={kta}
+                                                onChange={(e) =>
+                                                    setKta(e.target.value)
+                                                }
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Asal Keanggotaan Section */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h6 className="text-primary mb-3 border-bottom pb-2">
+                                            <i className="fas fa-map-marker-alt me-2"></i>
+                                            Asal Keanggotaan
+                                        </h6>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">
+                                                DPW Asal
                                             </label>
                                             <select
-                                                className="form-select"
+                                                className="form-select bg-light"
                                                 disabled
                                                 value={provinceID}
                                                 onChange={(e) =>
@@ -136,7 +209,7 @@ export default function PengajuanCreate() {
                                                 }
                                             >
                                                 <option value="">
-                                                    -- Select DPW --
+                                                    -- Pilih DPW --
                                                 </option>
                                                 {provinces.map((province) => (
                                                     <option
@@ -149,13 +222,13 @@ export default function PengajuanCreate() {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="mb-1">
+                                    <div className="col-md-6">
+                                        <div className="mb-3">
                                             <label className="form-label fw-bold">
-                                                DPC
+                                                DPC Asal
                                             </label>
                                             <select
-                                                className="form-select"
+                                                className="form-select bg-light"
                                                 disabled
                                                 value={cityID}
                                                 onChange={(e) =>
@@ -163,7 +236,7 @@ export default function PengajuanCreate() {
                                                 }
                                             >
                                                 <option value="">
-                                                    -- Select DPC --
+                                                    -- Pilih DPC --
                                                 </option>
                                                 {cities.map((city) => (
                                                     <option
@@ -176,10 +249,51 @@ export default function PengajuanCreate() {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="col-md-12">
+                                </div>
+
+                                {/* Data Mutasi Section */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h6 className="text-primary mb-3 border-bottom pb-2">
+                                            <i className="fas fa-file-alt me-2"></i>
+                                            Data Mutasi
+                                        </h6>
+                                    </div>
+
+                                    {/* Tipe Pindah */}
+                                    <div className="col-md-6">
                                         <div className="mb-3">
                                             <label className="form-label fw-bold">
-                                                Tanggal Mutasi
+                                                Tipe Pindah <span className="text-danger">*</span>
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={tipePindah}
+                                                onChange={handleTipePindahChange}
+                                                required
+                                            >
+                                                <option value="">
+                                                    -- Pilih Tipe Pindah --
+                                                </option>
+                                                <option value="dpw">
+                                                    Pindah DPW (Pindah Provinsi)
+                                                </option>
+                                                <option value="dpc">
+                                                    Pindah DPC (Pindah Kabupaten/Kota dalam Provinsi yang sama)
+                                                </option>
+                                            </select>
+                                            {errors.tipe_pindah && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.tipe_pindah}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">
+                                                Tanggal Mutasi <span className="text-danger">*</span>
                                             </label>
                                             <input
                                                 type="date"
@@ -188,166 +302,255 @@ export default function PengajuanCreate() {
                                                 onChange={(e) =>
                                                     setTglmutasi(e.target.value)
                                                 }
-                                                placeholder="Enter Tanggal Lahir"
+                                                placeholder="Pilih Tanggal Mutasi"
+                                                required
                                             />
+                                            {errors.tgl_mutasi && (
+                                                <div className="alert alert-danger mt-2">
+                                                    {errors.tgl_mutasi}
+                                                </div>
+                                            )}
                                         </div>
-                                        {errors.tgl_mutasi && (
-                                            <div className="alert alert-danger">
-                                                {errors.tgl_mutasi}
-                                            </div>
-                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Tujuan Mutasi Section */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h6 className="text-primary mb-3 border-bottom pb-2">
+                                            <i className="fas fa-location-arrow me-2"></i>
+                                            Tujuan Mutasi
+                                        </h6>
                                     </div>
 
-                                    {/* <div className="col-md-12">
+                                    {/* Tujuan DPW - tampil untuk kedua tipe pindah */}
+                                    {(tipePindah === "dpw" || tipePindah === "dpc") && (
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    {tipePindah === "dpw" ? "Tujuan DPW" : "DPW"} <span className="text-danger">*</span>
+                                                </label>
+                                                {tipePindah === "dpw" ? (
+                                                    // Untuk pindah DPW - user memilih tujuan
+                                                    <select
+                                                        className="form-select"
+                                                        value={tujuan}
+                                                        onChange={handleTujuanChange}
+                                                        required
+                                                    >
+                                                        <option value="">
+                                                            -- Pilih Tujuan DPW --
+                                                        </option>
+                                                        {provinces.map((province) => (
+                                                            <option
+                                                                value={province.id}
+                                                                key={province.id}
+                                                            >
+                                                                {province.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                ) : (
+                                                    // Untuk pindah DPC - otomatis DPW Asal (disabled)
+                                                    <input
+                                                        type="text"
+                                                        className="form-control bg-light"
+                                                        value={getDpwAsalName()}
+                                                        disabled
+                                                    />
+                                                )}
+                                                {errors.tujuan_mutasi && (
+                                                    <div className="alert alert-danger mt-2">
+                                                        {errors.tujuan_mutasi}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Tujuan DPC - tampil untuk kedua tipe pindah */}
+                                    {(tipePindah === "dpw" || tipePindah === "dpc") && (
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">
+                                                    Tujuan DPC <span className="text-danger">*</span>
+                                                </label>
+                                                <select
+                                                    className="form-select"
+                                                    value={tujuandpc}
+                                                    onChange={(e) =>
+                                                        setTujuandpc(e.target.value)
+                                                    }
+                                                    required
+                                                    disabled={tipePindah === "dpw" && !tujuan}
+                                                >
+                                                    <option value="">
+                                                        {tipePindah === "dpw" && !tujuan
+                                                            ? "-- Pilih DPW terlebih dahulu --"
+                                                            : "-- Pilih Tujuan DPC --"
+                                                        }
+                                                    </option>
+                                                    {filteredCities.map((dpc) => (
+                                                        <option
+                                                            value={dpc.id}
+                                                            key={dpc.id}
+                                                        >
+                                                            {dpc.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {tipePindah === "dpw" && !tujuan && (
+                                                    <div className="form-text text-warning">
+                                                        Pilih DPW tujuan terlebih dahulu untuk melihat DPC yang tersedia
+                                                    </div>
+                                                )}
+                                                {errors.dpc_mutasi && (
+                                                    <div className="alert alert-danger mt-2">
+                                                        {errors.dpc_mutasi}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Informasi untuk pindah DPC */}
+                                    {tipePindah === "dpc" && (
+                                        <div className="col-12">
+                                            <div className="alert alert-info">
+                                                <i className="fas fa-info-circle me-2"></i>
+                                                <strong>Informasi:</strong> Anda melakukan mutasi DPC dalam Provinsi <strong>{getDpwAsalName()}</strong>.
+                                                Tujuan DPW akan tetap di <strong>{getDpwAsalName()}</strong>.
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Informasi untuk pindah DPW */}
+                                    {tipePindah === "dpw" && tujuan && (
+                                        <div className="col-12">
+                                            <div className="alert alert-info">
+                                                <i className="fas fa-info-circle me-2"></i>
+                                                <strong>Informasi:</strong> Anda melakukan mutasi ke Provinsi <strong>{getDpwTujuanName()}</strong>.
+                                                Pilih DPC tujuan di provinsi tersebut.
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Pesan informasi umum */}
+                                    <div className="col-12">
+                                        <div className="alert alert-light border mt-2">
+                                            <small>
+                                                <i className="fas fa-info-circle me-2"></i>
+                                                {tipePindah === "dpw"
+                                                    ? "Pindah DPW: Anda akan pindah ke provinsi lain. Pilih tujuan DPW dan DPC."
+                                                    : tipePindah === "dpc"
+                                                        ? "Pindah DPC: Anda akan pindah ke kabupaten/kota lain dalam provinsi yang sama."
+                                                        : "Pilih tipe pindah terlebih dahulu."
+                                                }
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Keterangan Section */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h6 className="text-primary mb-3 border-bottom pb-2">
+                                            <i className="fas fa-sticky-note me-2"></i>
+                                            Keterangan
+                                        </h6>
+                                    </div>
+                                    <div className="col-12">
                                         <div className="mb-3">
                                             <label className="form-label fw-bold">
-                                                Document Mutasi
+                                                Alasan Mutasi <span className="text-danger">*</span>
                                             </label>
-                                            <input
-                                                type="file"
+                                            <textarea
                                                 className="form-control"
+                                                rows="4"
+                                                value={keterangan}
                                                 onChange={(e) =>
-                                                    setDocmutasi(
-                                                        e.target.files[0]
+                                                    setKeterangan(
+                                                        e.target.value
                                                     )
                                                 }
+                                                placeholder="Contoh: Mutasi karena pindah tempat kerja, pindah domisili, atau alasan lainnya..."
+                                                required
                                             />
-                                        </div>
-                                        {errors.document && (
-                                            <div className="alert alert-danger">
-                                                {errors.document}
-                                            </div>
-                                        )}
-                                    </div> */}
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="form-label fw-bold">
-                                                Keterangan
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={keterangan}
-                                                    onChange={(e) =>
-                                                        setKeterangan(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Keterangan Contoh : mutasi karena pindah tempat kerja"
-                                                />
+                                            <div className="form-text">
+                                                Jelaskan alasan Anda melakukan mutasi dengan jelas.
                                             </div>
                                             {errors.keterangan && (
-                                                <div className="alert alert-danger">
+                                                <div className="alert alert-danger mt-2">
                                                     {errors.keterangan}
                                                 </div>
                                             )}
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label fw-bold">
-                                                Tujuan Mutasi
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={tujuan}
-                                                onChange={(e) =>
-                                                    setTujuan(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Pilih Tujuan Mutasi --
-                                                </option>
-                                                {provinces.map((province) => (
-                                                    <option
-                                                        value={province.id}
-                                                        key={province.id}
-                                                    >
-                                                        {province.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.tujuan_mutasi && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.tujuan_mutasi}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label fw-bold">
-                                                Tujuan DPC
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={tujuandpc}
-                                                onChange={(e) =>
-                                                    setTujuandpc(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Pilih Tujuan DPC --
-                                                </option>
-                                                {cities.map((dpc) => (
-                                                    <option
-                                                        value={dpc.id}
-                                                        key={dpc.id}
-                                                    >
-                                                        {dpc.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.dpc_mutasi && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.dpc_mutasi}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        className="form-check form-check-inline mt-3"
-                                    >
-                                        <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            required
-                                        />
-                                        <label
-                                            className="form-check-label"
-                                        >
-                                            Saya yakin akan mengajukan mutasi sesuai dengan data diatas, dan data mutasi yang saya inputkan, telah sesuai
-                                        </label>
-                                    </div>
-
-                                    <div className="mt-3 mb-5">
-                                        <button
-                                            type="submit"
-                                            className="btn btn-md btn-success me-2"
-                                        >
-                                            <i className="fa fa-save"></i> Save
-                                        </button>
-                                        <button
-                                            type="reset"
-                                            className="btn btn-md btn-warning"
-                                        >
-                                            <i className="fa fa-redo"></i> Reset
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </>
-                    {/* ) : (
-                        <div className="row mt-5">
-                            <div className="col-12 col-md-12 col-lg-12 mb-4">
-                                <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
-                                    <h5>Anda belum membayar tagihan IURAN.</h5>
                                 </div>
-                            </div>
+
+                                {/* Konfirmasi Section */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <div className="card border-warning">
+                                            <div className="card-body">
+                                                <div className="form-check">
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        required
+                                                        id="confirmationCheck"
+                                                    />
+                                                    <label
+                                                        className="form-check-label fw-bold text-warning"
+                                                        htmlFor="confirmationCheck"
+                                                    >
+                                                        <i className="fas fa-exclamation-triangle me-2"></i>
+                                                        Saya menyatakan bahwa data yang saya inputkan adalah benar dan sesuai.
+                                                        Saya bertanggung jawab penuh atas kebenaran data mutasi ini.
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="row mt-4">
+                                    <div className="col-12">
+                                        <div className="d-flex gap-2 justify-content-end">
+                                            <Link
+                                                href="/account/pengajuan"
+                                                className="btn btn-secondary"
+                                            >
+                                                <i className="fas fa-arrow-left me-2"></i>
+                                                Kembali
+                                            </Link>
+                                            <button
+                                                type="reset"
+                                                className="btn btn-warning"
+                                                onClick={() => {
+                                                    setTipePindah("");
+                                                    setTujuan("");
+                                                    setTujuandpc("");
+                                                    setFilteredCities([]);
+                                                }}
+                                            >
+                                                <i className="fas fa-redo me-2"></i>
+                                                Reset
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                className="btn btn-success"
+                                            >
+                                                <i className="fas fa-paper-plane me-2"></i>
+                                                Ajukan Mutasi
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    )} */}
+                    </div>
                 </div>
             </LayoutAccount>
         </>

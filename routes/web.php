@@ -81,6 +81,12 @@ Route::prefix('account')->group(function () {
         //route resource pengajuan
         Route::resource('/verifPengajuan', \App\Http\Controllers\Account\verifPengajuanController::class, ['as' => 'account'])->middleware('permission:verifPengajuan.index');
 
+        //route resource pengajuan dpw
+        Route::resource('/verifPengajuanDpw', \App\Http\Controllers\Account\AdminDpwController::class, ['as' => 'account'])->middleware('permission:verifPengajuanDpw.index');
+
+        //route resource pengajuan dpc
+        Route::resource('/verifPengajuanDpc', \App\Http\Controllers\Account\AdminDpcController::class, ['as' => 'account'])->middleware('permission:verifPengajuanDpc.index');
+
         // cek status anggota STR
         Route::get('/users/verifikasiAnggota/{id}', [\App\Http\Controllers\Account\UserController::class, 'verifikasiAnggota']);
 

@@ -83,8 +83,8 @@ class PengajuanController extends Controller
         $this->validate($request, [
             'tgl_mutasi'      => 'required',
             'keterangan'      => 'required',
-            'tujuan_mutasi'      => 'required',
-            'dpc_mutasi'      => 'required',
+            // 'tujuan_mutasi'      => 'required',
+            // 'dpc_mutasi'      => 'required',
             // 'document'      => 'required|mimes:pdf',
         ]);
 
@@ -106,7 +106,7 @@ class PengajuanController extends Controller
             'tujuan_mutasi'      => $request->tujuan_mutasi,
             'dpc_mutasi'      => $request->dpc_mutasi,
             'status'      => 'belum',
-
+            'tipe_pindah'      => $request->tipe_pindah,
         ]);
 
         //return back

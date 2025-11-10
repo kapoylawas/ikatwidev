@@ -231,6 +231,32 @@ export default function Sidebar() {
                     </Link>
                 )}
 
+                {hasAnyPermission(["verifPengajuanDpw.index"]) && (
+                    <Link
+                        href="/account/verifPengajuanDpw"
+                        className={`${url.startsWith("/account/verifPengajuanDpw")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
+                    >
+                        <i className="fa fa-file-word me-2"></i> Verifikasi
+                        Mutasi DPW
+                    </Link>
+                )}
+
+                {hasAnyPermission(["verifPengajuanDpc.index"]) && (
+                    <Link
+                        href="/account/verifPengajuanDpc"
+                        className={`${url.startsWith("/account/verifPengajuanDpc")
+                            ? "active list-group-item list-group-item-action list-group-item-light p-3"
+                            : "list-group-item list-group-item-action list-group-item-light p-3"
+                            }`}
+                    >
+                        <i className="fa fa-file-word me-2"></i> Verifikasi
+                        Mutasi DPC
+                    </Link>
+                )}
+
                 {hasAnyPermission(["pengajuan.index"]) && (
                     <Link
                         href="/account/print"

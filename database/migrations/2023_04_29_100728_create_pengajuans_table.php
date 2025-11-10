@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('tujuan_mutasi');
             $table->string('dpc_mutasi')->nullable();
             $table->string('status');
+            $table->string('tipe_pindah');
             $table->text('keterangan_revisi')->nullable();
             $table->text('no_urut')->nullable();
             $table->timestamps();
