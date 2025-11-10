@@ -10,6 +10,8 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 //import component pagination
 import Pagination from "../../../Shared/Pagination";
 
+import Search from "../../../Shared/Search";
+
 //import component delete
 import Delete from "../../../Shared/Delete";
 
@@ -83,6 +85,10 @@ export default function VerifPengajuanIndex() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="col-md-6 col-12 mb-2">
+                        <Search URL={"/account/verifPengajuan"} />
                     </div>
 
                     {/* Table */}
