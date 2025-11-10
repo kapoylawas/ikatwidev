@@ -15,8 +15,7 @@ export default function EktaIndex() {
     const status = transactions.map((ts) => ts.status);
     const [name] = useState(statusAnggota.status_anggota);
 
-    const filePakta = biodata.filepakta
-
+    const filePakta = biodata.filepakta;
 
     const filter = status
         .toString()
@@ -24,6 +23,17 @@ export default function EktaIndex() {
         .replace("]", "")
         .replace('"', "")
         .replace('"', "");
+
+    // Format date jika diperlukan
+    const formatDate = (dateString) => {
+        if (!dateString) return '-';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    };
 
     return (
         <>
@@ -34,263 +44,199 @@ export default function EktaIndex() {
                 <div className="row mt-2 mb-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-admin">
-                            <div className="card-header">
-                                <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Biodata
-                                </span>
-                                <span>
-                                    <Link
-                                        href={`/account/biodatas/${biodata.id}/edit`}
-                                        className="btn btn-primary mr-4"
-                                    >
-                                        <i className="fa fa-pencil-alt"> </i>{" "}
-                                    </Link>
-                                </span>
+                            <div className="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                                <h5 className="mb-0 text-primary">
+                                    <i className="fa fa-id-card me-2"></i> Biodata Anggota
+                                </h5>
+                                <Link
+                                    href={`/account/biodatas/${biodata.id}/edit`}
+                                    className="btn btn-primary btn-sm"
+                                >
+                                    <i className="fa fa-edit me-1"></i> Edit Biodata
+                                </Link>
                             </div>
-                            <div className="card-body">
-                                <table className="table table-bordered">
-                                    <tr>
-                                        <td className="fw-bold">
-                                            Biodata Pribadi
-                                        </td>
-                                        <td></td>
-                                        <td className="p-2"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Foto</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            <img
-                                                src={biodata.image}
-                                                className="rounded-3"
-                                                width={"100"}
-                                                alt="Deskripsi gambar"
-                                                onError={(e) => {
-                                                    e.target.onerror = null; // menghindari infinite loop jika terjadi kesalahan lagi
-                                                    e.target.src =
-                                                        "/assets/images/user.png"; // mengganti gambar dengan gambar "tidak ditemukan"
-                                                }}
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>NIK</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.nik}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Lengkap dan Gelar</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Email</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.email}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tempat Lahir</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.tempat_lahir}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal Lahir</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.tgl_lahir}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>No. Tlpn/HP</td>
-                                        <td>:</td>
-                                        <td className="p-2">{biodata.phone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Sesuai KTP</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.alamat}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-bold">
-                                            Riwayat Pendidikan
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pendidikan Terapi Wicara</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.pendidikan}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Nama Perguruan Tinggi Terapi Wicara
-                                        </td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.istitusi}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Alamat Perguruan Tinggi Terapi
-                                            Wicara
-                                        </td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.almtistitusi}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pendidikan Non Terapi Wicara</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.nonlinear}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-bold">
-                                            Informasi Pekerjaan
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Kepegawaian</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.kepegawaian}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tempat Bekerja</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.bekerja}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Institusi Tempat Bekerja</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.lokasi_pekerjaan}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Institusi Tempat Bekerja</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.alamat_tempat_bekerja}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-bold">
-                                            Status Keanggotaan :
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DPW</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.province.name}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DPC</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.city.name}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>No Anggota</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.no_anggota}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Anggota</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {biodata.status_anggota}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Member Aktif</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            {filter === "PAID" ||
-                                            name === "Anggota Kehormatan" ? (
-                                                <QRCodeSVG
-                                                    value={biodata.name}
-                                                    style={{ marginLeft: "2%" }}
-                                                    size={80}
-                                                    renderAs="canvas"
+                            <div className="card-body p-4">
+                                {/* Profile Header */}
+                                <div className="row mb-4">
+                                    <div className="col-md-12">
+                                        <div className="d-flex align-items-center">
+                                            <div className="me-4">
+                                                <img
+                                                    src={biodata.image}
+                                                    className="rounded-circle border"
+                                                    width={"100"}
+                                                    height={"100"}
+                                                    alt="Foto Profil"
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = "/assets/images/user.png";
+                                                    }}
+                                                    style={{ objectFit: 'cover' }}
                                                 />
-                                            ) : (
-                                                <div className="row mt-2">
-                                                    <div className="col-12 col-md-12 col-lg-12 mb-4">
-                                                        <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
-                                                            <h5>
-                                                                Anda belum
-                                                                membayar tagihan
-                                                                IURAN.
-                                                            </h5>
-                                                        </div>
-                                                    </div>
+                                            </div>
+                                            <div>
+                                                <h4 className="mb-1 text-dark">{biodata.name}</h4>
+                                                <p className="text-muted mb-1">
+                                                    <i className="fa fa-id-card me-2"></i>
+                                                    No. Anggota: {biodata.no_anggota || '-'}
+                                                </p>
+                                                <span className={`badge ${biodata.status_anggota === 'Anggota Biasa' ? 'bg-success' : 'bg-warning'} fs-6`}>
+                                                    {biodata.status_anggota}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Informasi Pribadi */}
+                                <div className="row">
+                                    <div className="col-md-6 mb-4">
+                                        <div className="card h-100 border-0 shadow-sm">
+                                            <div className="card-header bg-light">
+                                                <h6 className="mb-0 text-primary">
+                                                    <i className="fa fa-user me-2"></i> Informasi Pribadi
+                                                </h6>
+                                            </div>
+                                            <div className="card-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">NIK</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.nik || '-'}</p>
                                                 </div>
-                                            )}
-                                        </td>
-                                    </tr>
-                                    {/* <tr>
-                                        <td className="fw-bold">
-                                            Berkas Pakta Integritas :
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            <div className="row justify-content-center">
-                                                <div className="col-md-12">
-                                                    <div className="card rounded">
-                                                        <div className="text-center">
-                                                            File Pakta
-                                                            Integritas
-                                                        </div>
-                                                        { filePakta === null ? (
-                                                            <div className="col-12 col-md-12 col-lg-12 mb-4">
-                                                            <div className="alert text-center alert-danger border-0 shadow-sm mb-0">
-                                                                <h5>
-                                                                    Belum Upload Pakta Integritas
-                                                                </h5>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Email</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.email || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Tempat, Tanggal Lahir</label>
+                                                    <p className="mb-0 fw-semibold">
+                                                        {biodata.tempat_lahir || '-'}, {formatDate(biodata.tgl_lahir)}
+                                                    </p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">No. Telepon/HP</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.phone || '-'}</p>
+                                                </div>
+                                                <div>
+                                                    <label className="form-label text-muted small mb-1">Alamat (KTP)</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.alamat || '-'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Riwayat Pendidikan */}
+                                    <div className="col-md-6 mb-4">
+                                        <div className="card h-100 border-0 shadow-sm">
+                                            <div className="card-header bg-light">
+                                                <h6 className="mb-0 text-primary">
+                                                    <i className="fa fa-graduation-cap me-2"></i> Riwayat Pendidikan
+                                                </h6>
+                                            </div>
+                                            <div className="card-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Pendidikan Terapi Wicara</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.pendidikan || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Perguruan Tinggi</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.istitusi || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Alamat Perguruan Tinggi</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.almtistitusi || '-'}</p>
+                                                </div>
+                                                <div>
+                                                    <label className="form-label text-muted small mb-1">Pendidikan Non Terapi Wicara</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.nonlinear || '-'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Informasi Pekerjaan */}
+                                    <div className="col-md-6 mb-4">
+                                        <div className="card h-100 border-0 shadow-sm">
+                                            <div className="card-header bg-light">
+                                                <h6 className="mb-0 text-primary">
+                                                    <i className="fa fa-briefcase me-2"></i> Informasi Pekerjaan
+                                                </h6>
+                                            </div>
+                                            <div className="card-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Status Kepegawaian</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.kepegawaian || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Tempat Bekerja</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.bekerja || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Nama Institusi</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.lokasi_pekerjaan || '-'}</p>
+                                                </div>
+                                                <div>
+                                                    <label className="form-label text-muted small mb-1">Alamat Institusi</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.alamat_tempat_bekerja || '-'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Status Keanggotaan & QR Code */}
+                                    <div className="col-md-6 mb-4">
+                                        <div className="card h-100 border-0 shadow-sm">
+                                            <div className="card-header bg-light">
+                                                <h6 className="mb-0 text-primary">
+                                                    <i className="fa fa-users me-2"></i> Status Keanggotaan
+                                                </h6>
+                                            </div>
+                                            <div className="card-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">DPW</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.province?.name || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">DPC</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.city?.name || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">No. Anggota</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.no_anggota || '-'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label text-muted small mb-1">Status Anggota</label>
+                                                    <p className="mb-0 fw-semibold">{biodata.status_anggota || '-'}</p>
+                                                </div>
+
+                                                {/* QR Code Section */}
+                                                <div className="mt-4 text-center">
+                                                    <label className="form-label text-muted small mb-2">E-KTA QR Code</label>
+                                                    <div className="border rounded p-3 bg-light">
+                                                        {filter === "PAID" || name === "Anggota Kehormatan" ? (
+                                                            <div className="text-center">
+                                                                <QRCodeSVG
+                                                                    value={biodata.name}
+                                                                    size={120}
+                                                                    level="M"
+                                                                    includeMargin={true}
+                                                                />
+                                                                <p className="small text-muted mt-2 mb-0">Scan untuk verifikasi keanggotaan</p>
                                                             </div>
-                                                        </div>
                                                         ) : (
-                                                            <iframe
-                                                            src={
-                                                                biodata.filepakta
-                                                            }
-                                                            title="Embedded Content"
-                                                            className="embed-responsive-item"
-                                                            height="400"
-                                                            allowFullScreen
-                                                        />
+                                                            <div className="alert alert-warning border-0 mb-0 py-2">
+                                                                <i className="fa fa-exclamation-triangle me-2"></i>
+                                                                <span className="small">
+                                                                    Anda belum membayar tagihan IURAN
+                                                                </span>
+                                                            </div>
                                                         )}
-                                                       
                                                     </div>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr> */}
-                                    {/* <tr>
-                                        <td>File</td>
-                                        <td>:</td>
-                                        <td className="p-2">
-                                            
-                                        </td>
-                                    </tr> */}
-                                </table>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
