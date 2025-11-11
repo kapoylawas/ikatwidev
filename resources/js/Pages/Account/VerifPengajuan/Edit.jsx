@@ -22,10 +22,6 @@ export default function CategoryEdit() {
         verifPengajuan,
     } = usePage().props;
 
-    console.log(verifPengajuan);
-
-
-
     const [id, setId] = useState(verifPengajuan.user_id);
     const [nama, setNama] = useState(verifPengajuan.name);
     const [kta, setKta] = useState(verifPengajuan.kta);
@@ -77,260 +73,362 @@ export default function CategoryEdit() {
     return (
         <>
             <Head>
-                <title>Edit Pengajuan - IKATWI</title>
+                <title>Verif Pengajuan - IKATWI</title>
             </Head>
             <LayoutAccount>
-                <div className="card-body">
-                    <form onSubmit={updatePengajuan}>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">
-                                        Nama
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={nama}
-                                        onChange={(e) =>
-                                            setNama(e.target.value)
-                                        }
-                                        disabled
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">
-                                        KTA
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={kta}
-                                        onChange={(e) => setKta(e.target.value)}
-                                        disabled
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="mb-1">
-                                <label className="form-label fw-bold">
-                                    DPW
-                                </label>
-                                <select
-                                    className="form-select"
-                                    disabled
-                                    value={provinceID}
-                                    onChange={(e) =>
-                                        setProvinceID(e.target.value)
-                                    }
-                                >
-                                    <option value="">-- Select DPW --</option>
-                                    {provinces.map((province) => (
-                                        <option
-                                            value={province.id}
-                                            key={province.id}
-                                        >
-                                            {province.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="mb-1">
-                                <label className="form-label fw-bold">
-                                    DPC
-                                </label>
-                                <select
-                                    className="form-select"
-                                    disabled
-                                    value={cityID}
-                                    onChange={(e) => setCityID(e.target.value)}
-                                >
-                                    <option value="">-- Select DPC --</option>
-                                    {cities.map((city) => (
-                                        <option value={city.id} key={city.id}>
-                                            {city.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="col-md-12">
-                            <div className="mb-3">
-                                <label className="form-label fw-bold">
-                                    Tanggal Mutasi
-                                </label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    value={tglmutasi}
-                                    onChange={(e) =>
-                                        setTglmutasi(e.target.value)
-                                    }
-                                    placeholder="Enter Tanggal Lahir"
-                                />
-                            </div>
-                            {errors.tgl_mutasi && (
-                                <div className="alert alert-danger">
-                                    {errors.tgl_mutasi}
-                                </div>
-                            )}
-                        </div>
-                        <div className="row mt-2">
-                            <div className="col-md-12">
-                                <label className="form-label fw-bold">
-                                    Keterangan
-                                </label>
-                                <div className="input-group mb-3">
-                                    <textarea
-                                        type="text"
-                                        className="form-control"
-                                        value={keterangan}
-                                        onChange={(e) =>
-                                            setKeterangan(e.target.value)
-                                        }
-                                        placeholder="Keterangan Contoh : mutasi karena pindah tempat kerja"
-                                    />
-                                </div>
-                                {errors.keterangan && (
-                                    <div className="alert alert-danger">
-                                        {errors.keterangan}
+                <div className="container-fluid py-4">
+                    <div className="row justify-content-center">
+                        <div className="col-12 col-lg-10 col-xl-8">
+                            <div className="card shadow-sm border-0">
+                                <div className="card-header bg-primary text-white py-3">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h4 className="mb-0">
+                                            <i className="fas fa-edit me-2"></i>
+                                            Verif Pengajuan Mutasi
+                                        </h4>
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="mb-1">
-                                <label className="form-label fw-bold">
-                                    Tujuan Mutasi
-                                </label>
-                                <select
-                                    className="form-select"
-                                    value={tujuan}
-                                    onChange={(e) => setTujuan(e.target.value)}
-                                >
-                                    <option value="">
-                                        -- Pilih Tujuan Mutasi --
-                                    </option>
-                                    {provinces.map((province) => (
-                                        <option
-                                            value={province.id}
-                                            key={province.id}
-                                        >
-                                            {province.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                {errors.tujuan_mutasi && (
-                                    <div className="alert alert-danger mt-2">
-                                        {errors.tujuan_mutasi}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="mb-1">
-                                <label className="form-label fw-bold">
-                                    Tujuan DPC
-                                </label>
-                                <select
-                                    className="form-select"
-                                    value={tujuandpc}
-                                    onChange={(e) =>
-                                        setTujuandpc(e.target.value)
-                                    }
-                                >
-                                    <option value="">
-                                        -- Pilih Tujuan DPC --
-                                    </option>
-                                    {cities.map((dpc) => (
-                                        <option value={dpc.id} key={dpc.id}>
-                                            {dpc.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                {errors.dpc_mutasi && (
-                                    <div className="alert alert-danger mt-2">
-                                        {errors.dpc_mutasi}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="mb-1">
-                                <label className="form-label fw-bold">
-                                    Verifikasi
-                                </label>
-                                <select
-                                    className="form-select"
-                                    value={status}
-                                    onChange={(e) => setStatus(e.target.value)}
-                                >
-                                    <option value="">
-                                        -- Pilih Verifikasi --
-                                    </option>
-                                    <option value="tolak">
-                                        tolak
-                                    </option>
-                                    <option value="setujui">
-                                        setujui
-                                    </option>
-                                    <option value="revisi">
-                                        revisi
-                                    </option>
-                                </select>
-                                {errors.tujuan_mutasi && (
-                                    <div className="alert alert-danger mt-2">
-                                        {errors.tujuan_mutasi}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        <div className="row mt-2">
-                            <div className="col-md-12">
-                                <label className="form-label fw-bold">
-                                    Keterangan Refisi
-                                </label>
-                                <div className="input-group mb-3">
-                                    <textarea
-                                        type="text"
-                                        className="form-control"
-                                        value={keteranganRefisi}
-                                        onChange={(e) =>
-                                            setKeteranganRefisi(e.target.value)
-                                        }
-                                        placeholder="Keterangan Refisi"
-                                    />
                                 </div>
-                                {errors.keterangan_revisi && (
-                                    <div className="alert alert-danger">
-                                        {errors.keterangan_revisi}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                                <div className="card-body p-4">
+                                    <form onSubmit={updatePengajuan}>
+                                        <div className="row mb-4">
+                                            <div className="col-md-12">
+                                                <h5 className="text-primary mb-3 border-bottom pb-2">
+                                                    <i className="fas fa-user-circle me-2"></i>
+                                                    Informasi Anggota
+                                                </h5>
+                                            </div>
+                                        </div>
 
-                        <div className="mt-3 mb-5">
-                            <button
-                                type="submit"
-                                className="btn btn-md btn-success me-2"
-                            >
-                                <i className="fa fa-save"></i> Save
-                            </button>
-                            <button
-                                type="reset"
-                                className="btn btn-md btn-warning"
-                            >
-                                <i className="fa fa-redo"></i> Reset
-                            </button>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Nama Lengkap
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-user"></i>
+                                                        </span>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            value={nama}
+                                                            onChange={(e) =>
+                                                                setNama(e.target.value)
+                                                            }
+                                                            disabled
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Nomor KTA
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-id-card"></i>
+                                                        </span>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            value={kta}
+                                                            onChange={(e) => setKta(e.target.value)}
+                                                            disabled
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        DPW Asal
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-map-marker-alt"></i>
+                                                        </span>
+                                                        <select
+                                                            className="form-select"
+                                                            disabled
+                                                            value={provinceID}
+                                                            onChange={(e) =>
+                                                                setProvinceID(e.target.value)
+                                                            }
+                                                        >
+                                                            <option value="">-- Pilih DPW --</option>
+                                                            {provinces.map((province) => (
+                                                                <option
+                                                                    value={province.id}
+                                                                    key={province.id}
+                                                                >
+                                                                    {province.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        DPC Asal
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-map-pin"></i>
+                                                        </span>
+                                                        <select
+                                                            className="form-select"
+                                                            disabled
+                                                            value={cityID}
+                                                            onChange={(e) => setCityID(e.target.value)}
+                                                        >
+                                                            <option value="">-- Pilih DPC --</option>
+                                                            {cities.map((city) => (
+                                                                <option value={city.id} key={city.id}>
+                                                                    {city.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row mb-4 mt-4">
+                                            <div className="col-md-12">
+                                                <h5 className="text-primary mb-3 border-bottom pb-2">
+                                                    <i className="fas fa-exchange-alt me-2"></i>
+                                                    Data Mutasi
+                                                </h5>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Tanggal Mutasi
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-calendar-alt"></i>
+                                                        </span>
+                                                        <input
+                                                            type="date"
+                                                            className="form-control"
+                                                            value={tglmutasi}
+                                                            onChange={(e) =>
+                                                                setTglmutasi(e.target.value)
+                                                            }
+                                                        />
+                                                    </div>
+                                                    {errors.tgl_mutasi && (
+                                                        <div className="text-danger small mt-1">
+                                                            <i className="fas fa-exclamation-circle me-1"></i>
+                                                            {errors.tgl_mutasi}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Status Verifikasi
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-check-circle"></i>
+                                                        </span>
+                                                        <select
+                                                            className="form-select"
+                                                            value={status}
+                                                            onChange={(e) => setStatus(e.target.value)}
+                                                        >
+                                                            <option value="">
+                                                                -- Pilih Status --
+                                                            </option>
+                                                            <option value="tolak">
+                                                                Tolak
+                                                            </option>
+                                                            <option value="setujui">
+                                                                Setujui
+                                                            </option>
+                                                            <option value="revisi">
+                                                                Revisi
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    {errors.tujuan_mutasi && (
+                                                        <div className="text-danger small mt-1">
+                                                            <i className="fas fa-exclamation-circle me-1"></i>
+                                                            {errors.tujuan_mutasi}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Tujuan Mutasi (DPW)
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-map-marker-alt"></i>
+                                                        </span>
+                                                        <select
+                                                            className="form-select"
+                                                            value={tujuan}
+                                                            onChange={(e) => setTujuan(e.target.value)}
+                                                        >
+                                                            <option value="">
+                                                                -- Pilih DPW Tujuan --
+                                                            </option>
+                                                            {provinces.map((province) => (
+                                                                <option
+                                                                    value={province.id}
+                                                                    key={province.id}
+                                                                >
+                                                                    {province.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    {errors.tujuan_mutasi && (
+                                                        <div className="text-danger small mt-1">
+                                                            <i className="fas fa-exclamation-circle me-1"></i>
+                                                            {errors.tujuan_mutasi}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Tujuan Mutasi (DPC)
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light">
+                                                            <i className="fas fa-map-pin"></i>
+                                                        </span>
+                                                        <select
+                                                            className="form-select"
+                                                            value={tujuandpc}
+                                                            onChange={(e) =>
+                                                                setTujuandpc(e.target.value)
+                                                            }
+                                                        >
+                                                            <option value="">
+                                                                -- Pilih DPC Tujuan --
+                                                            </option>
+                                                            {cities.map((dpc) => (
+                                                                <option value={dpc.id} key={dpc.id}>
+                                                                    {dpc.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    {errors.dpc_mutasi && (
+                                                        <div className="text-danger small mt-1">
+                                                            <i className="fas fa-exclamation-circle me-1"></i>
+                                                            {errors.dpc_mutasi}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row mt-2">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Keterangan Mutasi
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light align-items-start pt-2">
+                                                            <i className="fas fa-sticky-note"></i>
+                                                        </span>
+                                                        <textarea
+                                                            className="form-control"
+                                                            rows="3"
+                                                            value={keterangan}
+                                                            onChange={(e) =>
+                                                                setKeterangan(e.target.value)
+                                                            }
+                                                            placeholder="Contoh: mutasi karena pindah tempat kerja"
+                                                        />
+                                                    </div>
+                                                    {errors.keterangan && (
+                                                        <div className="text-danger small mt-1">
+                                                            <i className="fas fa-exclamation-circle me-1"></i>
+                                                            {errors.keterangan}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row mt-2">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label fw-bold text-dark">
+                                                        Keterangan Revisi
+                                                    </label>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text bg-light align-items-start pt-2">
+                                                            <i className="fas fa-edit"></i>
+                                                        </span>
+                                                        <textarea
+                                                            className="form-control"
+                                                            rows="3"
+                                                            value={keteranganRefisi}
+                                                            onChange={(e) =>
+                                                                setKeteranganRefisi(e.target.value)
+                                                            }
+                                                            placeholder="Masukkan keterangan revisi jika diperlukan"
+                                                        />
+                                                    </div>
+                                                    {errors.keterangan_revisi && (
+                                                        <div className="text-danger small mt-1">
+                                                            <i className="fas fa-exclamation-circle me-1"></i>
+                                                            {errors.keterangan_revisi}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row mt-4">
+                                            <div className="col-md-12">
+                                                <div className="d-flex justify-content-end gap-2 border-top pt-4">
+                                                    <button
+                                                        type="reset"
+                                                        className="btn btn-outline-secondary px-4"
+                                                    >
+                                                        <i className="fas fa-redo me-2"></i> Reset
+                                                    </button>
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-success px-4"
+                                                    >
+                                                        <i className="fas fa-save me-2"></i> Simpan Perubahan
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </LayoutAccount>
         </>

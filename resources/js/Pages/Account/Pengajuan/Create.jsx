@@ -38,6 +38,8 @@ export default function PengajuanCreate() {
     const [tujuandpc, setTujuandpc] = useState("");
     const [tipePindah, setTipePindah] = useState("");
     const [filteredCities, setFilteredCities] = useState([]);
+    const [isConfirmed, setIsConfirmed] = useState(false); // State untuk checkbox konfirmasi
+    const [isLoading, setIsLoading] = useState(false); // State untuk loading
 
     // Reset tujuan ketika tipe pindah berubah
     const handleTipePindahChange = (e) => {
@@ -73,6 +75,9 @@ export default function PengajuanCreate() {
     //method "storePengajuan"
     const storePengajuan = async (e) => {
         e.preventDefault();
+        
+        // Set loading state
+        setIsLoading(true);
 
         // Prepare data based on tipe pindah
         const formData = {
@@ -111,6 +116,10 @@ export default function PengajuanCreate() {
                         timer: 2500,
                     });
                 },
+                onFinish: () => {
+                    // Reset loading state ketika proses selesai (baik sukses maupun error)
+                    setIsLoading(false);
+                }
             }
         );
     };
@@ -125,6 +134,16 @@ export default function PengajuanCreate() {
     const getDpwTujuanName = () => {
         const dpwTujuan = provinces.find(province => province.id == tujuan);
         return dpwTujuan ? dpwTujuan.name : "DPW Tujuan";
+    };
+
+    // Fungsi untuk mengecek apakah form valid
+    const isFormValid = () => {
+        return tglmutasi && 
+               keterangan && 
+               tipePindah && 
+               ((tipePindah === "dpw" && tujuan && tujuandpc) || 
+                (tipePindah === "dpc" && tujuandpc)) &&
+               isConfirmed;
     };
 
     return (
@@ -499,6 +518,8 @@ export default function PengajuanCreate() {
                                                         type="checkbox"
                                                         required
                                                         id="confirmationCheck"
+                                                        checked={isConfirmed}
+                                                        onChange={(e) => setIsConfirmed(e.target.checked)}
                                                     />
                                                     <label
                                                         className="form-check-label fw-bold text-warning"
@@ -533,7 +554,9 @@ export default function PengajuanCreate() {
                                                     setTujuan("");
                                                     setTujuandpc("");
                                                     setFilteredCities([]);
+                                                    setIsConfirmed(false);
                                                 }}
+                                                disabled={isLoading}
                                             >
                                                 <i className="fas fa-redo me-2"></i>
                                                 Reset
@@ -541,9 +564,19 @@ export default function PengajuanCreate() {
                                             <button
                                                 type="submit"
                                                 className="btn btn-success"
+                                                disabled={!isFormValid() || isLoading}
                                             >
-                                                <i className="fas fa-paper-plane me-2"></i>
-                                                Ajukan Mutasi
+                                                {isLoading ? (
+                                                    <>
+                                                        <i className="fas fa-spinner fa-spin me-2"></i>
+                                                        Memproses...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fas fa-paper-plane me-2"></i>
+                                                        Ajukan Mutasi
+                                                    </>
+                                                )}
                                             </button>
                                         </div>
                                     </div>

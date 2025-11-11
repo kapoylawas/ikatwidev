@@ -161,7 +161,7 @@ export default function VerifPengajuanDpcIndex() {
                                                             </td>
                                                             <td className="pe-4 text-center">
                                                                 <Link
-                                                                    href={`/account/verifPengajuan/${vrf.id}/edit`}
+                                                                    href={`/account/verifPengajuanDpc/${vrf.id}/edit`}
                                                                     className="btn btn-sm btn-outline-primary rounded-pill px-3"
                                                                     title="Edit Verifikasi"
                                                                 >
