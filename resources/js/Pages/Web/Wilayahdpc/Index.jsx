@@ -184,7 +184,7 @@ export default function WilayahdpcIndex() {
                                                                             </div>
                                                                             <div className="card-footer">
                                                                                 <a
-                                                                                    href="https://santrikoding.com/profile/@maulayyacyber"
+                                                                                    href="#"
                                                                                     className="text-decoration-none"
                                                                                 >
                                                                                     <span className="text-black-50 ml-2">
