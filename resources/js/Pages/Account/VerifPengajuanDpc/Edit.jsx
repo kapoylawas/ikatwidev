@@ -79,12 +79,6 @@ export default function VerifPengajuanDpcEdit() {
                 return 'bg-info text-white';
             case 'selesai':
                 return 'bg-success text-white';
-            case 'tolak':
-                return 'bg-danger text-white';
-            case 'setujui':
-                return 'bg-success text-white';
-            case 'revisi':
-                return 'bg-warning text-dark';
             default:
                 return 'bg-secondary text-white';
         }
@@ -96,15 +90,9 @@ export default function VerifPengajuanDpcEdit() {
             case 'ditunda':
                 return 'Ditunda untuk perbaikan';
             case 'dikirim':
-                return 'Disetujui mutasi oleh DPW/DPC Asal (Terkirim)';
+                return 'Disetujui mutasi oleh DPW/DPC Asal (Terkirim ke DPW Jika Tipe Mutasi DPW)';
             case 'selesai':
-                return 'Diterima DPW/DPC Tujuan (Mutasi Selesai)';
-            case 'tolak':
-                return 'Ditolak';
-            case 'setujui':
-                return 'Disetujui';
-            case 'revisi':
-                return 'Perlu Revisi';
+                return 'Diterima DPW/DPC Tujuan (Mutasi Selesai dan Akan Muncull ttd/nosurat di Pengajuan Print)';
             default:
                 return statusValue;
         }
@@ -119,12 +107,6 @@ export default function VerifPengajuanDpcEdit() {
                 return 'fas fa-paper-plane';
             case 'selesai':
                 return 'fas fa-check-circle';
-            case 'tolak':
-                return 'fas fa-times-circle';
-            case 'setujui':
-                return 'fas fa-check-circle';
-            case 'revisi':
-                return 'fas fa-edit';
             default:
                 return 'fas fa-info-circle';
         }
