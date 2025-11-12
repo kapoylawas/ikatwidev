@@ -171,7 +171,7 @@ export default function WilayahdpcIndex() {
                                                                                 </div>
                                                                                 <a
                                                                                     className="link-article text-decoration-none"
-                                                                                    href="https://santrikoding.com/tutorial-nuxt-3-dan-laravel-10-6-delete-data-dengan-rest-api-di-nuxt-3"
+                                                                                    href="#"
                                                                                 >
                                                                                     <h6
                                                                                         className="card-title font-weight-bold text-dark"

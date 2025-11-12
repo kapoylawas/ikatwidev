@@ -90,13 +90,13 @@ export default function WilayahCabangIndex() {
                                                                                     <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z" />
                                                                                 </svg>
                                                                                 <strong style={{ color: "black" }}>
-                                                                                <h5>
-                                                                                {
-                                                                                    wilaya
-                                                                                        .province
-                                                                                        .name
-                                                                                }
-                                                                                </h5>
+                                                                                    <h5>
+                                                                                        {
+                                                                                            wilaya
+                                                                                                .province
+                                                                                                .name
+                                                                                        }
+                                                                                    </h5>
                                                                                 </strong>
                                                                             </button>
                                                                             <iframe
@@ -162,7 +162,7 @@ export default function WilayahCabangIndex() {
                                                                                 </div>
                                                                                 <a
                                                                                     className="link-article text-decoration-none"
-                                                                                    href="https://santrikoding.com/tutorial-nuxt-3-dan-laravel-10-6-delete-data-dengan-rest-api-di-nuxt-3"
+                                                                                    href="#"
                                                                                 >
                                                                                     <h6
                                                                                         className="card-title font-weight-bold text-dark"
@@ -180,7 +180,7 @@ export default function WilayahCabangIndex() {
                                                                                 >
                                                                                     <span className="text-black-50 ml-2">
                                                                                         Ketua :
-                                                                                        
+
                                                                                         {" "}
                                                                                         <strong>
                                                                                             {
