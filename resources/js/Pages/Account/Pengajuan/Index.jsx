@@ -1,5 +1,5 @@
 //import react
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -25,6 +25,78 @@ export default function PengajuanIndex() {
         .replace("]", "")
         .replace('"', "")
         .replace('"', "");
+
+    // State untuk mengelola pembatasan akses
+    const [canCreateSubmission, setCanCreateSubmission] = useState(false);
+    const [restrictionMessage, setRestrictionMessage] = useState("");
+
+    // Fungsi untuk memeriksa apakah bulan saat ini termasuk dalam periode yang diizinkan
+    const isAllowedMonth = () => {
+        const currentMonth = new Date().getMonth() + 1; // January = 1, December = 12
+        return currentMonth === 4 || currentMonth === 8 || currentMonth === 12; // April, Agustus, Desember
+    };
+
+    // Fungsi untuk memeriksa jumlah pengajuan di bulan ini
+    const getCurrentMonthSubmissions = () => {
+        const currentMonth = new Date().getMonth() + 1;
+        const currentYear = new Date().getFullYear();
+        
+        return pengajuans.data.filter(pengajuan => {
+            const submissionDate = new Date(pengajuan.created_at);
+            return submissionDate.getMonth() + 1 === currentMonth && 
+                   submissionDate.getFullYear() === currentYear;
+        }).length;
+    };
+
+    // Fungsi untuk memeriksa apakah pengguna bisa membuat pengajuan baru
+    const checkSubmissionEligibility = () => {
+        if (filter !== "PAID") {
+            setCanCreateSubmission(false);
+            setRestrictionMessage("Hanya anggota dengan status PAID yang dapat membuat pengajuan");
+            return;
+        }
+
+        if (!isAllowedMonth()) {
+            setCanCreateSubmission(false);
+            const currentMonth = new Date().toLocaleString('id-ID', { month: 'long' });
+            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan April, Agustus, dan Desember. Saat ini bulan ${currentMonth}`);
+            return;
+        }
+
+        const currentMonthSubmissions = getCurrentMonthSubmissions();
+        if (currentMonthSubmissions >= 3) {
+            setCanCreateSubmission(false);
+            setRestrictionMessage(`Anda telah mencapai batas maksimal 3 pengajuan dalam bulan ini`);
+            return;
+        }
+
+        setCanCreateSubmission(true);
+        setRestrictionMessage("");
+    };
+
+    // Effect untuk memeriksa kelayakan pembuatan pengajuan
+    useEffect(() => {
+        checkSubmissionEligibility();
+    }, [pengajuans, filter]);
+
+    // Fungsi untuk mendapatkan nama bulan yang diizinkan
+    const getAllowedMonths = () => {
+        return "April, Agustus, dan Desember";
+    };
+
+    // Fungsi untuk mendapatkan informasi batas pengajuan
+    const getSubmissionLimitInfo = () => {
+        const currentMonthSubmissions = getCurrentMonthSubmissions();
+        const remaining = Math.max(0, 3 - currentMonthSubmissions);
+        
+        return {
+            current: currentMonthSubmissions,
+            max: 3,
+            remaining: remaining
+        };
+    };
+
+    const limitInfo = getSubmissionLimitInfo();
 
     // Fungsi untuk mendapatkan class status berdasarkan nilai
     const getStatusClass = (status) => {
@@ -113,7 +185,7 @@ export default function PengajuanIndex() {
             </Head>
             <LayoutAccount>
                 {/* Header Section */}
-                <div className="row align-items-center mb-4">
+                <div className="row align-items-center mb-4 mt-4">
                     <div className="col-md-8">
                         <div className="d-flex align-items-center">
                             <div className="flex-grow-1">
@@ -127,7 +199,7 @@ export default function PengajuanIndex() {
                         </div>
                     </div>
                     <div className="col-md-4 text-end">
-                        {filter === "PAID" ? (
+                        {canCreateSubmission ? (
                             <Link
                                 href="/account/pengajuan/create"
                                 className="btn btn-primary btn-lg shadow-sm"
@@ -139,12 +211,83 @@ export default function PengajuanIndex() {
                             <button
                                 className="btn btn-secondary btn-lg shadow-sm"
                                 disabled
-                                title="Hanya anggota dengan status PAID yang dapat membuat pengajuan"
+                                title={restrictionMessage}
                             >
                                 <i className="fas fa-ban me-2"></i>
                                 Buat Pengajuan Baru
                             </button>
                         )}
+                    </div>
+                </div>
+
+                {/* Informasi Pembatasan Akses */}
+                <div className="row mb-4">
+                    <div className="col-12">
+                        <div className="card border-info mb-4">
+                            <div className="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                <h6 className="mb-0">
+                                    <i className="fas fa-info-circle me-2"></i>
+                                    Informasi Pembatasan Pengajuan
+                                </h6>
+                                <span className={`badge ${isAllowedMonth() ? 'bg-success' : 'bg-warning'}`}>
+                                    {isAllowedMonth() ? 'PERIODE BUKA' : 'PERIODE TUTUP'}
+                                </span>
+                            </div>
+                            <div className="card-body">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <div className="d-flex align-items-center mb-3">
+                                            <div className="bg-primary rounded-circle p-2 me-3">
+                                                <i className="fas fa-calendar-alt text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="mb-1">Periode Pengajuan</h6>
+                                                <p className="mb-0 text-muted">
+                                                    Hanya bulan: <strong>{getAllowedMonths()}</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="d-flex align-items-center mb-3">
+                                            <div className="bg-warning rounded-circle p-2 me-3">
+                                                <i className="fas fa-chart-bar text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="mb-1">Batas Pengajuan</h6>
+                                                <p className="mb-0 text-muted">
+                                                    Maksimal <strong>3 pengajuan</strong> per bulan
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Progress Bar untuk batas pengajuan */}
+                                {isAllowedMonth() && filter === "PAID" && (
+                                    <div className="mt-3">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <small className="text-muted">
+                                                Pengajuan bulan ini: {limitInfo.current} dari {limitInfo.max}
+                                            </small>
+                                            <small className={`fw-bold ${limitInfo.remaining === 0 ? 'text-danger' : 'text-success'}`}>
+                                                Sisa: {limitInfo.remaining}
+                                            </small>
+                                        </div>
+                                        <div className="progress" style={{ height: "8px" }}>
+                                            <div 
+                                                className={`progress-bar ${limitInfo.current >= limitInfo.max ? 'bg-danger' : 'bg-success'}`}
+                                                role="progressbar"
+                                                style={{ width: `${(limitInfo.current / limitInfo.max) * 100}%` }}
+                                                aria-valuenow={limitInfo.current}
+                                                aria-valuemin="0"
+                                                aria-valuemax={limitInfo.max}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -167,7 +310,41 @@ export default function PengajuanIndex() {
                     </div>
                 )}
 
-                {/* Stats Cards */}
+                {/* Alert untuk pembatasan bulan */}
+                {filter === "PAID" && !isAllowedMonth() && (
+                    <div className="row mb-4">
+                        <div className="col-12">
+                            <div className="alert alert-info d-flex align-items-center" role="alert">
+                                <i className="fas fa-calendar-times me-3 fa-lg"></i>
+                                <div>
+                                    <h6 className="alert-heading mb-1">Periode Pengajuan Ditutup</h6>
+                                    <p className="mb-0">
+                                        {restrictionMessage}. Pengajuan mutasi hanya dapat dibuat pada bulan {getAllowedMonths()}.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Alert untuk batas maksimal pengajuan */}
+                {filter === "PAID" && isAllowedMonth() && limitInfo.remaining === 0 && (
+                    <div className="row mb-4">
+                        <div className="col-12">
+                            <div className="alert alert-warning d-flex align-items-center" role="alert">
+                                <i className="fas fa-exclamation-circle me-3 fa-lg"></i>
+                                <div>
+                                    <h6 className="alert-heading mb-1">Batas Pengajuan Tercapai</h6>
+                                    <p className="mb-0">
+                                        {restrictionMessage}. Anda dapat membuat pengajuan lagi pada bulan {getAllowedMonths()} di periode berikutnya.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Stats Cards - Diperbarui dengan informasi batas */}
                 <div className="row mb-4">
                     <div className="col-xl-2 col-md-4 mb-4">
                         <div className="card border-left-primary shadow h-100 py-2">
@@ -189,7 +366,91 @@ export default function PengajuanIndex() {
                         </div>
                     </div>
 
-                    {/* ... (stats cards lainnya tetap sama) ... */}
+                    <div className="col-xl-2 col-md-4 mb-4">
+                        <div className="card border-left-success shadow h-100 py-2">
+                            <div className="card-body">
+                                <div className="row no-gutters align-items-center">
+                                    <div className="col mr-2">
+                                        <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Pengajuan Bulan Ini
+                                        </div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">
+                                            {getCurrentMonthSubmissions()}
+                                        </div>
+                                    </div>
+                                    <div className="col-auto">
+                                        <i className="fas fa-calendar-check fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-xl-2 col-md-4 mb-4">
+                        <div className="card border-left-info shadow h-100 py-2">
+                            <div className="card-body">
+                                <div className="row no-gutters align-items-center">
+                                    <div className="col mr-2">
+                                        <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Sisa Kuota
+                                        </div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">
+                                            {isAllowedMonth() && filter === "PAID" ? limitInfo.remaining : 0}
+                                        </div>
+                                    </div>
+                                    <div className="col-auto">
+                                        <i className="fas fa-tachometer-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-xl-2 col-md-4 mb-4">
+                        <div className="card border-left-warning shadow h-100 py-2">
+                            <div className="card-body">
+                                <div className="row no-gutters align-items-center">
+                                    <div className="col mr-2">
+                                        <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Status Periode
+                                        </div>
+                                        <div className="h6 mb-0 font-weight-bold text-gray-800">
+                                            {isAllowedMonth() ? 
+                                                <span className="text-success">Buka</span> : 
+                                                <span className="text-danger">Tutup</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className="col-auto">
+                                        <i className={`fas ${isAllowedMonth() ? 'fa-lock-open' : 'fa-lock'} fa-2x text-gray-300`}></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-xl-2 col-md-4 mb-4">
+                        <div className="card border-left-secondary shadow h-100 py-2">
+                            <div className="card-body">
+                                <div className="row no-gutters align-items-center">
+                                    <div className="col mr-2">
+                                        <div className="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                            Status Anggota
+                                        </div>
+                                        <div className="h6 mb-0 font-weight-bold text-gray-800">
+                                            {filter === "PAID" ? 
+                                                <span className="text-success">Aktif</span> : 
+                                                <span className="text-warning">{name}</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className="col-auto">
+                                        <i className={`fas ${filter === "PAID" ? 'fa-user-check' : 'fa-user-clock'} fa-2x text-gray-300`}></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Main Content */}
@@ -248,7 +509,11 @@ export default function PengajuanIndex() {
                                                                 <div>
                                                                     <h6 className="mb-0">{pengajuan.name}</h6>
                                                                     <small className="text-muted">
-                                                                        {new Date(pengajuan.created_at).toLocaleDateString('id-ID')}
+                                                                        {new Date(pengajuan.created_at).toLocaleDateString('id-ID', {
+                                                                            day: '2-digit',
+                                                                            month: 'long',
+                                                                            year: 'numeric'
+                                                                        })}
                                                                     </small>
                                                                 </div>
                                                             </div>
@@ -322,12 +587,14 @@ export default function PengajuanIndex() {
                                                             <i className="fas fa-inbox fa-3x mb-3"></i>
                                                             <h5>Belum ada pengajuan</h5>
                                                             <p>
-                                                                {filter === "PAID"
+                                                                {filter === "PAID" && isAllowedMonth()
                                                                     ? "Mulai dengan membuat pengajuan mutasi pertama Anda"
-                                                                    : "Anda perlu memiliki status PAID untuk membuat pengajuan mutasi"
+                                                                    : filter !== "PAID"
+                                                                    ? "Anda perlu memiliki status PAID untuk membuat pengajuan mutasi"
+                                                                    : "Saat ini bukan periode pengajuan. Tunggu bulan April, Agustus, atau Desember"
                                                                 }
                                                             </p>
-                                                            {filter === "PAID" ? (
+                                                            {canCreateSubmission ? (
                                                                 <Link
                                                                     href="/account/pengajuan/create"
                                                                     className="btn btn-primary"
@@ -483,6 +750,16 @@ export default function PengajuanIndex() {
                         background-color: #fff3cd;
                         border-color: #ffeaa7;
                         color: #856404;
+                    }
+                    
+                    .progress {
+                        background-color: #e9ecef;
+                        border-radius: 4px;
+                        overflow: hidden;
+                    }
+                    
+                    .progress-bar {
+                        transition: width 0.6s ease;
                     }
                 `}</style>
             </LayoutAccount>
