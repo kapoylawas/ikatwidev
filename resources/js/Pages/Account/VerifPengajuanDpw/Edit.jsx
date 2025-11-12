@@ -99,12 +99,6 @@ export default function VerifPengajuanDpwEdit() {
                 return 'Disetujui mutasi oleh DPW/DPC Asal (Terkirim)';
             case 'selesai':
                 return 'Diterima DPW/DPC Tujuan (Mutasi Selesai)';
-            case 'tolak':
-                return 'Ditolak';
-            case 'setujui':
-                return 'Disetujui';
-            case 'revisi':
-                return 'Perlu Revisi';
             default:
                 return statusValue;
         }
@@ -119,12 +113,6 @@ export default function VerifPengajuanDpwEdit() {
                 return 'fas fa-paper-plane';
             case 'selesai':
                 return 'fas fa-check-circle';
-            case 'tolak':
-                return 'fas fa-times-circle';
-            case 'setujui':
-                return 'fas fa-check-circle';
-            case 'revisi':
-                return 'fas fa-edit';
             default:
                 return 'fas fa-info-circle';
         }
@@ -319,9 +307,6 @@ export default function VerifPengajuanDpwEdit() {
                                                             <option value="ditunda">Ditunda untuk perbaikan</option>
                                                             <option value="dikirim">Disetujui mutasi oleh DPW/DPC Asal (Terkirim)</option>
                                                             <option value="selesai">Diterima DPW/DPC Tujuan (Mutasi Selesai)</option>
-                                                            <option value="tolak">Ditolak</option>
-                                                            <option value="setujui">Disetujui</option>
-                                                            <option value="revisi">Perlu Revisi</option>
                                                         </select>
                                                     </div>
                                                     {errors.status && (

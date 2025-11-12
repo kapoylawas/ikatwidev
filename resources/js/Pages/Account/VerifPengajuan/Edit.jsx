@@ -319,9 +319,6 @@ export default function CategoryEdit() {
                                                             <option value="ditunda">Ditunda untuk perbaikan</option>
                                                             <option value="dikirim">Disetujui mutasi oleh DPW/DPC Asal (Terkirim)</option>
                                                             <option value="selesai">Diterima DPW/DPC Tujuan (Mutasi Selesai)</option>
-                                                            <option value="tolak">Ditolak</option>
-                                                            <option value="setujui">Disetujui</option>
-                                                            <option value="revisi">Perlu Revisi</option>
                                                         </select>
                                                     </div>
                                                     {errors.status && (
