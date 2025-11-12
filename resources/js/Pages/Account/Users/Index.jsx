@@ -297,7 +297,7 @@ export default function UserIndex() {
                                         <i className="fas fa-users me-2"></i>
                                         <h5 className="mb-0 fw-bold">Semua User Terdaftar</h5>
                                     </div>
-                                    <span className="badge bg-light text-dark fs-6">
+                                    <span className="badge bg-light text-white fs-6">
                                         Total: {users.total} user
                                     </span>
                                 </div>

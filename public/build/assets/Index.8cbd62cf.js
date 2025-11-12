@@ -1,0 +1,1 @@
+import{R as e,H as t}from"./app.01201b19.js";import{L as a}from"./Web.e27ba066.js";import"./Dropdown.26c57905.js";import"./index.ddb2d83e.js";import"./index.d224b6b9.js";function o(){return e.createElement(e.Fragment,null,e.createElement(t,null,e.createElement("title",null,"IKATWI - Ikatan Terapis Wicara")),e.createElement(a,null))}export{o as default};
