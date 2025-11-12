@@ -12,15 +12,15 @@ class PengajuanPrintController extends Controller
     {
 
         $biodata = User::where('id', auth()->user()->id)
-                ->with(['province', 'city', 'pengajuan' => function($query) {
-                    $query->with([
-                        'province', 
-                        'city',
-                        'tujuan',
-                        'tujuanDpc',
-                    ]);
-                }])
-                ->first();
+            ->with(['province', 'city', 'pengajuan' => function ($query) {
+                $query->with([
+                    'province',
+                    'city',
+                    'tujuan',
+                    'tujuanDpc',
+                ]);
+            }])
+            ->first();
         //return inertia
         return inertia('Account/PengajuanPrint/Index', [
             'biodata' => $biodata,

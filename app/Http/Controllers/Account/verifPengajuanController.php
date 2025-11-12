@@ -69,7 +69,7 @@ class verifPengajuanController extends Controller
             ]);
 
             // 2. Update tabel users HANYA JIKA status disetujui
-            if ($request->status === 'setujui') {
+            if ($request->status === 'selesai') {
                 $user = User::where('id', $request->user_id)->first();
 
                 if (!$user) {
@@ -92,7 +92,7 @@ class verifPengajuanController extends Controller
                 $tahunPengajuan = date('Y', strtotime($request->tgl_mutasi ?? now()));
 
                 // Cari pengajuan terakhir yang disetujui PADA TAHUN YANG SAMA
-                $lastPengajuan = Pengajuan::where('status', 'setujui')
+                $lastPengajuan = Pengajuan::where('status', 'selesai')
                     ->whereYear('tgl_mutasi', $tahunPengajuan)
                     ->orderBy('no_urut', 'desc')
                     ->first();

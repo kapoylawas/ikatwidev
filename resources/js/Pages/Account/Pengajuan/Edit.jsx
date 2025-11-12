@@ -25,7 +25,6 @@ export default function CategoryEdit() {
     const [keterangan, setKeterangan] = useState(pengajuan.keterangan);
     const [tujuan, setTujuan] = useState(pengajuan.tujuan_mutasi);
     const [tujuandpc, setTujuandpc] = useState(pengajuan.dpc_mutasi);
-    const [docmutasi, setDocmutasi] = useState(null);
     const [tipePindah, setTipePindah] = useState(pengajuan.tipe_pindah || "");
     const [filteredCities, setFilteredCities] = useState([]);
 
@@ -93,7 +92,6 @@ export default function CategoryEdit() {
             tgl_mutasi: tglmutasi,
             keterangan: keterangan,
             tipe_pindah: tipePindah,
-            document: docmutasi,
             _method: "PUT",
         };
 
@@ -300,45 +298,6 @@ export default function CategoryEdit() {
                                             {errors.tgl_mutasi && (
                                                 <div className="alert alert-danger mt-2">
                                                     {errors.tgl_mutasi}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Document Mutasi Section */}
-                                <div className="row mb-4">
-                                    <div className="col-12">
-                                        <h6 className="text-primary mb-3 border-bottom pb-2">
-                                            <i className="fas fa-file-pdf me-2"></i>
-                                            Document Mutasi
-                                        </h6>
-                                    </div>
-                                    <div className="col-12">
-                                        <div className="mb-3">
-                                            <label className="form-label fw-bold">
-                                                Upload Document Mutasi
-                                            </label>
-                                            <input
-                                                type="file"
-                                                className="form-control"
-                                                onChange={(e) =>
-                                                    setDocmutasi(e.target.files[0])
-                                                }
-                                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                                            />
-                                            <div className="form-text">
-                                                Upload document pendukung mutasi (PDF, DOC, JPG, PNG). Max 2MB.
-                                                {pengajuan.document && (
-                                                    <span className="text-success ms-2">
-                                                        <i className="fas fa-check me-1"></i>
-                                                        Document sudah diupload: {pengajuan.document}
-                                                    </span>
-                                                )}
-                                            </div>
-                                            {errors.document && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.document}
                                                 </div>
                                             )}
                                         </div>

@@ -286,7 +286,7 @@ export default function PengajuanPrintIndex() {
                         <div style={{ textAlign: 'center', marginBottom: '2.0rem' }}>
                             <div><b>FORMULIR MUTASI</b></div>
                             <div><b>ANGGOTA IKATWI</b></div>
-                            <div><b>No. : {biodata?.pengajuan?.no_urut || 'Belum ada nomor urut dan belum di setuji'}/IKATWI/MUT/{bulanRomawi}/{new Date().getFullYear()}</b></div>
+                            <div><b>No. : {biodata?.pengajuan?.no_urut || 'Belum ada nomor urut dan belum di setujui'}/IKATWI/MUT/{bulanRomawi}/{new Date().getFullYear()}</b></div>
                         </div>
 
                         {/* Isi Surat */}
@@ -396,7 +396,7 @@ export default function PengajuanPrintIndex() {
                                     <p style={{ fontSize: '9pt', fontWeight: 'bold', textAlign: 'center' }}>KETUA UMUM</p>
                                     <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
                                         <div style={{ textAlign: 'center' }}>
-                                            {status === 'setujui' ? (
+                                            {status === 'selesai' ? (
                                                 <>
                                                     <QRCodeSVG
                                                         value="Hafidz Triantoro Aji P., SST.TW, MPH, No. KTA: 100685"

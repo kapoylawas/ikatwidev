@@ -13,7 +13,7 @@ import { Inertia } from "@inertiajs/inertia";
 //import Sweet Alert
 import Swal from "sweetalert2";
 
-export default function CategoryEdit() {
+export default function VerifPengajuanDpwEdit() {
 
     const {
         errors,
@@ -39,7 +39,7 @@ export default function CategoryEdit() {
 
         //sending data
         Inertia.post(
-            `/account/verifPengajuan/${verifPengajuan.id}`,
+            `/account/verifPengajuanDpw/${verifPengajuan.id}`,
             {
                 //data
                 user_id: id,
