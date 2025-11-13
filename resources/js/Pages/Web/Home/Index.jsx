@@ -114,7 +114,7 @@ export default function HomeIndex() {
 
                 {/* Welcome Section for Logged In Users */}
                 {auth.user && (
-                    <div className="container" style={{ marginTop: "120px", maxWidth: '1140px' }}>
+                    <div className="container" style={{ marginTop: "10px", maxWidth: '1140px' }}>
                         <div className="fade-in">
                             <div className="row justify-content-center">
                                 <div className="col-md-8" style={{ width: '100%', maxWidth: '720px' }}>
