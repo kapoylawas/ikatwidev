@@ -195,7 +195,14 @@ export default function HomeIndex() {
                     </div>
                 )}
 
-                <Slider sliders={sliders} />
+                {/* Slider dengan lebar yang sama seperti menu utama */}
+                <div className="container mt-4" style={{ maxWidth: '1140px' }}>
+                    <div className="row justify-content-center">
+                        <div className="col-md-8" style={{ width: '100%', maxWidth: '720px' }}>
+                            <Slider sliders={sliders} />
+                        </div>
+                    </div>
+                </div>
 
                 <div className="container mt-4 mb-5" style={{ maxWidth: '1140px' }}>
                     <div className="fade-in">
@@ -206,7 +213,7 @@ export default function HomeIndex() {
                                 <div className="section-header mb-4">
                                     <div className="row align-items-center">
                                         <div className="col">
-                                            <h4 className="fw-bold text-primary mb-0">
+                                            <h4 className="fw-bold text-gray-800 mb-0">
                                                 <i className="fas fa-th-large me-2 text-primary"></i>
                                                 Menu Utama
                                             </h4>
@@ -324,7 +331,7 @@ export default function HomeIndex() {
                                 <div className="section-header mb-4">
                                     <div className="row align-items-center">
                                         <div className="col">
-                                            <h4 className="fw-bold text-primary mb-0">
+                                            <h4 className="fw-bold text-gray-800 mb-0">
                                                 <i className="fas fa-calendar-alt me-2 text-primary"></i>
                                                 Agenda Kegiatan Terbaru
                                             </h4>
@@ -610,6 +617,13 @@ export default function HomeIndex() {
                 .section-header {
                     border-bottom: 1px solid #e2e8f0;
                     padding-bottom: 1rem;
+                }
+
+                /* Slider Container Styles */
+                .slider-container {
+                    width: 100%;
+                    max-width: 720px;
+                    margin: 0 auto;
                 }
                 
                 /* Responsive adjustments */
