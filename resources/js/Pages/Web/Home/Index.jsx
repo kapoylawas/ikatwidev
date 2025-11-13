@@ -333,7 +333,7 @@ export default function HomeIndex() {
                                 <div className="section-header mb-4">
                                     <div className="row align-items-center">
                                         <div className="col">
-                                            <h4 className="fw-bold text- mb-0">
+                                            <h4 className="fw-bold text-primary mb-0">
                                                 <i className="fas fa-calendar-alt me-2 text-primary"></i>
                                                 Agenda Kegiatan Terbaru
                                             </h4>
