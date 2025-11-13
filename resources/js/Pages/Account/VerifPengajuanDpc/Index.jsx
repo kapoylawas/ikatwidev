@@ -91,77 +91,303 @@ export default function VerifPengajuanDpcIndex() {
         }
     };
 
-    const getTipePindahBadge = () => {
-        return (
-            <span className="badge bg-info px-3 py-2">
-                <i className="fas fa-building me-1"></i>
-                Mutasi DPC
-            </span>
-        );
+    const getTipePindahBadge = (tipePindah) => {
+        switch (tipePindah) {
+            case "dpc":
+                return (
+                    <span className="badge bg-info px-3 py-2">
+                        <i className="fas fa-building me-1"></i>
+                        Mutasi DPC
+                    </span>
+                );
+            case "dpw":
+                return (
+                    <span className="badge bg-primary px-3 py-2">
+                        <i className="fas fa-flag me-1"></i>
+                        Mutasi DPW
+                    </span>
+                );
+            case "pbp":
+                return (
+                    <span className="badge bg-warning text-dark px-3 py-2">
+                        <i className="fas fa-exchange-alt me-1"></i>
+                        Mutasi PBP
+                    </span>
+                );
+            case "pbi":
+                return (
+                    <span className="badge bg-success px-3 py-2">
+                        <i className="fas fa-retweet me-1"></i>
+                        Mutasi PBI
+                    </span>
+                );
+            default:
+                return (
+                    <span className="badge bg-secondary px-3 py-2">
+                        <i className="fas fa-question me-1"></i>
+                        {tipePindah || 'Tidak Diketahui'}
+                    </span>
+                );
+        }
     };
 
-    const getTipePindahDescription = () => {
-        return "Mutasi antar Daerah Kabupaten/Kota";
+    const getTipePindahDescription = (tipePindah) => {
+        switch (tipePindah) {
+            case "dpc":
+                return "Mutasi antar Daerah Kabupaten/Kota";
+            case "dpw":
+                return "Mutasi antar Daerah Provinsi";
+            case "pbp":
+                return "Perpindahan karena Pekerjaan/Bekerja";
+            case "pbi":
+                return "Perpindahan karena Pendidikan/Studi";
+            default:
+                return "Jenis mutasi tidak diketahui";
+        }
+    };
+
+    const getTipePindahColor = (tipePindah) => {
+        switch (tipePindah) {
+            case "dpc":
+                return "info";
+            case "dpw":
+                return "primary";
+            case "pbp":
+                return "warning";
+            case "pbi":
+                return "success";
+            default:
+                return "secondary";
+        }
     };
 
     const renderRuteMutasi = (vrf) => {
-        return (
-            <div className="text-center">
-                <div className="d-flex align-items-center justify-content-center mb-2">
-                    <div className="text-start">
-                        <small className="text-muted d-block">DPC Asal</small>
-                        <div className="fw-bold text-danger">
-                            <i className="fas fa-building me-1"></i>
-                            {vrf.city?.name || 'N/A'}
+        // Sesuaikan rute berdasarkan tipe_pindah
+        switch (vrf.tipe_pindah) {
+            case "dpc":
+                return (
+                    <div className="text-center">
+                        <div className="d-flex align-items-center justify-content-center mb-2">
+                            <div className="text-start">
+                                <small className="text-muted d-block">DPC Asal</small>
+                                <div className="fw-bold text-danger">
+                                    <i className="fas fa-building me-1"></i>
+                                    {vrf.city?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.province?.name || 'N/A'}
+                                </small>
+                            </div>
+                            <div className="mx-3">
+                                <i className="fas fa-arrow-right text-primary fa-lg"></i>
+                            </div>
+                            <div className="text-end">
+                                <small className="text-muted d-block">DPC Tujuan</small>
+                                <div className="fw-bold text-success">
+                                    <i className="fas fa-building me-1"></i>
+                                    {vrf.tujuan_dpc?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.tujuan?.name || 'N/A'}
+                                </small>
+                            </div>
                         </div>
-                        <small className="text-muted">
-                            <i className="fas fa-map-marker-alt me-1"></i>
-                            {vrf.province?.name || 'N/A'}
+                        <small className="text-info fw-semibold">
+                            <i className="fas fa-exchange-alt me-1"></i>
+                            Mutasi Antar Kabupaten/Kota
                         </small>
                     </div>
-                    <div className="mx-3">
-                        <i className="fas fa-arrow-right text-primary fa-lg"></i>
-                    </div>
-                    <div className="text-end">
-                        <small className="text-muted d-block">DPC Tujuan</small>
-                        <div className="fw-bold text-success">
-                            <i className="fas fa-building me-1"></i>
-                            {vrf.tujuan_dpc?.name || 'N/A'}
+                );
+
+            case "dpw":
+                return (
+                    <div className="text-center">
+                        <div className="d-flex align-items-center justify-content-center mb-2">
+                            <div className="text-start">
+                                <small className="text-muted d-block">DPW Asal</small>
+                                <div className="fw-bold text-danger">
+                                    <i className="fas fa-flag me-1"></i>
+                                    {vrf.province?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.city?.name || 'N/A'}
+                                </small>
+                            </div>
+                            <div className="mx-3">
+                                <i className="fas fa-arrow-right text-primary fa-lg"></i>
+                            </div>
+                            <div className="text-end">
+                                <small className="text-muted d-block">DPW Tujuan</small>
+                                <div className="fw-bold text-success">
+                                    <i className="fas fa-flag me-1"></i>
+                                    {vrf.tujuan?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.tujuan_dpc?.name || 'N/A'}
+                                </small>
+                            </div>
                         </div>
-                        <small className="text-muted">
-                            <i className="fas fa-map-marker-alt me-1"></i>
-                            {vrf.tujuan?.name || 'N/A'}
+                        <small className="text-primary fw-semibold">
+                            <i className="fas fa-exchange-alt me-1"></i>
+                            Mutasi Antar Provinsi
                         </small>
                     </div>
-                </div>
-                <small className="text-info fw-semibold">
-                    <i className="fas fa-exchange-alt me-1"></i>
-                    Mutasi Antar Kabupaten/Kota
-                </small>
-            </div>
-        );
+                );
+
+            case "pbp":
+                return (
+                    <div className="text-center">
+                        <div className="d-flex align-items-center justify-content-center mb-2">
+                            <div className="text-start">
+                                <small className="text-muted d-block">Lokasi Asal</small>
+                                <div className="fw-bold text-danger">
+                                    <i className="fas fa-building me-1"></i>
+                                    {vrf.city?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.province?.name || 'N/A'}
+                                </small>
+                            </div>
+                            <div className="mx-3">
+                                <i className="fas fa-arrow-right text-warning fa-lg"></i>
+                            </div>
+                            <div className="text-end">
+                                <small className="text-muted d-block">Lokasi Tujuan</small>
+                                <div className="fw-bold text-success">
+                                    <i className="fas fa-briefcase me-1"></i>
+                                    {vrf.tujuan_dpc?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.tujuan?.name || 'N/A'}
+                                </small>
+                            </div>
+                        </div>
+                        <small className="text-warning fw-semibold">
+                            <i className="fas fa-briefcase me-1"></i>
+                            Mutasi karena Pekerjaan
+                        </small>
+                    </div>
+                );
+
+            case "pbi":
+                return (
+                    <div className="text-center">
+                        <div className="d-flex align-items-center justify-content-center mb-2">
+                            <div className="text-start">
+                                <small className="text-muted d-block">Lokasi Asal</small>
+                                <div className="fw-bold text-danger">
+                                    <i className="fas fa-building me-1"></i>
+                                    {vrf.city?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.province?.name || 'N/A'}
+                                </small>
+                            </div>
+                            <div className="mx-3">
+                                <i className="fas fa-arrow-right text-success fa-lg"></i>
+                            </div>
+                            <div className="text-end">
+                                <small className="text-muted d-block">Lokasi Tujuan</small>
+                                <div className="fw-bold text-success">
+                                    <i className="fas fa-graduation-cap me-1"></i>
+                                    {vrf.tujuan_dpc?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.tujuan?.name || 'N/A'}
+                                </small>
+                            </div>
+                        </div>
+                        <small className="text-success fw-semibold">
+                            <i className="fas fa-graduation-cap me-1"></i>
+                            Mutasi karena Pendidikan
+                        </small>
+                    </div>
+                );
+
+            default:
+                return (
+                    <div className="text-center">
+                        <div className="d-flex align-items-center justify-content-center mb-2">
+                            <div className="text-start">
+                                <small className="text-muted d-block">Lokasi Asal</small>
+                                <div className="fw-bold text-danger">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.city?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    Provinsi: {vrf.province?.name || 'N/A'}
+                                </small>
+                            </div>
+                            <div className="mx-3">
+                                <i className="fas fa-arrow-right text-secondary fa-lg"></i>
+                            </div>
+                            <div className="text-end">
+                                <small className="text-muted d-block">Lokasi Tujuan</small>
+                                <div className="fw-bold text-success">
+                                    <i className="fas fa-map-marker-alt me-1"></i>
+                                    {vrf.tujuan_dpc?.name || 'N/A'}
+                                </div>
+                                <small className="text-muted">
+                                    Provinsi: {vrf.tujuan?.name || 'N/A'}
+                                </small>
+                            </div>
+                        </div>
+                        <small className="text-secondary fw-semibold">
+                            <i className="fas fa-exchange-alt me-1"></i>
+                            {vrf.tipe_pindah ? `Mutasi ${vrf.tipe_pindah.toUpperCase()}` : 'Mutasi'}
+                        </small>
+                    </div>
+                );
+        }
     };
 
     const renderRuteMutasiMobile = (vrf) => {
+        const tipePindah = vrf.tipe_pindah;
+        const color = getTipePindahColor(tipePindah);
+
         return (
             <div className="mb-3 p-3 bg-light rounded">
                 <h6 className="fw-bold mb-3 text-center">
-                    <i className="fas fa-building me-2 text-info"></i>
-                    Mutasi DPC (Antar Kabupaten/Kota)
+                    <i className={`fas fa-exchange-alt me-2 text-${color}`}></i>
+                    {tipePindah === 'dpc' && 'Mutasi DPC (Antar Kabupaten/Kota)'}
+                    {tipePindah === 'dpw' && 'Mutasi DPW (Antar Provinsi)'}
+                    {tipePindah === 'pbp' && 'Mutasi PBP (Karena Pekerjaan)'}
+                    {tipePindah === 'pbi' && 'Mutasi PBI (Karena Pendidikan)'}
+                    {!['dpc', 'dpw', 'pbp', 'pbi'].includes(tipePindah) && `Mutasi ${tipePindah?.toUpperCase() || ''}`}
                 </h6>
                 <div className="d-flex align-items-center justify-content-between">
                     <div className="text-center">
-                        <div className="fw-bold text-danger small">DPC ASAL</div>
-                        <div className="fw-semibold">{vrf.city?.name || 'N/A'}</div>
-                        <small className="text-muted">DPW: {vrf.province?.name || 'N/A'}</small>
+                        <div className="fw-bold text-danger small">
+                            {tipePindah === 'dpw' ? 'DPW ASAL' : 'LOKASI ASAL'}
+                        </div>
+                        <div className="fw-semibold">
+                            {tipePindah === 'dpw' ? vrf.province?.name || 'N/A' : vrf.city?.name || 'N/A'}
+                        </div>
+                        <small className="text-muted">
+                            {tipePindah === 'dpw' ? `Kota: ${vrf.city?.name || 'N/A'}` : `DPW: ${vrf.province?.name || 'N/A'}`}
+                        </small>
                     </div>
                     <div className="mx-2">
-                        <i className="fas fa-arrow-right text-primary"></i>
+                        <i className={`fas fa-arrow-right text-${color}`}></i>
                     </div>
                     <div className="text-center">
-                        <div className="fw-bold text-success small">DPC TUJUAN</div>
-                        <div className="fw-semibold">{vrf.tujuan_dpc?.name || 'N/A'}</div>
-                        <small className="text-muted">DPW: {vrf.tujuan?.name || 'N/A'}</small>
+                        <div className="fw-bold text-success small">
+                            {tipePindah === 'dpw' ? 'DPW TUJUAN' : 'LOKASI TUJUAN'}
+                        </div>
+                        <div className="fw-semibold">
+                            {tipePindah === 'dpw' ? vrf.tujuan?.name || 'N/A' : vrf.tujuan_dpc?.name || 'N/A'}
+                        </div>
+                        <small className="text-muted">
+                            {tipePindah === 'dpw' ? `Kota: ${vrf.tujuan_dpc?.name || 'N/A'}` : `DPW: ${vrf.tujuan?.name || 'N/A'}`}
+                        </small>
                     </div>
                 </div>
             </div>
@@ -187,11 +413,11 @@ export default function VerifPengajuanDpcIndex() {
                                                 Verifikasi Pengajuan Mutasi - DPC
                                             </h4>
                                             <p className="text-muted mb-0">
-                                                Kelola verifikasi mutasi antar kabupaten/kota (DPC)
+                                                Kelola verifikasi berbagai jenis mutasi anggota
                                             </p>
                                             <small className="text-info">
                                                 <i className="fas fa-info-circle me-1"></i>
-                                                Anda dapat memverifikasi semua pengajuan mutasi DPC
+                                                Anda dapat memverifikasi semua pengajuan mutasi
                                             </small>
                                         </div>
                                         <div className="col-md-4 text-md-end">
@@ -283,9 +509,9 @@ export default function VerifPengajuanDpcIndex() {
                                                             </td>
                                                             <td className="text-center">
                                                                 <div className="d-flex flex-column align-items-center">
-                                                                    {getTipePindahBadge()}
+                                                                    {getTipePindahBadge(vrf.tipe_pindah)}
                                                                     <small className="text-muted mt-1">
-                                                                        {getTipePindahDescription()}
+                                                                        {getTipePindahDescription(vrf.tipe_pindah)}
                                                                     </small>
                                                                 </div>
                                                             </td>
@@ -372,9 +598,9 @@ export default function VerifPengajuanDpcIndex() {
 
                                                 {/* Tipe Mutasi */}
                                                 <div className="mb-3 text-center">
-                                                    {getTipePindahBadge()}
+                                                    {getTipePindahBadge(vrf.tipe_pindah)}
                                                     <p className="text-muted small mt-1 mb-0">
-                                                        {getTipePindahDescription()}
+                                                        {getTipePindahDescription(vrf.tipe_pindah)}
                                                     </p>
                                                 </div>
 
