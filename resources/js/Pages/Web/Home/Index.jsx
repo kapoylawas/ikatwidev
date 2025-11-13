@@ -106,7 +106,7 @@ export default function HomeIndex() {
                 {/* Slider dengan lebar yang sama seperti menu utama */}
                 <div className="container mt-4" style={{ maxWidth: '1240px' }}>
                     <div className="row justify-content-center">
-                        <div className="col-md-8" style={{ width: '100%', maxWidth: '1160px' }}>
+                        <div className="col-md-8" style={{ width: '100%', maxWidth: '1110px' }}>
                             <Slider sliders={sliders} />
                         </div>
                     </div>
