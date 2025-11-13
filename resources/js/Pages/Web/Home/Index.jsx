@@ -101,6 +101,17 @@ export default function HomeIndex() {
                 <title>IKATWI - Ikatan Terapis Wicara Indonesia</title>
             </Head>
             <LayoutWeb>
+                
+
+                {/* Slider dengan lebar yang sama seperti menu utama */}
+                <div className="container mt-4" style={{ maxWidth: '1240px' }}>
+                    <div className="row justify-content-center">
+                        <div className="col-md-8" style={{ width: '100%', maxWidth: '1160px' }}>
+                            <Slider sliders={sliders} />
+                        </div>
+                    </div>
+                </div>
+
                 {/* Welcome Section for Logged In Users */}
                 {auth.user && (
                     <div className="container" style={{ marginTop: "120px", maxWidth: '1140px' }}>
@@ -194,15 +205,6 @@ export default function HomeIndex() {
                         </div>
                     </div>
                 )}
-
-                {/* Slider dengan lebar yang sama seperti menu utama */}
-                <div className="container mt-4" style={{ maxWidth: '1240px' }}>
-                    <div className="row justify-content-center">
-                        <div className="col-md-8" style={{ width: '100%', maxWidth: '1160px' }}>
-                            <Slider sliders={sliders} />
-                        </div>
-                    </div>
-                </div>
 
                 <div className="container mt-4 mb-5" style={{ maxWidth: '1140px' }}>
                     <div className="fade-in">
@@ -331,7 +333,7 @@ export default function HomeIndex() {
                                 <div className="section-header mb-4">
                                     <div className="row align-items-center">
                                         <div className="col">
-                                            <h4 className="fw-bold text-primary mb-0">
+                                            <h4 className="fw-bold text- mb-0">
                                                 <i className="fas fa-calendar-alt me-2 text-primary"></i>
                                                 Agenda Kegiatan Terbaru
                                             </h4>
