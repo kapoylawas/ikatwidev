@@ -11,18 +11,14 @@ import hasAnyPermission from "../../../Utils/Permissions";
 
 import Chart from 'react-apexcharts';
 
-
-
 export default function Dashboard() {
     //destruct props
     const { auth, count, usersCountByProvince, usersCountByProvincebyBekerja } = usePage().props;
-
 
     const currentYear = new Date().getFullYear();
     const provinceLabels = usersCountByProvince.map(item => item.province_name);
     const provinceCounts = usersCountByProvince.map(item => item.user_count);
     const categories = [...provinceLabels];
-
 
     const provinceNames = usersCountByProvincebyBekerja.map(item => item.province_name);
     const belumBekerjaCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.belum_bekerja) || 0);
@@ -36,7 +32,6 @@ export default function Dashboard() {
     const rumahSakitUmumDaerahCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.rumah_sakit_umum_daerah) || 0);
     const rumahSakitUmumPusatCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.rumah_sakit_umum_pusat) || 0);
     const sekolahLuarBiasaCounts = usersCountByProvincebyBekerja.map(item => parseInt(item.sekolah_luar_biasa) || 0);
-
 
     // Function to generate random colors 
     const getRandomColorPie = () => {
@@ -58,26 +53,49 @@ export default function Dashboard() {
         chart: {
             type: 'bar',
             height: 550,
+            toolbar: {
+                show: true,
+                tools: {
+                    download: true,
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                    reset: true
+                }
+            }
         },
         xaxis: {
-            categories: provinceNames, // Menggunakan nama provinsi
+            categories: provinceNames,
         },
         plotOptions: {
             bar: {
                 horizontal: true,
                 columnWidth: '55%',
                 endingShape: 'rounded',
+                dataLabels: {
+                    position: 'center',
+                },
             },
         },
         dataLabels: {
             enabled: true,
             style: {
-                colors: ['#000'], // Mengatur warna angka total menjadi hitam
+                colors: ['#000'],
+                fontSize: '12px',
+                fontWeight: 'bold'
             },
         },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'center',
+            fontSize: '14px',
+            fontWeight: 600,
+        },
+        colors: ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4', '#84CC16', '#F97316', '#6366F1', '#EC4899', '#14B8A6', '#78716C'],
     };
 
-    // Create series data for the new bar chart
     // Create series data for the new bar chart
     const barChartByBekerjaSeriesData = [
         {
@@ -126,10 +144,9 @@ export default function Dashboard() {
         },
     ];
 
-
     // Create series data with random colors
     const seriesData = [{
-        name: 'Users Count',
+        name: 'Jumlah Pengguna',
         data: provinceCounts,
     }];
 
@@ -138,24 +155,95 @@ export default function Dashboard() {
         chart: {
             type: 'bar',
             height: 350,
+            toolbar: {
+                show: true
+            }
         },
         xaxis: {
             categories: categories,
+            labels: {
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 600
+                }
+            }
         },
         plotOptions: {
             bar: {
                 horizontal: false,
                 columnWidth: '55%',
                 endingShape: 'rounded',
+                dataLabels: {
+                    position: 'top',
+                },
             },
         },
         dataLabels: {
             enabled: true,
+            style: {
+                fontSize: '12px',
+                colors: ["#000"]
+            }
         },
-        colors: provinceCounts.map(() => getRandomColorPie()), // Assign random colors to the bars
+        colors: ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4', '#84CC16'],
     };
 
-    // Data for the pie chart
+    // Common pie chart options
+    const pieChartOptions = (labels) => ({
+        chart: {
+            type: 'pie',
+            toolbar: {
+                show: true,
+                tools: {
+                    download: true,
+                    selection: false,
+                    zoom: false,
+                    zoomin: false,
+                    zoomout: false,
+                    pan: false,
+                    reset: false
+                }
+            }
+        },
+        labels: labels,
+        colors: generateRandomColors(labels.length),
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 300
+                },
+                legend: {
+                    position: 'bottom',
+                    fontSize: '10px'
+                }
+            }
+        }],
+        legend: {
+            position: 'bottom',
+            fontSize: '12px',
+            fontWeight: 600,
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 'bold'
+            },
+            dropShadow: {
+                enabled: false
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return val
+                }
+            }
+        }
+    });
+
+    // Status pekerjaan
     const statusPekerjaan = {
         series: [
             count.pns,
@@ -164,37 +252,13 @@ export default function Dashboard() {
             count.pppk,
             count.belumBekerja
         ],
-        options: {
-            chart: {
-                type: 'pie',
-            },
-            labels: [
-                `PNS: ${count.pns}`,
-                `Swasta: ${count.swasta}`,
-                `BLU/KONTRAK: ${count.kontrak}`,
-                `PPPK: ${count.pppk}`,
-                `Belum Bekerja: ${count.belumBekerja}`,
-                `Total User Aktif: ${count.totalUserAktif}`
-            ],
-            colors: generateRandomColors(
-                count.pns,
-                count.swasta,
-                count.kontrak,
-                count.pppk,
-                count.belumBekerja
-            ),
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        }
+        options: pieChartOptions([
+            `PNS: ${count.pns}`,
+            `Swasta: ${count.swasta}`,
+            `BLU/KONTRAK: ${count.kontrak}`,
+            `PPPK: ${count.pppk}`,
+            `Belum Bekerja: ${count.belumBekerja}`
+        ])
     };
 
     // lulusan univ
@@ -206,37 +270,13 @@ export default function Dashboard() {
             count.stikesMercubaktijayaPadang,
             count.lainLain
         ],
-        options: {
-            chart: {
-                type: 'pie',
-            },
-            labels: [
-                `Poltekes Kemenkes Surakarta: ${count.poltekesKemenkesSurakarta}`,
-                `Akademi Terapi Wicara Yayasan Bina Wicara Jakarta: ${count.akademiTerapiWicaraYayasanBinaWicaraJakarta}`,
-                `Politeknik AL Islam Bandung: ${count.politeknikAlIslamBandung}`,
-                `Stikes Mercubaktijaya Padang: ${count.stikesMercubaktijayaPadang}`,
-                `Lain-Lain: ${count.lainLain}`,
-                `Total User Aktif: ${count.totalUserAktif}`
-            ],
-            colors: generateRandomColors(
-                count.poltekesKemenkesSurakarta,
-                count.akademiTerapiWicaraYayasanBinaWicaraJakarta,
-                count.politeknikAlIslamBandung,
-                count.stikesMercubaktijayaPadang,
-                count.lainLain
-            ),
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        }
+        options: pieChartOptions([
+            `Poltekes Kemenkes: ${count.poltekesKemenkesSurakarta}`,
+            `Akademi Terapi Wicara: ${count.akademiTerapiWicaraYayasanBinaWicaraJakarta}`,
+            `Politeknik AL Islam: ${count.politeknikAlIslamBandung}`,
+            `Stikes Mercubaktijaya: ${count.stikesMercubaktijayaPadang}`,
+            `Lain-Lain: ${count.lainLain}`
+        ])
     };
 
     // tempat bekerja
@@ -255,51 +295,20 @@ export default function Dashboard() {
             count.freelance,
             count.lainnya,
         ],
-        options: {
-            chart: {
-                type: 'pie',
-            },
-            labels: [
-                `Klinik Swasta: ${count.klinikSwasta}`,
-                `Rumah Sakit Swasta: ${count.rumahSakitSwasta}`,
-                `Rumah Sakit Umum Pusat: ${count.rumahSakitUmumPusat}`,
-                `Rumah Sakit Umum Daerah: ${count.rumahSakitUmumDaerah}`,
-                `Rumah Sakit Militer: ${count.rumahSakitMiliter}`,
-                `Rumah Sakit Khusus: ${count.rumahSakitKhusus}`,
-                `Puskesmas: ${count.puskesmas}`,
-                `Sekolah Luar Biasa: ${count.sekolahLuarBiasa}`,
-                `Perguruan Tinggi: ${count.perguruanTinggi}`,
-                `Belum Bekerja: ${count.belum_bekerja}`,
-                `Freelance: ${count.freelance}`,
-                `Lainnya: ${count.lainnya}`,
-                `Total User Aktif: ${count.totalUserAktif}`
-            ],
-            colors: generateRandomColors(
-                count.klinikSwasta,
-                count.rumahSakitSwasta,
-                count.rumahSakitUmumPusat,
-                count.rumahSakitUmumDaerah,
-                count.rumahSakitMiliter,
-                count.rumahSakitKhusus,
-                count.puskesmas,
-                count.sekolahLuarBiasa,
-                count.perguruanTinggi,
-                count.belum_bekerja,
-                count.freelance,
-                count.lainnya,
-            ),
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        }
+        options: pieChartOptions([
+            `Klinik Swasta: ${count.klinikSwasta}`,
+            `RS Swasta: ${count.rumahSakitSwasta}`,
+            `RS Umum Pusat: ${count.rumahSakitUmumPusat}`,
+            `RS Umum Daerah: ${count.rumahSakitUmumDaerah}`,
+            `RS Militer: ${count.rumahSakitMiliter}`,
+            `RS Khusus: ${count.rumahSakitKhusus}`,
+            `Puskesmas: ${count.puskesmas}`,
+            `SLB: ${count.sekolahLuarBiasa}`,
+            `Perguruan Tinggi: ${count.perguruanTinggi}`,
+            `Belum Bekerja: ${count.belum_bekerja}`,
+            `Freelance: ${count.freelance}`,
+            `Lainnya: ${count.lainnya}`
+        ])
     };
 
     // jenjang pendidikan
@@ -310,62 +319,26 @@ export default function Dashboard() {
             count.S2,
             count.S3,
         ],
-        options: {
-            chart: {
-                type: 'pie',
-            },
-            labels: [
-                `DIII: ${count.D3}`,
-                `DIV: ${count.D4}`,
-                `S2 (Magister Terapi Wicara): ${count.S2}`,
-                `S3 (Doktor Terapi Wicara): ${count.S3}`,
-                `Total User Aktif: ${count.totalUserAktif}`
-            ],
-            colors: generateRandomColors(count.D3, count.D4, count.S2, count.S3),
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        }
+        options: pieChartOptions([
+            `DIII: ${count.D3}`,
+            `DIV: ${count.D4}`,
+            `S2: ${count.S2}`,
+            `S3: ${count.S3}`
+        ])
     };
 
-    // tempat bekerja
+    // kelengkapan data
     const dataKelengkapan = {
         series: [
             count.kelengkapan,
             count.countSIP,
             count.countSTR,
         ],
-        options: {
-            chart: {
-                type: 'pie',
-            },
-            labels: [
-                `Melengkapi Data: ${count.kelengkapan}`,
-                `Memiliki SIP: ${count.countSIP}`,
-                `Memiliki STR: ${count.countSTR}`,
-                `Total User Aktif: ${count.totalUserAktif}`
-            ],
-            colors: generateRandomColors(count.kelengkapan, count.countSIP, count.countSTR), // Terapkan warna acak di sini
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        }
+        options: pieChartOptions([
+            `Data Lengkap: ${count.kelengkapan}`,
+            `Memiliki SIP: ${count.countSIP}`,
+            `Memiliki STR: ${count.countSTR}`
+        ])
     };
 
     const dataIuran = {
@@ -373,28 +346,10 @@ export default function Dashboard() {
             count.paidUsersCount,
             count.unpaidUsersCount,
         ],
-        options: {
-            chart: {
-                type: 'pie',
-            },
-            labels: [
-                `Sudah Membayar tahun ${currentYear} : ${count.paidUsersCount}`,
-                `Belum Membayar tahun ${currentYear} : ${count.unpaidUsersCount}`,
-                `Total User Aktif: ${count.totalUserAktif}`
-            ],
-            colors: generateRandomColors(count.paidUsersCount, count.unpaidUsersCount), // Terapkan warna acak di sini
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        }
+        options: pieChartOptions([
+            `Sudah Bayar ${currentYear}: ${count.paidUsersCount}`,
+            `Belum Bayar ${currentYear}: ${count.unpaidUsersCount}`
+        ])
     };
 
     return (
@@ -403,403 +358,320 @@ export default function Dashboard() {
                 <title>Dashboard - IKATWI</title>
             </Head>
             <LayoutAccount>
+                {/* Welcome Section */}
                 <div className="row mt-4">
-                    <div className="col-12 col-md-12 col-lg-12 mb-4">
-                        <div className="alert alert-success border-0 shadow-sm mb-0">
-                            Selamat Datang, <strong>{auth.user.name}</strong>
+                    <div className="col-12">
+                        <div className="welcome-card bg-gradient-primary text-white border-0 shadow-lg rounded-3 p-4 mb-4">
+                            <div className="d-flex align-items-center">
+                                <div className="flex-grow-1">
+                                    <h4 className="mb-1">Selamat Datang, <strong>{auth.user.name}</strong>!</h4>
+                                    <p className="mb-0 opacity-75">Sistem Informasi IKATWI - Terapi Wicara Indonesia</p>
+                                </div>
+                                <div className="welcome-icon">
+                                    <i className="fas fa-user-circle fa-3x opacity-75"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <hr></hr>
-
+                {/* Statistics Cards */}
                 {hasAnyPermission(["dashboard.statistics"]) && (
                     <>
                         <div className="row mt-2">
                             <div className="col-12 col-lg-3 mb-4">
-                                <div className="card border-0 shadow-sm overflow-hidden">
-                                    <div className="card-body p-0 d-flex align-items-center">
-                                        <div
-                                            className="bg-primary py-4 px-5 mfe-3"
-                                            style={{ width: "130px" }}
-                                        >
-                                            <i className="fas fa-circle-notch fa-spin fa-2x text-white"></i>
-                                        </div>
-                                        <div>
-                                            <div className="text-value text-primary">
-                                                {count.unpaid}
+                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-primary">
+                                    <div className="card-body">
+                                        <div className="d-flex align-items-center">
+                                            <div className="stat-icon me-3">
+                                                <i className="fas fa-clock fa-2x text-primary"></i>
                                             </div>
-                                            <div className="text-muted text-uppercase font-weight-bold small">
-                                                UNPAID
+                                            <div className="flex-grow-1">
+                                                <div className="stat-value text-primary">{count.unpaid}</div>
+                                                <div className="stat-label text-muted text-uppercase">MENUNGGU PEMBAYARAN</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-12 col-lg-3 mb-4">
-                                <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                    <div className="card-body p-0 d-flex align-items-center">
-                                        <div
-                                            className="bg-success py-4 px-5 mfe-3"
-                                            style={{ width: "130px" }}
-                                        >
-                                            <i className="fas fa-check-circle fa-2x text-white"></i>
-                                        </div>
-                                        <div>
-                                            <div className="text-value text-success">
-                                                {count.paid}
+                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-success">
+                                    <div className="card-body">
+                                        <div className="d-flex align-items-center">
+                                            <div className="stat-icon me-3">
+                                                <i className="fas fa-check-circle fa-2x text-success"></i>
                                             </div>
-                                            <div className="text-muted text-uppercase font-weight-bold small">
-                                                PAID
+                                            <div className="flex-grow-1">
+                                                <div className="stat-value text-success">{count.paid}</div>
+                                                <div className="stat-label text-muted text-uppercase">SUDAH BAYAR</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-12 col-lg-3 mb-4">
-                                <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                    <div className="card-body p-0 d-flex align-items-center">
-                                        <div
-                                            className="bg-warning py-4 px-5 mfe-3"
-                                            style={{ width: "130px" }}
-                                        >
-                                            <i className="fas fa-exclamation-triangle fa-2x text-white"></i>
-                                        </div>
-                                        <div>
-                                            <div className="text-value text-warning">
-                                                {count.expired}
+                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-warning">
+                                    <div className="card-body">
+                                        <div className="d-flex align-items-center">
+                                            <div className="stat-icon me-3">
+                                                <i className="fas fa-exclamation-triangle fa-2x text-warning"></i>
                                             </div>
-                                            <div className="text-muted text-uppercase font-weight-bold small">
-                                                EXPIRED
+                                            <div className="flex-grow-1">
+                                                <div className="stat-value text-warning">{count.expired}</div>
+                                                <div className="stat-label text-muted text-uppercase">KADALUARSA</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-12 col-lg-3 mb-4">
-                                <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                    <div className="card-body p-0 d-flex align-items-center">
-                                        <div
-                                            className="bg-danger py-4 px-5 mfe-3"
-                                            style={{ width: "130px" }}
-                                        >
-                                            <i className="fas fa-times fa-2x text-white"></i>
-                                        </div>
-                                        <div>
-                                            <div className="text-value text-danger">
-                                                {count.cancelled}
+                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-danger">
+                                    <div className="card-body">
+                                        <div className="d-flex align-items-center">
+                                            <div className="stat-icon me-3">
+                                                <i className="fas fa-times-circle fa-2x text-danger"></i>
                                             </div>
-                                            <div className="text-muted text-uppercase font-weight-bold small">
-                                                CANCELLED
+                                            <div className="flex-grow-1">
+                                                <div className="stat-value text-danger">{count.cancelled}</div>
+                                                <div className="stat-label text-muted text-uppercase">DIBATALKAN</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="container mt-4">
-                            <div class="card col-md-12">
-                                <div class="card-header">
-                                    <h5 class="mb-0">GRAFIK</h5>
+
+                        {/* Charts Section */}
+                        <div className="container-fluid mt-4">
+                            <div className="card shadow-lg border-0">
+                                <div className="card-header bg-white py-3">
+                                    <h5 className="mb-0 text-primary">
+                                        <i className="fas fa-chart-bar me-2"></i>
+                                        STATISTIK DAN GRAFIK
+                                    </h5>
                                 </div>
-                                <div class="card-body">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link active" id="status-tab" data-bs-toggle="tab" href="#status" role="tab" aria-controls="status" aria-selected="true">Status Pekerjaan</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="lulusan-tab" data-bs-toggle="tab" href="#lulusan" role="tab" aria-controls="lulusan" aria-selected="false">Asal Lulusan Perguruan Tinggi</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="tempat-tab" data-bs-toggle="tab" href="#tempat" role="tab" aria-controls="tempat" aria-selected="false">Tempat Pekerjaan</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="jenjang-tab" data-bs-toggle="tab" href="#jenjang" role="tab" aria-controls="jenjang" aria-selected="false">Jenjang Pendidikan</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="user-tab" data-bs-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="false">User Total DPW</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="kelengkapan-tab" data-bs-toggle="tab" href="#kelengkapan" role="tab" aria-controls="kelengkapan" aria-selected="false">Kelengkapan Data</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="iuran-tab" data-bs-toggle="tab" href="#iuran" role="tab" aria-controls="iuran" aria-selected="false">Iuran</a>
+                                <div className="card-body p-0">
+                                    <ul className="nav nav-tabs nav-fill custom-tabs" id="dashboardTabs" role="tablist">
+                                        <li className="nav-item" role="presentation">
+                                            <button className="nav-link active" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">
+                                                <i className="fas fa-briefcase me-2"></i>Status Pekerjaan
+                                            </button>
                                         </li>
                                         <li className="nav-item" role="presentation">
-                                            <a className="nav-link" id="bekerja-tab" data-bs-toggle="tab" href="#bekerja" role="tab" aria-controls="bekerja" aria-selected="false">Total Pekerjaan DPW</a>
+                                            <button className="nav-link" id="lulusan-tab" data-bs-toggle="tab" data-bs-target="#lulusan" type="button" role="tab">
+                                                <i className="fas fa-graduation-cap me-2"></i>Lulusan
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button className="nav-link" id="tempat-tab" data-bs-toggle="tab" data-bs-target="#tempat" type="button" role="tab">
+                                                <i className="fas fa-building me-2"></i>Tempat Kerja
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button className="nav-link" id="jenjang-tab" data-bs-toggle="tab" data-bs-target="#jenjang" type="button" role="tab">
+                                                <i className="fas fa-user-graduate me-2"></i>Pendidikan
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button className="nav-link" id="user-tab" data-bs-toggle="tab" data-bs-target="#user" type="button" role="tab">
+                                                <i className="fas fa-users me-2"></i>User per DPW
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button className="nav-link" id="kelengkapan-tab" data-bs-toggle="tab" data-bs-target="#kelengkapan" type="button" role="tab">
+                                                <i className="fas fa-clipboard-check me-2"></i>Kelengkapan
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button className="nav-link" id="iuran-tab" data-bs-toggle="tab" data-bs-target="#iuran" type="button" role="tab">
+                                                <i className="fas fa-money-bill-wave me-2"></i>Iuran
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button className="nav-link" id="bekerja-tab" data-bs-toggle="tab" data-bs-target="#bekerja" type="button" role="tab">
+                                                <i className="fas fa-chart-line me-2"></i>Pekerjaan per DPW
+                                            </button>
                                         </li>
                                     </ul>
-                                    <div className="tab-content" id="myTabContent">
-                                        <div className="tab-pane fade show active" id="status" role="tabpanel" aria-labelledby="status-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-7 mb-4">
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={statusPekerjaan.options}
-                                                                series={statusPekerjaan.series}
-                                                                type="pie"
-                                                                width="100%"
-                                                            />
-                                                        </div>
+
+                                    <div className="tab-content p-4" id="dashboardTabsContent">
+                                        
+                                        {/* Status Pekerjaan */}
+                                        <div className="tab-pane fade show active" id="status" role="tabpanel">
+                                            <div className="row justify-content-center">
+                                                <div className="col-12 col-lg-8">
+                                                    <div className="chart-container">
+                                                        <Chart
+                                                            options={statusPekerjaan.options}
+                                                            series={statusPekerjaan.series}
+                                                            type="pie"
+                                                            height="400"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="lulusan" role="tabpanel" aria-labelledby="lulusan-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-7 mb-4">
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={lulusanUniv.options}
-                                                                series={lulusanUniv.series}
-                                                                type="pie"
-                                                                width="100%"
-                                                            />
-                                                        </div>
+
+                                        {/* Lulusan Universitas */}
+                                        <div className="tab-pane fade" id="lulusan" role="tabpanel">
+                                            <div className="row justify-content-center">
+                                                <div className="col-12 col-lg-8">
+                                                    <div className="chart-container">
+                                                        <Chart
+                                                            options={lulusanUniv.options}
+                                                            series={lulusanUniv.series}
+                                                            type="pie"
+                                                            height="400"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="tempat" role="tabpanel" aria-labelledby="tempat-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-7 mb-4">
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={tempatBekerja.options}
-                                                                series={tempatBekerja.series}
-                                                                type="pie"
-                                                                width="100%"
-                                                            />
-                                                        </div>
+
+                                        {/* Tempat Bekerja */}
+                                        <div className="tab-pane fade" id="tempat" role="tabpanel">
+                                            <div className="row justify-content-center">
+                                                <div className="col-12 col-lg-8">
+                                                    <div className="chart-container">
+                                                        <Chart
+                                                            options={tempatBekerja.options}
+                                                            series={tempatBekerja.series}
+                                                            type="pie"
+                                                            height="400"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="jenjang" role="tabpanel" aria-labelledby="jenjang-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-7 mb-4">
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={jenjangPendidikan.options}
-                                                                series={jenjangPendidikan.series}
-                                                                type="pie"
-                                                                width="100%"
-                                                            />
-                                                        </div>
+
+                                        {/* Jenjang Pendidikan */}
+                                        <div className="tab-pane fade" id="jenjang" role="tabpanel">
+                                            <div className="row justify-content-center">
+                                                <div className="col-12 col-lg-8">
+                                                    <div className="chart-container">
+                                                        <Chart
+                                                            options={jenjangPendidikan.options}
+                                                            series={jenjangPendidikan.series}
+                                                            type="pie"
+                                                            height="400"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-10 mb-4">
-                                                    <div className="alert alert-success border-0 shadow-sm mb-3">
-                                                        Total User Aktif : <strong>{count.totalUserAktif}</strong>
+
+                                        {/* User per DPW */}
+                                        <div className="tab-pane fade" id="user" role="tabpanel">
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <div className="alert alert-primary border-0 shadow-sm mb-4">
+                                                        <i className="fas fa-info-circle me-2"></i>
+                                                        Total User Aktif: <strong>{count.totalUserAktif}</strong>
                                                     </div>
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={barChartOptions}
-                                                                series={seriesData}
-                                                                type="bar"
-                                                                height={350}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="tab-pane fade" id="kelengkapan" role="tabpanel" aria-labelledby="kelengkapan-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-7 mb-4">
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={dataKelengkapan.options}
-                                                                series={dataKelengkapan.series}
-                                                                type="pie"
-                                                                width="100%"
-                                                            />
-                                                        </div>
+                                                    <div className="chart-container">
+                                                        <Chart
+                                                            options={barChartOptions}
+                                                            series={seriesData}
+                                                            type="bar"
+                                                            height="400"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="iuran" role="tabpanel" aria-labelledby="iuran-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-7 mb-4">
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={dataIuran.options}
-                                                                series={dataIuran.series}
-                                                                type="pie"
-                                                                width="100%"
-                                                            />
-                                                        </div>
+
+                                        {/* Kelengkapan Data */}
+                                        <div className="tab-pane fade" id="kelengkapan" role="tabpanel">
+                                            <div className="row justify-content-center">
+                                                <div className="col-12 col-lg-8">
+                                                    <div className="chart-container">
+                                                        <Chart
+                                                            options={dataKelengkapan.options}
+                                                            series={dataKelengkapan.series}
+                                                            type="pie"
+                                                            height="400"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="bekerja" role="tabpanel" aria-labelledby="bekerja-tab">
-                                            <div className="row mt-2 justify-content-center">
-                                                <div className="col-12 col-lg-12 mb-4">
-                                                    <div className="alert alert-success border-0 shadow-sm mb-3">
-                                                        Total User Aktif : <strong>{count.totalUserAktif}</strong>
+
+                                        {/* Iuran */}
+                                        <div className="tab-pane fade" id="iuran" role="tabpanel">
+                                            <div className="row justify-content-center">
+                                                <div className="col-12 col-lg-8">
+                                                    <div className="chart-container">
+                                                        <Chart
+                                                            options={dataIuran.options}
+                                                            series={dataIuran.series}
+                                                            type="pie"
+                                                            height="400"
+                                                        />
                                                     </div>
-                                                    <div className="card border-0 rounded shadow-sm overflow-hidden">
-                                                        <div className="card-body">
-                                                            <Chart
-                                                                options={barChartByBekerjaOptions}
-                                                                series={barChartByBekerjaSeriesData}
-                                                                type="bar"
-                                                                height={2050}
-                                                            />
-                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Pekerjaan per DPW */}
+                                        <div className="tab-pane fade" id="bekerja" role="tabpanel">
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <div className="alert alert-primary border-0 shadow-sm mb-4">
+                                                        <i className="fas fa-info-circle me-2"></i>
+                                                        Total User Aktif: <strong>{count.totalUserAktif}</strong>
+                                                    </div>
+                                                    <div className="chart-container mb-5">
+                                                        <Chart
+                                                            options={barChartByBekerjaOptions}
+                                                            series={barChartByBekerjaSeriesData}
+                                                            type="bar"
+                                                            height="600"
+                                                        />
                                                     </div>
 
-                                                    <div className="card border-0 rounded shadow-sm border-top-admin mt-3">
-                                                        <div className="card-header">
-                                                            <span className="font-weight-bold">
-                                                                <i className="fa fa-folder"></i> TOTAL PEKERJAAN PER DPW
-                                                            </span>
+                                                    <div className="card border-0 shadow-sm mt-4">
+                                                        <div className="card-header bg-white py-3">
+                                                            <h6 className="mb-0 text-primary">
+                                                                <i className="fas fa-table me-2"></i>
+                                                                DETAIL PEKERJAAN PER DPW
+                                                            </h6>
                                                         </div>
-                                                        <div className="card-body">
+                                                        <div className="card-body p-0">
                                                             <div className="table-responsive">
-                                                                <table className="table table-bordered table-striped table-hovered">
-                                                                    <thead>
+                                                                <table className="table table-hover table-striped mb-0">
+                                                                    <thead className="bg-light">
                                                                         <tr>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                Nama DPW
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                belum bekerja
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                freelance
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                klinik swasta
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                lainnya
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                perguruan tinggi
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                puskesmas
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                rumah sakit khusus
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                rumah sakit militer
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                rumah sakit swasta
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                rumah sakit umum daerah
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "15%" }}
-                                                                            >
-                                                                                rumah sakit umum pusat
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                style={{ width: "25%" }}
-                                                                            >
-                                                                                sekolah luar biasa
-                                                                            </th>
+                                                                            <th>DPW</th>
+                                                                            <th>Belum Bekerja</th>
+                                                                            <th>Freelance</th>
+                                                                            <th>Klinik Swasta</th>
+                                                                            <th>Perguruan Tinggi</th>
+                                                                            <th>Puskesmas</th>
+                                                                            <th>RS Khusus</th>
+                                                                            <th>RS Militer</th>
+                                                                            <th>RS Swasta</th>
+                                                                            <th>RS Umum Daerah</th>
+                                                                            <th>RS Umum Pusat</th>
+                                                                            <th>Sekolah Luar Biasa</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        {usersCountByProvincebyBekerja.map(
-                                                                            (total, index) => (
-                                                                                <tr key={index}>
-
-                                                                                    <td className="text-center">
-                                                                                        {total.province_name}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.belum_bekerja}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.freelance}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.klinik_swasta}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.lainnya}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.perguruan_tinggi}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.puskesmas_count}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.rumah_sakit_khusus}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.rumah_sakit_militer}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.rumah_sakit_swasta}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.rumah_sakit_umum_daerah}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.rumah_sakit_umum_pusat}
-                                                                                    </td>
-                                                                                    <td className="text-center">
-                                                                                        {total.rumah_sakit_umum_pusat}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )
-                                                                        )}
+                                                                        {usersCountByProvincebyBekerja.map((total, index) => (
+                                                                            <tr key={index}>
+                                                                                <td className="fw-bold text-primary">{total.province_name}</td>
+                                                                                <td className="text-center">{total.belum_bekerja}</td>
+                                                                                <td className="text-center">{total.freelance}</td>
+                                                                                <td className="text-center">{total.klinik_swasta}</td>
+                                                                                <td className="text-center">{total.perguruan_tinggi}</td>
+                                                                                <td className="text-center">{total.puskesmas_count}</td>
+                                                                                <td className="text-center">{total.rumah_sakit_khusus}</td>
+                                                                                <td className="text-center">{total.rumah_sakit_militer}</td>
+                                                                                <td className="text-center">{total.rumah_sakit_swasta}</td>
+                                                                                <td className="text-center">{total.rumah_sakit_umum_daerah}</td>
+                                                                                <td className="text-center">{total.rumah_sakit_umum_pusat}</td>
+                                                                                <td className="text-center">{total.sekolah_luar_biasa}</td>
+                                                                            </tr>
+                                                                        ))}
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -811,11 +683,120 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </>
                 )}
             </LayoutAccount>
+
+            <style jsx>{`
+                .welcome-card {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                }
+                
+                .stat-card {
+                    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+                }
+                
+                .stat-card-primary {
+                    border-left: 4px solid #3B82F6;
+                }
+                
+                .stat-card-success {
+                    border-left: 4px solid #10B981;
+                }
+                
+                .stat-card-warning {
+                    border-left: 4px solid #F59E0B;
+                }
+                
+                .stat-card-danger {
+                    border-left: 4px solid #EF4444;
+                }
+                
+                .stat-value {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    line-height: 1;
+                }
+                
+                .stat-label {
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
+                }
+                
+                .stat-icon {
+                    width: 60px;
+                    height: 60px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 12px;
+                    background: rgba(59, 130, 246, 0.1);
+                }
+                
+                .stat-card-success .stat-icon {
+                    background: rgba(16, 185, 129, 0.1);
+                }
+                
+                .stat-card-warning .stat-icon {
+                    background: rgba(245, 158, 11, 0.1);
+                }
+                
+                .stat-card-danger .stat-icon {
+                    background: rgba(239, 68, 68, 0.1);
+                }
+                
+                .custom-tabs .nav-link {
+                    border: none;
+                    color: #6c757d;
+                    font-weight: 500;
+                    padding: 1rem 1.5rem;
+                    transition: all 0.3s ease;
+                }
+                
+                .custom-tabs .nav-link.active {
+                    color: #3B82F6;
+                    background: transparent;
+                    border-bottom: 3px solid #3B82F6;
+                }
+                
+                .custom-tabs .nav-link:hover {
+                    color: #3B82F6;
+                    background: rgba(59, 130, 246, 0.05);
+                }
+                
+                .chart-container {
+                    background: white;
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                }
+                
+                .table th {
+                    background: #f8f9fa;
+                    border-bottom: 2px solid #dee2e6;
+                    font-weight: 600;
+                    color: #495057;
+                    font-size: 0.85rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .table td {
+                    vertical-align: middle;
+                    font-size: 0.9rem;
+                }
+                
+                .card-header {
+                    border-bottom: 1px solid rgba(0,0,0,0.05);
+                }
+            `}</style>
         </>
     );
 }

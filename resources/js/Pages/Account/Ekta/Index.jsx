@@ -9,21 +9,20 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
 import { QRCodeSVG } from "qrcode.react";
 
-import ReactToPrint from 'react-to-print';
+import ReactToPrint from "react-to-print";
 
 export default function EktaIndex() {
     const { biodata, transactions, statusAnggota } = usePage().props;
 
     const [name] = useState(statusAnggota.status_anggota);
 
-
     const status = transactions.map((ts) => ts.status);
 
-    const componentRef = useRef()
+    const componentRef = useRef();
 
-    const handlePrint = () =>{
-        window.print()
-    }
+    const handlePrint = () => {
+        window.print();
+    };
 
     const filter = status
         .toString()
@@ -32,10 +31,8 @@ export default function EktaIndex() {
         .replace('"', "")
         .replace('"', "");
 
-
     const years = new Date().getFullYear();
     return (
-        
         <>
             <Head>
                 <title>User E-KTA - IKATWI</title>
@@ -71,10 +68,10 @@ export default function EktaIndex() {
                                 </svg>
                                 E-KTA
                                 <span>
-                             {/* <ReactToPrint trigger={() => <button className="btn btn-primary btn-sm me-2">print / download</button>} content={() => componentRef.current} /> */}
-                            </span>
+                                    {/* <ReactToPrint trigger={() => <button className="btn btn-primary btn-sm me-2">print / download</button>} content={() => componentRef.current} /> */}
+                                </span>
                             </div>
-                            
+
                             <div ref={componentRef} className="card-body">
                                 <div className="row justify-content-center">
                                     <div className="col-md-6 mt-3">
@@ -112,7 +109,7 @@ export default function EktaIndex() {
                                                                             }
                                                                             alt="Deskripsi gambar"
                                                                             onError={(
-                                                                                e
+                                                                                e,
                                                                             ) => {
                                                                                 e.target.onerror =
                                                                                     null; // menghindari infinite loop jika terjadi kesalahan lagi
@@ -188,10 +185,10 @@ export default function EktaIndex() {
                                                                 <tr>
                                                                     <td></td>
                                                                 </tr>
-                                                               
-                                                              
-                                                    
-                                                    
+                                                                <tr>
+                                                                    <td></td>
+                                                                </tr>
+
                                                                 <tr>
                                                                     <td>
                                                                         <strong
@@ -200,18 +197,23 @@ export default function EktaIndex() {
                                                                                     "0.875em",
                                                                             }}
                                                                         >
-                                                                        <div
-                                                                            style={{
-                                                                                fontSize:
-                                                                                    "0.775em",
-                                                                            }}
-                                                                        >
-                                                                            Berlaku
-                                                                            Sampai
-                                                                            : 31
-                                                                            DESEMBER
-                                                                            {years}
-                                                                        </div>
+                                                                            <div
+                                                                                style={{
+                                                                                    fontSize:
+                                                                                        "0.775em",
+                                                                                    marginTop:
+                                                                                        "0px",
+                                                                                }}
+                                                                            >
+                                                                                Berlaku
+                                                                                Sampai
+                                                                                :
+                                                                                31
+                                                                                DESEMBER
+                                                                                {
+                                                                                    years
+                                                                                }
+                                                                            </div>
                                                                         </strong>
                                                                     </td>
                                                                 </tr>
@@ -255,6 +257,14 @@ export default function EktaIndex() {
                                                                             style={{
                                                                                 fontSize:
                                                                                     "0.755em",
+                                                                                wordWrap:
+                                                                                    "break-word",
+                                                                                wordBreak:
+                                                                                    "break-word",
+                                                                                overflowWrap:
+                                                                                    "break-word",
+                                                                                maxWidth:
+                                                                                    "200px",
                                                                             }}
                                                                         >
                                                                             Alamat
@@ -422,6 +432,22 @@ export default function EktaIndex() {
                         </div>
                     )}
                 </div>
+
+                {/* CSS untuk membuat alamat responsive */}
+                <style jsx>{`
+                    @media (max-width: 768px) {
+                        .table-responsive td div {
+                            max-width: 150px !important;
+                        }
+                    }
+
+                    @media (max-width: 576px) {
+                        .table-responsive td div {
+                            max-width: 120px !important;
+                            font-size: 0.7em !important;
+                        }
+                    }
+                `}</style>
             </LayoutAccount>
         </>
     );
