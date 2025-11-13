@@ -196,9 +196,9 @@ export default function HomeIndex() {
                 )}
 
                 {/* Slider dengan lebar yang sama seperti menu utama */}
-                <div className="container mt-4" style={{ maxWidth: '1140px' }}>
+                <div className="container mt-4" style={{ maxWidth: '1240px' }}>
                     <div className="row justify-content-center">
-                        <div className="col-md-8" style={{ width: '100%', maxWidth: '720px' }}>
+                        <div className="col-md-8" style={{ width: '100%', maxWidth: '1160px' }}>
                             <Slider sliders={sliders} />
                         </div>
                     </div>
@@ -213,7 +213,7 @@ export default function HomeIndex() {
                                 <div className="section-header mb-4">
                                     <div className="row align-items-center">
                                         <div className="col">
-                                            <h4 className="fw-bold text-gray-800 mb-0">
+                                            <h4 className="fw-bold text-primary mb-0">
                                                 <i className="fas fa-th-large me-2 text-primary"></i>
                                                 Menu Utama
                                             </h4>
@@ -331,7 +331,7 @@ export default function HomeIndex() {
                                 <div className="section-header mb-4">
                                     <div className="row align-items-center">
                                         <div className="col">
-                                            <h4 className="fw-bold text-gray-800 mb-0">
+                                            <h4 className="fw-bold text-primary mb-0">
                                                 <i className="fas fa-calendar-alt me-2 text-primary"></i>
                                                 Agenda Kegiatan Terbaru
                                             </h4>
