@@ -20,7 +20,10 @@ class AdminDpwController extends Controller
         $verif = Pengajuan::when(request()->q, function ($verif) {
             $verif = $verif->where('name', 'like', '%' . request()->q . '%');
         })
-            ->where('tujuan_mutasi', auth()->user()->province_id) // Filter berdasarkan DPW admin
+            ->where(function ($query) {
+                $query->where('province_id', auth()->user()->province_id) // Yang berasal dari DPW admin
+                    ->orWhere('tujuan_mutasi', auth()->user()->province_id); // Yang menuju ke DPW admin
+            })
             ->with('province', 'city', 'tujuan', 'tujuanDpc')
             ->latest()
             ->paginate(10);

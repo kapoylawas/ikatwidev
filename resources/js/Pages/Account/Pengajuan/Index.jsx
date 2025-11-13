@@ -33,18 +33,18 @@ export default function PengajuanIndex() {
     // Fungsi untuk memeriksa apakah bulan saat ini termasuk dalam periode yang diizinkan
     const isAllowedMonth = () => {
         const currentMonth = new Date().getMonth() + 1; // January = 1, December = 12
-        return currentMonth === 4 || currentMonth === 8 || currentMonth === 12; // April, Agustus, Desember
+        return currentMonth === 4 || currentMonth === 8 || currentMonth === 11; // April, Agustus, Desember
     };
 
     // Fungsi untuk memeriksa jumlah pengajuan di bulan ini
     const getCurrentMonthSubmissions = () => {
         const currentMonth = new Date().getMonth() + 1;
         const currentYear = new Date().getFullYear();
-        
+
         return pengajuans.data.filter(pengajuan => {
             const submissionDate = new Date(pengajuan.created_at);
-            return submissionDate.getMonth() + 1 === currentMonth && 
-                   submissionDate.getFullYear() === currentYear;
+            return submissionDate.getMonth() + 1 === currentMonth &&
+                submissionDate.getFullYear() === currentYear;
         }).length;
     };
 
@@ -81,14 +81,14 @@ export default function PengajuanIndex() {
 
     // Fungsi untuk mendapatkan nama bulan yang diizinkan
     const getAllowedMonths = () => {
-        return "April, Agustus, dan Desember";
+        return "April, Agustus, dan November";
     };
 
     // Fungsi untuk mendapatkan informasi batas pengajuan
     const getSubmissionLimitInfo = () => {
         const currentMonthSubmissions = getCurrentMonthSubmissions();
         const remaining = Math.max(0, 3 - currentMonthSubmissions);
-        
+
         return {
             current: currentMonthSubmissions,
             max: 3,
@@ -262,7 +262,7 @@ export default function PengajuanIndex() {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 {/* Progress Bar untuk batas pengajuan */}
                                 {isAllowedMonth() && filter === "PAID" && (
                                     <div className="mt-3">
@@ -275,7 +275,7 @@ export default function PengajuanIndex() {
                                             </small>
                                         </div>
                                         <div className="progress" style={{ height: "8px" }}>
-                                            <div 
+                                            <div
                                                 className={`progress-bar ${limitInfo.current >= limitInfo.max ? 'bg-danger' : 'bg-success'}`}
                                                 role="progressbar"
                                                 style={{ width: `${(limitInfo.current / limitInfo.max) * 100}%` }}
@@ -415,8 +415,8 @@ export default function PengajuanIndex() {
                                             Status Periode
                                         </div>
                                         <div className="h6 mb-0 font-weight-bold text-gray-800">
-                                            {isAllowedMonth() ? 
-                                                <span className="text-success">Buka</span> : 
+                                            {isAllowedMonth() ?
+                                                <span className="text-success">Buka</span> :
                                                 <span className="text-danger">Tutup</span>
                                             }
                                         </div>
@@ -438,8 +438,8 @@ export default function PengajuanIndex() {
                                             Status Anggota
                                         </div>
                                         <div className="h6 mb-0 font-weight-bold text-gray-800">
-                                            {filter === "PAID" ? 
-                                                <span className="text-success">Aktif</span> : 
+                                            {filter === "PAID" ?
+                                                <span className="text-success">Aktif</span> :
                                                 <span className="text-warning">{name}</span>
                                             }
                                         </div>
@@ -590,8 +590,8 @@ export default function PengajuanIndex() {
                                                                 {filter === "PAID" && isAllowedMonth()
                                                                     ? "Mulai dengan membuat pengajuan mutasi pertama Anda"
                                                                     : filter !== "PAID"
-                                                                    ? "Anda perlu memiliki status PAID untuk membuat pengajuan mutasi"
-                                                                    : "Saat ini bukan periode pengajuan. Tunggu bulan April, Agustus, atau Desember"
+                                                                        ? "Anda perlu memiliki status PAID untuk membuat pengajuan mutasi"
+                                                                        : "Saat ini bukan periode pengajuan. Tunggu bulan April, Agustus, atau Desember"
                                                                 }
                                                             </p>
                                                             {canCreateSubmission ? (

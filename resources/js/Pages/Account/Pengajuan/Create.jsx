@@ -50,7 +50,7 @@ export default function PengajuanCreate() {
     // Fungsi untuk memeriksa apakah bulan saat ini termasuk dalam periode yang diizinkan
     const isAllowedMonth = () => {
         const currentMonth = new Date().getMonth() + 1; // January = 1, December = 12
-        return currentMonth === 4 || currentMonth === 8 || currentMonth === 12; // April, Agustus, November
+        return currentMonth === 4 || currentMonth === 8 || currentMonth === 11; // April, Agustus, November
     };
 
     // Fungsi untuk mendapatkan nama bulan saat ini
@@ -67,16 +67,16 @@ export default function PengajuanCreate() {
 
         const currentMonth = new Date().getMonth() + 1;
         const currentYear = new Date().getFullYear();
-        
+
         return pengajuans.data.filter(pengajuan => {
             // Pastikan pengajuan dan created_at ada
             if (!pengajuan || !pengajuan.created_at) {
                 return false;
             }
-            
+
             const submissionDate = new Date(pengajuan.created_at);
-            return submissionDate.getMonth() + 1 === currentMonth && 
-                   submissionDate.getFullYear() === currentYear;
+            return submissionDate.getMonth() + 1 === currentMonth &&
+                submissionDate.getFullYear() === currentYear;
         }).length;
     };
 
@@ -126,13 +126,13 @@ export default function PengajuanCreate() {
 
     // Fungsi untuk mendapatkan nama bulan yang diizinkan
     const getAllowedMonths = () => {
-        return "April, Agustus, dan Desember";
+        return "April, Agustus, dan November";
     };
 
     // Fungsi untuk mendapatkan informasi batas pengajuan - DIPERBAIKI dengan null checking
     const getSubmissionLimitInfo = () => {
         const remaining = Math.max(0, 3 - currentMonthSubmissions);
-        
+
         return {
             current: currentMonthSubmissions,
             max: 3,
@@ -209,7 +209,7 @@ export default function PengajuanCreate() {
     //method "storePengajuan"
     const storePengajuan = async (e) => {
         e.preventDefault();
-        
+
         // Validasi tambahan sebelum submit
         if (!canCreateSubmission) {
             Swal.fire({
@@ -295,13 +295,13 @@ export default function PengajuanCreate() {
 
     // Fungsi untuk mengecek apakah form valid
     const isFormValid = () => {
-        return canCreateSubmission && 
-               tglmutasi && 
-               keterangan && 
-               tipePindah && 
-               ((tipePindah === "dpw" && tujuan && tujuandpc) || 
+        return canCreateSubmission &&
+            tglmutasi &&
+            keterangan &&
+            tipePindah &&
+            ((tipePindah === "dpw" && tujuan && tujuandpc) ||
                 (tipePindah === "dpc" && tujuandpc)) &&
-               isConfirmed;
+            isConfirmed;
     };
 
     return (
@@ -310,7 +310,7 @@ export default function PengajuanCreate() {
                 <title>User Pengajuan Mutasi - IKATWI</title>
             </Head>
             <LayoutAccount>
-                
+
                 {/* Informasi Pembatasan Akses */}
                 {!canCreateSubmission && (
                     <div className="row mb-4 mt-4">
@@ -357,7 +357,7 @@ export default function PengajuanCreate() {
                                                 {filter !== "PAID" && (
                                                     <div className="mt-2">
                                                         <small className="text-muted">
-                                                            Status anggota Anda saat ini: <strong>{name}</strong>. 
+                                                            Status anggota Anda saat ini: <strong>{name}</strong>.
                                                             Hubungi admin untuk memperbarui status ke PAID.
                                                         </small>
                                                     </div>
@@ -473,7 +473,7 @@ export default function PengajuanCreate() {
                                         </span>
                                     </div>
                                     <div className="progress" style={{ height: "10px" }}>
-                                        <div 
+                                        <div
                                             className={`progress-bar bg-${limitInfo.current >= limitInfo.max ? 'danger' : 'success'}`}
                                             role="progressbar"
                                             style={{ width: `${(limitInfo.current / limitInfo.max) * 100}%` }}
@@ -483,7 +483,7 @@ export default function PengajuanCreate() {
                                         ></div>
                                     </div>
                                     <small className="text-muted mt-2 d-block">
-                                        {limitInfo.remaining > 0 
+                                        {limitInfo.remaining > 0
                                             ? `Anda masih dapat membuat ${limitInfo.remaining} pengajuan lagi bulan ${currentMonthName} ini`
                                             : `Anda telah mencapai batas maksimal pengajuan bulan ${currentMonthName} ini`
                                         }
@@ -520,7 +520,7 @@ export default function PengajuanCreate() {
                             </div>
                         </div>
                         <div className="card-body">
-                            
+
                             {/* Alert untuk informasi akses */}
                             {canCreateSubmission && limitInfo.remaining > 0 && (
                                 <div className="alert alert-success mb-4">
