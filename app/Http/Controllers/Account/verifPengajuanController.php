@@ -52,7 +52,6 @@ class verifPengajuanController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1. Update tabel pengajuan
             $verifPengajuan->update([
                 'user_id'       => $request->user_id,
                 'name'          => $request->name,
@@ -64,7 +63,7 @@ class verifPengajuanController extends Controller
                 'tujuan_mutasi' => $request->tujuan_mutasi,
                 'dpc_mutasi'    => $request->dpc_mutasi,
                 'status'        => $request->status,
-                'no_urut'        => $request->no_urut,
+                'no_urut'       => $request->no_urut,
                 'keterangan_revisi' => $request->keterangan_revisi,
             ]);
 
@@ -88,21 +87,8 @@ class verifPengajuanController extends Controller
 
                 $user->save();
 
-                // Dapatkan tahun dari tgl_mutasi atau tahun sekarang
-                $tahunPengajuan = date('Y', strtotime($request->tgl_mutasi ?? now()));
-
-                // Cari pengajuan terakhir yang disetujui PADA TAHUN YANG SAMA
-                $lastPengajuan = Pengajuan::where('status', 'selesai')
-                    ->whereYear('tgl_mutasi', $tahunPengajuan)
-                    ->orderBy('no_urut', 'desc')
-                    ->first();
-
-                $newNoUrut = '001'; // Default untuk tahun baru atau pertama kali
-                if ($lastPengajuan && $lastPengajuan->no_urut) {
-                    $lastNumber = (int)$lastPengajuan->no_urut;
-                    $newNumber = $lastNumber + 1;
-                    $newNoUrut = str_pad($newNumber, 3, '0', STR_PAD_LEFT);
-                }
+                // FIX: No urut = ID + 00 (misal: ID 5 -> 500, ID 123 -> 12300)
+                $newNoUrut = $verifPengajuan->id . '00';
 
                 // Update nomor urut untuk pengajuan yang disetujui
                 $verifPengajuan->update(['no_urut' => $newNoUrut]);

@@ -33,9 +33,15 @@ export default function VerifPengajuanDpcEdit() {
     const [tujuandpc, setTujuandpc] = useState(verifPengajuan.dpc_mutasi);
     const [status, setStatus] = useState(verifPengajuan.status);
     const [keteranganRefisi, setKeteranganRefisi] = useState(verifPengajuan.keterangan_revisi);
+    
+    // State untuk loading
+    const [isLoading, setIsLoading] = useState(false);
 
     const updatePengajuan = async (e) => {
         e.preventDefault();
+        
+        // Set loading state
+        setIsLoading(true);
 
         //sending data
         Inertia.post(
@@ -66,6 +72,10 @@ export default function VerifPengajuanDpcEdit() {
                         timer: 2500,
                     });
                 },
+                onFinish: () => {
+                    // Reset loading state ketika proses selesai (baik success maupun error)
+                    setIsLoading(false);
+                }
             }
         );
     };
@@ -127,7 +137,19 @@ export default function VerifPengajuanDpcEdit() {
                 <div className="container-fluid py-4">
                     <div className="row justify-content-center">
                         <div className="col-12 col-lg-10 col-xl-8">
-                            <div className="card shadow-sm border-0">
+                            <div className="card shadow-sm border-0 position-relative">
+                                {/* Loading Overlay */}
+                                {isLoading && (
+                                    <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-white bg-opacity-75 rounded z-3">
+                                        <div className="text-center">
+                                            <div className="spinner-border text-primary mb-2" style={{width: '3rem', height: '3rem'}} role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                            <p className="text-primary fw-bold fs-5">Menyimpan perubahan...</p>
+                                        </div>
+                                    </div>
+                                )}
+                                
                                 <div className="card-header bg-primary text-white py-3">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h4 className="mb-0">
@@ -302,6 +324,7 @@ export default function VerifPengajuanDpcEdit() {
                                                             className="form-select"
                                                             value={status}
                                                             onChange={(e) => setStatus(e.target.value)}
+                                                            disabled={isLoading}
                                                         >
                                                             <option value="">-- Pilih Status --</option>
                                                             <option value="ditunda">Ditunda untuk perbaikan</option>
@@ -463,6 +486,7 @@ export default function VerifPengajuanDpcEdit() {
                                                                 setKeteranganRefisi(e.target.value)
                                                             }
                                                             placeholder="Masukkan keterangan revisi jika diperlukan"
+                                                            disabled={isLoading}
                                                         />
                                                     </div>
                                                     {errors.keterangan_revisi && (
@@ -481,14 +505,27 @@ export default function VerifPengajuanDpcEdit() {
                                                     <button
                                                         type="reset"
                                                         className="btn btn-outline-secondary px-4"
+                                                        disabled={isLoading}
                                                     >
                                                         <i className="fas fa-redo me-2"></i> Reset
                                                     </button>
                                                     <button
                                                         type="submit"
                                                         className="btn btn-success px-4"
+                                                        disabled={isLoading}
                                                     >
-                                                        <i className="fas fa-save me-2"></i> Simpan Perubahan
+                                                        {isLoading ? (
+                                                            <>
+                                                                <div className="spinner-border spinner-border-sm me-2" role="status">
+                                                                    <span className="visually-hidden">Loading...</span>
+                                                                </div>
+                                                                Menyimpan...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fas fa-save me-2"></i> Simpan Perubahan
+                                                            </>
+                                                        )}
                                                     </button>
                                                 </div>
                                             </div>

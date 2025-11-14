@@ -14,7 +14,6 @@ import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 
 export default function CategoryEdit() {
-
     const {
         errors,
         provinces,
@@ -33,9 +32,15 @@ export default function CategoryEdit() {
     const [tujuandpc, setTujuandpc] = useState(verifPengajuan.dpc_mutasi);
     const [status, setStatus] = useState(verifPengajuan.status);
     const [keteranganRefisi, setKeteranganRefisi] = useState(verifPengajuan.keterangan_revisi);
+    
+    // State untuk loading
+    const [isLoading, setIsLoading] = useState(false);
 
     const updatePengajuan = async (e) => {
         e.preventDefault();
+        
+        // Set loading state
+        setIsLoading(true);
 
         //sending data
         Inertia.post(
@@ -66,6 +71,10 @@ export default function CategoryEdit() {
                         timer: 2500,
                     });
                 },
+                onFinish: () => {
+                    // Reset loading state ketika proses selesai (baik success maupun error)
+                    setIsLoading(false);
+                }
             }
         );
     };
@@ -302,6 +311,7 @@ export default function CategoryEdit() {
                                                             className="form-select"
                                                             value={status}
                                                             onChange={(e) => setStatus(e.target.value)}
+                                                            disabled={isLoading}
                                                         >
                                                             <option value="">-- Pilih Status --</option>
                                                             <option value="ditunda">Ditunda untuk perbaikan</option>
@@ -463,6 +473,7 @@ export default function CategoryEdit() {
                                                                 setKeteranganRefisi(e.target.value)
                                                             }
                                                             placeholder="Masukkan keterangan revisi jika diperlukan"
+                                                            disabled={isLoading}
                                                         />
                                                     </div>
                                                     {errors.keterangan_revisi && (
@@ -481,18 +492,43 @@ export default function CategoryEdit() {
                                                     <button
                                                         type="reset"
                                                         className="btn btn-outline-secondary px-4"
+                                                        disabled={isLoading}
                                                     >
                                                         <i className="fas fa-redo me-2"></i> Reset
                                                     </button>
                                                     <button
                                                         type="submit"
                                                         className="btn btn-success px-4"
+                                                        disabled={isLoading}
                                                     >
-                                                        <i className="fas fa-save me-2"></i> Simpan Perubahan
+                                                        {isLoading ? (
+                                                            <>
+                                                                <div className="spinner-border spinner-border-sm me-2" role="status">
+                                                                    <span className="visually-hidden">Loading...</span>
+                                                                </div>
+                                                                Menyimpan...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fas fa-save me-2"></i> Simpan Perubahan
+                                                            </>
+                                                        )}
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {/* Loading Overlay */}
+                                        {isLoading && (
+                                            <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-light bg-opacity-75 rounded">
+                                                <div className="text-center">
+                                                    <div className="spinner-border text-primary mb-2" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    <p className="text-primary fw-bold">Menyimpan perubahan...</p>
+                                                </div>
+                                            </div>
+                                        )}
                                     </form>
                                 </div>
                             </div>
