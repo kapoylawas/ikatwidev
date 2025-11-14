@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/Pagination.a4aafb59.js
-import{R as e,L as r}from"./app.222d1139.js";function c({links:t,align:l}){return e.createElement(e.Fragment,null,e.createElement("nav",null,e.createElement("ul",{className:`pagination justify-content-${l} mb-0`},t.map((a,n)=>e.createElement("li",{className:`page-item ${a.url==null} ? 'disabled' : '' ${a.active?"active":""}`,key:n},e.createElement(r,{className:"page-link",href:a.url===null?"#":a.url,dangerouslySetInnerHTML:{__html:a.label}}))))))}export{c as P};
-========
-import{R as e,L as r}from"./app.17852079.js";function c({links:t,align:l}){return e.createElement(e.Fragment,null,e.createElement("nav",null,e.createElement("ul",{className:`pagination justify-content-${l} mb-0`},t.map((a,n)=>e.createElement("li",{className:`page-item ${a.url==null} ? 'disabled' : '' ${a.active?"active":""}`,key:n},e.createElement(r,{className:"page-link",href:a.url===null?"#":a.url,dangerouslySetInnerHTML:{__html:a.label}}))))))}export{c as P};
->>>>>>>> cd3b8b8e (update mutasi berubah dpw dpc):public/build/assets/Pagination.99794604.js
