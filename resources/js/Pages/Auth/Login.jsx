@@ -14,15 +14,28 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [focusedField, setFocusedField] = useState(null);
-    const [formErrors, setFormErrors] = useState({});
 
-    // Sync errors from props to state
-    useEffect(() => {
-        if (errors) {
-            setFormErrors(errors);
+    // Gunakan langsung errors dari props tanpa state tambahan
+    const formErrors = errors || {};
+
+    //function "loginHandler" yang diperbaiki
+    const loginHandler = async (e) => {
+        e.preventDefault();
+        
+        setIsLoading(true);
+
+        // Validasi client-side sederhana
+        if (!noanggota.trim() || !password.trim()) {
             setIsLoading(false);
+            return;
         }
-    }, [errors]);
+
+        // Kirim request login
+        Inertia.post("/loginAnggotaLama", {
+            no_anggota: noanggota,
+            password: password,
+        });
+    };
 
     // Reset loading state ketika navigation selesai
     useEffect(() => {
@@ -33,61 +46,18 @@ export default function Login() {
         return () => unsubscribe();
     }, []);
 
-    // Reset errors ketika user mulai mengetik
+    // Reset errors ketika user mulai mengetik di field
     useEffect(() => {
         if (noanggota.trim() && formErrors.no_anggota) {
-            setFormErrors(prev => ({ ...prev, no_anggota: null }));
+            // Errors akan di-reset otomatis oleh Inertia ketika form di-submit kembali
         }
     }, [noanggota, formErrors.no_anggota]);
 
     useEffect(() => {
         if (password.trim() && formErrors.password) {
-            setFormErrors(prev => ({ ...prev, password: null }));
+            // Errors akan di-reset otomatis oleh Inertia ketika form di-submit kembali
         }
     }, [password, formErrors.password]);
-
-    //function "loginHandler" yang diperbaiki
-    const loginHandlerLama = async (e) => {
-        e.preventDefault();
-
-        // Clear previous errors
-        setFormErrors({});
-
-        // Validasi client-side sederhana
-        if (!noanggota.trim() || !password.trim()) {
-            setFormErrors({
-                no_anggota: !noanggota.trim() ? 'Nomor anggota harus diisi' : null,
-                password: !password.trim() ? 'Password harus diisi' : null
-            });
-            setIsLoading(false);
-            return;
-        }
-
-        setIsLoading(true);
-
-        try {
-            await Inertia.post("/loginAnggotaLama", {
-                no_anggota: noanggota,
-                password: password,
-            }, {
-                onFinish: () => {
-                    setIsLoading(false);
-                },
-                onError: (errors) => {
-                    setIsLoading(false);
-                    if (errors) {
-                        setFormErrors(errors);
-                    }
-                },
-                onSuccess: () => {
-                    setIsLoading(false);
-                }
-            });
-        } catch (error) {
-            setIsLoading(false);
-            setFormErrors({ general: 'Terjadi kesalahan saat login' });
-        }
-    };
 
     return (
         <>
@@ -132,10 +102,10 @@ export default function Login() {
                                 {/* Body Card */}
                                 <div className="card-body-custom">
                                     {/* Error Message Global */}
-                                    {formErrors.general && (
+                                    {(formErrors.no_anggota || formErrors.password) && (
                                         <div className="global-error-message">
                                             <i className="fas fa-exclamation-triangle"></i>
-                                            {formErrors.general}
+                                            Terdapat kesalahan dalam input data. Silakan periksa kembali.
                                         </div>
                                     )}
 
@@ -144,7 +114,7 @@ export default function Login() {
                                         <p className="welcome-subtitle">Masuk ke akun anggota Anda</p>
                                     </div>
 
-                                    <form onSubmit={loginHandlerLama} className="login-form">
+                                    <form onSubmit={loginHandler} className="login-form">
                                         {/* No Anggota Field */}
                                         <div className={`form-group ${focusedField === 'noanggota' ? 'focused' : ''}`}>
                                             <label className="form-label">

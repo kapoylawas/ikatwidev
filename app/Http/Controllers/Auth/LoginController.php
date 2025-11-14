@@ -107,7 +107,8 @@ class LoginController extends Controller
 
         //if login fails
         return back()->withErrors([
-            'no_anggota' => 'The provided credentials do not match our records.',
+            'no_anggota' => 'no anggota anda salah.',
+            'password' => 'password anda salah',
         ]);
     }
 
