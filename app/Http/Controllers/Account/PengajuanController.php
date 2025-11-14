@@ -65,12 +65,23 @@ class PengajuanController extends Controller
         $provinces = Province::all();
         $cities = City::all();
 
+        $searchString = request()->q;
+        $pengajuans = Pengajuan::whereHas('user', function ($query) use ($searchString) {
+            $query->where('name', 'like', '%' . $searchString . '%');
+        })
+            ->with(['user' => function ($query) use ($searchString) {
+                $query->where('name', 'like', '%' . $searchString . '%');
+            }])->where('user_id', auth()->user()->id)->latest()->paginate(10);
+
+        $pengajuans->appends(['q' => request()->q]);
+
         return inertia('Account/Pengajuan/Create', [
             'transactions' => $transactions,
             'statusAnggota' => $statusAnggota,
             'biodata' => $biodata,
             'provinces' => $provinces,
             'cities' => $cities,
+            'pengajuans' => $pengajuans
         ]);
     }
 

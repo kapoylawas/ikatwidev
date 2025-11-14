@@ -28,6 +28,7 @@ export default function VerifPengajuanIndex() {
                     </span>
                 );
             case "tolak":
+            case "ditolak": // Menambahkan case untuk status 'ditolak'
                 return (
                     <span className="badge bg-danger px-3 py-2">
                         <i className="fas fa-times me-1"></i>
@@ -78,6 +79,7 @@ export default function VerifPengajuanIndex() {
             case "setujui":
                 return "Pengajuan telah disetujui";
             case "tolak":
+            case "ditolak": // Menambahkan case untuk status 'ditolak'
                 return "Pengajuan ditolak";
             case "revisi":
                 return "Perlu perbaikan data";

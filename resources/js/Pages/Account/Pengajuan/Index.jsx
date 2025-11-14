@@ -33,7 +33,7 @@ export default function PengajuanIndex() {
     // Fungsi untuk memeriksa apakah bulan saat ini termasuk dalam periode yang diizinkan
     const isAllowedMonth = () => {
         const currentMonth = new Date().getMonth() + 1; // January = 1, December = 12
-        return currentMonth === 4 || currentMonth === 8 || currentMonth === 11; // April, Agustus, Desember
+        return currentMonth === 4 || currentMonth === 8 || currentMonth === 11; // April, Agustus, November
     };
 
     // Fungsi untuk memeriksa jumlah pengajuan di bulan ini
@@ -59,7 +59,7 @@ export default function PengajuanIndex() {
         if (!isAllowedMonth()) {
             setCanCreateSubmission(false);
             const currentMonth = new Date().toLocaleString('id-ID', { month: 'long' });
-            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan April, Agustus, dan Desember. Saat ini bulan ${currentMonth}`);
+            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan April, Agustus, dan November. Saat ini bulan ${currentMonth}`);
             return;
         }
 
@@ -102,19 +102,20 @@ export default function PengajuanIndex() {
     const getStatusClass = (status) => {
         switch (status) {
             case "selesai":
-                return "status-completed";
+                return "bg-success text-white";
             case "dikirim":
-                return "status-sent";
+                return "bg-info text-white";
             case "setujui":
-                return "status-approved";
+                return "bg-success text-white";
             case "ditunda":
-                return "status-pending";
+                return "bg-warning text-dark";
             case "revisi":
-                return "status-revision";
+                return "bg-warning text-dark";
             case "tolak":
-                return "status-rejected";
+            case "ditolak":
+                return "bg-danger text-white";
             default:
-                return "status-pending";
+                return "bg-secondary text-white";
         }
     };
 
@@ -122,19 +123,20 @@ export default function PengajuanIndex() {
     const getStatusIcon = (status) => {
         switch (status) {
             case "selesai":
-                return "fa-check-double";
+                return "fas fa-check-double";
             case "dikirim":
-                return "fa-paper-plane";
+                return "fas fa-paper-plane";
             case "setujui":
-                return "fa-check-circle";
+                return "fas fa-check-circle";
             case "ditunda":
-                return "fa-pause-circle";
+                return "fas fa-pause-circle";
             case "revisi":
-                return "fa-edit";
+                return "fas fa-edit";
             case "tolak":
-                return "fa-times-circle";
+            case "ditolak":
+                return "fas fa-times-circle";
             default:
-                return "fa-clock";
+                return "fas fa-clock";
         }
     };
 
@@ -152,6 +154,7 @@ export default function PengajuanIndex() {
             case "revisi":
                 return "Perlu Revisi";
             case "tolak":
+            case "ditolak":
                 return "Ditolak";
             default:
                 return "Menunggu";
@@ -172,6 +175,7 @@ export default function PengajuanIndex() {
             case "revisi":
                 return "Pengajuan perlu direvisi sebelum dapat diproses";
             case "tolak":
+            case "ditolak":
                 return "Pengajuan mutasi ditolak";
             default:
                 return "Pengajuan sedang menunggu proses verifikasi";
@@ -181,587 +185,434 @@ export default function PengajuanIndex() {
     return (
         <>
             <Head>
-                <title>User Pengajuan Mutasi - IKATWI</title>
+                <title>Pengajuan Mutasi - IKATWI</title>
             </Head>
             <LayoutAccount>
-                {/* Header Section */}
-                <div className="row align-items-center mb-4 mt-4">
-                    <div className="col-md-8">
-                        <div className="d-flex align-items-center">
-                            <div className="flex-grow-1">
-                                <h1 className="h3 mb-0 text-gray-800">
-                                    Pengajuan Mutasi
-                                </h1>
-                                <p className="mb-0 text-muted">
-                                    Kelola pengajuan pindah Anda
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4 text-end">
-                        {canCreateSubmission ? (
-                            <Link
-                                href="/account/pengajuan/create"
-                                className="btn btn-primary btn-lg shadow-sm"
-                            >
-                                <i className="fas fa-plus-circle me-2"></i>
-                                Buat Pengajuan Baru
-                            </Link>
-                        ) : (
-                            <button
-                                className="btn btn-secondary btn-lg shadow-sm"
-                                disabled
-                                title={restrictionMessage}
-                            >
-                                <i className="fas fa-ban me-2"></i>
-                                Buat Pengajuan Baru
-                            </button>
-                        )}
-                    </div>
-                </div>
-
-                {/* Informasi Pembatasan Akses */}
-                <div className="row mb-4">
-                    <div className="col-12">
-                        <div className="card border-info mb-4">
-                            <div className="card-header bg-info text-white d-flex justify-content-between align-items-center">
-                                <h6 className="mb-0">
-                                    <i className="fas fa-info-circle me-2"></i>
-                                    Informasi Pembatasan Pengajuan
-                                </h6>
-                                <span className={`badge ${isAllowedMonth() ? 'bg-success' : 'bg-warning'}`}>
-                                    {isAllowedMonth() ? 'PERIODE BUKA' : 'PERIODE TUTUP'}
-                                </span>
-                            </div>
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="d-flex align-items-center mb-3">
-                                            <div className="bg-primary rounded-circle p-2 me-3">
-                                                <i className="fas fa-calendar-alt text-white"></i>
-                                            </div>
-                                            <div>
-                                                <h6 className="mb-1">Periode Pengajuan</h6>
-                                                <p className="mb-0 text-muted">
-                                                    Hanya bulan: <strong>{getAllowedMonths()}</strong>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="d-flex align-items-center mb-3">
-                                            <div className="bg-warning rounded-circle p-2 me-3">
-                                                <i className="fas fa-chart-bar text-white"></i>
-                                            </div>
-                                            <div>
-                                                <h6 className="mb-1">Batas Pengajuan</h6>
-                                                <p className="mb-0 text-muted">
-                                                    Maksimal <strong>3 pengajuan</strong> per bulan
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Progress Bar untuk batas pengajuan */}
-                                {isAllowedMonth() && filter === "PAID" && (
-                                    <div className="mt-3">
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <small className="text-muted">
-                                                Pengajuan bulan ini: {limitInfo.current} dari {limitInfo.max}
-                                            </small>
-                                            <small className={`fw-bold ${limitInfo.remaining === 0 ? 'text-danger' : 'text-success'}`}>
-                                                Sisa: {limitInfo.remaining}
-                                            </small>
-                                        </div>
-                                        <div className="progress" style={{ height: "8px" }}>
-                                            <div
-                                                className={`progress-bar ${limitInfo.current >= limitInfo.max ? 'bg-danger' : 'bg-success'}`}
-                                                role="progressbar"
-                                                style={{ width: `${(limitInfo.current / limitInfo.max) * 100}%` }}
-                                                aria-valuenow={limitInfo.current}
-                                                aria-valuemin="0"
-                                                aria-valuemax={limitInfo.max}
-                                            ></div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Status Member Alert */}
-                {filter !== "PAID" && (
+                <div className="container-fluid py-4">
+                    {/* Header Section */}
                     <div className="row mb-4">
                         <div className="col-12">
-                            <div className="alert alert-warning d-flex align-items-center" role="alert">
-                                <i className="fas fa-exclamation-triangle me-3 fa-lg"></i>
-                                <div>
-                                    <h6 className="alert-heading mb-1">Status Anggota: {name}</h6>
-                                    <p className="mb-0">
-                                        Saat ini Anda tidak dapat membuat pengajuan mutasi.
-                                        Hanya anggota dengan status <strong>PAID</strong> yang diperbolehkan
-                                        mengajukan mutasi. Silakan hubungi admin untuk informasi lebih lanjut.
-                                    </p>
+                            <div className="card shadow-sm border-0">
+                                <div className="card-body py-4">
+                                    <div className="row align-items-center">
+                                        <div className="col-md-8">
+                                            <h4 className="mb-1 text-primary fw-bold">
+                                                <i className="fas fa-exchange-alt me-2"></i>
+                                                Pengajuan Mutasi
+                                            </h4>
+                                            <p className="text-muted mb-0">
+                                                Kelola pengajuan pindah Anda
+                                            </p>
+                                        </div>
+                                        <div className="col-md-4 text-md-end">
+                                            {canCreateSubmission ? (
+                                                <Link
+                                                    href="/account/pengajuan/create"
+                                                    className="btn btn-success btn-lg shadow-sm px-4 py-2"
+                                                >
+                                                    <i className="fas fa-plus-circle me-2"></i>
+                                                    Buat Pengajuan Baru
+                                                </Link>
+                                            ) : (
+                                                <button
+                                                    className="btn btn-secondary btn-lg shadow-sm px-4 py-2"
+                                                    disabled
+                                                    title={restrictionMessage}
+                                                >
+                                                    <i className="fas fa-ban me-2"></i>
+                                                    Buat Pengajuan Baru
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                )}
 
-                {/* Alert untuk pembatasan bulan */}
-                {filter === "PAID" && !isAllowedMonth() && (
+                    {/* Stats Cards */}
+                    <div className="row mb-4">
+                        <div className="col-xl-2 col-md-4 mb-4">
+                            <div className="card shadow-sm border-0 h-100">
+                                <div className="card-body text-center">
+                                    <div className="bg-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                                        style={{ width: '60px', height: '60px' }}>
+                                        <i className="fas fa-file-alt fa-2x text-white"></i>
+                                    </div>
+                                    <h3 className="fw-bold text-dark mb-1">{pengajuans.total}</h3>
+                                    <p className="text-muted mb-0">Total Pengajuan</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-xl-2 col-md-4 mb-4">
+                            <div className="card shadow-sm border-0 h-100">
+                                <div className="card-body text-center">
+                                    <div className="bg-success rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                                        style={{ width: '60px', height: '60px' }}>
+                                        <i className="fas fa-calendar-check fa-2x text-white"></i>
+                                    </div>
+                                    <h3 className="fw-bold text-dark mb-1">{getCurrentMonthSubmissions()}</h3>
+                                    <p className="text-muted mb-0">Bulan Ini</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-xl-2 col-md-4 mb-4">
+                            <div className="card shadow-sm border-0 h-100">
+                                <div className="card-body text-center">
+                                    <div className="bg-info rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                                        style={{ width: '60px', height: '60px' }}>
+                                        <i className="fas fa-tachometer-alt fa-2x text-white"></i>
+                                    </div>
+                                    <h3 className="fw-bold text-dark mb-1">
+                                        {isAllowedMonth() && filter === "PAID" ? limitInfo.remaining : 0}
+                                    </h3>
+                                    <p className="text-muted mb-0">Sisa Kuota</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-xl-2 col-md-4 mb-4">
+                            <div className="card shadow-sm border-0 h-100">
+                                <div className="card-body text-center">
+                                    <div className={`rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center ${isAllowedMonth() ? 'bg-success' : 'bg-warning'}`}
+                                        style={{ width: '60px', height: '60px' }}>
+                                        <i className={`fas ${isAllowedMonth() ? 'fa-lock-open' : 'fa-lock'} fa-2x text-white`}></i>
+                                    </div>
+                                    <h6 className="fw-bold mb-1">
+                                        {isAllowedMonth() ?
+                                            <span className="text-success">Periode Buka</span> :
+                                            <span className="text-warning">Periode Tutup</span>
+                                        }
+                                    </h6>
+                                    <p className="text-muted mb-0">Status Periode</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-xl-2 col-md-4 mb-4">
+                            <div className="card shadow-sm border-0 h-100">
+                                <div className="card-body text-center">
+                                    <div className={`rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center ${filter === "PAID" ? 'bg-success' : 'bg-warning'}`}
+                                        style={{ width: '60px', height: '60px' }}>
+                                        <i className={`fas ${filter === "PAID" ? 'fa-user-check' : 'fa-user-clock'} fa-2x text-white`}></i>
+                                    </div>
+                                    <h6 className="fw-bold mb-1">
+                                        {filter === "PAID" ?
+                                            <span className="text-success">Aktif</span> :
+                                            <span className="text-warning">{name}</span>
+                                        }
+                                    </h6>
+                                    <p className="text-muted mb-0">Status Anggota</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Informasi Pembatasan */}
                     <div className="row mb-4">
                         <div className="col-12">
-                            <div className="alert alert-info d-flex align-items-center" role="alert">
-                                <i className="fas fa-calendar-times me-3 fa-lg"></i>
-                                <div>
-                                    <h6 className="alert-heading mb-1">Periode Pengajuan Ditutup</h6>
-                                    <p className="mb-0">
-                                        {restrictionMessage}. Pengajuan mutasi hanya dapat dibuat pada bulan {getAllowedMonths()}.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Alert untuk batas maksimal pengajuan */}
-                {filter === "PAID" && isAllowedMonth() && limitInfo.remaining === 0 && (
-                    <div className="row mb-4">
-                        <div className="col-12">
-                            <div className="alert alert-warning d-flex align-items-center" role="alert">
-                                <i className="fas fa-exclamation-circle me-3 fa-lg"></i>
-                                <div>
-                                    <h6 className="alert-heading mb-1">Batas Pengajuan Tercapai</h6>
-                                    <p className="mb-0">
-                                        {restrictionMessage}. Anda dapat membuat pengajuan lagi pada bulan {getAllowedMonths()} di periode berikutnya.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Stats Cards - Diperbarui dengan informasi batas */}
-                <div className="row mb-4">
-                    <div className="col-xl-2 col-md-4 mb-4">
-                        <div className="card border-left-primary shadow h-100 py-2">
-                            <div className="card-body">
-                                <div className="row no-gutters align-items-center">
-                                    <div className="col mr-2">
-                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Total Pengajuan
-                                        </div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                            {pengajuans.total}
-                                        </div>
-                                    </div>
-                                    <div className="col-auto">
-                                        <i className="fas fa-file-alt fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-xl-2 col-md-4 mb-4">
-                        <div className="card border-left-success shadow h-100 py-2">
-                            <div className="card-body">
-                                <div className="row no-gutters align-items-center">
-                                    <div className="col mr-2">
-                                        <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            Pengajuan Bulan Ini
-                                        </div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                            {getCurrentMonthSubmissions()}
-                                        </div>
-                                    </div>
-                                    <div className="col-auto">
-                                        <i className="fas fa-calendar-check fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-xl-2 col-md-4 mb-4">
-                        <div className="card border-left-info shadow h-100 py-2">
-                            <div className="card-body">
-                                <div className="row no-gutters align-items-center">
-                                    <div className="col mr-2">
-                                        <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                            Sisa Kuota
-                                        </div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                            {isAllowedMonth() && filter === "PAID" ? limitInfo.remaining : 0}
-                                        </div>
-                                    </div>
-                                    <div className="col-auto">
-                                        <i className="fas fa-tachometer-alt fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-xl-2 col-md-4 mb-4">
-                        <div className="card border-left-warning shadow h-100 py-2">
-                            <div className="card-body">
-                                <div className="row no-gutters align-items-center">
-                                    <div className="col mr-2">
-                                        <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Status Periode
-                                        </div>
-                                        <div className="h6 mb-0 font-weight-bold text-gray-800">
-                                            {isAllowedMonth() ?
-                                                <span className="text-success">Buka</span> :
-                                                <span className="text-danger">Tutup</span>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div className="col-auto">
-                                        <i className={`fas ${isAllowedMonth() ? 'fa-lock-open' : 'fa-lock'} fa-2x text-gray-300`}></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-xl-2 col-md-4 mb-4">
-                        <div className="card border-left-secondary shadow h-100 py-2">
-                            <div className="card-body">
-                                <div className="row no-gutters align-items-center">
-                                    <div className="col mr-2">
-                                        <div className="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                                            Status Anggota
-                                        </div>
-                                        <div className="h6 mb-0 font-weight-bold text-gray-800">
-                                            {filter === "PAID" ?
-                                                <span className="text-success">Aktif</span> :
-                                                <span className="text-warning">{name}</span>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div className="col-auto">
-                                        <i className={`fas ${filter === "PAID" ? 'fa-user-check' : 'fa-user-clock'} fa-2x text-gray-300`}></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Main Content */}
-                <div className="row">
-                    <div className="col-12">
-                        <div className="card shadow-sm border-0">
-                            <div className="card-header bg-white py-3">
-                                <div className="d-flex justify-content-between align-items-center">
+                            <div className="card shadow-sm border-0">
+                                <div className="card-header bg-primary text-white py-3">
                                     <h5 className="mb-0">
-                                        <i className="fas fa-list-alt me-2 text-primary"></i>
-                                        Daftar Pengajuan
+                                        <i className="fas fa-info-circle me-2"></i>
+                                        Informasi Pembatasan Pengajuan
                                     </h5>
-                                    <span className="badge bg-primary">
-                                        {pengajuans.total} items
-                                    </span>
+                                </div>
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="d-flex align-items-center mb-3">
+                                                <div className="bg-primary rounded-circle p-2 me-3">
+                                                    <i className="fas fa-calendar-alt text-white"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 className="mb-1">Periode Pengajuan</h6>
+                                                    <p className="mb-0 text-muted">
+                                                        Hanya bulan: <strong>{getAllowedMonths()}</strong>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="d-flex align-items-center mb-3">
+                                                <div className="bg-warning rounded-circle p-2 me-3">
+                                                    <i className="fas fa-chart-bar text-white"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 className="mb-1">Batas Pengajuan</h6>
+                                                    <p className="mb-0 text-muted">
+                                                        Maksimal <strong>3 pengajuan</strong> per bulan
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Progress Bar */}
+                                    {isAllowedMonth() && filter === "PAID" && (
+                                        <div className="mt-3">
+                                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                                <small className="text-muted">
+                                                    Pengajuan bulan ini: {limitInfo.current} dari {limitInfo.max}
+                                                </small>
+                                                <small className={`fw-bold ${limitInfo.remaining === 0 ? 'text-danger' : 'text-success'}`}>
+                                                    Sisa: {limitInfo.remaining}
+                                                </small>
+                                            </div>
+                                            <div className="progress" style={{ height: "8px" }}>
+                                                <div
+                                                    className={`progress-bar ${limitInfo.current >= limitInfo.max ? 'bg-danger' : 'bg-success'}`}
+                                                    role="progressbar"
+                                                    style={{ width: `${(limitInfo.current / limitInfo.max) * 100}%` }}
+                                                    aria-valuenow={limitInfo.current}
+                                                    aria-valuemin="0"
+                                                    aria-valuemax={limitInfo.max}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            <div className="card-body p-0">
-                                <div className="table-responsive">
-                                    <table className="table table-hover mb-0">
-                                        <thead className="bg-light">
-                                            <tr>
-                                                <th className="ps-4" style={{ width: "5%" }}>
-                                                    No.
-                                                </th>
-                                                <th style={{ width: "20%" }}>
-                                                    Nama Pengaju
-                                                </th>
-                                                <th style={{ width: "25%" }}>
-                                                    Keterangan
-                                                </th>
-                                                <th style={{ width: "25%" }}>
-                                                    Status Mutasi
-                                                </th>
-                                                <th className="text-center" style={{ width: "15%" }}>
-                                                    Aksi
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {pengajuans.data.length > 0 ? (
-                                                pengajuans.data.map((pengajuan, index) => (
-                                                    <tr key={pengajuan.id} className="align-middle">
-                                                        <td className="ps-4 fw-bold text-muted">
-                                                            {++index +
-                                                                (pengajuans.current_page - 1) *
-                                                                pengajuans.per_page}
-                                                        </td>
-                                                        <td>
-                                                            <div className="d-flex align-items-center">
-                                                                <div className="avatar-sm bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center">
-                                                                    <span className="text-white fw-bold">
-                                                                        {pengajuan.name.charAt(0).toUpperCase()}
-                                                                    </span>
+                        </div>
+                    </div>
+
+                    {/* Alert Messages */}
+                    {filter !== "PAID" && (
+                        <div className="row mb-4">
+                            <div className="col-12">
+                                <div className="alert alert-warning border-0 shadow-sm">
+                                    <div className="d-flex align-items-center">
+                                        <i className="fas fa-exclamation-triangle fa-2x me-3"></i>
+                                        <div>
+                                            <h6 className="alert-heading mb-1">Status Anggota: {name}</h6>
+                                            <p className="mb-0">
+                                                Hanya anggota dengan status <strong>PAID</strong> yang diperbolehkan
+                                                mengajukan mutasi. Silakan hubungi admin untuk informasi lebih lanjut.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {filter === "PAID" && !isAllowedMonth() && (
+                        <div className="row mb-4">
+                            <div className="col-12">
+                                <div className="alert alert-info border-0 shadow-sm">
+                                    <div className="d-flex align-items-center">
+                                        <i className="fas fa-calendar-times fa-2x me-3"></i>
+                                        <div>
+                                            <h6 className="alert-heading mb-1">Periode Pengajuan Ditutup</h6>
+                                            <p className="mb-0">
+                                                {restrictionMessage}. Pengajuan mutasi hanya dapat dibuat pada bulan {getAllowedMonths()}.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {filter === "PAID" && isAllowedMonth() && limitInfo.remaining === 0 && (
+                        <div className="row mb-4">
+                            <div className="col-12">
+                                <div className="alert alert-warning border-0 shadow-sm">
+                                    <div className="d-flex align-items-center">
+                                        <i className="fas fa-exclamation-circle fa-2x me-3"></i>
+                                        <div>
+                                            <h6 className="alert-heading mb-1">Batas Pengajuan Tercapai</h6>
+                                            <p className="mb-0">
+                                                {restrictionMessage}. Anda dapat membuat pengajuan lagi pada bulan {getAllowedMonths()} di periode berikutnya.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Main Content */}
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card shadow-sm border-0">
+                                <div className="card-header bg-primary text-white py-3">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h5 className="mb-0">
+                                            <i className="fas fa-list-alt me-2"></i>
+                                            Daftar Pengajuan
+                                        </h5>
+                                        <span className="badge bg-success text-white">
+                                            {pengajuans.total} items
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="card-body p-0">
+                                    <div className="table-responsive">
+                                        <table className="table table-hover align-middle mb-0">
+                                            <thead className="bg-light">
+                                                <tr>
+                                                    <th className="ps-4 py-3 text-center" style={{ width: "5%" }}>
+                                                        No.
+                                                    </th>
+                                                    <th className="py-3" style={{ width: "20%" }}>
+                                                        <i className="fas fa-user me-2"></i>
+                                                        Pengaju
+                                                    </th>
+                                                    <th className="py-3" style={{ width: "25%" }}>
+                                                        <i className="fas fa-sticky-note me-2"></i>
+                                                        Keterangan
+                                                    </th>
+                                                    <th className="py-3 text-center" style={{ width: "25%" }}>
+                                                        <i className="fas fa-info-circle me-2"></i>
+                                                        Status
+                                                    </th>
+                                                    <th className="pe-4 py-3 text-center" style={{ width: "15%" }}>
+                                                        <i className="fas fa-cogs me-2"></i>
+                                                        Aksi
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {pengajuans.data.length > 0 ? (
+                                                    pengajuans.data.map((pengajuan, index) => (
+                                                        <tr key={pengajuan.id} className="border-bottom">
+                                                            <td className="ps-4 text-center fw-bold text-primary">
+                                                                {++index +
+                                                                    (pengajuans.current_page - 1) *
+                                                                    pengajuans.per_page}
+                                                            </td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center">
+                                                                    <div className="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3"
+                                                                        style={{ width: '45px', height: '45px' }}>
+                                                                        <i className="fas fa-user text-white"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <h6 className="mb-1 fw-semibold">{pengajuan.name}</h6>
+                                                                        <small className="text-muted">
+                                                                            <i className="fas fa-calendar me-1"></i>
+                                                                            {new Date(pengajuan.created_at).toLocaleDateString('id-ID', {
+                                                                                day: '2-digit',
+                                                                                month: 'short',
+                                                                                year: 'numeric'
+                                                                            })}
+                                                                        </small>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <h6 className="mb-0">{pengajuan.name}</h6>
-                                                                    <small className="text-muted">
-                                                                        {new Date(pengajuan.created_at).toLocaleDateString('id-ID', {
-                                                                            day: '2-digit',
-                                                                            month: 'long',
-                                                                            year: 'numeric'
-                                                                        })}
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="text-muted">
-                                                                {pengajuan.keterangan || "-"}
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <div className="d-flex flex-column">
-                                                                <div className="mb-2">
-                                                                    <span className={`status-badge ${getStatusClass(pengajuan.status)}`}>
-                                                                        <i className={`fas ${getStatusIcon(pengajuan.status)} me-2`}></i>
+                                                            </td>
+                                                            <td>
+                                                                <p className="mb-0 text-muted">
+                                                                    {pengajuan.keterangan || "-"}
+                                                                </p>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <div className="d-flex flex-column align-items-center">
+                                                                    <span className={`badge ${getStatusClass(pengajuan.status)} px-3 py-2 mb-2`}>
+                                                                        <i className={`${getStatusIcon(pengajuan.status)} me-2`}></i>
                                                                         {getStatusText(pengajuan.status)}
                                                                     </span>
-                                                                </div>
-                                                                <div className="status-description">
-                                                                    <small className="text-muted">
+                                                                    <small className="text-muted text-center">
                                                                         {getStatusDescription(pengajuan.status)}
                                                                     </small>
-                                                                </div>
-                                                                {(pengajuan.status === "revisi" || pengajuan.status === "tolak" || pengajuan.status === "ditunda") &&
-                                                                    pengajuan.keterangan_revisi && (
-                                                                        <div className="mt-2">
-                                                                            <small className="text-muted d-block mb-1">
-                                                                                Catatan:
-                                                                            </small>
-                                                                            <div className="alert alert-sm alert-warning p-2 mb-0">
-                                                                                <i className="fas fa-info-circle me-1"></i>
-                                                                                {pengajuan.keterangan_revisi}
+                                                                    {(pengajuan.status === "revisi" || pengajuan.status === "tolak" || pengajuan.status === "ditunda" || pengajuan.status === "ditolak") &&
+                                                                        pengajuan.keterangan_revisi && (
+                                                                            <div className="mt-2">
+                                                                                <div className="alert alert-warning py-2 small mb-0">
+                                                                                    <i className="fas fa-info-circle me-1"></i>
+                                                                                    {pengajuan.keterangan_revisi}
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
+                                                                        )}
+                                                                </div>
+                                                            </td>
+                                                            <td className="pe-4 text-center">
+                                                                <div className="d-flex justify-content-center gap-2">
+                                                                    {(pengajuan.status === "revisi" || pengajuan.status === "ditunda") && (
+                                                                        <Link
+                                                                            href={`/account/pengajuan/${pengajuan.id}/edit`}
+                                                                            className="btn btn-primary btn-sm rounded-pill px-3 py-2"
+                                                                            title="Edit Pengajuan"
+                                                                        >
+                                                                            <i className="fas fa-edit me-1"></i>
+                                                                            Edit
+                                                                        </Link>
                                                                     )}
-                                                            </div>
-                                                        </td>
-                                                        <td className="text-center">
-                                                            <div className="btn-group" role="group">
-                                                                {(pengajuan.status === "revisi" || pengajuan.status === "ditunda") && (
+                                                                    {(pengajuan.status === "setujui" || pengajuan.status === "dikirim" || pengajuan.status === "selesai") && (
+                                                                        <Link
+                                                                            href={`/account/pengajuan/${pengajuan.id}/edit`}
+                                                                            className="btn btn-info btn-sm rounded-pill px-3 py-2"
+                                                                            title="Lihat Detail"
+                                                                        >
+                                                                            <i className="fas fa-eye me-1"></i>
+                                                                            Lihat
+                                                                        </Link>
+                                                                    )}
+                                                                    {(pengajuan.status === "belum" || pengajuan.status === "revisi") && (
+                                                                        <Delete
+                                                                            URL={"/account/pengajuan"}
+                                                                            id={pengajuan.id}
+                                                                            className="btn btn-danger btn-sm rounded-pill px-3 py-2"
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center py-5">
+                                                            <div className="py-4">
+                                                                <i className="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                                                <h5 className="text-muted">Belum ada pengajuan</h5>
+                                                                <p className="text-muted mb-3">
+                                                                    {filter === "PAID" && isAllowedMonth()
+                                                                        ? "Mulai dengan membuat pengajuan mutasi pertama Anda"
+                                                                        : filter !== "PAID"
+                                                                            ? "Anda perlu memiliki status PAID untuk membuat pengajuan mutasi"
+                                                                            : "Saat ini bukan periode pengajuan. Tunggu bulan April, Agustus, atau November"
+                                                                    }
+                                                                </p>
+                                                                {canCreateSubmission ? (
                                                                     <Link
-                                                                        href={`/account/pengajuan/${pengajuan.id}/edit`}
-                                                                        className="btn btn-outline-primary btn-sm me-1"
-                                                                        title="Edit Pengajuan"
+                                                                        href="/account/pengajuan/create"
+                                                                        className="btn btn-success px-4 py-2"
                                                                     >
-                                                                        <i className="fas fa-edit"></i>
+                                                                        <i className="fas fa-plus-circle me-2"></i>
+                                                                        Buat Pengajuan Baru
                                                                     </Link>
-                                                                )}
-                                                                {(pengajuan.status === "setujui" || pengajuan.status === "dikirim" || pengajuan.status === "selesai") && (
-                                                                    <Link
-                                                                        href={`/account/pengajuan/${pengajuan.id}/edit`}
-                                                                        className="btn btn-outline-info btn-sm me-1"
-                                                                        title="Lihat Detail"
-                                                                    >
-                                                                        <i className="fas fa-eye"></i>
-                                                                    </Link>
-                                                                )}
-                                                                {(pengajuan.status === "belum" || pengajuan.status === "revisi") && (
-                                                                    <Delete
-                                                                        URL={"/account/pengajuan"}
-                                                                        id={pengajuan.id}
-                                                                    />
+                                                                ) : (
+                                                                    <button className="btn btn-secondary px-4 py-2" disabled>
+                                                                        <i className="fas fa-ban me-2"></i>
+                                                                        Buat Pengajuan Baru
+                                                                    </button>
                                                                 )}
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center py-5">
-                                                        <div className="text-muted">
-                                                            <i className="fas fa-inbox fa-3x mb-3"></i>
-                                                            <h5>Belum ada pengajuan</h5>
-                                                            <p>
-                                                                {filter === "PAID" && isAllowedMonth()
-                                                                    ? "Mulai dengan membuat pengajuan mutasi pertama Anda"
-                                                                    : filter !== "PAID"
-                                                                        ? "Anda perlu memiliki status PAID untuk membuat pengajuan mutasi"
-                                                                        : "Saat ini bukan periode pengajuan. Tunggu bulan April, Agustus, atau Desember"
-                                                                }
-                                                            </p>
-                                                            {canCreateSubmission ? (
-                                                                <Link
-                                                                    href="/account/pengajuan/create"
-                                                                    className="btn btn-primary"
-                                                                >
-                                                                    Buat Pengajuan Baru
-                                                                </Link>
-                                                            ) : (
-                                                                <button className="btn btn-secondary" disabled>
-                                                                    Buat Pengajuan Baru
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                                 {/* Pagination */}
                                 {pengajuans.data.length > 0 && (
-                                    <div className="card-footer bg-white">
-                                        <Pagination
-                                            links={pengajuans.links}
-                                            align={"center"}
-                                        />
+                                    <div className="card-footer bg-white border-0">
+                                        <div className="d-flex justify-content-center">
+                                            <Pagination
+                                                links={pengajuans.links}
+                                                align={"center"}
+                                            />
+                                        </div>
                                     </div>
                                 )}
                             </div>
                         </div>
                     </div>
                 </div>
-
-                {/* CSS Styles */}
-                <style jsx>{`
-                    .status-badge {
-                        padding: 0.5rem 1rem;
-                        border-radius: 50px;
-                        font-size: 0.875rem;
-                        font-weight: 600;
-                        display: inline-flex;
-                        align-items: center;
-                        white-space: nowrap;
-                    }
-                    
-                    .status-completed {
-                        background-color: #d1fae5;
-                        color: #065f46;
-                        border: 1px solid #a7f3d0;
-                    }
-                    
-                    .status-sent {
-                        background-color: #e0f2fe;
-                        color: #075985;
-                        border: 1px solid #7dd3fc;
-                    }
-                    
-                    .status-approved {
-                        background-color: #dcfce7;
-                        color: #166534;
-                        border: 1px solid #86efac;
-                    }
-                    
-                    .status-pending {
-                        background-color: #fef3c7;
-                        color: #92400e;
-                        border: 1px solid #fcd34d;
-                    }
-                    
-                    .status-revision {
-                        background-color: #dbeafe;
-                        color: #1e40af;
-                        border: 1px solid #93c5fd;
-                    }
-                    
-                    .status-rejected {
-                        background-color: #fee2e2;
-                        color: #991b1b;
-                        border: 1px solid #fca5a5;
-                    }
-                    
-                    .status-description {
-                        font-size: 0.8rem;
-                        line-height: 1.3;
-                    }
-                    
-                    .avatar-sm {
-                        width: 40px;
-                        height: 40px;
-                        font-size: 1rem;
-                    }
-                    
-                    .card {
-                        border: none;
-                        border-radius: 12px;
-                    }
-                    
-                    .card-header {
-                        border-bottom: 1px solid #e3e6f0;
-                        border-radius: 12px 12px 0 0 !important;
-                    }
-                    
-                    .table > :not(caption) > * > * {
-                        padding: 1rem 0.75rem;
-                        border-bottom-color: #e3e6f0;
-                    }
-                    
-                    .btn-outline-primary {
-                        border-color: #4e73df;
-                        color: #4e73df;
-                    }
-                    
-                    .btn-outline-primary:hover {
-                        background-color: #4e73df;
-                        color: white;
-                    }
-                    
-                    .btn-outline-info {
-                        border-color: #36b9cc;
-                        color: #36b9cc;
-                    }
-                    
-                    .btn-outline-info:hover {
-                        background-color: #36b9cc;
-                        color: white;
-                    }
-                    
-                    .border-left-primary {
-                        border-left: 4px solid #4e73df;
-                    }
-                    
-                    .border-left-success {
-                        border-left: 4px solid #1cc88a;
-                    }
-                    
-                    .border-left-info {
-                        border-left: 4px solid #36b9cc;
-                    }
-                    
-                    .border-left-warning {
-                        border-left: 4px solid #f6c23e;
-                    }
-                    
-                    .border-left-secondary {
-                        border-left: 4px solid #858796;
-                    }
-                    
-                    .border-left-danger {
-                        border-left: 4px solid #e74a3b;
-                    }
-                    
-                    .alert-warning {
-                        background-color: #fff3cd;
-                        border-color: #ffeaa7;
-                        color: #856404;
-                    }
-                    
-                    .progress {
-                        background-color: #e9ecef;
-                        border-radius: 4px;
-                        overflow: hidden;
-                    }
-                    
-                    .progress-bar {
-                        transition: width 0.6s ease;
-                    }
-                `}</style>
             </LayoutAccount>
         </>
     );

@@ -1,5 +1,5 @@
 //import react
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
@@ -17,15 +17,21 @@ export default function PengajuanCreate() {
     const { errors, transactions, statusAnggota, biodata, provinces, cities, pengajuans } =
         usePage().props;
 
-    const status = transactions.map((ts) => ts.status);
-    const [name] = useState(statusAnggota.status_anggota);
+    // Debug: console log untuk memeriksa data yang diterima
+    console.log('Provinces:', provinces);
+    console.log('Cities:', cities);
+    console.log('Pengajuans:', pengajuans);
 
-    const filter = status
-        .toString()
-        .replace("[", "")
-        .replace("]", "")
-        .replace('"', "")
-        .replace('"', "");
+    const status = transactions && transactions.map ? transactions.map((ts) => ts.status) : [];
+    const [name] = useState(statusAnggota?.status_anggota || '');
+
+    const filter = status && status.length > 0
+        ? status.toString()
+            .replace("[", "")
+            .replace("]", "")
+            .replace('"', "")
+            .replace('"', "")
+        : "";
 
     // State untuk pembatasan akses
     const [canCreateSubmission, setCanCreateSubmission] = useState(false);
@@ -33,11 +39,12 @@ export default function PengajuanCreate() {
     const [currentMonthSubmissions, setCurrentMonthSubmissions] = useState(0);
     const [currentMonthName, setCurrentMonthName] = useState("");
 
-    const [id, setId] = useState(biodata.id);
-    const [nama, setNama] = useState(biodata.name);
-    const [kta, setKta] = useState(biodata.no_anggota);
-    const [provinceID, setProvinceID] = useState(biodata.province_id);
-    const [cityID, setCityID] = useState(biodata.city_id);
+    // State form dengan default values yang aman
+    const [id, setId] = useState(biodata?.id || "");
+    const [nama, setNama] = useState(biodata?.name || "");
+    const [kta, setKta] = useState(biodata?.no_anggota || "");
+    const [provinceID, setProvinceID] = useState(biodata?.province_id || "");
+    const [cityID, setCityID] = useState(biodata?.city_id || "");
     const [tglmutasi, setTglmutasi] = useState("");
     const [keterangan, setKeterangan] = useState("");
     const [tujuan, setTujuan] = useState("");
@@ -58,32 +65,41 @@ export default function PengajuanCreate() {
         return new Date().toLocaleString('id-ID', { month: 'long' });
     };
 
-    // Fungsi untuk memeriksa jumlah pengajuan di bulan ini - DIPERBAIKI dengan null checking
-    const getCurrentMonthSubmissionsCount = () => {
+    // PERBAIKAN: Fungsi untuk memeriksa jumlah pengajuan di bulan ini - lebih robust
+    const getCurrentMonthSubmissionsCount = useCallback(() => {
         // Pastikan pengajuans dan pengajuans.data ada
-        if (!pengajuans || !pengajuans.data) {
+        if (!pengajuans || !pengajuans.data || !Array.isArray(pengajuans.data)) {
             return 0;
         }
 
         const currentMonth = new Date().getMonth() + 1;
         const currentYear = new Date().getFullYear();
 
-        return pengajuans.data.filter(pengajuan => {
+        const count = pengajuans.data.filter(pengajuan => {
             // Pastikan pengajuan dan created_at ada
             if (!pengajuan || !pengajuan.created_at) {
                 return false;
             }
 
-            const submissionDate = new Date(pengajuan.created_at);
-            return submissionDate.getMonth() + 1 === currentMonth &&
-                submissionDate.getFullYear() === currentYear;
+            try {
+                const submissionDate = new Date(pengajuan.created_at);
+                return submissionDate.getMonth() + 1 === currentMonth &&
+                    submissionDate.getFullYear() === currentYear;
+            } catch (error) {
+                console.error('Error parsing date:', error);
+                return false;
+            }
         }).length;
-    };
 
-    // Fungsi untuk memeriksa apakah pengguna bisa membuat pengajuan baru
-    const checkSubmissionEligibility = () => {
+        console.log('Current month submissions count:', count);
+        return count;
+    }, [pengajuans]);
+
+    // PERBAIKAN: Fungsi untuk memeriksa apakah pengguna bisa membuat pengajuan baru
+    const checkSubmissionEligibility = useCallback(() => {
         // Update nama bulan saat ini
-        setCurrentMonthName(getCurrentMonthName());
+        const monthName = getCurrentMonthName();
+        setCurrentMonthName(monthName);
 
         if (filter !== "PAID") {
             setCanCreateSubmission(false);
@@ -93,27 +109,29 @@ export default function PengajuanCreate() {
 
         if (!isAllowedMonth()) {
             setCanCreateSubmission(false);
-            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan April, Agustus, dan November. Saat ini bulan ${getCurrentMonthName()}`);
+            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan April, Agustus, dan November. Saat ini bulan ${monthName}`);
             return;
         }
 
         const submissionsCount = getCurrentMonthSubmissionsCount();
+        console.log('Eligibility check - submissions count:', submissionsCount);
         setCurrentMonthSubmissions(submissionsCount);
 
+        // PENTING: Pembatasan maksimal 3 pengajuan per bulan - PERBAIKAN: menggunakan >= 3
         if (submissionsCount >= 3) {
             setCanCreateSubmission(false);
-            setRestrictionMessage(`Anda telah mencapai batas maksimal 3 pengajuan dalam bulan ${getCurrentMonthName()} ini`);
+            setRestrictionMessage(`Anda telah mencapai batas maksimal 3 pengajuan dalam bulan ${monthName} ini. Tidak dapat membuat pengajuan baru.`);
             return;
         }
 
         setCanCreateSubmission(true);
         setRestrictionMessage("");
-    };
+    }, [filter, getCurrentMonthSubmissionsCount]);
 
-    // Effect untuk memeriksa kelayakan pembuatan pengajuan
+    // PERBAIKAN: Effect untuk memeriksa kelayakan pembuatan pengajuan
     useEffect(() => {
         checkSubmissionEligibility();
-    }, [pengajuans, filter]);
+    }, [checkSubmissionEligibility]);
 
     // Effect untuk auto-refresh status setiap menit (opsional, untuk real-time)
     useEffect(() => {
@@ -122,14 +140,14 @@ export default function PengajuanCreate() {
         }, 60000); // Check every minute
 
         return () => clearInterval(interval);
-    }, []);
+    }, [checkSubmissionEligibility]);
 
     // Fungsi untuk mendapatkan nama bulan yang diizinkan
     const getAllowedMonths = () => {
         return "April, Agustus, dan November";
     };
 
-    // Fungsi untuk mendapatkan informasi batas pengajuan - DIPERBAIKI dengan null checking
+    // Fungsi untuk mendapatkan informasi batas pengajuan
     const getSubmissionLimitInfo = () => {
         const remaining = Math.max(0, 3 - currentMonthSubmissions);
 
@@ -176,6 +194,8 @@ export default function PengajuanCreate() {
 
     // Reset tujuan ketika tipe pindah berubah
     const handleTipePindahChange = (e) => {
+        if (!canCreateSubmission) return; // Jangan proses jika form terkunci
+
         const selectedTipe = e.target.value;
         setTipePindah(selectedTipe);
 
@@ -192,8 +212,10 @@ export default function PengajuanCreate() {
         setTujuandpc("");
     };
 
-    // Filter cities ketika tujuan DPW berubah (untuk pindah DPW) - DIPERBAIKI dengan null checking
+    // Filter cities ketika tujuan DPW berubah (untuk pindah DPW)
     const handleTujuanChange = (e) => {
+        if (!canCreateSubmission) return; // Jangan proses jika form terkunci
+
         const selectedProvinceId = e.target.value;
         setTujuan(selectedProvinceId);
 
@@ -206,11 +228,27 @@ export default function PengajuanCreate() {
         setTujuandpc("");
     };
 
-    //method "storePengajuan"
+    // PERBAIKAN: method "storePengajuan" dengan validasi yang lebih ketat
     const storePengajuan = async (e) => {
         e.preventDefault();
 
-        // Validasi tambahan sebelum submit
+        // Validasi FINAL sebelum submit - lebih ketat
+        const currentCount = getCurrentMonthSubmissionsCount();
+        console.log('Final validation - current count:', currentCount);
+
+        if (currentCount >= 3) {
+            Swal.fire({
+                title: "Batas Pengajuan Tercapai!",
+                text: `Anda telah mencapai batas maksimal 3 pengajuan dalam bulan ${getCurrentMonthName()} ini. Tidak dapat membuat pengajuan baru.`,
+                icon: "warning",
+                confirmButtonText: "Mengerti"
+            });
+            setCanCreateSubmission(false);
+            setRestrictionMessage(`Anda telah mencapai batas maksimal 3 pengajuan dalam bulan ${getCurrentMonthName()} ini`);
+            checkSubmissionEligibility(); // Refresh status
+            return;
+        }
+
         if (!canCreateSubmission) {
             Swal.fire({
                 title: "Akses Ditolak!",
@@ -259,6 +297,12 @@ export default function PengajuanCreate() {
                         showConfirmButton: false,
                         timer: 2500,
                     });
+
+                    // PERBAIKAN: Tidak update count di sini, biarkan effect yang handle
+                    // Refresh eligibility setelah beberapa detik untuk memastikan data terupdate
+                    setTimeout(() => {
+                        checkSubmissionEligibility();
+                    }, 1000);
                 },
                 onError: (errors) => {
                     Swal.fire({
@@ -275,7 +319,7 @@ export default function PengajuanCreate() {
         );
     };
 
-    // Dapatkan nama DPW Asal untuk ditampilkan - DIPERBAIKI dengan null checking
+    // Dapatkan nama DPW Asal untuk ditampilkan
     const getDpwAsalName = () => {
         if (!provinces || !Array.isArray(provinces)) {
             return "DPW Asal";
@@ -284,7 +328,7 @@ export default function PengajuanCreate() {
         return dpwAsal ? dpwAsal.name : "DPW Asal";
     };
 
-    // Dapatkan nama DPW Tujuan untuk ditampilkan - DIPERBAIKI dengan null checking
+    // Dapatkan nama DPW Tujuan untuk ditampilkan
     const getDpwTujuanName = () => {
         if (!provinces || !Array.isArray(provinces)) {
             return "DPW Tujuan";
@@ -293,16 +337,35 @@ export default function PengajuanCreate() {
         return dpwTujuan ? dpwTujuan.name : "DPW Tujuan";
     };
 
-    // Fungsi untuk mengecek apakah form valid
+    // PERBAIKAN: Fungsi untuk mengecek apakah form valid - lebih ketat
     const isFormValid = () => {
-        return canCreateSubmission &&
-            tglmutasi &&
+        if (!canCreateSubmission) return false;
+
+        // Final check untuk batas pengajuan
+        const currentCount = getCurrentMonthSubmissionsCount();
+        if (currentCount >= 3) return false;
+
+        return tglmutasi &&
             keterangan &&
             tipePindah &&
             ((tipePindah === "dpw" && tujuan && tujuandpc) ||
                 (tipePindah === "dpc" && tujuandpc)) &&
             isConfirmed;
     };
+
+    // Fungsi untuk mendapatkan class form berdasarkan status akses
+    const getFormClass = () => {
+        return !canCreateSubmission ? 'bg-light' : '';
+    };
+
+    // PERBAIKAN: Fungsi untuk mendapatkan status disabled form - lebih ketat
+    const isFormDisabled = () => {
+        return !canCreateSubmission || getCurrentMonthSubmissionsCount() >= 3;
+    };
+
+    // Safe rendering untuk arrays
+    const safeProvinces = provinces && Array.isArray(provinces) ? provinces : [];
+    const safeCities = cities && Array.isArray(cities) ? cities : [];
 
     return (
         <>
@@ -362,6 +425,15 @@ export default function PengajuanCreate() {
                                                         </small>
                                                     </div>
                                                 )}
+                                                {currentMonthSubmissions >= 3 && (
+                                                    <div className="mt-2">
+                                                        <small className="text-danger">
+                                                            <i className="fas fa-info-circle me-1"></i>
+                                                            Anda telah menggunakan semua kuota pengajuan untuk bulan {currentMonthName}.
+                                                            Tunggu hingga bulan {getAllowedMonths()} berikutnya untuk membuat pengajuan baru.
+                                                        </small>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -383,7 +455,7 @@ export default function PengajuanCreate() {
                                                 Pengajuan {currentMonthName}
                                             </div>
                                             <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                                {currentMonthSubmissions}
+                                                {currentMonthSubmissions}/3
                                             </div>
                                         </div>
                                         <div className="col-auto">
@@ -468,13 +540,13 @@ export default function PengajuanCreate() {
                                         <span className="text-muted">
                                             Penggunaan kuota pengajuan bulan {currentMonthName}
                                         </span>
-                                        <span className={`badge bg-${limitInfo.remaining === 0 ? 'danger' : 'success'}`}>
+                                        <span className={`badge bg-${limitInfo.remaining === 0 ? 'danger' : limitInfo.remaining <= 1 ? 'warning' : 'success'}`}>
                                             {limitInfo.current} / {limitInfo.max}
                                         </span>
                                     </div>
                                     <div className="progress" style={{ height: "10px" }}>
                                         <div
-                                            className={`progress-bar bg-${limitInfo.current >= limitInfo.max ? 'danger' : 'success'}`}
+                                            className={`progress-bar bg-${limitInfo.current >= limitInfo.max ? 'danger' : limitInfo.current >= 2 ? 'warning' : 'success'}`}
                                             role="progressbar"
                                             style={{ width: `${(limitInfo.current / limitInfo.max) * 100}%` }}
                                             aria-valuenow={limitInfo.current}
@@ -485,16 +557,22 @@ export default function PengajuanCreate() {
                                     <small className="text-muted mt-2 d-block">
                                         {limitInfo.remaining > 0
                                             ? `Anda masih dapat membuat ${limitInfo.remaining} pengajuan lagi bulan ${currentMonthName} ini`
-                                            : `Anda telah mencapai batas maksimal pengajuan bulan ${currentMonthName} ini`
+                                            : `Anda telah mencapai batas maksimal 3 pengajuan bulan ${currentMonthName} ini. Tidak dapat membuat pengajuan baru.`
                                         }
                                     </small>
+                                    {limitInfo.current >= 3 && (
+                                        <div className="alert alert-danger mt-2 mb-0 py-2">
+                                            <i className="fas fa-exclamation-triangle me-2"></i>
+                                            <strong>Batas Tercapai!</strong> Anda tidak dapat membuat pengajuan baru hingga bulan berikutnya yang diizinkan.
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* Sisanya tetap sama seperti sebelumnya */}
+                {/* Form Pengajuan */}
                 <div className="col-md-12 mt-2">
                     <div className={`card border-0 shadow-sm ${!canCreateSubmission ? 'opacity-75' : ''}`}>
                         <div className={`card-header ${canCreateSubmission ? 'bg-primary' : 'bg-secondary'} text-white`}>
@@ -530,6 +608,21 @@ export default function PengajuanCreate() {
                                             <h6 className="alert-heading mb-1">Akses Diberikan! - Periode {currentMonthName} BUKA</h6>
                                             <p className="mb-0">
                                                 Anda dapat membuat pengajuan mutasi. Sisa kuota: <strong>{limitInfo.remaining} dari {limitInfo.max}</strong> pengajuan bulan {currentMonthName}.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Peringatan kuota hampir habis */}
+                            {canCreateSubmission && limitInfo.remaining === 1 && (
+                                <div className="alert alert-warning mb-4">
+                                    <div className="d-flex align-items-center">
+                                        <i className="fas fa-exclamation-triangle fa-lg me-3 text-warning"></i>
+                                        <div>
+                                            <h6 className="alert-heading mb-1">Kuota Hampir Habis!</h6>
+                                            <p className="mb-0">
+                                                Ini adalah pengajuan terakhir yang dapat Anda buat bulan {currentMonthName} ini.
                                             </p>
                                         </div>
                                     </div>
@@ -605,7 +698,7 @@ export default function PengajuanCreate() {
                                                 <option value="">
                                                     -- Pilih DPW --
                                                 </option>
-                                                {provinces.map((province) => (
+                                                {safeProvinces.map((province) => (
                                                     <option
                                                         value={province.id}
                                                         key={province.id}
@@ -632,7 +725,7 @@ export default function PengajuanCreate() {
                                                 <option value="">
                                                     -- Pilih DPC --
                                                 </option>
-                                                {cities.map((city) => (
+                                                {safeCities.map((city) => (
                                                     <option
                                                         value={city.id}
                                                         key={city.id}
@@ -661,11 +754,11 @@ export default function PengajuanCreate() {
                                                 Tipe Pindah <span className="text-danger">*</span>
                                             </label>
                                             <select
-                                                className={`form-select ${!canCreateSubmission ? 'bg-light' : ''}`}
+                                                className={`form-select ${getFormClass()}`}
                                                 value={tipePindah}
                                                 onChange={handleTipePindahChange}
                                                 required
-                                                disabled={!canCreateSubmission}
+                                                disabled={isFormDisabled()}
                                             >
                                                 <option value="">
                                                     -- Pilih Tipe Pindah --
@@ -692,14 +785,14 @@ export default function PengajuanCreate() {
                                             </label>
                                             <input
                                                 type="date"
-                                                className={`form-control ${!canCreateSubmission ? 'bg-light' : ''}`}
+                                                className={`form-control ${getFormClass()}`}
                                                 value={tglmutasi}
                                                 onChange={(e) =>
                                                     setTglmutasi(e.target.value)
                                                 }
                                                 placeholder="Pilih Tanggal Mutasi"
                                                 required
-                                                disabled={!canCreateSubmission}
+                                                disabled={isFormDisabled()}
                                             />
                                             {errors.tgl_mutasi && (
                                                 <div className="alert alert-danger mt-2">
@@ -728,16 +821,16 @@ export default function PengajuanCreate() {
                                                 </label>
                                                 {tipePindah === "dpw" ? (
                                                     <select
-                                                        className={`form-select ${!canCreateSubmission ? 'bg-light' : ''}`}
+                                                        className={`form-select ${getFormClass()}`}
                                                         value={tujuan}
                                                         onChange={handleTujuanChange}
                                                         required
-                                                        disabled={!canCreateSubmission}
+                                                        disabled={isFormDisabled()}
                                                     >
                                                         <option value="">
                                                             -- Pilih Tujuan DPW --
                                                         </option>
-                                                        {provinces.map((province) => (
+                                                        {safeProvinces.map((province) => (
                                                             <option
                                                                 value={province.id}
                                                                 key={province.id}
@@ -771,13 +864,13 @@ export default function PengajuanCreate() {
                                                     Tujuan DPC <span className="text-danger">*</span>
                                                 </label>
                                                 <select
-                                                    className={`form-select ${!canCreateSubmission ? 'bg-light' : ''}`}
+                                                    className={`form-select ${getFormClass()}`}
                                                     value={tujuandpc}
                                                     onChange={(e) =>
                                                         setTujuandpc(e.target.value)
                                                     }
                                                     required
-                                                    disabled={!canCreateSubmission || (tipePindah === "dpw" && !tujuan)}
+                                                    disabled={isFormDisabled() || (tipePindah === "dpw" && !tujuan)}
                                                 >
                                                     <option value="">
                                                         {tipePindah === "dpw" && !tujuan
@@ -845,7 +938,7 @@ export default function PengajuanCreate() {
                                                 Alasan Mutasi <span className="text-danger">*</span>
                                             </label>
                                             <textarea
-                                                className={`form-control ${!canCreateSubmission ? 'bg-light' : ''}`}
+                                                className={`form-control ${getFormClass()}`}
                                                 rows="4"
                                                 value={keterangan}
                                                 onChange={(e) =>
@@ -855,7 +948,7 @@ export default function PengajuanCreate() {
                                                 }
                                                 placeholder="Contoh: Mutasi karena pindah tempat kerja, pindah domisili, atau alasan lainnya..."
                                                 required
-                                                disabled={!canCreateSubmission}
+                                                disabled={isFormDisabled()}
                                             />
                                             <div className="form-text">
                                                 Jelaskan alasan Anda melakukan mutasi dengan jelas.
@@ -882,7 +975,7 @@ export default function PengajuanCreate() {
                                                         id="confirmationCheck"
                                                         checked={isConfirmed}
                                                         onChange={(e) => setIsConfirmed(e.target.checked)}
-                                                        disabled={!canCreateSubmission}
+                                                        disabled={isFormDisabled()}
                                                     />
                                                     <label
                                                         className="form-check-label fw-bold text-warning"
@@ -919,7 +1012,7 @@ export default function PengajuanCreate() {
                                                     setFilteredCities([]);
                                                     setIsConfirmed(false);
                                                 }}
-                                                disabled={!canCreateSubmission || isLoading}
+                                                disabled={isFormDisabled() || isLoading}
                                             >
                                                 <i className="fas fa-redo me-2"></i>
                                                 Reset
@@ -927,7 +1020,7 @@ export default function PengajuanCreate() {
                                             <button
                                                 type="submit"
                                                 className="btn btn-success"
-                                                disabled={!isFormValid() || isLoading}
+                                                disabled={!isFormValid() || isLoading || isFormDisabled()}
                                             >
                                                 {isLoading ? (
                                                     <>
@@ -955,6 +1048,11 @@ export default function PengajuanCreate() {
                                                     <div>
                                                         <h6 className="alert-heading mb-1">Form Terkunci</h6>
                                                         <p className="mb-0">{restrictionMessage}</p>
+                                                        {currentMonthSubmissions >= 3 && (
+                                                            <p className="mb-0 mt-2">
+                                                                <strong>Solusi:</strong> Tunggu hingga bulan {getAllowedMonths()} berikutnya untuk membuat pengajuan baru.
+                                                            </p>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>

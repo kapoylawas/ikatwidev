@@ -32,6 +32,7 @@ export default function VerifPengajuanDpwIndex() {
                     </span>
                 );
             case "tolak":
+            case "ditolak": // Menambahkan case untuk status 'ditolak'
                 return (
                     <span className="badge bg-danger px-3 py-2">
                         <i className="fas fa-times me-1"></i>
@@ -82,6 +83,7 @@ export default function VerifPengajuanDpwIndex() {
             case "setujui":
                 return "Pengajuan telah disetujui";
             case "tolak":
+            case "ditolak": // Menambahkan case untuk status 'ditolak'
                 return "Pengajuan ditolak";
             case "revisi":
                 return "Perlu perbaikan data";
@@ -342,12 +344,12 @@ export default function VerifPengajuanDpwIndex() {
                                             </small>
                                         </div>
                                         <div className="col-md-4 text-md-end">
-                                            <div className="bg-light rounded p-3 d-inline-block">
+                                            <div className="bg-success rounded p-3 d-inline-block">
                                                 <div className="d-flex align-items-center">
-                                                    <i className="fas fa-chart-bar text-primary me-2"></i>
+                                                    <i className="fas fa-chart-bar text-white me-2"></i>
                                                     <div>
-                                                        <small className="text-muted d-block">Total Pengajuan</small>
-                                                        <span className="fw-bold text-dark h5 mb-0">{verif.total}</span>
+                                                        <small className="text-white d-block">Total Pengajuan</small>
+                                                        <span className="fw-bold text-white h5 mb-0">{verif.total}</span>
                                                     </div>
                                                 </div>
                                             </div>

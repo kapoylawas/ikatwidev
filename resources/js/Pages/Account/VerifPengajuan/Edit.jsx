@@ -79,6 +79,8 @@ export default function CategoryEdit() {
                 return 'bg-info text-white';
             case 'selesai':
                 return 'bg-success text-white';
+            case 'ditolak':
+                return 'bg-danger text-white';
             default:
                 return 'bg-secondary text-white';
         }
@@ -93,6 +95,8 @@ export default function CategoryEdit() {
                 return 'Disetujui mutasi oleh DPW/DPC Asal (Terkirim ke DPW Jika Tipe Mutasi DPW)';
             case 'selesai':
                 return 'Diterima DPW/DPC Tujuan (Mutasi Selesai dan Akan Muncull ttd/nosurat di Pengajuan Print)';
+            case 'ditolak':
+                return 'Ditolak oleh DPW/DPC Asal';
             default:
                 return statusValue;
         }
@@ -107,6 +111,8 @@ export default function CategoryEdit() {
                 return 'fas fa-paper-plane';
             case 'selesai':
                 return 'fas fa-check-circle';
+            case 'ditolak':
+                return 'fas fa-times-circle';
             default:
                 return 'fas fa-info-circle';
         }
@@ -301,6 +307,7 @@ export default function CategoryEdit() {
                                                             <option value="ditunda">Ditunda untuk perbaikan</option>
                                                             <option value="dikirim">Disetujui mutasi oleh DPW/DPC Asal (Terkirim)</option>
                                                             <option value="selesai">Diterima DPW/DPC Tujuan (Mutasi Selesai)</option>
+                                                            <option value="ditolak">Ditolak oleh DPW/DPC Asal</option>
                                                         </select>
                                                     </div>
                                                     {errors.status && (
