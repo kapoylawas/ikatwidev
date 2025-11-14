@@ -69,7 +69,7 @@ class AdminDpwController extends Controller
             ]);
 
             // 2. Update tabel users HANYA JIKA status disetujui
-            if ($request->status === 'setujui') {
+            if ($request->status === 'selesai') {
                 $user = User::where('id', $request->user_id)->first();
 
                 if (!$user) {
