@@ -272,10 +272,12 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                                     <td>
                                                                         {new Date(anggota.surat_sip.map(str => str.date_end)) >= currentDate ? (
                                                                             <span className="badge bg-success">
+                                                                                <i className="fas fa-check-circle me-1"></i>
                                                                                 Aktif
                                                                             </span>
                                                                         ) : (
                                                                             <span className="badge bg-danger">
+                                                                                <i className="fas fa-times-circle me-1"></i>
                                                                                 Non Aktif
                                                                             </span>
                                                                         )}
@@ -283,6 +285,7 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                                     <td>
                                                                         {!paymentStatuses[0].isPaid ? (
                                                                             <span className="badge bg-warning text-dark">
+                                                                                <i className="fas fa-exclamation-triangle me-1"></i>
                                                                                 Belum Bayar
                                                                             </span>
                                                                         ) : (
@@ -293,6 +296,7 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                                                         className="badge bg-success"
                                                                                         title={`Tahun ${payment.tahun}`}
                                                                                     >
+                                                                                        <i className="fas fa-check me-1"></i>
                                                                                         {payment.tahun}
                                                                                     </span>
                                                                                 ))}
@@ -320,7 +324,7 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                 </div>
 
                                 {/* Legend */}
-                                <div className="row mt-3 mb-4">
+                                <div className="row mt-3 mb-5">
                                     <div className="col-md-12">
                                         <div className="card border-0 bg-light rounded">
                                             <div className="card-body py-2">
@@ -329,17 +333,23 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                     Keterangan Status:
                                                 </h6>
                                                 <div className="row">
-                                                    <div className="col-md-3 mb-1">
-                                                        <span className="badge bg-success me-1">●</span>
-                                                        <small>Lunas (Tahun)</small>
+                                                    <div className="col-md-4 mb-1">
+                                                        <span className="badge bg-success me-1">
+                                                            <i className="fas fa-check"></i>
+                                                        </span>
+                                                        <small className="fw-semibold">Lunas (Tahun)</small>
                                                     </div>
-                                                    <div className="col-md-3 mb-1">
-                                                        <span className="badge bg-danger me-1">●</span>
-                                                        <small>Non Aktif SIP</small>
+                                                    <div className="col-md-4 mb-1">
+                                                        <span className="badge bg-danger me-1">
+                                                            <i className="fas fa-times"></i>
+                                                        </span>
+                                                        <small className="fw-semibold">Non Aktif SIP</small>
                                                     </div>
-                                                    <div className="col-md-3 mb-1">
-                                                        <span className="badge bg-warning text-dark me-1">●</span>
-                                                        <small>Belum Bayar</small>
+                                                    <div className="col-md-4 mb-1">
+                                                        <span className="badge bg-warning text-dark me-1">
+                                                            <i className="fas fa-exclamation"></i>
+                                                        </span>
+                                                        <small className="fw-semibold">Belum Bayar</small>
                                                     </div>
                                                 </div>
                                                 <div className="row mt-1">
