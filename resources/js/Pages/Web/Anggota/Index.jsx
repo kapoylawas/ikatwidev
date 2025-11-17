@@ -1,5 +1,5 @@
 //import React
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import layout web
 import LayoutWeb from "../../../Layouts/Web";
@@ -11,15 +11,28 @@ import { Head } from "@inertiajs/inertia-react";
 import axios from "axios";
 import Pagination from "../../../Shared/Pagination";
 
-export default function AnggotaIndex({ provinces, cities }) {
+export default function AnggotaIndex({ provinces, cities: allCities }) {
     //define state
     const [anggotas, setAnggota] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedProvince, setSelectedProvince] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const [filteredCities, setFilteredCities] = useState(allCities);
 
     const currentDate = new Date();
+
+    // Filter cities berdasarkan province yang dipilih
+    useEffect(() => {
+        if (selectedProvince) {
+            const filtered = allCities.filter(city => city.province_id == selectedProvince);
+            setFilteredCities(filtered);
+        } else {
+            setFilteredCities(allCities);
+        }
+        // Reset selected city ketika province berubah
+        setSelectedCity("");
+    }, [selectedProvince, allCities]);
 
     const searchHandler = (q, dpc, dpw) => {
         setIsLoading(true);
@@ -61,6 +74,7 @@ export default function AnggotaIndex({ provinces, cities }) {
         setSelectedProvince("");
         setSelectedCity("");
         setAnggota([]);
+        setFilteredCities(allCities);
     };
 
     // Fungsi untuk mendapatkan semua status iuran
@@ -137,14 +151,20 @@ export default function AnggotaIndex({ provinces, cities }) {
                                                     className="form-select"
                                                     onChange={handleCityChange}
                                                     value={selectedCity}
+                                                    disabled={!selectedProvince && filteredCities.length === 0}
                                                 >
                                                     <option value="">Semua DPC</option>
-                                                    {cities.map((city) => (
+                                                    {filteredCities.map((city) => (
                                                         <option key={city.id} value={city.id}>
                                                             {city.name}
                                                         </option>
                                                     ))}
                                                 </select>
+                                                {!selectedProvince && (
+                                                    <small className="text-muted">
+                                                        Pilih DPW terlebih dahulu untuk melihat DPC
+                                                    </small>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="row mt-2">
@@ -162,12 +182,20 @@ export default function AnggotaIndex({ provinces, cities }) {
                                 </div>
 
                                 {/* Results Count */}
-                                {anggotas.length > 0 && (
-                                    <div className="alert alert-info mb-3 py-2">
-                                        <i className="fas fa-info-circle me-2"></i>
-                                        Menampilkan {anggotas.length} anggota
-                                    </div>
-                                )}
+                {anggotas.length > 0 && (
+                    <div className="alert alert-info mb-3 py-2">
+                        <i className="fas fa-info-circle me-2"></i>
+                        Menampilkan {anggotas.length} anggota
+                        {(selectedProvince || selectedCity || searchTerm) && (
+                            <span>
+                                {' '}dengan filter: 
+                                {selectedProvince && ` DPW: ${provinces.find(p => p.id == selectedProvince)?.name}`}
+                                {selectedCity && ` DPC: ${allCities.find(c => c.id == selectedCity)?.name}`}
+                                {searchTerm && ` Pencarian: "${searchTerm}"`}
+                            </span>
+                        )}
+                    </div>
+                )}
 
                                 {/* Members Table */}
                                 <div className="card border-0 rounded shadow-sm">
