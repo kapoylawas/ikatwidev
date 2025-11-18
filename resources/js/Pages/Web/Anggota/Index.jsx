@@ -79,7 +79,7 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
 
     // Fungsi untuk mendapatkan semua status iuran
     const getPaymentStatuses = (transactions) => {
-        if (transactions.length === 0) {
+        if (!transactions || transactions.length === 0) {
             return [{ status: 'Belum Bayar', isPaid: false, tahun: null }];
         }
 
@@ -93,10 +93,85 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
         }));
     };
 
+    // Fungsi untuk memeriksa status SIP
+    const getSipStatus = (suratSip) => {
+        if (!suratSip || suratSip.length === 0) {
+            return { isActive: false, status: 'Non Aktif SIP' };
+        }
+
+        // Ambil SIP terbaru
+        const latestSip = suratSip.reduce((latest, current) => {
+            return new Date(current.date_end) > new Date(latest.date_end) ? current : latest;
+        });
+
+        const isActive = new Date(latestSip.date_end) >= currentDate;
+
+        return {
+            isActive,
+            status: isActive ? 'Aktif' : 'Non Aktif SIP'
+        };
+    };
+
     return (
         <>
             <Head>
                 <title>IKATWI - Daftar Anggota</title>
+                <style>
+                    {`
+                    .custom-badge-lunas {
+                        background: #28a745 !important;
+                        color: white !important;
+                        border: none !important;
+                        padding: 0.35em 0.65em !important;
+                        font-size: 0.75em !important;
+                        font-weight: 700 !important;
+                        line-height: 1 !important;
+                        text-align: center !important;
+                        white-space: nowrap !important;
+                        vertical-align: baseline !important;
+                        border-radius: 0.25rem !important;
+                    }
+                    .custom-badge-nonaktif {
+                        background: #dc3545 !important;
+                        color: white !important;
+                        border: none !important;
+                        padding: 0.35em 0.65em !important;
+                        font-size: 0.75em !important;
+                        font-weight: 700 !important;
+                        line-height: 1 !important;
+                        text-align: center !important;
+                        white-space: nowrap !important;
+                        vertical-align: baseline !important;
+                        border-radius: 0.25rem !important;
+                    }
+                    .custom-badge-belumbayar {
+                        background: #ffc107 !important;
+                        color: #212529 !important;
+                        border: none !important;
+                        padding: 0.35em 0.65em !important;
+                        font-size: 0.75em !important;
+                        font-weight: 700 !important;
+                        line-height: 1 !important;
+                        text-align: center !important;
+                        white-space: nowrap !important;
+                        vertical-align: baseline !important;
+                        border-radius: 0.25rem !important;
+                    }
+                    .custom-badge-aktif {
+                        background: #28a745 !important;
+                        color: white !important;
+                        border: none !important;
+                        padding: 0.35em 0.65em !important;
+                        font-size: 0.75em !important;
+                        font-weight: 700 !important;
+                        line-height: 1 !important;
+                        text-align: center !important;
+                        white-space: nowrap !important;
+                        vertical-align: baseline !important;
+                        border-radius: 0.25rem !important;
+                    }
+                    `}
+                </style>
             </Head>
             <LayoutWeb>
                 <div className="container" style={{ marginTop: "100px", marginBottom: "50px" }}>
@@ -182,20 +257,20 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                 </div>
 
                                 {/* Results Count */}
-                {anggotas.length > 0 && (
-                    <div className="alert alert-info mb-3 py-2">
-                        <i className="fas fa-info-circle me-2"></i>
-                        Menampilkan {anggotas.length} anggota
-                        {(selectedProvince || selectedCity || searchTerm) && (
-                            <span>
-                                {' '}dengan filter: 
-                                {selectedProvince && ` DPW: ${provinces.find(p => p.id == selectedProvince)?.name}`}
-                                {selectedCity && ` DPC: ${allCities.find(c => c.id == selectedCity)?.name}`}
-                                {searchTerm && ` Pencarian: "${searchTerm}"`}
-                            </span>
-                        )}
-                    </div>
-                )}
+                                {anggotas.length > 0 && (
+                                    <div className="alert alert-info mb-3 py-2">
+                                        <i className="fas fa-info-circle me-2"></i>
+                                        Menampilkan {anggotas.length} anggota
+                                        {(selectedProvince || selectedCity || searchTerm) && (
+                                            <span>
+                                                {' '}dengan filter:
+                                                {selectedProvince && ` DPW: ${provinces.find(p => p.id == selectedProvince)?.name}`}
+                                                {selectedCity && ` DPC: ${allCities.find(c => c.id == selectedCity)?.name}`}
+                                                {searchTerm && ` Pencarian: "${searchTerm}"`}
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
 
                                 {/* Members Table */}
                                 <div className="card border-0 rounded shadow-sm">
@@ -231,6 +306,7 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                     <tbody>
                                                         {anggotas.map((anggota, index) => {
                                                             const paymentStatuses = getPaymentStatuses(anggota.transaction);
+                                                            const sipStatus = getSipStatus(anggota.surat_sip);
 
                                                             return (
                                                                 <tr key={index} className="align-middle">
@@ -258,10 +334,10 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                                         {anggota.name}
                                                                     </td>
                                                                     <td>
-                                                                        {anggota.province.name}
+                                                                        {anggota.province?.name || '-'}
                                                                     </td>
                                                                     <td>
-                                                                        {anggota.city === 0 ? (
+                                                                        {!anggota.city || anggota.city === 0 ? (
                                                                             <span className="text-muted">
                                                                                 DPC tidak ada
                                                                             </span>
@@ -270,21 +346,21 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                                         )}
                                                                     </td>
                                                                     <td>
-                                                                        {new Date(anggota.surat_sip.map(str => str.date_end)) >= currentDate ? (
-                                                                            <span className="badge bg-success">
+                                                                        {sipStatus.isActive ? (
+                                                                            <span className="custom-badge-aktif">
                                                                                 <i className="fas fa-check-circle me-1"></i>
                                                                                 Aktif
                                                                             </span>
                                                                         ) : (
-                                                                            <span className="badge bg-danger">
+                                                                            <span className="custom-badge-nonaktif">
                                                                                 <i className="fas fa-times-circle me-1"></i>
-                                                                                Non Aktif
+                                                                                Non Aktif SIP
                                                                             </span>
                                                                         )}
                                                                     </td>
                                                                     <td>
                                                                         {!paymentStatuses[0].isPaid ? (
-                                                                            <span className="badge bg-warning text-dark">
+                                                                            <span className="custom-badge-belumbayar">
                                                                                 <i className="fas fa-exclamation-triangle me-1"></i>
                                                                                 Belum Bayar
                                                                             </span>
@@ -293,7 +369,7 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                                                 {paymentStatuses.map((payment, idx) => (
                                                                                     <span
                                                                                         key={idx}
-                                                                                        className="badge bg-success"
+                                                                                        className="custom-badge-lunas"
                                                                                         title={`Tahun ${payment.tahun}`}
                                                                                     >
                                                                                         <i className="fas fa-check me-1"></i>
@@ -334,19 +410,19 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                 </h6>
                                                 <div className="row">
                                                     <div className="col-md-4 mb-1">
-                                                        <span className="badge bg-success me-1">
+                                                        <span className="custom-badge-lunas me-1">
                                                             <i className="fas fa-check"></i>
                                                         </span>
                                                         <small className="fw-semibold">Lunas (Tahun)</small>
                                                     </div>
                                                     <div className="col-md-4 mb-1">
-                                                        <span className="badge bg-danger me-1">
+                                                        <span className="custom-badge-nonaktif me-1">
                                                             <i className="fas fa-times"></i>
                                                         </span>
                                                         <small className="fw-semibold">Non Aktif SIP</small>
                                                     </div>
                                                     <div className="col-md-4 mb-1">
-                                                        <span className="badge bg-warning text-dark me-1">
+                                                        <span className="custom-badge-belumbayar me-1">
                                                             <i className="fas fa-exclamation"></i>
                                                         </span>
                                                         <small className="fw-semibold">Belum Bayar</small>
