@@ -133,6 +133,12 @@ export default function VerifPengajuanIndex() {
     };
 
     const renderRuteMutasi = (vrf) => {
+        // Null checking untuk semua properti yang diperlukan
+        const provinceName = vrf.province?.name || 'Tidak tersedia';
+        const cityName = vrf.city?.name || 'Tidak tersedia';
+        const tujuanName = vrf.tujuan?.name || 'Tidak tersedia';
+        const tujuanDpcName = vrf.tujuan_dpc?.name || 'Tidak tersedia';
+
         if (vrf.tipe_pindah === "dpw") {
             return (
                 <div className="text-center">
@@ -141,11 +147,11 @@ export default function VerifPengajuanIndex() {
                             <small className="text-muted d-block">DPW Asal</small>
                             <div className="fw-bold text-danger">
                                 <i className="fas fa-map-marker-alt me-1"></i>
-                                {vrf.province.name}
+                                {provinceName}
                             </div>
                             <small className="text-muted">
                                 <i className="fas fa-building me-1"></i>
-                                {vrf.city.name}
+                                {cityName}
                             </small>
                         </div>
                         <div className="mx-3">
@@ -155,11 +161,11 @@ export default function VerifPengajuanIndex() {
                             <small className="text-muted d-block">DPW Tujuan</small>
                             <div className="fw-bold text-success">
                                 <i className="fas fa-map-marker-alt me-1"></i>
-                                {vrf.tujuan.name}
+                                {tujuanName}
                             </div>
                             <small className="text-muted">
                                 <i className="fas fa-building me-1"></i>
-                                {vrf.tujuan_dpc.name}
+                                {tujuanDpcName}
                             </small>
                         </div>
                     </div>
@@ -177,11 +183,11 @@ export default function VerifPengajuanIndex() {
                             <small className="text-muted d-block">DPC Asal</small>
                             <div className="fw-bold text-danger">
                                 <i className="fas fa-building me-1"></i>
-                                {vrf.city.name}
+                                {cityName}
                             </div>
                             <small className="text-muted">
                                 <i className="fas fa-map-marker-alt me-1"></i>
-                                {vrf.province.name}
+                                {provinceName}
                             </small>
                         </div>
                         <div className="mx-3">
@@ -191,11 +197,11 @@ export default function VerifPengajuanIndex() {
                             <small className="text-muted d-block">DPC Tujuan</small>
                             <div className="fw-bold text-success">
                                 <i className="fas fa-building me-1"></i>
-                                {vrf.tujuan_dpc.name}
+                                {tujuanDpcName}
                             </div>
                             <small className="text-muted">
                                 <i className="fas fa-map-marker-alt me-1"></i>
-                                {vrf.tujuan.name}
+                                {tujuanName}
                             </small>
                         </div>
                     </div>
@@ -209,6 +215,12 @@ export default function VerifPengajuanIndex() {
     };
 
     const renderRuteMutasiMobile = (vrf) => {
+        // Null checking untuk semua properti yang diperlukan
+        const provinceName = vrf.province?.name || 'Tidak tersedia';
+        const cityName = vrf.city?.name || 'Tidak tersedia';
+        const tujuanName = vrf.tujuan?.name || 'Tidak tersedia';
+        const tujuanDpcName = vrf.tujuan_dpc?.name || 'Tidak tersedia';
+
         if (vrf.tipe_pindah === "dpw") {
             return (
                 <div className="mb-3 p-3 bg-light rounded">
@@ -219,16 +231,16 @@ export default function VerifPengajuanIndex() {
                     <div className="d-flex align-items-center justify-content-between">
                         <div className="text-center">
                             <div className="fw-bold text-danger small">DPW ASAL</div>
-                            <div className="fw-semibold">{vrf.province.name}</div>
-                            <small className="text-muted">{vrf.city.name}</small>
+                            <div className="fw-semibold">{provinceName}</div>
+                            <small className="text-muted">{cityName}</small>
                         </div>
                         <div className="mx-2">
                             <i className="fas fa-arrow-right text-primary"></i>
                         </div>
                         <div className="text-center">
                             <div className="fw-bold text-success small">DPW TUJUAN</div>
-                            <div className="fw-semibold">{vrf.tujuan.name}</div>
-                            <small className="text-muted">{vrf.tujuan_dpc.name}</small>
+                            <div className="fw-semibold">{tujuanName}</div>
+                            <small className="text-muted">{tujuanDpcName}</small>
                         </div>
                     </div>
                 </div>
@@ -243,16 +255,16 @@ export default function VerifPengajuanIndex() {
                     <div className="d-flex align-items-center justify-content-between">
                         <div className="text-center">
                             <div className="fw-bold text-danger small">DPC ASAL</div>
-                            <div className="fw-semibold">{vrf.city.name}</div>
-                            <small className="text-muted">DPW: {vrf.province.name}</small>
+                            <div className="fw-semibold">{cityName}</div>
+                            <small className="text-muted">DPW: {provinceName}</small>
                         </div>
                         <div className="mx-2">
                             <i className="fas fa-arrow-right text-primary"></i>
                         </div>
                         <div className="text-center">
                             <div className="fw-bold text-success small">DPC TUJUAN</div>
-                            <div className="fw-semibold">{vrf.tujuan_dpc.name}</div>
-                            <small className="text-muted">DPW: {vrf.tujuan.name}</small>
+                            <div className="fw-semibold">{tujuanDpcName}</div>
+                            <small className="text-muted">DPW: {tujuanName}</small>
                         </div>
                     </div>
                 </div>
@@ -346,7 +358,7 @@ export default function VerifPengajuanIndex() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {verif.data.length > 0 ? (
+                                                {verif.data && verif.data.length > 0 ? (
                                                     verif.data.map((vrf, index) => (
                                                         <tr key={vrf.id} className="border-bottom">
                                                             <td className="ps-4 text-center fw-bold text-primary">
@@ -361,10 +373,10 @@ export default function VerifPengajuanIndex() {
                                                                         <i className="fas fa-user text-white"></i>
                                                                     </div>
                                                                     <div>
-                                                                        <h6 className="mb-1 fw-semibold">{vrf.name}</h6>
+                                                                        <h6 className="mb-1 fw-semibold">{vrf.name || 'Nama tidak tersedia'}</h6>
                                                                         <small className="text-muted">
                                                                             <i className="fas fa-id-card me-1"></i>
-                                                                            {vrf.kta}
+                                                                            {vrf.kta || 'KTA tidak tersedia'}
                                                                         </small>
                                                                     </div>
                                                                 </div>
@@ -396,11 +408,11 @@ export default function VerifPengajuanIndex() {
                                                             </td>
                                                             <td className="text-center">
                                                                 <div className="fw-medium">
-                                                                    {new Date(vrf.tgl_mutasi).toLocaleDateString('id-ID', {
+                                                                    {vrf.tgl_mutasi ? new Date(vrf.tgl_mutasi).toLocaleDateString('id-ID', {
                                                                         day: '2-digit',
                                                                         month: 'short',
                                                                         year: 'numeric'
-                                                                    })}
+                                                                    }) : 'Tanggal tidak tersedia'}
                                                                 </div>
                                                                 <small className="text-muted">
                                                                     Diajukan
@@ -437,7 +449,7 @@ export default function VerifPengajuanIndex() {
 
                             {/* Mobile Cards */}
                             <div className="d-block d-lg-none">
-                                {verif.data.length > 0 ? (
+                                {verif.data && verif.data.length > 0 ? (
                                     verif.data.map((vrf, index) => (
                                         <div key={vrf.id} className="card shadow-sm border-0 mb-3">
                                             <div className="card-body">
@@ -449,8 +461,8 @@ export default function VerifPengajuanIndex() {
                                                             <i className="fas fa-user text-white"></i>
                                                         </div>
                                                         <div>
-                                                            <h6 className="mb-0 fw-bold">{vrf.name}</h6>
-                                                            <small className="text-muted">KTA: {vrf.kta}</small>
+                                                            <h6 className="mb-0 fw-bold">{vrf.name || 'Nama tidak tersedia'}</h6>
+                                                            <small className="text-muted">KTA: {vrf.kta || 'KTA tidak tersedia'}</small>
                                                         </div>
                                                     </div>
                                                     <span className="badge bg-primary">
@@ -489,7 +501,7 @@ export default function VerifPengajuanIndex() {
                                                 <div className="d-flex justify-content-between align-items-center pt-2 border-top">
                                                     <small className="text-muted">
                                                         <i className="fas fa-calendar me-1"></i>
-                                                        {new Date(vrf.tgl_mutasi).toLocaleDateString('id-ID')}
+                                                        {vrf.tgl_mutasi ? new Date(vrf.tgl_mutasi).toLocaleDateString('id-ID') : 'Tanggal tidak tersedia'}
                                                     </small>
                                                     <Link
                                                         href={`/account/verifPengajuan/${vrf.id}/edit`}
@@ -516,7 +528,7 @@ export default function VerifPengajuanIndex() {
                     </div>
 
                     {/* Pagination */}
-                    {verif.data.length > 0 && (
+                    {verif.data && verif.data.length > 0 && (
                         <div className="row mt-4">
                             <div className="col-12">
                                 <div className="d-flex justify-content-center">
