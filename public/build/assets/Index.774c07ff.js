@@ -1,0 +1,1 @@
+import{u as t,R as e,H as a}from"./app.e4414b38.js";import{L as l}from"./Account.a2fbfe79.js";import"./Dropdown.bb5583b7.js";function o(){return t().props,e.createElement(e.Fragment,null,e.createElement(a,null,e.createElement("title",null,"SIG - IKATWI")),e.createElement(l,null,e.createElement("h1",{className:"text-2xl font-semibold mb-6"},"SIG")))}export{o as default};

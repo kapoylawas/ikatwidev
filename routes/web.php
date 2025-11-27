@@ -66,6 +66,9 @@ Route::prefix('account')->group(function () {
         //route resource pengajuan
         Route::resource('/pengajuan', \App\Http\Controllers\Account\PengajuanController::class, ['as' => 'account'])->middleware('permission:pengajuan.index');
 
+        // route resource sig
+        Route::resource('/sig', \App\Http\Controllers\Account\SigController::class, ['as' => 'account'])->middleware('permission:ekta.index');
+
         //route resource dpw
         Route::resource('/dpw', \App\Http\Controllers\Account\DpwController::class, ['as' => 'account'])->middleware('permission:dpw.index');
 

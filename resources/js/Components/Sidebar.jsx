@@ -198,6 +198,12 @@ export default function Sidebar() {
                                         <i className="fa fa-address-card me-3"></i> E-KTA
                                     </Link>
                                 )}
+
+                                {hasAnyPermission(["ekta.index"]) && (
+                                    <Link href="/account/sig" className={getActiveClass("/account/sig")}>
+                                        <i className="fa fa-address-card me-3"></i> SIG
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     )}
