@@ -139,8 +139,8 @@ export default function HomeIndex() {
                                                                 />
                                                             </div>
                                                             {/* Status Badge */}
-                                                            <div className={`status-badge ${new Date(auth.user.date_exprd) >= currentDate ? 'active' : 'inactive'}`}>
-                                                                <i className={`fas ${new Date(auth.user.date_exprd) >= currentDate ? 'fa-check' : 'fa-exclamation-triangle'}`}></i>
+                                                            <div className={`status-badge ${auth.user.no_anggota ? 'active' : 'inactive'}`}>
+                                                                <i className={`fas ${auth.user.no_anggota ? 'fa-check' : 'fa-exclamation-triangle'}`}></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -152,17 +152,17 @@ export default function HomeIndex() {
                                                                 {auth.user.email}
                                                             </p>
                                                             <div className="profile-status">
-                                                                {new Date(auth.user.date_exprd) >= currentDate ? (
+                                                                {auth.user.no_anggota ? (
                                                                     <span className="status-tag active">
-                                                                        <i className="fas fa-shield-alt me-2"></i>
-                                                                        STR Aktif
-                                                                        <small className="ms-2">Berlaku hingga {new Date(auth.user.date_exprd).toLocaleDateString('id-ID')}</small>
+                                                                        <i className="fas fa-id-card me-2"></i>
+                                                                        Anggota Aktif
+                                                                        <small className="ms-2">No. Anggota: {auth.user.no_anggota}</small>
                                                                     </span>
                                                                 ) : (
                                                                     <span className="status-tag inactive">
                                                                         <i className="fas fa-exclamation-triangle me-2"></i>
-                                                                        STR Non Aktif
-                                                                        <small className="ms-2">Kadaluarsa sejak {new Date(auth.user.date_exprd).toLocaleDateString('id-ID')}</small>
+                                                                        Belum Terdaftar
+                                                                        <small className="ms-2">Silakan hubungi admin untuk registrasi</small>
                                                                     </span>
                                                                 )}
                                                             </div>
