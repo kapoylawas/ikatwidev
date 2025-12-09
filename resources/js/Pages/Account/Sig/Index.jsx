@@ -247,54 +247,7 @@ export default function SigIndex() {
                     className="container-fluid py-4"
                     style={{ backgroundColor: "#f8f9fa" }}
                 >
-                    {/* Temporary Debug View - HAPUS NANTI */}
-                    <div className="alert alert-info mb-3">
-                        <h6>Debug Information:</h6>
-                        <ul className="mb-0">
-                            <li>
-                                <strong>Current Year:</strong> {currentYear}{" "}
-                                (type: {typeof currentYear})
-                            </li>
-                            <li>
-                                <strong>Current SIG Data:</strong>{" "}
-                                {JSON.stringify(currentSig)}
-                            </li>
-                            <li>
-                                <strong>SIG Tahun:</strong> {currentSig?.tahun}{" "}
-                                (type: {typeof currentSig?.tahun})
-                            </li>
-                            <li>
-                                <strong>SIG Status:</strong>{" "}
-                                {currentSig?.status}
-                            </li>
-                            <li>
-                                <strong>User:</strong> {user?.name}
-                            </li>
-                            <li>
-                                <strong>
-                                    Has Registered for Current Year:
-                                </strong>
-                                {hasRegisteredForCurrentYear ? "YES" : "NO"}
-                                (Compare: {parseInt(
-                                    currentSig?.tahun || 0,
-                                )} === {currentYear} ={" "}
-                                {parseInt(currentSig?.tahun || 0) ===
-                                currentYear
-                                    ? "true"
-                                    : "false"}
-                                )
-                            </li>
-                            <li>
-                                <strong>Is Status Approved:</strong>{" "}
-                                {isStatusApproved ? "YES" : "NO"}
-                            </li>
-                            <li>
-                                <strong>Should Show Card:</strong>{" "}
-                                {shouldShowCard ? "YES" : "NO"}
-                            </li>
-                        </ul>
-                    </div>
-                    {/* End Debug View */}
+                   
 
                     {/* Header */}
                     <div className="row mb-4">
