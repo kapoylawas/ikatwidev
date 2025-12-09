@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/assets/css/styles.css') }}">
     <link rel="shortcut icon" href="{{ asset('/assets/images/logo.png') }}" />
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     @viteReactRefresh
     @vite('resources/js/app.jsx')
     @inertiaHead
