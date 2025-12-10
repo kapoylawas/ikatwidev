@@ -1281,19 +1281,10 @@ export default function SigIndex() {
                                                             }}
                                                         >
                                                             <QRCodeSVG
-                                                                value={JSON.stringify(
-                                                                    {
-                                                                        type: "SIG_MEMBER",
-                                                                        id:
-                                                                            user?.no_anggota ||
-                                                                            "",
-                                                                        name:
-                                                                            user?.name ||
-                                                                            "",
-                                                                        year: currentSig.tahun,
-                                                                        status: "ACTIVE",
-                                                                    }
-                                                                )}
+                                                                value={
+                                                                    user?.no_anggota ||
+                                                                    ""
+                                                                }
                                                                 size={85}
                                                                 level="H"
                                                                 includeMargin={
