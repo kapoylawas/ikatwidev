@@ -44,6 +44,9 @@ Route::post('/loginAnggotaBaru', [\App\Http\Controllers\Auth\LoginController::cl
 //route logout
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout')->middleware('auth');
 
+Route::get('/sig/verify', [\App\Http\Controllers\Account\SigController::class, 'verifyQRCode'])
+    ->name('sig.verify')->middleware('guest');
+
 //prefix "account"
 Route::prefix('account')->group(function () {
     //middleware "auth"

@@ -1281,10 +1281,9 @@ export default function SigIndex() {
                                                             }}
                                                         >
                                                             <QRCodeSVG
-                                                                value={
-                                                                    user?.no_anggota ||
-                                                                    ""
-                                                                }
+                                                                value={`https://ikatwi.org/sig/verify?mid=${
+                                                                    user?.no_anggota
+                                                                }&y=${currentYear}&t=${Date.now()}`}
                                                                 size={85}
                                                                 level="H"
                                                                 includeMargin={

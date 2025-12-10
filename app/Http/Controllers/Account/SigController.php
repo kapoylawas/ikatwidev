@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use Inertia\Inertia;
 
 class SigController extends Controller
 {
@@ -110,5 +112,164 @@ class SigController extends Controller
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function verifyQRCode(Request $request)
+    { 
+
+        try {
+            // Ambil parameter dari QR Code
+            $memberId = $request->query('mid');
+            $year = $request->query('y');
+            $timestamp = $request->query('t');
+            
+            // Validasi parameter
+            if (empty($memberId) || empty($year)) {
+                return Inertia::render('Web/VerifyResultSig', [
+                    'success' => false,
+                    'message' => 'QR Code tidak valid. Parameter tidak lengkap.',
+                    'data' => null,
+                    'scanDate' => now()->format('d-m-Y H:i:s'),
+                    'errorCode' => 'INVALID_PARAMS'
+                ]);
+            }
+            
+            // Cari user berdasarkan no_anggota
+            $user = User::where('no_anggota', $memberId)->first();
+            
+            if (!$user) {
+                return Inertia::render('Web/VerifyResultSig', [
+                    'success' => false,
+                    'message' => 'Anggota tidak ditemukan.',
+                    'data' => [
+                        'member_id' => $memberId,
+                        'year' => $year
+                    ],
+                    'scanDate' => now()->format('d-m-Y H:i:s'),
+                    'errorCode' => 'MEMBER_NOT_FOUND'
+                ]);
+            }
+            
+            // Cari data SIG untuk tahun tersebut
+            $sig = Sig::where('user_id', $user->id)
+                     ->where('tahun', $year)
+                     ->first();
+            
+            if (!$sig) {
+                return Inertia::render('Web/VerifyResultSig', [
+                    'success' => false,
+                    'message' => 'Data SIG tidak ditemukan untuk tahun ' . $year,
+                    'data' => [
+                        'member_id' => $memberId,
+                        'member_name' => $user->name,
+                        'year' => $year,
+                        'member_exists' => true
+                    ],
+                    'scanDate' => now()->format('d-m-Y H:i:s'),
+                    'errorCode' => 'SIG_NOT_FOUND'
+                ]);
+            }
+            
+            // Check status
+            if ($sig->status !== 'approved') {
+                $statusMessage = match($sig->status) {
+                    'pending' => 'Status: Menunggu verifikasi',
+                    'rejected' => 'Status: Ditolak',
+                    default => 'Status: Tidak aktif'
+                };
+                
+                return Inertia::render('Web/VerifyResult', [
+                    'success' => false,
+                    'message' => 'Kartu SIG tidak aktif. ' . $statusMessage,
+                    'data' => [
+                        'member_id' => $memberId,
+                        'member_name' => $user->name,
+                        'member_email' => $user->email,
+                        'member_image' => $user->image,
+                        'year' => $year,
+                        'status' => $sig->status,
+                        'status_label' => $this->getStatusLabel($sig->status),
+                        'registered_date' => $sig->created_at->format('d-m-Y'),
+                        'member_exists' => true,
+                        'sig_exists' => true
+                    ],
+                    'scanDate' => now()->format('d-m-Y H:i:s'),
+                    'errorCode' => 'INACTIVE_CARD'
+                ]);
+            }
+            
+            // Check masa berlaku (sampai 31 Desember tahun tersebut)
+            $expiryDate = Carbon::create($year, 12, 31, 23, 59, 59);
+            $isExpired = Carbon::now()->gt($expiryDate);
+            
+            if ($isExpired) {
+                return Inertia::render('Web/VerifyResultSig', [
+                    'success' => false,
+                    'message' => 'Kartu SIG sudah kadaluarsa. Masa berlaku: 31 Desember ' . $year,
+                    'data' => [
+                        'member_id' => $memberId,
+                        'member_name' => $user->name,
+                        'member_email' => $user->email,
+                        'member_image' => $user->image,
+                        'year' => $year,
+                        'status' => $sig->status,
+                        'status_label' => $this->getStatusLabel($sig->status),
+                        'registered_date' => $sig->created_at->format('d-m-Y'),
+                        'expired' => true,
+                        'expiry_date' => $expiryDate->format('d-m-Y'),
+                        'member_exists' => true,
+                        'sig_exists' => true,
+                        'was_approved' => true
+                    ],
+                    'scanDate' => now()->format('d-m-Y H:i:s'),
+                    'errorCode' => 'CARD_EXPIRED'
+                ]);
+            }
+            
+            // Jika semua valid, tampilkan data lengkap
+            return Inertia::render('Web/VerifyResultSig', [
+                'success' => true,
+                'message' => 'Kartu SIG Valid',
+                'data' => [
+                    'member_id' => $memberId,
+                    'member_name' => $user->name,
+                    'member_email' => $user->email,
+                    'member_image' => $user->image,
+                    'member_type' => $user->name === 'Anggota Kehormatan' ? 'Anggota Kehormatan' : 'Anggota Biasa',
+                    'year' => $year,
+                    'status' => $sig->status,
+                    'status_label' => $this->getStatusLabel($sig->status),
+                    'registered_date' => $sig->created_at->format('d-m-Y'),
+                    'expiry_date' => $expiryDate->format('d-m-Y'),
+                    'valid' => true,
+                    'is_active' => true,
+                    'qr_generated' => $timestamp ? Carbon::createFromTimestampMs($timestamp)->format('d-m-Y H:i') : null,
+                    'days_remaining' => Carbon::now()->diffInDays($expiryDate, false),
+                    'member_exists' => true,
+                    'sig_exists' => true
+                ],
+                'scanDate' => now()->format('d-m-Y H:i:s'),
+                'qrTimestamp' => $timestamp
+            ]);
+            
+        } catch (\Exception $e) {
+            return Inertia::render('Web/VerifyResultSig', [
+                'success' => false,
+                'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage(),
+                'data' => null,
+                'scanDate' => now()->format('d-m-Y H:i:s'),
+                'errorCode' => 'SERVER_ERROR'
+            ]);
+        }
+    }
+
+    private function getStatusLabel($status)
+    {
+        return match($status) {
+            'pending' => 'Menunggu Verifikasi',
+            'approved' => 'Disetujui',
+            'rejected' => 'Ditolak',
+            default => 'Tidak Diketahui'
+        };
     }
 }

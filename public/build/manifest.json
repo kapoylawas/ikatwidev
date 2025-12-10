@@ -1,6 +1,6 @@
 {
   "resources/js/app.jsx": {
-    "file": "assets/app.35d66336.js",
+    "file": "assets/app.23e4cf86.js",
     "src": "resources/js/app.jsx",
     "isEntry": true,
     "dynamicImports": [
@@ -90,471 +90,473 @@
       "resources/js/Pages/Web/Products/AddToCart.jsx",
       "resources/js/Pages/Web/Products/Index.jsx",
       "resources/js/Pages/Web/Products/Show.jsx",
+      "resources/js/Pages/Web/VerifyResultSig.jsx",
+      "resources/js/Pages/Web/VerifyResultSig/Index.jsx",
       "resources/js/Pages/Web/VisiMisi/Index.jsx",
       "resources/js/Pages/Web/WilayahCabang/Index.jsx",
       "resources/js/Pages/Web/Wilayahdpc/Index.jsx"
     ]
   },
   "resources/js/Pages/Account/ArsipPrintPengajuan/Edit.jsx": {
-    "file": "assets/Edit.195ab3ad.js",
+    "file": "assets/Edit.a93b7ae6.js",
     "src": "resources/js/Pages/Account/ArsipPrintPengajuan/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_index.02450cf6.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_index.fee9e812.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
-  "_Account.37d4bd4d.js": {
-    "file": "assets/Account.37d4bd4d.js",
+  "_Account.a8fe3f17.js": {
+    "file": "assets/Account.a8fe3f17.js",
     "imports": [
       "resources/js/app.jsx",
-      "_Dropdown.a69e65dc.js"
+      "_Dropdown.84506c9f.js"
     ]
   },
-  "_sweetalert2.all.cc6f9a62.js": {
-    "file": "assets/sweetalert2.all.cc6f9a62.js",
+  "_sweetalert2.all.da30f126.js": {
+    "file": "assets/sweetalert2.all.da30f126.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_index.02450cf6.js": {
-    "file": "assets/index.02450cf6.js",
+  "_index.fee9e812.js": {
+    "file": "assets/index.fee9e812.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Dropdown.a69e65dc.js": {
-    "file": "assets/Dropdown.a69e65dc.js",
+  "_Dropdown.84506c9f.js": {
+    "file": "assets/Dropdown.84506c9f.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/js/Pages/Account/ArsipPrintPengajuan/Index.jsx": {
-    "file": "assets/Index.c6fc4039.js",
+    "file": "assets/Index.baec433d.js",
     "src": "resources/js/Pages/Account/ArsipPrintPengajuan/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Pagination.f0fdbbef.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Pagination.5d912032.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
-  "_Pagination.f0fdbbef.js": {
-    "file": "assets/Pagination.f0fdbbef.js",
+  "_Pagination.5d912032.js": {
+    "file": "assets/Pagination.5d912032.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/js/Pages/Account/Biodatas/Edit.jsx": {
-    "file": "assets/Edit.2d6cd330.js",
+    "file": "assets/Edit.7fdfd540.js",
     "src": "resources/js/Pages/Account/Biodatas/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Biodatas/Index.jsx": {
-    "file": "assets/Index.f54f552c.js",
+    "file": "assets/Index.3c238a0a.js",
     "src": "resources/js/Pages/Account/Biodatas/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_index.02450cf6.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_index.fee9e812.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Categories/Create.jsx": {
-    "file": "assets/Create.d8d684f5.js",
+    "file": "assets/Create.74d19a39.js",
     "src": "resources/js/Pages/Account/Categories/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Categories/Edit.jsx": {
-    "file": "assets/Edit.b665dfb0.js",
+    "file": "assets/Edit.0c1f7415.js",
     "src": "resources/js/Pages/Account/Categories/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Categories/Index.jsx": {
-    "file": "assets/Index.14324492.js",
+    "file": "assets/Index.d503bf5f.js",
     "src": "resources/js/Pages/Account/Categories/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
-  "_Search.bb271557.js": {
-    "file": "assets/Search.bb271557.js",
+  "_Search.d4e36c4f.js": {
+    "file": "assets/Search.d4e36c4f.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Delete.d9250fb9.js": {
-    "file": "assets/Delete.d9250fb9.js",
+  "_Delete.2df8cec7.js": {
+    "file": "assets/Delete.2df8cec7.js",
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Cetak/Index.jsx": {
-    "file": "assets/Index.5b7243fc.js",
+    "file": "assets/Index.1bdd2b39.js",
     "src": "resources/js/Pages/Account/Cetak/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_index.02450cf6.js"
+      "_index.fee9e812.js"
     ]
   },
   "resources/js/Pages/Account/Dashboard/Index.jsx": {
-    "file": "assets/Index.2798a0f9.js",
+    "file": "assets/Index.2f5ec0c3.js",
     "src": "resources/js/Pages/Account/Dashboard/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Documents/CreateIjazah.jsx": {
-    "file": "assets/CreateIjazah.74e05b84.js",
+    "file": "assets/CreateIjazah.2e555f34.js",
     "src": "resources/js/Pages/Account/Documents/CreateIjazah.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Documents/Createsip.jsx": {
-    "file": "assets/Createsip.c20f173a.js",
+    "file": "assets/Createsip.3a5cd145.js",
     "src": "resources/js/Pages/Account/Documents/Createsip.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Documents/Createstr.jsx": {
-    "file": "assets/Createstr.7aaa220a.js",
+    "file": "assets/Createstr.824a45fd.js",
     "src": "resources/js/Pages/Account/Documents/Createstr.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Documents/Edit.jsx": {
-    "file": "assets/Edit.9e113db9.js",
+    "file": "assets/Edit.e7697b63.js",
     "src": "resources/js/Pages/Account/Documents/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Documents/Index.jsx": {
-    "file": "assets/Index.c6c79ddb.js",
+    "file": "assets/Index.608b8282.js",
     "src": "resources/js/Pages/Account/Documents/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Documents/ShowIjazah.jsx": {
-    "file": "assets/ShowIjazah.c9ffbd02.js",
+    "file": "assets/ShowIjazah.0d6fc110.js",
     "src": "resources/js/Pages/Account/Documents/ShowIjazah.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Documents/Showsip.jsx": {
-    "file": "assets/Showsip.15564ef0.js",
+    "file": "assets/Showsip.eff02cee.js",
     "src": "resources/js/Pages/Account/Documents/Showsip.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Documents/Showstr.jsx": {
-    "file": "assets/Showstr.d80d4a82.js",
+    "file": "assets/Showstr.d47164da.js",
     "src": "resources/js/Pages/Account/Documents/Showstr.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Dpc/Create.jsx": {
-    "file": "assets/Create.d92908d7.js",
+    "file": "assets/Create.854304ec.js",
     "src": "resources/js/Pages/Account/Dpc/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Dpc/Edit.jsx": {
-    "file": "assets/Edit.422834a6.js",
+    "file": "assets/Edit.2a212a2e.js",
     "src": "resources/js/Pages/Account/Dpc/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Dpc/Index.jsx": {
-    "file": "assets/Index.f4f84321.js",
+    "file": "assets/Index.dae5b7df.js",
     "src": "resources/js/Pages/Account/Dpc/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Dpw/Create.jsx": {
-    "file": "assets/Create.4db6b05f.js",
+    "file": "assets/Create.53e639f7.js",
     "src": "resources/js/Pages/Account/Dpw/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Dpw/Edit.jsx": {
-    "file": "assets/Edit.e4708c00.js",
+    "file": "assets/Edit.02f45802.js",
     "src": "resources/js/Pages/Account/Dpw/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Dpw/Index.jsx": {
-    "file": "assets/Index.188361d5.js",
+    "file": "assets/Index.fe3cac92.js",
     "src": "resources/js/Pages/Account/Dpw/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Ejurnal/Index.jsx": {
-    "file": "assets/Index.5e49a1dc.js",
+    "file": "assets/Index.af5a636f.js",
     "src": "resources/js/Pages/Account/Ejurnal/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Ekta/Index.jsx": {
-    "file": "assets/Index.b9416be0.js",
+    "file": "assets/Index.4c2e3d9d.js",
     "src": "resources/js/Pages/Account/Ekta/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_index.02450cf6.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_index.fee9e812.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Kegiatan/Create.jsx": {
-    "file": "assets/Create.c93f0afe.js",
+    "file": "assets/Create.555372fc.js",
     "src": "resources/js/Pages/Account/Kegiatan/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Kegiatan/Edit.jsx": {
-    "file": "assets/Edit.ba24768d.js",
+    "file": "assets/Edit.d7b368e4.js",
     "src": "resources/js/Pages/Account/Kegiatan/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Kegiatan/Index.jsx": {
-    "file": "assets/Index.24847f49.js",
+    "file": "assets/Index.5807e040.js",
     "src": "resources/js/Pages/Account/Kegiatan/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Pengajuan/Create.jsx": {
-    "file": "assets/Create.4007b2c5.js",
+    "file": "assets/Create.c3ddaaa0.js",
     "src": "resources/js/Pages/Account/Pengajuan/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Pengajuan/Edit.jsx": {
-    "file": "assets/Edit.00d9c6ff.js",
+    "file": "assets/Edit.6ffed12a.js",
     "src": "resources/js/Pages/Account/Pengajuan/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Pengajuan/Index.jsx": {
-    "file": "assets/Index.ce36c28e.js",
+    "file": "assets/Index.80dfd3b6.js",
     "src": "resources/js/Pages/Account/Pengajuan/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/PengajuanPrint/Index.jsx": {
-    "file": "assets/Index.ce122ca1.js",
+    "file": "assets/Index.a6d0c6e8.js",
     "src": "resources/js/Pages/Account/PengajuanPrint/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_index.02450cf6.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_index.fee9e812.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Pengurus/Create.jsx": {
-    "file": "assets/Create.3268389f.js",
+    "file": "assets/Create.b50d18c1.js",
     "src": "resources/js/Pages/Account/Pengurus/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Pengurus/Index.jsx": {
-    "file": "assets/Index.60ddef9a.js",
+    "file": "assets/Index.f42d67d5.js",
     "src": "resources/js/Pages/Account/Pengurus/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Permissions/Index.jsx": {
-    "file": "assets/Index.965fccfd.js",
+    "file": "assets/Index.ce5b0974.js",
     "src": "resources/js/Pages/Account/Permissions/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Products/Create.jsx": {
-    "file": "assets/Create.31404cf8.js",
+    "file": "assets/Create.2aede661.js",
     "src": "resources/js/Pages/Account/Products/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_quill.snow.f8970a40.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_quill.snow.5af23124.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
-  "_quill.snow.f8970a40.js": {
-    "file": "assets/quill.snow.f8970a40.js",
+  "_quill.snow.5af23124.js": {
+    "file": "assets/quill.snow.5af23124.js",
     "imports": [
       "resources/js/app.jsx"
     ],
@@ -563,372 +565,372 @@
     ]
   },
   "resources/js/Pages/Account/Products/Edit.jsx": {
-    "file": "assets/Edit.595db7d9.js",
+    "file": "assets/Edit.6689ad24.js",
     "src": "resources/js/Pages/Account/Products/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_quill.snow.f8970a40.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_quill.snow.5af23124.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Products/Index.jsx": {
-    "file": "assets/Index.ad8238c3.js",
+    "file": "assets/Index.7191a618.js",
     "src": "resources/js/Pages/Account/Products/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Products/Show.jsx": {
-    "file": "assets/Show.a3e2cd2c.js",
+    "file": "assets/Show.8137cfe4.js",
     "src": "resources/js/Pages/Account/Products/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Roles/Create.jsx": {
-    "file": "assets/Create.328028b6.js",
+    "file": "assets/Create.3510fb25.js",
     "src": "resources/js/Pages/Account/Roles/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Roles/Edit.jsx": {
-    "file": "assets/Edit.d0e6a6bd.js",
+    "file": "assets/Edit.ba8db7fd.js",
     "src": "resources/js/Pages/Account/Roles/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Roles/Index.jsx": {
-    "file": "assets/Index.9b7f0a7a.js",
+    "file": "assets/Index.b1878bd1.js",
     "src": "resources/js/Pages/Account/Roles/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Sig/Index.jsx": {
-    "file": "assets/Index.e5458e08.js",
+    "file": "assets/Index.74888c76.js",
     "src": "resources/js/Pages/Account/Sig/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_index.02450cf6.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_index.fee9e812.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Sliders/Create.jsx": {
-    "file": "assets/Create.bf39456a.js",
+    "file": "assets/Create.1f90a341.js",
     "src": "resources/js/Pages/Account/Sliders/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Sliders/Index.jsx": {
-    "file": "assets/Index.253a7061.js",
+    "file": "assets/Index.06ca9779.js",
     "src": "resources/js/Pages/Account/Sliders/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Delete.d9250fb9.js",
+      "_Account.a8fe3f17.js",
+      "_Delete.2df8cec7.js",
       "resources/js/Pages/Account/Sliders/Create.jsx",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Tagihan/Index.jsx": {
-    "file": "assets/Index.e3ccd809.js",
+    "file": "assets/Index.c689890d.js",
     "src": "resources/js/Pages/Account/Tagihan/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Pagination.f0fdbbef.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Pagination.5d912032.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Transactions/Index.jsx": {
-    "file": "assets/Index.0585fd3a.js",
+    "file": "assets/Index.ef00cdd6.js",
     "src": "resources/js/Pages/Account/Transactions/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
+      "_Account.a8fe3f17.js",
       "_FormatPrice.72b07cf2.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Dropdown.a69e65dc.js"
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "_FormatPrice.72b07cf2.js": {
     "file": "assets/FormatPrice.72b07cf2.js"
   },
   "resources/js/Pages/Account/Transactions/Show.jsx": {
-    "file": "assets/Show.08bb332a.js",
+    "file": "assets/Show.54c134c7.js",
     "src": "resources/js/Pages/Account/Transactions/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
+      "_Account.a8fe3f17.js",
       "_FormatPrice.72b07cf2.js",
-      "_Dropdown.a69e65dc.js"
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Users/Create.jsx": {
-    "file": "assets/Create.d3703817.js",
+    "file": "assets/Create.b481d370.js",
     "src": "resources/js/Pages/Account/Users/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Users/Edit.jsx": {
-    "file": "assets/Edit.6036b1f1.js",
+    "file": "assets/Edit.9c1c58ad.js",
     "src": "resources/js/Pages/Account/Users/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Users/Index.jsx": {
-    "file": "assets/Index.eb4702fb.js",
+    "file": "assets/Index.19b6b3e6.js",
     "src": "resources/js/Pages/Account/Users/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Users/VerifikasiAnggota.jsx": {
-    "file": "assets/VerifikasiAnggota.e047e706.js",
+    "file": "assets/VerifikasiAnggota.6c131054.js",
     "src": "resources/js/Pages/Account/Users/VerifikasiAnggota.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuan/Edit.jsx": {
-    "file": "assets/Edit.46e0a1ab.js",
+    "file": "assets/Edit.7f4a211a.js",
     "src": "resources/js/Pages/Account/VerifPengajuan/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuan/Index.jsx": {
-    "file": "assets/Index.c0d02c2f.js",
+    "file": "assets/Index.6b703367.js",
     "src": "resources/js/Pages/Account/VerifPengajuan/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Pagination.f0fdbbef.js",
-      "_Search.bb271557.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Pagination.5d912032.js",
+      "_Search.d4e36c4f.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuan/Show.jsx": {
-    "file": "assets/Show.c4c7c1f1.js",
+    "file": "assets/Show.da571649.js",
     "src": "resources/js/Pages/Account/VerifPengajuan/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuanDpc/Edit.jsx": {
-    "file": "assets/Edit.5e25554d.js",
+    "file": "assets/Edit.af896d20.js",
     "src": "resources/js/Pages/Account/VerifPengajuanDpc/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuanDpc/Index.jsx": {
-    "file": "assets/Index.66a76a3f.js",
+    "file": "assets/Index.2fdada64.js",
     "src": "resources/js/Pages/Account/VerifPengajuanDpc/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Pagination.f0fdbbef.js",
-      "_Search.bb271557.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Pagination.5d912032.js",
+      "_Search.d4e36c4f.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuanDpc/Show.jsx": {
-    "file": "assets/Show.f48c8f00.js",
+    "file": "assets/Show.7c278c7b.js",
     "src": "resources/js/Pages/Account/VerifPengajuanDpc/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuanDpw/Edit.jsx": {
-    "file": "assets/Edit.73f27b63.js",
+    "file": "assets/Edit.f8e024cd.js",
     "src": "resources/js/Pages/Account/VerifPengajuanDpw/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/VerifPengajuanDpw/Index.jsx": {
-    "file": "assets/Index.1d20abae.js",
+    "file": "assets/Index.4072d1b5.js",
     "src": "resources/js/Pages/Account/VerifPengajuanDpw/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Pagination.f0fdbbef.js",
-      "_Search.bb271557.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_Pagination.5d912032.js",
+      "_Search.d4e36c4f.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/WilayahCabang/Create.jsx": {
-    "file": "assets/Create.a38f82d1.js",
+    "file": "assets/Create.707ef90a.js",
     "src": "resources/js/Pages/Account/WilayahCabang/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/WilayahCabang/Edit.jsx": {
-    "file": "assets/Edit.eb7ed41e.js",
+    "file": "assets/Edit.5fcebcf5.js",
     "src": "resources/js/Pages/Account/WilayahCabang/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/WilayahCabang/Index.jsx": {
-    "file": "assets/Index.79593d30.js",
+    "file": "assets/Index.14e251d5.js",
     "src": "resources/js/Pages/Account/WilayahCabang/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Account/Wilayahdpc/Create.jsx": {
-    "file": "assets/Create.9ca38d3e.js",
+    "file": "assets/Create.3ba7519e.js",
     "src": "resources/js/Pages/Account/Wilayahdpc/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Wilayahdpc/Edit.jsx": {
-    "file": "assets/Edit.710822de.js",
+    "file": "assets/Edit.c80b469d.js",
     "src": "resources/js/Pages/Account/Wilayahdpc/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_Dropdown.a69e65dc.js"
+      "_Account.a8fe3f17.js",
+      "_sweetalert2.all.da30f126.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Account/Wilayahdpc/Index.jsx": {
-    "file": "assets/Index.ac703379.js",
+    "file": "assets/Index.775a3bb5.js",
     "src": "resources/js/Pages/Account/Wilayahdpc/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Account.37d4bd4d.js",
-      "_Search.bb271557.js",
-      "_Pagination.f0fdbbef.js",
-      "_Delete.d9250fb9.js",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Account.a8fe3f17.js",
+      "_Search.d4e36c4f.js",
+      "_Pagination.5d912032.js",
+      "_Delete.2df8cec7.js",
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Auth/ForgotPassword.jsx": {
-    "file": "assets/ForgotPassword.94451d6b.js",
+    "file": "assets/ForgotPassword.46bf83c8.js",
     "src": "resources/js/Pages/Auth/ForgotPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Auth/Info.jsx": {
-    "file": "assets/Info.98e41c59.js",
+    "file": "assets/Info.a48ad4dc.js",
     "src": "resources/js/Pages/Auth/Info.jsx",
     "isDynamicEntry": true,
     "imports": [
@@ -936,7 +938,7 @@
     ]
   },
   "resources/js/Pages/Auth/Login.jsx": {
-    "file": "assets/Login.b51d902d.js",
+    "file": "assets/Login.66890bc3.js",
     "src": "resources/js/Pages/Auth/Login.jsx",
     "isDynamicEntry": true,
     "imports": [
@@ -944,255 +946,273 @@
     ]
   },
   "resources/js/Pages/Auth/LupaPassword.jsx": {
-    "file": "assets/LupaPassword.d8439a66.js",
+    "file": "assets/LupaPassword.7a2be2ab.js",
     "src": "resources/js/Pages/Auth/LupaPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Auth/Register.jsx": {
-    "file": "assets/Register.7e6fc0e5.js",
+    "file": "assets/Register.cb2d1b70.js",
     "src": "resources/js/Pages/Auth/Register.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js",
-      "_index.66b98a5c.js"
+      "_sweetalert2.all.da30f126.js",
+      "_index.0cd1d7bc.js"
     ]
   },
-  "_index.66b98a5c.js": {
-    "file": "assets/index.66b98a5c.js",
+  "_index.0cd1d7bc.js": {
+    "file": "assets/index.0cd1d7bc.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/js/Pages/Auth/ResetPassword.jsx": {
-    "file": "assets/ResetPassword.a4ca21c2.js",
+    "file": "assets/ResetPassword.1f3526c6.js",
     "src": "resources/js/Pages/Auth/ResetPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Web/Anggota/Index.jsx": {
-    "file": "assets/Index.4365db76.js",
+    "file": "assets/Index.b1636a42.js",
     "src": "resources/js/Pages/Web/Anggota/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_index.66b98a5c.js",
-      "_Dropdown.a69e65dc.js"
+      "_Web.e101b841.js",
+      "_index.0cd1d7bc.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
-  "_Web.4f6af10c.js": {
-    "file": "assets/Web.4f6af10c.js",
+  "_Web.e101b841.js": {
+    "file": "assets/Web.e101b841.js",
     "imports": [
       "resources/js/app.jsx",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Artikel/Index.jsx": {
-    "file": "assets/Index.fcbbb92f.js",
+    "file": "assets/Index.e150bc38.js",
     "src": "resources/js/Pages/Web/Artikel/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Berita/Index.jsx": {
-    "file": "assets/Index.7793f819.js",
+    "file": "assets/Index.f06b435f.js",
     "src": "resources/js/Pages/Web/Berita/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Carts/Index.jsx": {
-    "file": "assets/Index.a5fda306.js",
+    "file": "assets/Index.5553287c.js",
     "src": "resources/js/Pages/Web/Carts/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_sweetalert2.all.cc6f9a62.js",
+      "_Web.e101b841.js",
+      "_sweetalert2.all.da30f126.js",
       "_FormatPrice.72b07cf2.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Categories/Index.jsx": {
-    "file": "assets/Index.715905f1.js",
+    "file": "assets/Index.49a2067b.js",
     "src": "resources/js/Pages/Web/Categories/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Pagination.f0fdbbef.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Pagination.5d912032.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Categories/Show.jsx": {
-    "file": "assets/Show.91fd7f30.js",
+    "file": "assets/Show.826615b6.js",
     "src": "resources/js/Pages/Web/Categories/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_CardProduct.edc93e70.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js",
+      "_Web.e101b841.js",
+      "_CardProduct.ab1257f6.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js",
       "_FormatPrice.72b07cf2.js"
     ]
   },
-  "_CardProduct.edc93e70.js": {
-    "file": "assets/CardProduct.edc93e70.js",
+  "_CardProduct.ab1257f6.js": {
+    "file": "assets/CardProduct.ab1257f6.js",
     "imports": [
       "resources/js/app.jsx",
       "_FormatPrice.72b07cf2.js"
     ]
   },
   "resources/js/Pages/Web/Checkouts/Index.jsx": {
-    "file": "assets/Index.37a2e74e.js",
+    "file": "assets/Index.8e43bd8d.js",
     "src": "resources/js/Pages/Web/Checkouts/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
+      "_Web.e101b841.js",
       "_FormatPrice.72b07cf2.js",
-      "_index.66b98a5c.js",
+      "_index.0cd1d7bc.js",
       "resources/js/Pages/Web/Checkouts/StoreCheckout.jsx",
-      "_Dropdown.a69e65dc.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Dropdown.84506c9f.js",
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Web/Checkouts/StoreCheckout.jsx": {
-    "file": "assets/StoreCheckout.a0a0c1c8.js",
+    "file": "assets/StoreCheckout.02eafbdc.js",
     "src": "resources/js/Pages/Web/Checkouts/StoreCheckout.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Web/History/Index.jsx": {
-    "file": "assets/Index.210e445c.js",
+    "file": "assets/Index.5075d631.js",
     "src": "resources/js/Pages/Web/History/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Pagination.f0fdbbef.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Pagination.5d912032.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Home/Index.jsx": {
-    "file": "assets/Index.23e52265.js",
+    "file": "assets/Index.9033219e.js",
     "src": "resources/js/Pages/Web/Home/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Kegiatan/Index.jsx": {
-    "file": "assets/Index.1f30935d.js",
+    "file": "assets/Index.e7813ae6.js",
     "src": "resources/js/Pages/Web/Kegiatan/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Pagination.f0fdbbef.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Pagination.5d912032.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Products/AddToCart.jsx": {
-    "file": "assets/AddToCart.47bc81ef.js",
+    "file": "assets/AddToCart.40597f42.js",
     "src": "resources/js/Pages/Web/Products/AddToCart.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_sweetalert2.all.da30f126.js"
     ]
   },
   "resources/js/Pages/Web/Products/Index.jsx": {
-    "file": "assets/Index.92b48a40.js",
+    "file": "assets/Index.b018f116.js",
     "src": "resources/js/Pages/Web/Products/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_CardProduct.edc93e70.js",
-      "_Pagination.f0fdbbef.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js",
+      "_Web.e101b841.js",
+      "_CardProduct.ab1257f6.js",
+      "_Pagination.5d912032.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js",
       "_FormatPrice.72b07cf2.js"
     ]
   },
   "resources/js/Pages/Web/Products/Show.jsx": {
-    "file": "assets/Show.5eba454d.js",
+    "file": "assets/Show.a7a097a8.js",
     "src": "resources/js/Pages/Web/Products/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
+      "_Web.e101b841.js",
       "_FormatPrice.72b07cf2.js",
       "resources/js/Pages/Web/Products/AddToCart.jsx",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js",
-      "_sweetalert2.all.cc6f9a62.js"
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js",
+      "_sweetalert2.all.da30f126.js"
+    ]
+  },
+  "resources/js/Pages/Web/VerifyResultSig.jsx": {
+    "file": "assets/VerifyResultSig.72a25f0c.js",
+    "src": "resources/js/Pages/Web/VerifyResultSig.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/Pages/Web/VerifyResultSig/Index.jsx": {
+    "file": "assets/Index.243c3c3b.js",
+    "src": "resources/js/Pages/Web/VerifyResultSig/Index.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Account.a8fe3f17.js",
+      "_Dropdown.84506c9f.js"
     ]
   },
   "resources/js/Pages/Web/VisiMisi/Index.jsx": {
-    "file": "assets/Index.7e6cb86a.js",
+    "file": "assets/Index.dd40f428.js",
     "src": "resources/js/Pages/Web/VisiMisi/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/WilayahCabang/Index.jsx": {
-    "file": "assets/Index.1f8a90d1.js",
+    "file": "assets/Index.8e5209fb.js",
     "src": "resources/js/Pages/Web/WilayahCabang/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Pagination.f0fdbbef.js",
-      "_Search.bb271557.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Pagination.5d912032.js",
+      "_Search.d4e36c4f.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "resources/js/Pages/Web/Wilayahdpc/Index.jsx": {
-    "file": "assets/Index.ff5788be.js",
+    "file": "assets/Index.221d6548.js",
     "src": "resources/js/Pages/Web/Wilayahdpc/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Web.4f6af10c.js",
-      "_Pagination.f0fdbbef.js",
-      "_Search.bb271557.js",
-      "_Dropdown.a69e65dc.js",
-      "_index.66b98a5c.js"
+      "_Web.e101b841.js",
+      "_Pagination.5d912032.js",
+      "_Search.d4e36c4f.js",
+      "_Dropdown.84506c9f.js",
+      "_index.0cd1d7bc.js"
     ]
   },
   "quill.css": {
