@@ -239,6 +239,37 @@ export default function SigIndex() {
                     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
                 />
             </Head>
+            
+            {/* CSS Responsif untuk Kartu */}
+            <style>
+                {`
+                @media (max-width: 768px) {
+                    .sig-card-container {
+                        width: 100% !important;
+                        height: auto !important;
+                    }
+                    .sig-card-photo-area {
+                        width: 120px !important;
+                        height: 160px !important;
+                    }
+                    .sig-card-qr-area {
+                        width: 120px !important;
+                        height: 120px !important;
+                    }
+                }
+                @media (max-width: 576px) {
+                    .sig-card-photo-area {
+                        width: 100px !important;
+                        height: 133px !important;
+                    }
+                    .sig-card-qr-area {
+                        width: 100px !important;
+                        height: 100px !important;
+                    }
+                }
+                `}
+            </style>
+            
             <LayoutAccount>
                 <div
                     className="container-fluid py-4"
@@ -527,13 +558,13 @@ export default function SigIndex() {
                                             SIG {currentYear}.
                                         </div>
 
-                                        {/* Kartu yang akan di-generate */}
+                                        {/* Kartu yang akan di-generate - UKURAN SEPERTI KTP */}
                                         <div
                                             ref={cardRef}
-                                            className="mx-auto"
+                                            className="mx-auto sig-card-container"
                                             style={{
-                                                width: "740px",
-                                                height: "420px",
+                                                width: "640px",
+                                                height: "400px",
                                                 maxWidth: "100%",
                                                 border: "2px solid #ddd",
                                                 borderRadius: "15px",
@@ -563,9 +594,9 @@ export default function SigIndex() {
                                                 style={{
                                                     backgroundColor: "#2c3e50",
                                                     color: "white",
-                                                    padding: "18px 25px",
+                                                    padding: "15px 20px",
                                                     position: "relative",
-                                                    height: "85px",
+                                                    height: "80px",
                                                     display: "flex",
                                                     alignItems: "center",
                                                     justifyContent:
@@ -578,18 +609,18 @@ export default function SigIndex() {
                                                 {/* Logo di kiri */}
                                                 <div
                                                     style={{
-                                                        width: "65px",
-                                                        height: "65px",
+                                                        width: "60px",
+                                                        height: "60px",
                                                         backgroundColor:
                                                             "white",
                                                         borderRadius: "8px",
-                                                        padding: "6px",
+                                                        padding: "5px",
                                                         display: "flex",
                                                         alignItems: "center",
                                                         justifyContent:
                                                             "center",
                                                         boxShadow:
-                                                            "0 2px 10px rgba(0,0,0,0.2)",
+                                                            "0 2px 8px rgba(0,0,0,0.2)",
                                                         border: "2px solid #3498db",
                                                         flexShrink: 0,
                                                     }}
@@ -618,18 +649,18 @@ export default function SigIndex() {
                                                     style={{
                                                         flex: 1,
                                                         textAlign: "center",
-                                                        margin: "0 25px",
+                                                        margin: "0 20px",
                                                     }}
                                                 >
                                                     <h2
                                                         style={{
                                                             fontWeight: "800",
-                                                            fontSize: "26px",
-                                                            marginBottom: "4px",
+                                                            fontSize: "24px",
+                                                            marginBottom: "3px",
                                                             letterSpacing:
-                                                                "1.2px",
+                                                                "1px",
                                                             textShadow:
-                                                                "1px 1px 3px rgba(0,0,0,0.3)",
+                                                                "1px 1px 2px rgba(0,0,0,0.3)",
                                                             lineHeight: "1.1",
                                                         }}
                                                     >
@@ -638,11 +669,11 @@ export default function SigIndex() {
                                                     <p
                                                         style={{
                                                             opacity: "0.95",
-                                                            fontSize: "15px",
+                                                            fontSize: "14px",
                                                             marginBottom: "0",
                                                             fontWeight: "400",
                                                             letterSpacing:
-                                                                "0.6px",
+                                                                "0.5px",
                                                             lineHeight: "1.2",
                                                         }}
                                                     >
@@ -654,12 +685,12 @@ export default function SigIndex() {
                                                 {/* Tahun di kanan */}
                                                 <div
                                                     style={{
-                                                        width: "65px",
-                                                        height: "65px",
+                                                        width: "60px",
+                                                        height: "60px",
                                                         backgroundColor:
                                                             "rgba(255,255,255,0.15)",
                                                         borderRadius: "8px",
-                                                        padding: "6px",
+                                                        padding: "5px",
                                                         display: "flex",
                                                         alignItems: "center",
                                                         justifyContent:
@@ -672,10 +703,10 @@ export default function SigIndex() {
                                                     <div
                                                         style={{
                                                             color: "rgba(255,255,255,0.9)",
-                                                            fontSize: "11px",
+                                                            fontSize: "10px",
                                                             fontWeight: "bold",
                                                             lineHeight: "1",
-                                                            marginBottom: "3px",
+                                                            marginBottom: "2px",
                                                         }}
                                                     >
                                                         TAHUN
@@ -683,7 +714,7 @@ export default function SigIndex() {
                                                     <div
                                                         style={{
                                                             color: "white",
-                                                            fontSize: "20px",
+                                                            fontSize: "18px",
                                                             fontWeight: "bold",
                                                             lineHeight: "1",
                                                         }}
@@ -693,11 +724,11 @@ export default function SigIndex() {
                                                 </div>
                                             </div>
 
-                                            {/* Body Kartu */}
+                                            {/* Body Kartu - Layout seperti KTP */}
                                             <div
                                                 style={{
-                                                    padding: "28px 35px",
-                                                    height: "calc(100% - 85px)",
+                                                    padding: "25px 30px",
+                                                    height: "calc(100% - 80px)",
                                                     position: "relative",
                                                     zIndex: 1,
                                                 }}
@@ -706,13 +737,13 @@ export default function SigIndex() {
                                                     style={{
                                                         display: "flex",
                                                         height: "100%",
-                                                        gap: "35px",
+                                                        gap: "30px",
                                                     }}
                                                 >
-                                                    {/* Kolom Kiri - Data Pribadi */}
+                                                    {/* Kolom Kiri - Data Pribadi (70%) */}
                                                     <div
                                                         style={{
-                                                            flex: 1,
+                                                            flex: 7,
                                                             display: "flex",
                                                             flexDirection:
                                                                 "column",
@@ -726,7 +757,7 @@ export default function SigIndex() {
                                                             <div
                                                                 style={{
                                                                     marginBottom:
-                                                                        "12px",
+                                                                        "10px",
                                                                 }}
                                                             >
                                                                 <div
@@ -736,13 +767,13 @@ export default function SigIndex() {
                                                                         alignItems:
                                                                             "center",
                                                                         marginBottom:
-                                                                            "6px",
+                                                                            "5px",
                                                                     }}
                                                                 >
                                                                     <div
                                                                         style={{
-                                                                            width: "26px",
-                                                                            height: "26px",
+                                                                            width: "24px",
+                                                                            height: "24px",
                                                                             backgroundColor:
                                                                                 "#3498db",
                                                                             borderRadius:
@@ -754,7 +785,7 @@ export default function SigIndex() {
                                                                             justifyContent:
                                                                                 "center",
                                                                             marginRight:
-                                                                                "10px",
+                                                                                "8px",
                                                                             flexShrink: 0,
                                                                         }}
                                                                     >
@@ -763,7 +794,7 @@ export default function SigIndex() {
                                                                             style={{
                                                                                 color: "white",
                                                                                 fontSize:
-                                                                                    "13px",
+                                                                                    "12px",
                                                                             }}
                                                                         ></i>
                                                                     </div>
@@ -773,12 +804,12 @@ export default function SigIndex() {
                                                                             fontWeight:
                                                                                 "700",
                                                                             fontSize:
-                                                                                "24px",
+                                                                                "22px",
                                                                             margin: 0,
                                                                             lineHeight:
                                                                                 "1.2",
                                                                             letterSpacing:
-                                                                                "0.4px",
+                                                                                "0.3px",
                                                                         }}
                                                                     >
                                                                         {user?.name?.toUpperCase() ||
@@ -794,9 +825,9 @@ export default function SigIndex() {
                                                                         alignItems:
                                                                             "center",
                                                                         marginLeft:
-                                                                            "36px",
+                                                                            "32px",
                                                                         marginTop:
-                                                                            "4px",
+                                                                            "3px",
                                                                     }}
                                                                 >
                                                                     <i
@@ -804,23 +835,23 @@ export default function SigIndex() {
                                                                         style={{
                                                                             color: "#7f8c8d",
                                                                             marginRight:
-                                                                                "8px",
+                                                                                "6px",
                                                                             fontSize:
-                                                                                "15px",
+                                                                                "14px",
                                                                         }}
                                                                     ></i>
                                                                     <span
                                                                         style={{
                                                                             color: "#2c3e50",
                                                                             fontSize:
-                                                                                "18px",
+                                                                                "16px",
                                                                             fontWeight:
                                                                                 "600",
                                                                             letterSpacing:
-                                                                                "0.6px",
+                                                                                "0.5px",
                                                                         }}
                                                                     >
-                                                                        #
+                                                                        
                                                                         {user?.no_anggota
                                                                             ?.toString()
                                                                             .padStart(
@@ -838,7 +869,7 @@ export default function SigIndex() {
                                                                     borderBottom:
                                                                         "2px solid #3498db",
                                                                     width: "100%",
-                                                                    margin: "18px 0 22px 0",
+                                                                    margin: "15px 0 20px 0",
                                                                 }}
                                                             ></div>
 
@@ -849,7 +880,7 @@ export default function SigIndex() {
                                                                         "grid",
                                                                     gridTemplateColumns:
                                                                         "repeat(2, 1fr)",
-                                                                    gap: "20px 35px",
+                                                                    gap: "18px 30px",
                                                                 }}
                                                             >
                                                                 {/* Email */}
@@ -861,7 +892,7 @@ export default function SigIndex() {
                                                                             alignItems:
                                                                                 "center",
                                                                             marginBottom:
-                                                                                "5px",
+                                                                                "4px",
                                                                         }}
                                                                     >
                                                                         <i
@@ -869,18 +900,18 @@ export default function SigIndex() {
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "13px",
+                                                                                    "12px",
                                                                             }}
                                                                         ></i>
                                                                         <span
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "12px",
+                                                                                    "11px",
                                                                                 fontWeight:
                                                                                     "500",
                                                                                 letterSpacing:
-                                                                                    "0.4px",
+                                                                                    "0.3px",
                                                                             }}
                                                                         >
                                                                             EMAIL
@@ -892,10 +923,10 @@ export default function SigIndex() {
                                                                             fontWeight:
                                                                                 "600",
                                                                             fontSize:
-                                                                                "15px",
+                                                                                "14px",
                                                                             margin: 0,
                                                                             paddingLeft:
-                                                                                "22px",
+                                                                                "20px",
                                                                             lineHeight:
                                                                                 "1.3",
                                                                             wordBreak:
@@ -916,7 +947,7 @@ export default function SigIndex() {
                                                                             alignItems:
                                                                                 "center",
                                                                             marginBottom:
-                                                                                "5px",
+                                                                                "4px",
                                                                         }}
                                                                     >
                                                                         <i
@@ -924,18 +955,18 @@ export default function SigIndex() {
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "13px",
+                                                                                    "12px",
                                                                             }}
                                                                         ></i>
                                                                         <span
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "12px",
+                                                                                    "11px",
                                                                                 fontWeight:
                                                                                     "500",
                                                                                 letterSpacing:
-                                                                                    "0.4px",
+                                                                                    "0.3px",
                                                                             }}
                                                                         >
                                                                             STATUS
@@ -948,10 +979,10 @@ export default function SigIndex() {
                                                                             fontWeight:
                                                                                 "600",
                                                                             fontSize:
-                                                                                "15px",
+                                                                                "14px",
                                                                             margin: 0,
                                                                             paddingLeft:
-                                                                                "22px",
+                                                                                "20px",
                                                                             lineHeight:
                                                                                 "1.3",
                                                                         }}
@@ -971,7 +1002,7 @@ export default function SigIndex() {
                                                                             alignItems:
                                                                                 "center",
                                                                             marginBottom:
-                                                                                "5px",
+                                                                                "4px",
                                                                         }}
                                                                     >
                                                                         <i
@@ -979,18 +1010,18 @@ export default function SigIndex() {
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "13px",
+                                                                                    "12px",
                                                                             }}
                                                                         ></i>
                                                                         <span
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "12px",
+                                                                                    "11px",
                                                                                 fontWeight:
                                                                                     "500",
                                                                                 letterSpacing:
-                                                                                    "0.4px",
+                                                                                    "0.3px",
                                                                             }}
                                                                         >
                                                                             TANGGAL
@@ -1003,10 +1034,10 @@ export default function SigIndex() {
                                                                             fontWeight:
                                                                                 "600",
                                                                             fontSize:
-                                                                                "15px",
+                                                                                "14px",
                                                                             margin: 0,
                                                                             paddingLeft:
-                                                                                "22px",
+                                                                                "20px",
                                                                             lineHeight:
                                                                                 "1.3",
                                                                         }}
@@ -1026,7 +1057,7 @@ export default function SigIndex() {
                                                                             alignItems:
                                                                                 "center",
                                                                             marginBottom:
-                                                                                "5px",
+                                                                                "4px",
                                                                         }}
                                                                     >
                                                                         <i
@@ -1034,18 +1065,18 @@ export default function SigIndex() {
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "13px",
+                                                                                    "12px",
                                                                             }}
                                                                         ></i>
                                                                         <span
                                                                             style={{
                                                                                 color: "#7f8c8d",
                                                                                 fontSize:
-                                                                                    "12px",
+                                                                                    "11px",
                                                                                 fontWeight:
                                                                                     "500",
                                                                                 letterSpacing:
-                                                                                    "0.4px",
+                                                                                    "0.3px",
                                                                             }}
                                                                         >
                                                                             MASA
@@ -1058,10 +1089,10 @@ export default function SigIndex() {
                                                                             fontWeight:
                                                                                 "600",
                                                                             fontSize:
-                                                                                "15px",
+                                                                                "14px",
                                                                             margin: 0,
                                                                             paddingLeft:
-                                                                                "22px",
+                                                                                "20px",
                                                                             lineHeight:
                                                                                 "1.3",
                                                                         }}
@@ -1092,11 +1123,11 @@ export default function SigIndex() {
                                                                             "#27ae60",
                                                                         color: "white",
                                                                         fontSize:
-                                                                            "15px",
+                                                                            "14px",
                                                                         padding:
-                                                                            "10px 24px",
+                                                                            "8px 20px",
                                                                         borderRadius:
-                                                                            "22px",
+                                                                            "20px",
                                                                         fontWeight:
                                                                             "700",
                                                                         display:
@@ -1104,9 +1135,9 @@ export default function SigIndex() {
                                                                         alignItems:
                                                                             "center",
                                                                         letterSpacing:
-                                                                            "0.6px",
+                                                                            "0.5px",
                                                                         boxShadow:
-                                                                            "0 2px 6px rgba(39, 174, 96, 0.2)",
+                                                                            "0 2px 4px rgba(39, 174, 96, 0.2)",
                                                                     }}
                                                                 >
                                                                     <i className="bi bi-shield-check me-2"></i>
@@ -1114,39 +1145,13 @@ export default function SigIndex() {
                                                                     AKTIF
                                                                 </div>
                                                             </div>
-
-                                                            {/* Footer info */}
-                                                            <div>
-                                                                <p
-                                                                    style={{
-                                                                        color: "#7f8c8d",
-                                                                        fontSize:
-                                                                            "11px",
-                                                                        margin: 0,
-                                                                        fontStyle:
-                                                                            "italic",
-                                                                        lineHeight:
-                                                                            "1.3",
-                                                                    }}
-                                                                >
-                                                                    <i className="bi bi-info-circle me-1"></i>
-                                                                    Kartu ini
-                                                                    berlaku
-                                                                    selama
-                                                                    periode
-                                                                    program SIG{" "}
-                                                                    {
-                                                                        currentSig.tahun
-                                                                    }
-                                                                </p>
-                                                            </div>
                                                         </div>
                                                     </div>
 
-                                                    {/* Kolom Kanan - Foto dan QR Code - DIPERBAIKI */}
+                                                    {/* Kolom Kanan - Foto dan QR Code (30%) */}
                                                     <div
                                                         style={{
-                                                            width: "220px", // Lebarkan kolom
+                                                            flex: 3,
                                                             display: "flex",
                                                             flexDirection:
                                                                 "column",
@@ -1154,35 +1159,53 @@ export default function SigIndex() {
                                                                 "center",
                                                             justifyContent:
                                                                 "space-between",
+                                                            minWidth: "180px",
                                                         }}
                                                     >
-                                                        {/* Area Foto - DIPERBESAR dan DIPERBAIKI */}
+                                                        {/* Area Foto - Proporsi 3:4 seperti foto KTP */}
                                                         <div
+                                                            className="sig-card-photo-area"
                                                             style={{
-                                                                width: "180px", // Lebarkan area foto
-                                                                height: "190px", // Tinggikan area foto
+                                                                width: "160px",
+                                                                height: "200px", // Proporsi 4:5
                                                                 backgroundColor:
                                                                     "#f8f9fa",
                                                                 borderRadius:
                                                                     "10px",
-                                                                border: "2px solid #3498db", // Border biru
-                                                                marginBottom:
-                                                                    "15px",
-                                                                display: "flex",
-                                                                flexDirection:
-                                                                    "column",
-                                                                alignItems:
-                                                                    "center",
-                                                                justifyContent:
-                                                                    "center",
-                                                                position:
-                                                                    "relative",
-                                                                overflow:
-                                                                    "hidden",
-                                                                boxShadow:
-                                                                    "0 4px 15px rgba(0,0,0,0.1)",
+                                                                border: "3px solid #3498db",
+                                                                marginBottom: "15px",
+                                                                position: "relative",
+                                                                overflow: "hidden",
+                                                                boxShadow: "0 5px 15px rgba(52, 152, 219, 0.3)",
                                                             }}
                                                         >
+                                                            {/* Overlay biru transparan untuk efek profesional */}
+                                                            <div
+                                                                style={{
+                                                                    position: "absolute",
+                                                                    top: 0,
+                                                                    left: 0,
+                                                                    right: 0,
+                                                                    height: "10px",
+                                                                    background: "linear-gradient(to bottom, rgba(52, 152, 219, 0.8) 0%, rgba(52, 152, 219, 0) 100%)",
+                                                                    zIndex: 1,
+                                                                }}
+                                                            ></div>
+
+                                                            {/* Label di atas foto */}
+                                                            <div
+                                                                style={{
+                                                                    position: "absolute",
+                                                                    top: "10px",
+                                                                    left: "0",
+                                                                    right: "0",
+                                                                    textAlign: "center",
+                                                                    zIndex: 2,
+                                                                }}
+                                                            >
+                                                              
+                                                            </div>
+
                                                             {user?.image ? (
                                                                 <img
                                                                     src={
@@ -1194,6 +1217,9 @@ export default function SigIndex() {
                                                                         height: "100%",
                                                                         objectFit:
                                                                             "cover",
+                                                                        objectPosition:
+                                                                            "center top",
+                                                                        paddingTop: "25px",
                                                                     }}
                                                                     onError={(
                                                                         e
@@ -1215,7 +1241,7 @@ export default function SigIndex() {
                                                                 />
                                                             ) : null}
 
-                                                            {/* Placeholder jika tidak ada foto */}
+                                                            {/* Placeholder jika tidak ada foto - Diperbaiki */}
                                                             <div
                                                                 className="placeholder-photo"
                                                                 style={{
@@ -1232,76 +1258,45 @@ export default function SigIndex() {
                                                                     width: "100%",
                                                                     height: "100%",
                                                                     backgroundColor:
-                                                                        "#f8f9fa",
+                                                                        "#e3f2fd",
+                                                                    paddingTop:
+                                                                        "25px",
                                                                 }}
                                                             >
-                                                                <i
-                                                                    className="bi bi-person-circle"
+                                                                <div
                                                                     style={{
-                                                                        fontSize:
-                                                                            "65px", // Perbesar icon
-                                                                        color: "#bdc3c7",
-                                                                    }}
-                                                                ></i>
-                                                                <span
-                                                                    style={{
-                                                                        fontSize:
-                                                                            "11px", // Perbesar font
-                                                                        color: "#95a5a6",
-                                                                        marginTop:
-                                                                            "12px",
-                                                                        fontWeight:
-                                                                            "500",
-                                                                        letterSpacing:
-                                                                            "0.5px",
+                                                                        width: "80px",
+                                                                        height: "100px",
+                                                                        borderRadius: "50%",
+                                                                        backgroundColor: "#bbdefb",
+                                                                        display: "flex",
+                                                                        alignItems: "center",
+                                                                        justifyContent: "center",
+                                                                        marginBottom: "15px",
                                                                     }}
                                                                 >
-                                                                    FOTO ANGGOTA
-                                                                </span>
-                                                            </div>
+                                                                    <i
+                                                                        className="bi bi-person"
+                                                                        style={{
+                                                                            fontSize: "40px",
+                                                                            color: "#1976d2",
+                                                                        }}
+                                                                    ></i>
+                                                                </div>
 
-                                                            {/* Label di BAWAH foto - TIDAK menutupi foto */}
-                                                            <div
-                                                                style={{
-                                                                    position:
-                                                                        "absolute",
-                                                                    bottom: "0",
-                                                                    left: 0,
-                                                                    right: 0,
-                                                                    textAlign:
-                                                                        "center",
-                                                                    zIndex: 2,
-                                                                    backgroundColor:
-                                                                        "rgba(52, 152, 219, 0.9)",
-                                                                    padding:
-                                                                        "6px 0",
-                                                                }}
-                                                            >
-                                                                <span
-                                                                    style={{
-                                                                        color: "white",
-                                                                        fontSize:
-                                                                            "11px",
-                                                                        fontWeight:
-                                                                            "bold",
-                                                                        letterSpacing:
-                                                                            "0.5px",
-                                                                    }}
-                                                                >
-                                                                    FOTO ANGGOTA
-                                                                </span>
                                                             </div>
                                                         </div>
 
-                                                        {/* QR Code - DIPERBESAR */}
+                                                        {/* QR Code */}
                                                         <div
+                                                            className="sig-card-qr-area"
                                                             style={{
-                                                                width: "150px", // Lebarkan QR
-                                                                height: "150px", // Tinggikan QR
+                                                                width: "120px",
+                                                                height: "120px",
                                                                 backgroundColor:
                                                                     "white",
                                                                 borderRadius:
-                                                                    "10px",
+                                                                    "8px",
                                                                 border: "2px solid #3498db",
                                                                 padding: "12px",
                                                                 display: "flex",
@@ -1322,35 +1317,8 @@ export default function SigIndex() {
                                                             {/* Label QR Code di atas */}
                                                             <div
                                                                 style={{
-                                                                    position:
-                                                                        "absolute",
-                                                                    top: "-10px",
-                                                                    left: "50%",
-                                                                    transform:
-                                                                        "translateX(-50%)",
-                                                                    backgroundColor:
-                                                                        "#3498db",
-                                                                    color: "white",
-                                                                    fontSize:
-                                                                        "11px",
-                                                                    fontWeight:
-                                                                        "bold",
-                                                                    padding:
-                                                                        "3px 12px",
-                                                                    borderRadius:
-                                                                        "4px",
-                                                                    zIndex: 2,
-                                                                    letterSpacing:
-                                                                        "0.5px",
-                                                                }}
-                                                            >
-                                                                QR CODE
-                                                            </div>
-
-                                                            <div
-                                                                style={{
-                                                                    width: "125px",
-                                                                    height: "125px",
+                                                                    width: "115px",
+                                                                    height: "115px",
                                                                     backgroundColor:
                                                                         "white",
                                                                     display:
@@ -1365,86 +1333,33 @@ export default function SigIndex() {
                                                                         "5px",
                                                                 }}
                                                             >
-                                                                {/* QR Code Placeholder atau QR Code sebenarnya */}
-                                                                {user?.no_anggota ? (
-                                                                    <div
-                                                                        style={{
-                                                                            width: "115px",
-                                                                            height: "115px",
-                                                                            backgroundColor:
-                                                                                "#f8f9fa",
-                                                                            borderRadius:
-                                                                                "5px",
-                                                                            display:
-                                                                                "flex",
-                                                                            alignItems:
-                                                                                "center",
-                                                                            justifyContent:
-                                                                                "center",
-                                                                            color: "#7f8c8d",
-                                                                            fontSize:
-                                                                                "12px",
-                                                                            textAlign:
-                                                                                "center",
-                                                                            padding:
-                                                                                "6px",
-                                                                            fontFamily:
-                                                                                "monospace",
-                                                                            fontWeight:
-                                                                                "bold",
-                                                                            border: "1px dashed #3498db",
-                                                                        }}
-                                                                    >
-                                                                        {/* Jika ada QRCodeSVG */}
-                                                                        {/* <QRCodeSVG
-                                                value={`SIG-${user.no_anggota}-${currentSig.tahun}`}
-                                                size={110}
-                                            /> */}
-                                                                        <div>
-                                                                            <div
-                                                                                style={{
-                                                                                    fontSize:
-                                                                                        "20px",
-                                                                                    marginBottom:
-                                                                                        "5px",
-                                                                                }}
-                                                                            >
-                                                                                <i className="bi bi-qr-code"></i>
-                                                                            </div>
-                                                                            SIG
-                                                                            <br />
-                                                                            {
-                                                                                user.no_anggota
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                ) : (
-                                                                    <div
-                                                                        style={{
-                                                                            width: "115px",
-                                                                            height: "115px",
-                                                                            backgroundColor:
-                                                                                "#e0e0e0",
-                                                                            borderRadius:
-                                                                                "5px",
-                                                                            display:
-                                                                                "flex",
-                                                                            alignItems:
-                                                                                "center",
-                                                                            justifyContent:
-                                                                                "center",
-                                                                        }}
-                                                                    >
-                                                                        <i
-                                                                            className="bi bi-qr-code"
-                                                                            style={{
-                                                                                fontSize:
-                                                                                    "40px",
-                                                                                color: "#7f8c8d",
-                                                                            }}
-                                                                        ></i>
-                                                                    </div>
-                                                                )}
+                                                                {/* QR Code dengan data user */}
+                                                                <QRCodeSVG
+                                                                    value={JSON.stringify(
+                                                                        {
+                                                                            type: "SIG_MEMBER",
+                                                                            id:
+                                                                                user?.no_anggota ||
+                                                                                "",
+                                                                            name:
+                                                                                user?.name ||
+                                                                                "",
+                                                                            year: currentSig.tahun,
+                                                                            status: "ACTIVE",
+                                                                        }
+                                                                    )}
+                                                                    size={110}
+                                                                    level="H"
+                                                                    includeMargin={
+                                                                        true
+                                                                    }
+                                                                    bgColor="#ffffff"
+                                                                    fgColor="#2c3e50"
+                                                                    style={{
+                                                                        borderRadius:
+                                                                            "4px",
+                                                                    }}
+                                                                />
                                                             </div>
                                                         </div>
 
@@ -1453,29 +1368,28 @@ export default function SigIndex() {
                                                             style={{
                                                                 textAlign:
                                                                     "center",
-                                                                width: "100%",
                                                             }}
                                                         >
                                                             <p
                                                                 style={{
-                                                                    color: "#3498db",
+                                                                    color: "#7f8c8d",
                                                                     fontSize:
-                                                                        "11px",
+                                                                        "9px",
                                                                     margin: 0,
                                                                     fontWeight:
-                                                                        "700",
+                                                                        "600",
                                                                     letterSpacing:
-                                                                        "0.6px",
+                                                                        "0.5px",
                                                                     backgroundColor:
-                                                                        "#f0f8ff",
+                                                                        "#f8f9fa",
                                                                     padding:
-                                                                        "8px 12px",
+                                                                        "4px 8px",
                                                                     borderRadius:
-                                                                        "6px",
-                                                                    border: "1px solid #3498db",
+                                                                        "3px",
+                                                                    border: "1px solid #eee",
                                                                 }}
                                                             >
-                                                                <i className="bi bi-upc-scan me-2"></i>
+                                                                <i className="bi bi-upc-scan me-1"></i>
                                                                 SCAN UNTUK
                                                                 VERIFIKASI
                                                             </p>
@@ -1488,83 +1402,33 @@ export default function SigIndex() {
                                             <div
                                                 style={{
                                                     position: "absolute",
-                                                    bottom: "18px",
-                                                    left: "35px",
+                                                    bottom: "15px",
+                                                    left: "30px",
                                                     textAlign: "left",
-                                                    maxWidth: "220px",
+                                                    maxWidth: "200px",
                                                 }}
                                             >
                                                 <div
                                                     style={{
                                                         borderTop:
                                                             "1px solid #ddd",
-                                                        paddingTop: "6px",
+                                                        paddingTop: "5px",
                                                     }}
                                                 >
                                                     <p
                                                         style={{
-                                                            color: "#7f8c8d",
-                                                            fontSize: "9px",
-                                                            margin: "0 0 3px 0",
-                                                            fontStyle: "italic",
-                                                            letterSpacing:
-                                                                "0.4px",
-                                                        }}
-                                                    >
-                                                        Tanda Tangan Digital
-                                                    </p>
-                                                    <p
-                                                        style={{
                                                             color: "#2c3e50",
-                                                            fontSize: "10px",
+                                                            fontSize: "9px",
                                                             margin: "0",
                                                             fontWeight: "700",
                                                             letterSpacing:
-                                                                "0.6px",
+                                                                "0.5px",
                                                         }}
                                                     >
                                                         SISTEM INFORMASI
                                                         GENERASI
                                                     </p>
                                                 </div>
-                                            </div>
-
-                                            {/* Nomor seri kartu di kanan bawah */}
-                                            <div
-                                                style={{
-                                                    position: "absolute",
-                                                    bottom: "18px",
-                                                    right: "35px",
-                                                    textAlign: "right",
-                                                }}
-                                            >
-                                                <p
-                                                    style={{
-                                                        color: "#7f8c8d",
-                                                        fontSize: "9px",
-                                                        margin: "0 0 3px 0",
-                                                        fontStyle: "italic",
-                                                    }}
-                                                >
-                                                    No. Seri
-                                                </p>
-                                                <p
-                                                    style={{
-                                                        color: "#2c3e50",
-                                                        fontSize: "11px",
-                                                        margin: "0",
-                                                        fontWeight: "700",
-                                                        fontFamily: "monospace",
-                                                        letterSpacing: "0.5px",
-                                                    }}
-                                                >
-                                                    SIG-
-                                                    {user?.no_anggota
-                                                        ?.toString()
-                                                        .padStart(6, "0") ||
-                                                        "000000"}
-                                                    -{currentSig.tahun}
-                                                </p>
                                             </div>
 
                                             {/* Garis dekoratif di bagian bawah */}
@@ -1574,7 +1438,7 @@ export default function SigIndex() {
                                                     bottom: "0",
                                                     left: "0",
                                                     right: "0",
-                                                    height: "4px",
+                                                    height: "3px",
                                                     background:
                                                         "linear-gradient(90deg, #3498db 0%, #2c3e50 50%, #3498db 100%)",
                                                 }}
@@ -1617,14 +1481,12 @@ export default function SigIndex() {
                                                             Kartu ini adalah
                                                             tanda keanggotaan
                                                             resmi SIG{" "}
-                                                            {currentYear}. Foto
-                                                            anggota ditampilkan
-                                                            dengan ukuran yang
-                                                            lebih besar dan
-                                                            jelas. Label "FOTO
-                                                            ANGGOTA" berada di
-                                                            bagian bawah agar
-                                                            tidak menutupi foto.
+                                                            {currentYear} dengan
+                                                            format seperti kartu
+                                                            KTP. Foto anggota
+                                                            akan ditampilkan
+                                                            jika tersedia di
+                                                            profil Anda.
                                                         </p>
                                                     </div>
                                                 </div>
