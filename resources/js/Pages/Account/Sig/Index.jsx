@@ -1159,14 +1159,14 @@ export default function SigIndex() {
                                                             justifyContent:
                                                                 "space-between",
                                                             minWidth: "170px",
-                                                            height: "100%",
+                                                            height: "110%",
                                                         }}
                                                     >
                                                         {/* FOTO - TANPA TULISAN "FOTO ANGGOTA" */}
                                                         <div
                                                             style={{
                                                                 width: "155px",
-                                                                height: "200px",
+                                                                height: "250px",
                                                                 backgroundColor:
                                                                     "white",
                                                                 borderRadius:
@@ -1191,7 +1191,7 @@ export default function SigIndex() {
                                                                     alt="Foto Profil"
                                                                     style={{
                                                                         width: "100%",
-                                                                        height: "100%",
+                                                                        height: "150%",
                                                                         objectFit:
                                                                             "cover",
                                                                         objectPosition:
@@ -1204,7 +1204,7 @@ export default function SigIndex() {
                                                                             "none";
                                                                         // Tampilkan placeholder
                                                                         e.target.parentElement.innerHTML = `
-                        <div style="text-align: center; color: #666; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                        <div style="text-align: center; color: #666; width: 100%; height: 150%; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8f9fa;">
                             <i class="bi bi-person" style="font-size: 50px; margin-bottom: 10px; color: #95a5a6;"></i>
                             <div style="font-size: 11px; color: #7f8c8d;">Foto tidak tersedia</div>
                         </div>
@@ -1218,7 +1218,7 @@ export default function SigIndex() {
                                                                             "center",
                                                                         color: "#666",
                                                                         width: "100%",
-                                                                        height: "100%",
+                                                                        height: "150%",
                                                                         display:
                                                                             "flex",
                                                                         flexDirection:
@@ -1273,7 +1273,7 @@ export default function SigIndex() {
                                                                 justifyContent:
                                                                     "center",
                                                                 marginBottom:
-                                                                    "5px",
+                                                                    "1px",
                                                                 marginTop:
                                                                     "7px",
                                                                 boxShadow:
@@ -1310,7 +1310,7 @@ export default function SigIndex() {
                                                                 textAlign:
                                                                     "center",
                                                                 marginBottom:
-                                                                    "5px",
+                                                                    "8px",
                                                             }}
                                                         >
                                                             <span
