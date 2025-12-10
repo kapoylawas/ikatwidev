@@ -99,7 +99,7 @@ class SigController extends Controller
             // Buat data SIG baru
             $sig = Sig::create([
                 'user_id' => auth()->id(),
-                'status' => 'pending',
+                'status' => 'approved',
                 'tahun' => $currentYear,
             ]);
 
