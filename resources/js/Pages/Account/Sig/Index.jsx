@@ -746,7 +746,7 @@ export default function SigIndex() {
                                                                     }}
                                                                 >
                                                                     <i className="bi bi-person-badge me-2"></i>
-                                                                    ID Anggota
+                                                                    No Anggota
                                                                 </p>
                                                                 <p
                                                                     style={{
@@ -758,12 +758,7 @@ export default function SigIndex() {
                                                                     }}
                                                                 >
                                                                     #
-                                                                    {currentSig.id
-                                                                        .toString()
-                                                                        .padStart(
-                                                                            5,
-                                                                            "0",
-                                                                        )}
+                                                                    {user?.no_anggota}
                                                                 </p>
                                                             </div>
                                                             <div className="col-6">
