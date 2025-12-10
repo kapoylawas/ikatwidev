@@ -116,7 +116,6 @@ class SigController extends Controller
 
     public function verifyQRCode(Request $request)
     { 
-
         try {
             // Ambil parameter dari QR Code
             $memberId = $request->query('mid');
@@ -178,14 +177,12 @@ class SigController extends Controller
                     default => 'Status: Tidak aktif'
                 };
                 
-                return Inertia::render('Web/VerifyResult', [
+                return Inertia::render('Web/VerifyResultSig', [
                     'success' => false,
                     'message' => 'Kartu SIG tidak aktif. ' . $statusMessage,
                     'data' => [
                         'member_id' => $memberId,
                         'member_name' => $user->name,
-                        'member_email' => $user->email,
-                        'member_image' => $user->image,
                         'year' => $year,
                         'status' => $sig->status,
                         'status_label' => $this->getStatusLabel($sig->status),
@@ -209,8 +206,6 @@ class SigController extends Controller
                     'data' => [
                         'member_id' => $memberId,
                         'member_name' => $user->name,
-                        'member_email' => $user->email,
-                        'member_image' => $user->image,
                         'year' => $year,
                         'status' => $sig->status,
                         'status_label' => $this->getStatusLabel($sig->status),
@@ -233,9 +228,6 @@ class SigController extends Controller
                 'data' => [
                     'member_id' => $memberId,
                     'member_name' => $user->name,
-                    'member_email' => $user->email,
-                    'member_image' => $user->image,
-                    'member_type' => $user->name === 'Anggota Kehormatan' ? 'Anggota Kehormatan' : 'Anggota Biasa',
                     'year' => $year,
                     'status' => $sig->status,
                     'status_label' => $this->getStatusLabel($sig->status),

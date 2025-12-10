@@ -50,162 +50,199 @@ export default function VerifyResultSig() {
     };
 
     return (
-        <div className="min-vh-100 bg-light">
+        <div className="min-vh-100 bg-light d-flex flex-column">
             <Head>
                 <title>Hasil Verifikasi SIG - IKATWI</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
             </Head>
 
-            <div className="container py-5">
-                <div className="row justify-content-center">
-                    <div className="col-md-8 col-lg-6">
-                        {/* Card utama */}
-                        <div className="card shadow border-0">
-                            {/* Header */}
-                            <div className={`card-header ${success ? 'bg-success text-white' : 'bg-danger text-white'}`}>
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <div className="d-flex align-items-center gap-3">
-                                        {getStatusIcon()}
-                                        <div>
-                                            <h1 className="h4 mb-0">
-                                                {success ? 'Verifikasi Berhasil' : 'Verifikasi Gagal'}
-                                            </h1>
-                                            <p className="mb-0 opacity-75">
-                                                {message}
-                                            </p>
-                                        </div>
+            {/* Header Mobile */}
+            <div className={`${success ? 'bg-success' : 'bg-danger'} text-white py-3 px-3`}>
+                <div className="d-flex align-items-center">
+                    <button
+                        onClick={() => window.history.back()}
+                        className="btn btn-sm btn-light me-3"
+                    >
+                        <i className="bi bi-arrow-left"></i>
+                    </button>
+                    <div>
+                        <h1 className="h5 mb-0">Hasil Verifikasi</h1>
+                        <small>{success ? 'Berhasil' : 'Gagal'}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container-fluid flex-grow-1 py-3 px-3">
+                {/* Status Card */}
+                <div className="card shadow-sm border-0 mb-3">
+                    <div className="card-body text-center">
+                        {getStatusIcon()}
+                        <h2 className="h5 mt-2">
+                            {success ? 'Verifikasi Berhasil' : 'Verifikasi Gagal'}
+                        </h2>
+                        <p className="text-muted small mb-0">
+                            {message}
+                        </p>
+                        <hr className="my-3" />
+                        <div className="d-flex justify-content-between text-muted small">
+                            <span>Tanggal Scan:</span>
+                            <span>{formatDate(scanDate)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {data ? (
+                    <>
+                        {/* Card Data Anggota */}
+                        <div className="card shadow-sm border-0 mb-3">
+                            <div className="card-header bg-white border-bottom">
+                                <h3 className="h6 mb-0">
+                                    <i className="bi bi-person-circle me-2"></i>
+                                    Informasi Anggota
+                                </h3>
+                            </div>
+                            <div className="card-body">
+                                <div className="row">
+                                    <div className="col-6">
+                                        <small className="text-muted d-block">No. Anggota</small>
+                                        <strong className="d-block">{data.member_id || '-'}</strong>
                                     </div>
-                                    <div className="text-end">
-                                        <small className="d-block opacity-75">Tanggal Scan</small>
-                                        <strong>{formatDate(scanDate)}</strong>
+                                    <div className="col-6">
+                                        <small className="text-muted d-block">Tahun</small>
+                                        <strong className="d-block">{data.year || '-'}</strong>
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* Body */}
-                            <div className="card-body">
-                                {data ? (
-                                    <>
-                                        {/* Informasi Anggota */}
-                                        <div className="row mb-4">
-                                            <div className="col-md-6 mb-3 mb-md-0">
-                                                <div className="card h-100 border">
-                                                    <div className="card-header bg-light">
-                                                        <h3 className="h6 mb-0">Informasi Anggota</h3>
-                                                    </div>
-                                                    <div className="card-body">
-                                                        <dl className="mb-0">
-                                                            <dt className="text-muted small">ID Anggota</dt>
-                                                            <dd className="mb-2">
-                                                                <strong>{data.member_id || '-'}</strong>
-                                                            </dd>
-                                                            
-                                                            <dt className="text-muted small">Nama</dt>
-                                                            <dd className="mb-2">
-                                                                <strong>{data.member_name || '-'}</strong>
-                                                            </dd>
-                                                            
-                                                            {data.member_email && (
-                                                                <>
-                                                                    <dt className="text-muted small">Email</dt>
-                                                                    <dd className="mb-0">
-                                                                        <strong>{data.member_email}</strong>
-                                                                    </dd>
-                                                                </>
-                                                            )}
-                                                        </dl>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div className="col-md-6">
-                                                <div className="card h-100 border">
-                                                    <div className="card-header bg-light">
-                                                        <h3 className="h6 mb-0">Informasi SIG</h3>
-                                                    </div>
-                                                    <div className="card-body">
-                                                        <dl className="mb-0">
-                                                            <dt className="text-muted small">Tahun</dt>
-                                                            <dd className="mb-2">
-                                                                <strong>{data.year || '-'}</strong>
-                                                            </dd>
-                                                            
-                                                            <dt className="text-muted small">Status</dt>
-                                                            <dd className="mb-2">
-                                                                {getStatusBadge(data.status)}
-                                                            </dd>
-                                                            
-                                                            {data.registered_date && (
-                                                                <>
-                                                                    <dt className="text-muted small">Tanggal Daftar</dt>
-                                                                    <dd className="mb-0">
-                                                                        <strong>{data.registered_date}</strong>
-                                                                    </dd>
-                                                                </>
-                                                            )}
-                                                        </dl>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Masa Berlaku */}
-                                        {data.expiry_date && (
-                                            <div className="alert alert-info mb-4">
-                                                <div className="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <h4 className="alert-heading h6 mb-1">Masa Berlaku</h4>
-                                                        <p className="mb-0">
-                                                            Berlaku hingga: <strong>{data.expiry_date}</strong>
-                                                        </p>
-                                                    </div>
-                                                    {data.days_remaining !== undefined && (
-                                                        <div className="text-end">
-                                                            <span className={`badge ${data.days_remaining > 0 ? 'bg-primary' : 'bg-warning text-dark'}`}>
-                                                                {data.days_remaining > 0 
-                                                                    ? `${data.days_remaining} hari lagi` 
-                                                                    : 'Sudah kadaluarsa'}
-                                                            </span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* Detail Error */}
-                                        {errorCode && !success && (
-                                            <div className="alert alert-warning">
-                                                <h4 className="alert-heading h6">Detail Error</h4>
-                                                <p className="mb-2">Kode Error:</p>
-                                                <code className="d-block p-2 bg-dark text-white rounded">
-                                                    {errorCode}
-                                                </code>
-                                            </div>
-                                        )}
-                                    </>
-                                ) : (
-                                    <div className="alert alert-warning">
-                                        <i className="bi bi-exclamation-triangle me-2"></i>
-                                        Tidak ada data yang ditemukan
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Footer */}
-                            <div className="card-footer bg-light">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <button
-                                        onClick={() => window.location.href = '/sig/verify'}
-                                        className="btn btn-primary"
-                                    >
-                                        <i className="bi bi-arrow-left me-2"></i>
-                                        Kembali ke Verifikasi
-                                    </button>
-                                    <small className="text-muted">
-                                        Sistem Verifikasi SIG - IKATWI
-                                    </small>
+                                <div className="mt-3">
+                                    <small className="text-muted d-block">Nama Lengkap</small>
+                                    <strong className="d-block">{data.member_name || '-'}</strong>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Card Status SIG */}
+                        <div className="card shadow-sm border-0 mb-3">
+                            <div className="card-header bg-white border-bottom">
+                                <h3 className="h6 mb-0">
+                                    <i className="bi bi-card-checklist me-2"></i>
+                                    Status SIG
+                                </h3>
+                            </div>
+                            <div className="card-body">
+                                <div className="row">
+                                    <div className="col-6">
+                                        <small className="text-muted d-block">Status</small>
+                                        <div className="mt-1">
+                                            {getStatusBadge(data.status)}
+                                        </div>
+                                    </div>
+                                    <div className="col-6">
+                                        <small className="text-muted d-block">Tanggal Daftar</small>
+                                        <strong className="d-block">{data.registered_date || '-'}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Masa Berlaku */}
+                        {data.expiry_date && (
+                            <div className="card shadow-sm border-0 mb-3">
+                                <div className="card-header bg-white border-bottom">
+                                    <h3 className="h6 mb-0">
+                                        <i className="bi bi-calendar-check me-2"></i>
+                                        Masa Berlaku
+                                    </h3>
+                                </div>
+                                <div className="card-body">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <small className="text-muted d-block">Berlaku hingga</small>
+                                            <strong className="d-block">{data.expiry_date}</strong>
+                                        </div>
+                                        {data.days_remaining !== undefined && (
+                                            <span className={`badge ${data.days_remaining > 0 ? 'bg-primary' : 'bg-warning text-dark'}`}>
+                                                {data.days_remaining > 0 
+                                                    ? `${data.days_remaining} hari` 
+                                                    : 'Kadaluarsa'}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* QR Generation Info */}
+                        {qrTimestamp && (
+                            <div className="alert alert-info mb-3">
+                                <div className="d-flex align-items-center">
+                                    <i className="bi bi-qr-code fs-4 me-3"></i>
+                                    <div>
+                                        <small className="d-block">QR Code dibuat pada</small>
+                                        <strong className="d-block">
+                                            {new Date(parseInt(qrTimestamp)).toLocaleDateString('id-ID', {
+                                                day: '2-digit',
+                                                month: 'long',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Detail Error */}
+                        {errorCode && !success && (
+                            <div className="card shadow-sm border-0 mb-3 border-danger">
+                                <div className="card-header bg-white border-bottom border-danger">
+                                    <h3 className="h6 mb-0 text-danger">
+                                        <i className="bi bi-exclamation-triangle me-2"></i>
+                                        Detail Error
+                                    </h3>
+                                </div>
+                                <div className="card-body">
+                                    <small className="text-muted d-block mb-2">Kode Error:</small>
+                                    <code className="d-block p-2 bg-light text-dark rounded border">
+                                        {errorCode}
+                                    </code>
+                                </div>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <div className="alert alert-warning">
+                        <i className="bi bi-exclamation-triangle me-2"></i>
+                        Tidak ada data yang ditemukan
+                    </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="mt-4">
+                    <button
+                        onClick={() => window.location.href = '/sig/verify'}
+                        className="btn btn-primary w-100 mb-2"
+                    >
+                        <i className="bi bi-arrow-left me-2"></i>
+                        Scan Lagi
+                    </button>
+                    <button
+                        onClick={() => window.location.href = '/'}
+                        className="btn btn-outline-secondary w-100"
+                    >
+                        <i className="bi bi-house me-2"></i>
+                        Ke Beranda
+                    </button>
+                </div>
+
+                {/* Footer */}
+                <div className="text-center mt-4 pt-3 border-top">
+                    <small className="text-muted">
+                        Sistem Verifikasi SIG - IKATWI
+                    </small>
+                    <div className="mt-1">
+                        <small className="text-muted">
+                            {new Date().getFullYear()} © All rights reserved
+                        </small>
                     </div>
                 </div>
             </div>
