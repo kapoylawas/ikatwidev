@@ -239,7 +239,7 @@ export default function SigIndex() {
                     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
                 />
             </Head>
-            
+
             {/* CSS Responsif untuk Kartu */}
             <style>
                 {`
@@ -269,7 +269,7 @@ export default function SigIndex() {
                 }
                 `}
             </style>
-            
+
             <LayoutAccount>
                 <div
                     className="container-fluid py-4"
@@ -851,7 +851,6 @@ export default function SigIndex() {
                                                                                 "0.5px",
                                                                         }}
                                                                     >
-                                                                        
                                                                         {user?.no_anggota
                                                                             ?.toString()
                                                                             .padStart(
@@ -1148,7 +1147,7 @@ export default function SigIndex() {
                                                         </div>
                                                     </div>
 
-                                                    {/* Kolom Kanan - Foto dan QR Code (30%) */}
+                                                    {/* Kolom Kanan - Foto dan QR Code */}
                                                     <div
                                                         style={{
                                                             flex: 3,
@@ -1159,53 +1158,31 @@ export default function SigIndex() {
                                                                 "center",
                                                             justifyContent:
                                                                 "space-between",
-                                                            minWidth: "180px",
+                                                            minWidth: "170px",
+                                                            height: "100%",
                                                         }}
                                                     >
-                                                        {/* Area Foto - Proporsi 3:4 seperti foto KTP */}
+                                                        {/* FOTO - TANPA TULISAN "FOTO ANGGOTA" */}
                                                         <div
-                                                            className="sig-card-photo-area"
                                                             style={{
-                                                                width: "160px",
-                                                                height: "200px", // Proporsi 4:5
+                                                                width: "155px",
+                                                                height: "200px",
                                                                 backgroundColor:
-                                                                    "#f8f9fa",
+                                                                    "white",
                                                                 borderRadius:
-                                                                    "10px",
-                                                                border: "3px solid #3498db",
-                                                                marginBottom: "15px",
-                                                                position: "relative",
-                                                                overflow: "hidden",
-                                                                boxShadow: "0 5px 15px rgba(52, 152, 219, 0.3)",
+                                                                    "8px",
+                                                                border: "2px solid #3498db",
+                                                                overflow:
+                                                                    "hidden",
+                                                                display: "flex",
+                                                                alignItems:
+                                                                    "center",
+                                                                justifyContent:
+                                                                    "center",
+                                                                boxShadow:
+                                                                    "0 3px 10px rgba(52, 152, 219, 0.15)",
                                                             }}
                                                         >
-                                                            {/* Overlay biru transparan untuk efek profesional */}
-                                                            <div
-                                                                style={{
-                                                                    position: "absolute",
-                                                                    top: 0,
-                                                                    left: 0,
-                                                                    right: 0,
-                                                                    height: "10px",
-                                                                    background: "linear-gradient(to bottom, rgba(52, 152, 219, 0.8) 0%, rgba(52, 152, 219, 0) 100%)",
-                                                                    zIndex: 1,
-                                                                }}
-                                                            ></div>
-
-                                                            {/* Label di atas foto */}
-                                                            <div
-                                                                style={{
-                                                                    position: "absolute",
-                                                                    top: "10px",
-                                                                    left: "0",
-                                                                    right: "0",
-                                                                    textAlign: "center",
-                                                                    zIndex: 2,
-                                                                }}
-                                                            >
-                                                              
-                                                            </div>
-
                                                             {user?.image ? (
                                                                 <img
                                                                     src={
@@ -1218,8 +1195,7 @@ export default function SigIndex() {
                                                                         objectFit:
                                                                             "cover",
                                                                         objectPosition:
-                                                                            "center top",
-                                                                        paddingTop: "25px",
+                                                                            "center center",
                                                                     }}
                                                                     onError={(
                                                                         e
@@ -1227,172 +1203,134 @@ export default function SigIndex() {
                                                                         e.target.style.display =
                                                                             "none";
                                                                         // Tampilkan placeholder
-                                                                        const placeholder =
-                                                                            e.target.parentElement.querySelector(
-                                                                                ".placeholder-photo"
-                                                                            );
-                                                                        if (
-                                                                            placeholder
-                                                                        ) {
-                                                                            placeholder.style.display =
-                                                                                "flex";
-                                                                        }
+                                                                        e.target.parentElement.innerHTML = `
+                        <div style="text-align: center; color: #666; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                            <i class="bi bi-person" style="font-size: 50px; margin-bottom: 10px; color: #95a5a6;"></i>
+                            <div style="font-size: 11px; color: #7f8c8d;">Foto tidak tersedia</div>
+                        </div>
+                    `;
                                                                     }}
                                                                 />
-                                                            ) : null}
-
-                                                            {/* Placeholder jika tidak ada foto - Diperbaiki */}
-                                                            <div
-                                                                className="placeholder-photo"
-                                                                style={{
-                                                                    display:
-                                                                        user?.image
-                                                                            ? "none"
-                                                                            : "flex",
-                                                                    flexDirection:
-                                                                        "column",
-                                                                    alignItems:
-                                                                        "center",
-                                                                    justifyContent:
-                                                                        "center",
-                                                                    width: "100%",
-                                                                    height: "100%",
-                                                                    backgroundColor:
-                                                                        "#e3f2fd",
-                                                                    paddingTop:
-                                                                        "25px",
-                                                                }}
-                                                            >
+                                                            ) : (
                                                                 <div
                                                                     style={{
-                                                                        width: "80px",
-                                                                        height: "100px",
-                                                                        borderRadius: "50%",
-                                                                        backgroundColor: "#bbdefb",
-                                                                        display: "flex",
-                                                                        alignItems: "center",
-                                                                        justifyContent: "center",
-                                                                        marginBottom: "15px",
+                                                                        textAlign:
+                                                                            "center",
+                                                                        color: "#666",
+                                                                        width: "100%",
+                                                                        height: "100%",
+                                                                        display:
+                                                                            "flex",
+                                                                        flexDirection:
+                                                                            "column",
+                                                                        alignItems:
+                                                                            "center",
+                                                                        justifyContent:
+                                                                            "center",
+                                                                        backgroundColor:
+                                                                            "#f8f9fa",
                                                                     }}
                                                                 >
                                                                     <i
                                                                         className="bi bi-person"
                                                                         style={{
-                                                                            fontSize: "40px",
-                                                                            color: "#1976d2",
+                                                                            fontSize:
+                                                                                "50px",
+                                                                            marginBottom:
+                                                                                "10px",
+                                                                            color: "#95a5a6",
                                                                         }}
                                                                     ></i>
+                                                                    <div
+                                                                        style={{
+                                                                            fontSize:
+                                                                                "11px",
+                                                                            color: "#7f8c8d",
+                                                                        }}
+                                                                    >
+                                                                        Foto
+                                                                        tidak
+                                                                        tersedia
+                                                                    </div>
                                                                 </div>
-
-                                                            </div>
+                                                            )}
                                                         </div>
 
-                                                        {/* QR Code */}
+                                                        {/* QR CODE - KECIL */}
                                                         <div
-                                                            className="sig-card-qr-area"
                                                             style={{
-                                                                width: "120px",
-                                                                height: "120px",
+                                                                width: "100px",
+                                                                height: "100px",
                                                                 backgroundColor:
                                                                     "white",
                                                                 borderRadius:
-                                                                    "8px",
-                                                                border: "2px solid #3498db",
-                                                                padding: "12px",
+                                                                    "6px",
+                                                                border: "1px solid #ddd",
+                                                                padding: "5px",
                                                                 display: "flex",
-                                                                flexDirection:
-                                                                    "column",
                                                                 alignItems:
                                                                     "center",
                                                                 justifyContent:
                                                                     "center",
-                                                                boxShadow:
-                                                                    "0 3px 12px rgba(52, 152, 219, 0.2)",
                                                                 marginBottom:
-                                                                    "12px",
-                                                                position:
-                                                                    "relative",
+                                                                    "5px",
+                                                                marginTop:
+                                                                    "7px",
+                                                                boxShadow:
+                                                                    "0 2px 5px rgba(0,0,0,0.05)",
                                                             }}
                                                         >
-                                                            {/* Label QR Code di atas */}
-                                                            <div
-                                                                style={{
-                                                                    width: "115px",
-                                                                    height: "115px",
-                                                                    backgroundColor:
-                                                                        "white",
-                                                                    display:
-                                                                        "flex",
-                                                                    alignItems:
-                                                                        "center",
-                                                                    justifyContent:
-                                                                        "center",
-                                                                    borderRadius:
-                                                                        "5px",
-                                                                    padding:
-                                                                        "5px",
-                                                                }}
-                                                            >
-                                                                {/* QR Code dengan data user */}
-                                                                <QRCodeSVG
-                                                                    value={JSON.stringify(
-                                                                        {
-                                                                            type: "SIG_MEMBER",
-                                                                            id:
-                                                                                user?.no_anggota ||
-                                                                                "",
-                                                                            name:
-                                                                                user?.name ||
-                                                                                "",
-                                                                            year: currentSig.tahun,
-                                                                            status: "ACTIVE",
-                                                                        }
-                                                                    )}
-                                                                    size={110}
-                                                                    level="H"
-                                                                    includeMargin={
-                                                                        true
+                                                            <QRCodeSVG
+                                                                value={JSON.stringify(
+                                                                    {
+                                                                        type: "SIG_MEMBER",
+                                                                        id:
+                                                                            user?.no_anggota ||
+                                                                            "",
+                                                                        name:
+                                                                            user?.name ||
+                                                                            "",
+                                                                        year: currentSig.tahun,
+                                                                        status: "ACTIVE",
                                                                     }
-                                                                    bgColor="#ffffff"
-                                                                    fgColor="#2c3e50"
-                                                                    style={{
-                                                                        borderRadius:
-                                                                            "4px",
-                                                                    }}
-                                                                />
-                                                            </div>
+                                                                )}
+                                                                size={85}
+                                                                level="H"
+                                                                includeMargin={
+                                                                    true
+                                                                }
+                                                                bgColor="#ffffff"
+                                                                fgColor="#2c3e50"
+                                                            />
                                                         </div>
 
-                                                        {/* Label Scan */}
+                                                        {/* Label kecil untuk QR Code */}
                                                         <div
                                                             style={{
                                                                 textAlign:
                                                                     "center",
+                                                                marginBottom:
+                                                                    "5px",
                                                             }}
                                                         >
-                                                            <p
+                                                            <span
                                                                 style={{
-                                                                    color: "#7f8c8d",
                                                                     fontSize:
-                                                                        "9px",
-                                                                    margin: 0,
+                                                                        "7px",
+                                                                    color: "#666",
                                                                     fontWeight:
-                                                                        "600",
-                                                                    letterSpacing:
-                                                                        "0.5px",
+                                                                        "500",
                                                                     backgroundColor:
                                                                         "#f8f9fa",
                                                                     padding:
-                                                                        "4px 8px",
+                                                                        "2px 6px",
                                                                     borderRadius:
                                                                         "3px",
                                                                     border: "1px solid #eee",
                                                                 }}
                                                             >
-                                                                <i className="bi bi-upc-scan me-1"></i>
-                                                                SCAN UNTUK
-                                                                VERIFIKASI
-                                                            </p>
+                                                                SCAN QR CODE
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
