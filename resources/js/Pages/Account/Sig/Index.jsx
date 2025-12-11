@@ -62,8 +62,9 @@ export default function SigIndex() {
     // Cek apakah status approved
     const isStatusApproved = currentSig && currentSig.status === "approved";
 
-    // Cek apakah harus menampilkan kartu (approved DAN tahun ini)
-    const shouldShowCard = hasRegisteredForCurrentYear && isStatusApproved;
+    // PERUBAHAN: Cek apakah harus menampilkan kartu (approved DAN tahun ini DAN pembayaran PAID/anggota kehormatan)
+    const shouldShowCard =
+        hasRegisteredForCurrentYear && isStatusApproved && canRegisterForSIG; // Tambahkan pengecekan status pembayaran
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -121,8 +122,19 @@ export default function SigIndex() {
         });
     };
 
-    // Fungsi untuk generate kartu sebagai gambar
+    // Fungsi untuk generate kartu sebagai gambar - DIPERBARUI dengan pengecekan pembayaran
     const generateCardImage = () => {
+        // PERUBAHAN: Cek status pembayaran terlebih dahulu
+        if (!canRegisterForSIG) {
+            Swal.fire({
+                title: "Akses Ditolak!",
+                text: "Anda tidak dapat mengunduh kartu karena status pembayaran belum PAID atau bukan Anggota Kehormatan.",
+                icon: "error",
+                confirmButtonText: "Mengerti",
+            });
+            return;
+        }
+
         if (!cardRef.current) return;
 
         setGeneratingCard(true);
@@ -389,7 +401,7 @@ export default function SigIndex() {
                                             type="button"
                                             className="btn-close"
                                             data-bs-dismiss="alert"
-                                            aria-label="Close"
+                                            aria-label="Close" // DIPERBAIKI
                                         ></button>
                                     </div>
                                 </div>
@@ -427,7 +439,7 @@ export default function SigIndex() {
                                             type="button"
                                             className="btn-close"
                                             data-bs-dismiss="alert"
-                                            aria-label="Close"
+                                            aria-label="Close" // DIPERBAIKI
                                         ></button>
                                     </div>
                                 </div>
@@ -475,7 +487,7 @@ export default function SigIndex() {
                                             type="button"
                                             className="btn-close"
                                             data-bs-dismiss="alert"
-                                            aria-label="Close"
+                                            aria-label="Close" // DIPERBAIKI
                                         ></button>
                                     </div>
                                 </div>
@@ -486,7 +498,7 @@ export default function SigIndex() {
                     <div className="row">
                         {/* Kolom Kiri - Form/Kartu */}
                         <div className="col-lg-8 mb-4">
-                            {/* KARTU ANGGOTA JIKA STATUS APPROVED DAN TAHUN INI */}
+                            {/* KARTU ANGGOTA JIKA STATUS APPROVED DAN TAHUN INI DAN PEMBAYARAN PAID/ANGGOTA KEHORMATAN */}
                             {shouldShowCard ? (
                                 <div
                                     className="card border-0 shadow-lg mb-4"
@@ -555,7 +567,11 @@ export default function SigIndex() {
                                                 Kartu anggota tersedia!
                                             </strong>{" "}
                                             Status Anda telah disetujui untuk
-                                            SIG {currentYear}.
+                                            SIG {currentYear} dan pembayaran{" "}
+                                            {isPaid
+                                                ? "sudah lunas"
+                                                : "sebagai Anggota Kehormatan"}
+                                            .
                                         </div>
 
                                         {/* Kartu yang akan di-generate - UKURAN SEPERTI KTP */}
@@ -1422,8 +1438,170 @@ export default function SigIndex() {
                                         </div>
                                     </div>
                                 </div>
-                            ) : (
-                                /* FORM PENDAFTARAN JIKA BELUM DAFTAR TAHUN INI ATAU STATUS BUKAN APPROVED */
+                            ) : /* PERUBAHAN: TAMPILAN JIKA KARTU TIDAK TERSEDIA KARENA STATUS PEMBAYARAN UNPAID ATAU ALASAN LAIN */
+                            hasRegisteredForCurrentYear &&
+                              isStatusApproved &&
+                              !canRegisterForSIG ? (
+                                <div
+                                    className="card border-0 shadow-lg mb-4"
+                                    style={{ borderRadius: "10px" }}
+                                >
+                                    <div
+                                        className="card-header py-3"
+                                        style={{
+                                            backgroundColor: "#2c3e50",
+                                            color: "white",
+                                            borderTopLeftRadius: "10px",
+                                            borderTopRightRadius: "10px",
+                                        }}
+                                    >
+                                        <div className="d-flex align-items-center">
+                                            <div
+                                                className="bg-white rounded-circle p-2 me-3"
+                                                style={{
+                                                    width: "40px",
+                                                    height: "40px",
+                                                }}
+                                            >
+                                                <i
+                                                    className="bi bi-card-text fs-5"
+                                                    style={{ color: "#2c3e50" }}
+                                                ></i>
+                                            </div>
+                                            <div>
+                                                <h5 className="mb-0 fw-bold">
+                                                    Kartu Anggota SIG{" "}
+                                                    {currentYear}
+                                                </h5>
+                                                <small className="opacity-75">
+                                                    Tidak tersedia
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="card-body p-4">
+                                        <div className="text-center py-5">
+                                            <div className="mb-4">
+                                                <div className="bg-warning rounded-circle d-inline-flex p-4">
+                                                    <i className="bi bi-exclamation-triangle fs-1 text-white"></i>
+                                                </div>
+                                            </div>
+                                            <h4
+                                                className="fw-bold mb-3"
+                                                style={{ color: "#2c3e50" }}
+                                            >
+                                                Kartu Tidak Tersedia
+                                            </h4>
+
+                                            <div
+                                                className="alert alert-warning border-0 mx-auto mb-4"
+                                                style={{ maxWidth: "500px" }}
+                                            >
+                                                <div className="d-flex align-items-center">
+                                                    <i className="bi bi-credit-card fs-4 me-3"></i>
+                                                    <div className="text-start">
+                                                        <h6 className="alert-heading mb-1 fw-bold">
+                                                            Status Pembayaran
+                                                            Belum Lunas
+                                                        </h6>
+                                                        <p className="mb-0">
+                                                            Kartu anggota SIG{" "}
+                                                            {currentYear} tidak
+                                                            dapat ditampilkan
+                                                            karena:
+                                                            <ul className="mt-2 mb-0">
+                                                                <li>
+                                                                    <strong>
+                                                                        Status
+                                                                        pembayaran
+                                                                        Anda:{" "}
+                                                                        {transactions.length >
+                                                                        0
+                                                                            ? transactions[0]
+                                                                                  .status
+                                                                            : "Tidak ada transaksi"}
+                                                                    </strong>
+                                                                </li>
+                                                                <li>
+                                                                    Harap
+                                                                    menyelesaikan
+                                                                    pembayaran
+                                                                    untuk
+                                                                    mengakses
+                                                                    kartu
+                                                                    anggota
+                                                                </li>
+                                                            </ul>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-4">
+                                                <Link
+                                                    href="/account/transactions"
+                                                    className="btn btn-primary me-2"
+                                                >
+                                                    <i className="bi bi-credit-card me-1"></i>
+                                                    Lengkapi Pembayaran
+                                                </Link>
+                                                <Link
+                                                    href="/account/biodatas"
+                                                    className="btn btn-outline-primary"
+                                                >
+                                                    <i className="bi bi-person me-1"></i>
+                                                    Profil Saya
+                                                </Link>
+                                            </div>
+
+                                            <div className="mt-4 pt-3 border-top">
+                                                <div
+                                                    className="alert border-0"
+                                                    style={{
+                                                        backgroundColor:
+                                                            "#f8f9fa",
+                                                        borderLeft:
+                                                            "4px solid #6c757d",
+                                                    }}
+                                                >
+                                                    <div className="d-flex align-items-center">
+                                                        <i
+                                                            className="bi bi-info-circle fs-4 me-3"
+                                                            style={{
+                                                                color: "#6c757d",
+                                                            }}
+                                                        ></i>
+                                                        <div>
+                                                            <p className="mb-0 small">
+                                                                <strong>
+                                                                    Informasi:
+                                                                </strong>{" "}
+                                                                Kartu anggota
+                                                                akan tersedia
+                                                                otomatis setelah
+                                                                pembayaran Anda
+                                                                berstatus{" "}
+                                                                <strong>
+                                                                    "PAID"
+                                                                </strong>{" "}
+                                                                atau jika Anda
+                                                                adalah{" "}
+                                                                <strong>
+                                                                    "Anggota
+                                                                    Kehormatan"
+                                                                </strong>
+                                                                .
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : /* FORM PENDAFTARAN JIKA BELUM DAFTAR TAHUN INI ATAU STATUS BUKAN APPROVED */
+                            !hasRegisteredForCurrentYear ? (
                                 <div
                                     className="card border-0 shadow-lg h-100"
                                     style={{ borderRadius: "10px" }}
@@ -1801,7 +1979,8 @@ export default function SigIndex() {
                                                 </form>
                                             </>
                                         ) : /* TAMPILAN JIKA SUDAH DAFTAR TAPI STATUS BUKAN APPROVED */
-                                        hasRegisteredForCurrentYear ? (
+                                        hasRegisteredForCurrentYear &&
+                                          !isStatusApproved ? (
                                             <div className="text-center py-5">
                                                 <div className="mb-4">
                                                     <div
@@ -2032,7 +2211,7 @@ export default function SigIndex() {
                                         ) : null}
                                     </div>
                                 </div>
-                            )}
+                            ) : null}
                         </div>
 
                         {/* Kolom Kanan - Status Card */}
@@ -2354,76 +2533,131 @@ export default function SigIndex() {
                                                     </div>
                                                 </div>
 
-                                                {/* Informasi tentang kartu */}
-                                                {shouldShowCard && (
-                                                    <div className="border-top pt-4 mt-3">
-                                                        <h6
-                                                            className="fw-semibold mb-3"
-                                                            style={{
-                                                                color: "#2c3e50",
-                                                            }}
-                                                        >
-                                                            <i
-                                                                className="bi bi-card-text me-2"
+                                                {/* PERUBAHAN: Informasi tentang kartu dengan pengecekan status pembayaran */}
+                                                {currentSig &&
+                                                    isStatusApproved && (
+                                                        <div className="border-top pt-4 mt-3">
+                                                            <h6
+                                                                className="fw-semibold mb-3"
                                                                 style={{
-                                                                    color: "#3498db",
+                                                                    color: "#2c3e50",
                                                                 }}
-                                                            ></i>
-                                                            Kartu Anggota
-                                                        </h6>
-                                                        <div
-                                                            className="alert border-0"
-                                                            style={{
-                                                                backgroundColor:
-                                                                    "#eafaf1",
-                                                                borderLeft:
-                                                                    "4px solid #27ae60",
-                                                            }}
-                                                        >
-                                                            <div className="d-flex">
+                                                            >
                                                                 <i
-                                                                    className="bi bi-check-circle fs-4 me-3"
+                                                                    className="bi bi-card-text me-2"
                                                                     style={{
-                                                                        color: "#27ae60",
+                                                                        color: "#3498db",
                                                                     }}
                                                                 ></i>
-                                                                <div>
-                                                                    <h6
-                                                                        className="alert-heading mb-1 fw-bold"
-                                                                        style={{
-                                                                            color: "#196f3d",
-                                                                        }}
-                                                                    >
-                                                                        Kartu
-                                                                        Tersedia
-                                                                    </h6>
-                                                                    <p
-                                                                        className="mb-0 small"
-                                                                        style={{
-                                                                            color: "#196f3d",
-                                                                        }}
-                                                                    >
-                                                                        Status
-                                                                        Anda
-                                                                        telah{" "}
-                                                                        <strong>
-                                                                            disetujui
-                                                                        </strong>
-                                                                        . Kartu
-                                                                        anggota
-                                                                        tersedia
-                                                                        di panel
-                                                                        kiri dan
-                                                                        bisa
-                                                                        di-download
-                                                                        sebagai
-                                                                        gambar.
-                                                                    </p>
+                                                                Status Kartu
+                                                            </h6>
+                                                            {canRegisterForSIG ? (
+                                                                <div
+                                                                    className="alert border-0"
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            "#eafaf1",
+                                                                        borderLeft:
+                                                                            "4px solid #27ae60",
+                                                                    }}
+                                                                >
+                                                                    <div className="d-flex">
+                                                                        <i
+                                                                            className="bi bi-check-circle fs-4 me-3"
+                                                                            style={{
+                                                                                color: "#27ae60",
+                                                                            }}
+                                                                        ></i>
+                                                                        <div>
+                                                                            <h6
+                                                                                className="alert-heading mb-1 fw-bold"
+                                                                                style={{
+                                                                                    color: "#196f3d",
+                                                                                }}
+                                                                            >
+                                                                                Kartu
+                                                                                Tersedia
+                                                                            </h6>
+                                                                            <p
+                                                                                className="mb-0 small"
+                                                                                style={{
+                                                                                    color: "#196f3d",
+                                                                                }}
+                                                                            >
+                                                                                Status
+                                                                                pembayaran{" "}
+                                                                                <strong>
+                                                                                    {isPaid
+                                                                                        ? '"PAID"'
+                                                                                        : '"Anggota Kehormatan"'}
+                                                                                </strong>
+                                                                                .
+                                                                                Kartu
+                                                                                anggota
+                                                                                dapat
+                                                                                diakses
+                                                                                dan
+                                                                                di-download.
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            ) : (
+                                                                <div
+                                                                    className="alert border-0"
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            "#fde8e8",
+                                                                        borderLeft:
+                                                                            "4px solid #e74c3c",
+                                                                    }}
+                                                                >
+                                                                    <div className="d-flex">
+                                                                        <i
+                                                                            className="bi bi-exclamation-triangle fs-4 me-3"
+                                                                            style={{
+                                                                                color: "#e74c3c",
+                                                                            }}
+                                                                        ></i>
+                                                                        <div>
+                                                                            <h6
+                                                                                className="alert-heading mb-1 fw-bold"
+                                                                                style={{
+                                                                                    color: "#721c24",
+                                                                                }}
+                                                                            >
+                                                                                Kartu
+                                                                                Terkunci
+                                                                            </h6>
+                                                                            <p
+                                                                                className="mb-0 small"
+                                                                                style={{
+                                                                                    color: "#721c24",
+                                                                                }}
+                                                                            >
+                                                                                Status
+                                                                                pembayaran{" "}
+                                                                                <strong>
+                                                                                    {transactions.length >
+                                                                                    0
+                                                                                        ? transactions[0]
+                                                                                              .status
+                                                                                        : "UNPAID"}
+                                                                                </strong>
+                                                                                .
+                                                                                Selesaikan
+                                                                                pembayaran
+                                                                                untuk
+                                                                                membuka
+                                                                                akses
+                                                                                kartu.
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                         </div>
-                                                    </div>
-                                                )}
+                                                    )}
 
                                                 {/* Informasi reset tahunan */}
                                                 <div className="border-top pt-4 mt-3">
