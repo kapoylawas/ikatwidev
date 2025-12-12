@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sig;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+
 
 class DashboardController extends Controller
 {
@@ -79,36 +82,81 @@ class DashboardController extends Controller
 
         $paidUsersCount = User::whereHas('transactions', function ($query) use ($currentYear) {
             $query->where('status', 'paid')
-                  ->where('tahun', $currentYear);
+                ->where('tahun', $currentYear);
         })->count();
 
         $unpaidUsersCount = User::whereDoesntHave('transactions', function ($query) use ($currentYear) {
             $query->where('status', 'unpaid')
-                  ->whereYear('tahun', $currentYear);
+                ->whereYear('tahun', $currentYear);
         })->count();
 
         $totalUserAktif = User::where('confirm', 'true')->count();
-        
+
+        $currentYear = date('Y');
+
+        // Cek apakah user sudah memiliki SIG untuk tahun INI
+        $sig = Sig::where('user_id', auth()->user()->id)
+            ->where('tahun', $currentYear) // FILTER BY CURRENT YEAR
+            ->first();
+
+        // Debug lebih detail
+        Log::info('SIG Debug Current Year:', [
+            'user_id' => auth()->user()->id,
+            'current_year' => $currentYear,
+            'sig_found' => !is_null($sig),
+            'sig_details' => $sig ? [
+                'id' => $sig->id,
+                'tahun' => $sig->tahun,
+                'status' => $sig->status,
+                'match_current_year' => $sig->tahun == $currentYear,
+            ] : null,
+        ]);
+
+        // Ambil semua data SIG untuk riwayat
+        $allSigs = Sig::where('user_id', auth()->user()->id)
+            ->orderBy('tahun', 'desc')
+            ->get();
+
+        $searchString = request()->q;
+
+        $pengajuans = Sig::whereHas('user', function ($query) use ($searchString) {
+            $query->where('name', 'like', '%' . $searchString . '%');
+        })
+            ->with(['user' => function ($query) use ($searchString) {
+                $query->where('name', 'like', '%' . $searchString . '%');
+            }])->where('user_id', auth()->user()->id)->latest()->paginate(10);
+
+        $pengajuans->appends(['q' => request()->q]);
+
+        $tahun = date('Y');
+        $transactions = Transaction::with('user')
+            ->where('user_id', auth()->user()->id)
+            ->where('cek_ts', 1)
+            ->where('tahun', $tahun)->get();
+
+        $statusAnggota = User::where('id', auth()->user()->id)->first();
+        $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
+
         $usersCountByProvincebyBekerja = DB::table('provinces')
-                ->leftJoin('users', 'provinces.id', '=', 'users.province_id')
-                ->select(
-                    'provinces.name as province_name',
-                    DB::raw('SUM(CASE WHEN users.bekerja = "klinikSwasta" THEN 1 ELSE 0 END) as klinik_swasta'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Swasta" THEN 1 ELSE 0 END) as rumah_sakit_swasta'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Umum Pusat" THEN 1 ELSE 0 END) as rumah_sakit_umum_pusat'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Umum Daerah" THEN 1 ELSE 0 END) as rumah_sakit_umum_daerah'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Militer" THEN 1 ELSE 0 END) as rumah_sakit_militer'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Khusus" THEN 1 ELSE 0 END) as rumah_sakit_khusus'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Puskesmas" THEN 1 ELSE 0 END) as puskesmas_count'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Sekolah Luar Biasa" THEN 1 ELSE 0 END) as sekolah_luar_biasa'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Perguruan Tinggi" THEN 1 ELSE 0 END) as perguruan_tinggi'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Belum Bekerja" THEN 1 ELSE 0 END) as belum_bekerja'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Freelance" THEN 1 ELSE 0 END) as freelance'),
-                    DB::raw('SUM(CASE WHEN users.bekerja = "Lainnya" THEN 1 ELSE 0 END) as lainnya')
-                )
-                ->groupBy('provinces.id')
-                ->get();
-        
+            ->leftJoin('users', 'provinces.id', '=', 'users.province_id')
+            ->select(
+                'provinces.name as province_name',
+                DB::raw('SUM(CASE WHEN users.bekerja = "klinikSwasta" THEN 1 ELSE 0 END) as klinik_swasta'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Swasta" THEN 1 ELSE 0 END) as rumah_sakit_swasta'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Umum Pusat" THEN 1 ELSE 0 END) as rumah_sakit_umum_pusat'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Umum Daerah" THEN 1 ELSE 0 END) as rumah_sakit_umum_daerah'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Militer" THEN 1 ELSE 0 END) as rumah_sakit_militer'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Rumah Sakit Khusus" THEN 1 ELSE 0 END) as rumah_sakit_khusus'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Puskesmas" THEN 1 ELSE 0 END) as puskesmas_count'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Sekolah Luar Biasa" THEN 1 ELSE 0 END) as sekolah_luar_biasa'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Perguruan Tinggi" THEN 1 ELSE 0 END) as perguruan_tinggi'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Belum Bekerja" THEN 1 ELSE 0 END) as belum_bekerja'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Freelance" THEN 1 ELSE 0 END) as freelance'),
+                DB::raw('SUM(CASE WHEN users.bekerja = "Lainnya" THEN 1 ELSE 0 END) as lainnya')
+            )
+            ->groupBy('provinces.id')
+            ->get();
+
 
         // jumlah transaksi user
         $unpaiduser = Transaction::where('status', 'UNPAID')->where('user_id', auth()->user()->id)->count();
@@ -117,11 +165,11 @@ class DashboardController extends Controller
         $cancelleduser  = Transaction::where('status', 'CANCELLED')->where('user_id', auth()->user()->id)->count();
 
         $usersCountByProvince = DB::table('provinces')
-                    ->leftJoin('users', 'provinces.id', '=', 'users.province_id')
-                    ->select('provinces.name as province_name', DB::raw('count(users.id) as user_count'))
-                    ->groupBy('provinces.id')
-                    ->get();
-        
+            ->leftJoin('users', 'provinces.id', '=', 'users.province_id')
+            ->select('provinces.name as province_name', DB::raw('count(users.id) as user_count'))
+            ->groupBy('provinces.id')
+            ->get();
+
         return inertia('Account/Dashboard/Index', [
             'count' => [
                 'unpaid'    => $unpaid,
@@ -168,6 +216,13 @@ class DashboardController extends Controller
             ],
             'usersCountByProvince' => $usersCountByProvince,
             'usersCountByProvincebyBekerja' => $usersCountByProvincebyBekerja,
+            'transactions' => $transactions,
+            'statusAnggota' => $statusAnggota,
+            'biodata' => $biodata,
+            'pengajuans' => $pengajuans,
+            'sig' => $sig, // SIG untuk tahun INI
+            'allSigs' => $allSigs, // Semua riwayat SIG
+            'user' => auth()->user(),
         ]);
     }
 }

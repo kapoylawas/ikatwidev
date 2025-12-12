@@ -13,6 +13,7 @@ class Sig extends Model
         'user_id',
         'status',
         'tahun',
+        'jenis_sig',
     ];
 
     public function user()

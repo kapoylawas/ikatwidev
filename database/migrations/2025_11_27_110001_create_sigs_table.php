@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('status')->nullable();
             $table->string('tahun')->nullable();
+            $table->string('jenis_sig')->nullable();
             $table->timestamps();
         });
     }
