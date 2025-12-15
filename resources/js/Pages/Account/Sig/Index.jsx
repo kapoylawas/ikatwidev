@@ -611,8 +611,6 @@ export default function SigIndex() {
                                             .
                                         </div>
                                         {/* Kartu yang akan di-generate - UKURAN SEPERTI KTP */}
-                                        // Di dalam komponen SigIndex, pada
-                                        bagian kartu yang di-generate (cardRef):
                                         <div
                                             ref={cardRef}
                                             className="mx-auto sig-card-container"
