@@ -1282,8 +1282,6 @@ export default function SigIndex() {
                                                                     "flex-start", // Atau "center" jika ingin di tengah
                                                             }}
                                                         >
-
-
                                                             {/* Tanda tangan digital */}
                                                             <div
                                                                 style={{
@@ -1971,6 +1969,107 @@ export default function SigIndex() {
                                                         </div>
                                                     </div>
                                                 )}
+
+                                                <div className="mb-4">
+                                                    <label
+                                                        className="form-label fw-semibold"
+                                                        style={{
+                                                            color: "#2c3e50",
+                                                        }}
+                                                    >
+                                                        <i
+                                                            className="bi bi-person me-2"
+                                                            style={{
+                                                                color: "#3498db",
+                                                            }}
+                                                        ></i>
+                                                        Informasi Anggota
+                                                    </label>
+                                                    <div className="row g-3">
+                                                        {/* Nama */}
+                                                        <div className="col-md-6">
+                                                            <div className="p-3 border rounded bg-light">
+                                                                <div className="d-flex align-items-center mb-1">
+                                                                    <i
+                                                                        className="bi bi-person-circle me-2"
+                                                                        style={{
+                                                                            color: "#92c1f0ff",
+                                                                        }}
+                                                                    ></i>
+                                                                    <small className="text-muted">
+                                                                        Nama
+                                                                        Lengkap
+                                                                    </small>
+                                                                </div>
+                                                                <strong
+                                                                    style={{
+                                                                        color: "#b7cbdfff",
+                                                                    }}
+                                                                >
+                                                                    {user?.name ||
+                                                                        "-"}
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Nomor Anggota */}
+                                                        <div className="col-md-6">
+                                                            <div className="p-3 border rounded bg-light">
+                                                                <div className="d-flex align-items-center mb-1">
+                                                                    <i
+                                                                        className="bi bi-hash me-2"
+                                                                        style={{
+                                                                            color: "#92c1f0ff",
+                                                                        }}
+                                                                    ></i>
+                                                                    <small className="text-muted">
+                                                                        Nomor
+                                                                        Anggota
+                                                                    </small>
+                                                                </div>
+                                                                <strong
+                                                                    style={{
+                                                                        color: "#b7cbdfff",
+                                                                    }}
+                                                                >
+                                                                    #
+                                                                    {user?.no_anggota
+                                                                        ?.toString()
+                                                                        .padStart(
+                                                                            6,
+                                                                            "0"
+                                                                        ) ||
+                                                                        "000000"}
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Email */}
+                                                        <div className="col-md-12">
+                                                            <div className="p-3 border rounded bg-light">
+                                                                <div className="d-flex align-items-center mb-1">
+                                                                    <i
+                                                                        className="bi bi-envelope me-2"
+                                                                        style={{
+                                                                            color: "#92c1f0ff",
+                                                                        }}
+                                                                    ></i>
+                                                                    <small className="text-muted">
+                                                                        Email
+                                                                    </small>
+                                                                </div>
+                                                                <strong
+                                                                    style={{
+                                                                        color: "#b7cbdfff",
+                                                                    }}
+                                                                >
+                                                                    {user?.email ||
+                                                                        "-"}
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <form onSubmit={handleSubmit}>
                                                     <div className="mb-4">
