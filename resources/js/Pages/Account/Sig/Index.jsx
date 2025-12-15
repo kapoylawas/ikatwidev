@@ -20,6 +20,7 @@ export default function SigIndex() {
     console.log(user);
 
     const [tahun, setTahun] = useState("");
+    const [jenisSig, setJenisSig] = useState(""); // Tambah state untuk jenis SIG
     const [loading, setLoading] = useState(false);
     const [generatingCard, setGeneratingCard] = useState(false);
     const [currentYear] = useState(new Date().getFullYear());
@@ -27,6 +28,16 @@ export default function SigIndex() {
 
     // Ref untuk kartu yang akan di-generate
     const cardRef = useRef(null);
+
+    // Daftar jenis SIG yang tersedia
+    const jenisSigOptions = [
+        "Gangguan Komunikasi Neurogenik",
+        "Gangguan Spektrum Autisme",
+        "Gangguan Bahasa Perkembangan",
+        "Gangguan Makan dan Menelan Pediatrik",
+        "Anomali Kraniofasial (Resonansi dan Wicara)",
+        "Gangguan Pendengaran",
+    ];
 
     // Cek status transaksi pembayaran
     const isPaid = transactions.some(
@@ -44,6 +55,13 @@ export default function SigIndex() {
     useEffect(() => {
         setTahun(currentYear);
     }, [currentYear]);
+
+    // Set jenis SIG default ke opsi pertama jika tersedia
+    useEffect(() => {
+        if (jenisSigOptions.length > 0 && !jenisSig) {
+            setJenisSig(jenisSigOptions[0]);
+        }
+    }, []);
 
     // Gunakan sig untuk tahun ini, jika tidak ada cari dari allSigs
     const findSigForCurrentYear = () => {
@@ -80,17 +98,29 @@ export default function SigIndex() {
             return;
         }
 
+        // Validasi jenis SIG dipilih
+        if (!jenisSig) {
+            Swal.fire({
+                title: "Peringatan!",
+                text: "Harap pilih jenis SIG yang ingin diikuti.",
+                icon: "warning",
+                confirmButtonText: "Mengerti",
+            });
+            return;
+        }
+
         setLoading(true);
 
         const formData = {
             tahun: tahun,
+            jenis_sig: jenisSig, // Tambah jenis_sig
         };
 
         Inertia.post("/account/sig", formData, {
             onSuccess: () => {
                 Swal.fire({
                     title: "Berhasil!",
-                    text: "Pendaftaran SIG berhasil disimpan!",
+                    text: `Pendaftaran SIG ${currentYear} (${jenisSig}) berhasil disimpan!`,
                     icon: "success",
                     showConfirmButton: false,
                     timer: 2500,
@@ -104,6 +134,13 @@ export default function SigIndex() {
                     Swal.fire({
                         title: "Kesalahan!",
                         text: errors.tahun,
+                        icon: "error",
+                        confirmButtonText: "Mengerti",
+                    });
+                } else if (errors.jenis_sig) {
+                    Swal.fire({
+                        title: "Kesalahan!",
+                        text: errors.jenis_sig,
                         icon: "error",
                         confirmButtonText: "Mengerti",
                     });
@@ -573,8 +610,9 @@ export default function SigIndex() {
                                                 : "sebagai Anggota Kehormatan"}
                                             .
                                         </div>
-
                                         {/* Kartu yang akan di-generate - UKURAN SEPERTI KTP */}
+                                        // Di dalam komponen SigIndex, pada
+                                        bagian kartu yang di-generate (cardRef):
                                         <div
                                             ref={cardRef}
                                             className="mx-auto sig-card-container"
@@ -740,7 +778,7 @@ export default function SigIndex() {
                                                 </div>
                                             </div>
 
-                                            {/* Body Kartu - Layout seperti KTP */}
+                                            {/* Body Kartu */}
                                             <div
                                                 style={{
                                                     padding: "25px 30px",
@@ -756,7 +794,7 @@ export default function SigIndex() {
                                                         gap: "30px",
                                                     }}
                                                 >
-                                                    {/* Kolom Kiri - Data Pribadi (70%) */}
+                                                    {/* Kolom Kiri - Data Pribadi */}
                                                     <div
                                                         style={{
                                                             flex: 7,
@@ -769,7 +807,6 @@ export default function SigIndex() {
                                                     >
                                                         {/* Nama dan Nomor Anggota */}
                                                         <div>
-                                                            {/* Nama */}
                                                             <div
                                                                 style={{
                                                                     marginBottom:
@@ -833,49 +870,158 @@ export default function SigIndex() {
                                                                     </h3>
                                                                 </div>
 
-                                                                {/* Nomor Anggota */}
                                                                 <div
                                                                     style={{
                                                                         display:
                                                                             "flex",
                                                                         alignItems:
                                                                             "center",
+                                                                        justifyContent:
+                                                                            "space-between",
                                                                         marginLeft:
                                                                             "32px",
                                                                         marginTop:
                                                                             "3px",
                                                                     }}
                                                                 >
+                                                                    <div
+                                                                        style={{
+                                                                            display:
+                                                                                "flex",
+                                                                            alignItems:
+                                                                                "center",
+                                                                        }}
+                                                                    >
+                                                                        <i
+                                                                            className="bi bi-hash"
+                                                                            style={{
+                                                                                color: "#7f8c8d",
+                                                                                marginRight:
+                                                                                    "6px",
+                                                                                fontSize:
+                                                                                    "14px",
+                                                                            }}
+                                                                        ></i>
+                                                                        <span
+                                                                            style={{
+                                                                                color: "#2c3e50",
+                                                                                fontSize:
+                                                                                    "16px",
+                                                                                fontWeight:
+                                                                                    "600",
+                                                                                letterSpacing:
+                                                                                    "0.5px",
+                                                                            }}
+                                                                        >
+                                                                            {user?.no_anggota
+                                                                                ?.toString()
+                                                                                .padStart(
+                                                                                    6,
+                                                                                    "0"
+                                                                                ) ||
+                                                                                "000000"}
+                                                                        </span>
+                                                                    </div>
+
+                                                                    {/* Badge di samping nomor anggota */}
+                                                                    <div
+                                                                        className="badge"
+                                                                        style={{
+                                                                            backgroundColor:
+                                                                                "#27ae60",
+                                                                            color: "white",
+                                                                            fontSize:
+                                                                                "11px",
+                                                                            padding:
+                                                                                "4px 10px",
+                                                                            borderRadius:
+                                                                                "12px",
+                                                                            fontWeight:
+                                                                                "700",
+                                                                            display:
+                                                                                "inline-flex",
+                                                                            alignItems:
+                                                                                "center",
+                                                                            letterSpacing:
+                                                                                "0.3px",
+                                                                            boxShadow:
+                                                                                "0 1px 3px rgba(39, 174, 96, 0.3)",
+                                                                            marginLeft:
+                                                                                "15px",
+                                                                            whiteSpace:
+                                                                                "nowrap",
+                                                                        }}
+                                                                    >
+                                                                        <i
+                                                                            className="bi bi-shield-check me-1"
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    "10px",
+                                                                            }}
+                                                                        ></i>
+                                                                        ANGGOTA
+                                                                        AKTIF
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Jenis SIG */}
+                                                            <div
+                                                                style={{
+                                                                    marginBottom:
+                                                                        "15px",
+                                                                }}
+                                                            >
+                                                                <div
+                                                                    style={{
+                                                                        display:
+                                                                            "flex",
+                                                                        alignItems:
+                                                                            "center",
+                                                                        marginBottom:
+                                                                            "4px",
+                                                                    }}
+                                                                >
                                                                     <i
-                                                                        className="bi bi-hash"
+                                                                        className="bi bi-tags me-2"
                                                                         style={{
                                                                             color: "#7f8c8d",
-                                                                            marginRight:
-                                                                                "6px",
                                                                             fontSize:
-                                                                                "14px",
+                                                                                "12px",
                                                                         }}
                                                                     ></i>
                                                                     <span
                                                                         style={{
-                                                                            color: "#2c3e50",
+                                                                            color: "#7f8c8d",
                                                                             fontSize:
-                                                                                "16px",
+                                                                                "11px",
                                                                             fontWeight:
-                                                                                "600",
+                                                                                "500",
                                                                             letterSpacing:
-                                                                                "0.5px",
+                                                                                "0.3px",
                                                                         }}
                                                                     >
-                                                                        {user?.no_anggota
-                                                                            ?.toString()
-                                                                            .padStart(
-                                                                                6,
-                                                                                "0"
-                                                                            ) ||
-                                                                            "000000"}
+                                                                        JENIS
+                                                                        SIG
                                                                     </span>
                                                                 </div>
+                                                                <p
+                                                                    style={{
+                                                                        color: "#3498db",
+                                                                        fontWeight:
+                                                                            "600",
+                                                                        fontSize:
+                                                                            "14px",
+                                                                        margin: 0,
+                                                                        paddingLeft:
+                                                                            "20px",
+                                                                        lineHeight:
+                                                                            "1.3",
+                                                                    }}
+                                                                >
+                                                                    {currentSig.jenis_sig ||
+                                                                        "-"}
+                                                                </p>
                                                             </div>
 
                                                             {/* Garis pembatas */}
@@ -1122,43 +1268,53 @@ export default function SigIndex() {
                                                             </div>
                                                         </div>
 
-                                                        {/* Status Badge dan Footer */}
-                                                        <div>
-                                                            {/* Status Badge */}
+                                                        {/* Footer dengan lebar penuh */}
+                                                        <div
+                                                            style={{
+                                                                marginBottom:
+                                                                    "25px",
+                                                                marginTop:
+                                                                    "auto", // Tambahkan ini untuk mendorong ke bawah
+                                                                display: "flex",
+                                                                flexDirection:
+                                                                    "column",
+                                                                alignItems:
+                                                                    "flex-start", // Atau "center" jika ingin di tengah
+                                                            }}
+                                                        >
+
+
+                                                            {/* Tanda tangan digital */}
                                                             <div
                                                                 style={{
-                                                                    marginBottom:
-                                                                        "15px",
+                                                                    textAlign:
+                                                                        "left",
+                                                                    borderTop:
+                                                                        "1px solid #ddd",
+                                                                    paddingTop:
+                                                                        "8px",
+                                                                    width: "100%",
                                                                 }}
                                                             >
-                                                                <div
-                                                                    className="badge"
+                                                                <p
                                                                     style={{
-                                                                        backgroundColor:
-                                                                            "#27ae60",
-                                                                        color: "white",
+                                                                        color: "#2c3e50",
                                                                         fontSize:
-                                                                            "14px",
-                                                                        padding:
-                                                                            "8px 20px",
-                                                                        borderRadius:
-                                                                            "20px",
+                                                                            "9px",
+                                                                        margin: "0",
                                                                         fontWeight:
                                                                             "700",
-                                                                        display:
-                                                                            "inline-flex",
-                                                                        alignItems:
-                                                                            "center",
                                                                         letterSpacing:
                                                                             "0.5px",
-                                                                        boxShadow:
-                                                                            "0 2px 4px rgba(39, 174, 96, 0.2)",
+                                                                        textTransform:
+                                                                            "uppercase",
                                                                     }}
                                                                 >
-                                                                    <i className="bi bi-shield-check me-2"></i>
-                                                                    ANGGOTA
-                                                                    AKTIF
-                                                                </div>
+                                                                    SISTEM
+                                                                    INFORMASI
+                                                                    GENERASI -
+                                                                    IKATWI
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1178,7 +1334,7 @@ export default function SigIndex() {
                                                             height: "110%",
                                                         }}
                                                     >
-                                                        {/* FOTO - TANPA TULISAN "FOTO ANGGOTA" */}
+                                                        {/* FOTO */}
                                                         <div
                                                             style={{
                                                                 width: "155px",
@@ -1218,13 +1374,12 @@ export default function SigIndex() {
                                                                     ) => {
                                                                         e.target.style.display =
                                                                             "none";
-                                                                        // Tampilkan placeholder
                                                                         e.target.parentElement.innerHTML = `
-                        <div style="text-align: center; color: #666; width: 100%; height: 150%; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8f9fa;">
-                            <i class="bi bi-person" style="font-size: 50px; margin-bottom: 10px; color: #95a5a6;"></i>
-                            <div style="font-size: 11px; color: #7f8c8d;">Foto tidak tersedia</div>
-                        </div>
-                    `;
+                                    <div style="text-align: center; color: #666; width: 100%; height: 150%; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                                        <i class="bi bi-person" style="font-size: 50px; margin-bottom: 10px; color: #95a5a6;"></i>
+                                        <div style="font-size: 11px; color: #7f8c8d;">Foto tidak tersedia</div>
+                                    </div>
+                                `;
                                                                     }}
                                                                 />
                                                             ) : (
@@ -1272,7 +1427,7 @@ export default function SigIndex() {
                                                             )}
                                                         </div>
 
-                                                        {/* QR CODE - KECIL */}
+                                                        {/* QR CODE */}
                                                         <div
                                                             style={{
                                                                 width: "100px",
@@ -1299,7 +1454,10 @@ export default function SigIndex() {
                                                             <QRCodeSVG
                                                                 value={`https://ikatwi.org/sig/verify?mid=${
                                                                     user?.no_anggota
-                                                                }&y=${currentYear}&t=${Date.now()}`}
+                                                                }&y=${currentYear}&t=${Date.now()}&jenis_sig=${encodeURIComponent(
+                                                                    currentSig.jenis_sig ||
+                                                                        ""
+                                                                )}`}
                                                                 size={85}
                                                                 level="H"
                                                                 includeMargin={
@@ -1342,40 +1500,7 @@ export default function SigIndex() {
                                                 </div>
                                             </div>
 
-                                            {/* Tanda tangan digital di kiri bawah */}
-                                            <div
-                                                style={{
-                                                    position: "absolute",
-                                                    bottom: "15px",
-                                                    left: "30px",
-                                                    textAlign: "left",
-                                                    maxWidth: "200px",
-                                                }}
-                                            >
-                                                <div
-                                                    style={{
-                                                        borderTop:
-                                                            "1px solid #ddd",
-                                                        paddingTop: "5px",
-                                                    }}
-                                                >
-                                                    <p
-                                                        style={{
-                                                            color: "#2c3e50",
-                                                            fontSize: "9px",
-                                                            margin: "0",
-                                                            fontWeight: "700",
-                                                            letterSpacing:
-                                                                "0.5px",
-                                                        }}
-                                                    >
-                                                        SISTEM INFORMASI
-                                                        GENERASI
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            {/* Garis dekoratif di bagian bawah */}
+                                            {/* Garis dekoratif di bagian bawah - LEBAR PENUH */}
                                             <div
                                                 style={{
                                                     position: "absolute",
@@ -1388,7 +1513,6 @@ export default function SigIndex() {
                                                 }}
                                             ></div>
                                         </div>
-
                                         {/* Informasi tambahan */}
                                         <div className="mt-4">
                                             <div
@@ -1906,6 +2030,96 @@ export default function SigIndex() {
                                                             Anda mendaftar untuk
                                                             program SIG tahun{" "}
                                                             {currentYear}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* TAMBAHAN: Pilihan Jenis SIG */}
+                                                    <div className="mb-4">
+                                                        <label
+                                                            htmlFor="jenis_sig"
+                                                            className="form-label fw-semibold"
+                                                            style={{
+                                                                color: "#0b1015ff",
+                                                            }}
+                                                        >
+                                                            <i
+                                                                className="bi bi-tags me-2"
+                                                                style={{
+                                                                    color: "#3498db",
+                                                                }}
+                                                            ></i>
+                                                            Pilih Jenis SIG
+                                                            <span className="text-danger ms-1">
+                                                                *
+                                                            </span>
+                                                        </label>
+                                                        <div className="input-group input-group-lg shadow-sm">
+                                                            <span
+                                                                className="input-group-text border-0"
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        "#b9d5f1ff",
+                                                                }}
+                                                            >
+                                                                <i
+                                                                    className="bi bi-list-ul"
+                                                                    style={{
+                                                                        color: "#3498db",
+                                                                    }}
+                                                                ></i>
+                                                            </span>
+                                                            <select
+                                                                className="form-select border-0 ps-0"
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        "#b9d5f1ff",
+                                                                    color: "#2c3e50",
+                                                                    cursor: "pointer",
+                                                                }}
+                                                                value={jenisSig}
+                                                                onChange={(e) =>
+                                                                    setJenisSig(
+                                                                        e.target
+                                                                            .value
+                                                                    )
+                                                                }
+                                                                required
+                                                            >
+                                                                <option value="">
+                                                                    -- Pilih
+                                                                    Jenis SIG --
+                                                                </option>
+                                                                {jenisSigOptions.map(
+                                                                    (
+                                                                        option,
+                                                                        index
+                                                                    ) => (
+                                                                        <option
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            value={
+                                                                                option
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                option
+                                                                            }
+                                                                        </option>
+                                                                    )
+                                                                )}
+                                                            </select>
+                                                        </div>
+                                                        <div
+                                                            className="form-text ms-1 mt-2"
+                                                            style={{
+                                                                color: "#7f8c8d",
+                                                            }}
+                                                        >
+                                                            <i className="bi bi-lightbulb me-1"></i>
+                                                            Pilih salah satu
+                                                            jenis SIG yang ingin
+                                                            Anda ikuti
                                                         </div>
                                                     </div>
 
@@ -2443,6 +2657,20 @@ export default function SigIndex() {
                                                             currentSig.status
                                                         )}
                                                     </div>
+                                                    {currentSig.jenis_sig && (
+                                                        <div
+                                                            className="badge bg-info text-white px-3 py-2 fs-6 mb-3 shadow-sm"
+                                                            style={{
+                                                                backgroundColor:
+                                                                    "#3498db",
+                                                            }}
+                                                        >
+                                                            <i className="bi bi-tag me-1"></i>
+                                                            {
+                                                                currentSig.jenis_sig
+                                                            }
+                                                        </div>
+                                                    )}
                                                     <p className="text-muted small">
                                                         <i className="bi bi-hash me-1"></i>
                                                         ID: #
@@ -2591,6 +2819,7 @@ export default function SigIndex() {
                                                                                         ? '"PAID"'
                                                                                         : '"Anggota Kehormatan"'}
                                                                                 </strong>
+
                                                                                 .
                                                                                 Kartu
                                                                                 anggota
@@ -2644,6 +2873,7 @@ export default function SigIndex() {
                                                                                               .status
                                                                                         : "UNPAID"}
                                                                                 </strong>
+
                                                                                 .
                                                                                 Selesaikan
                                                                                 pembayaran
@@ -2904,7 +3134,7 @@ export default function SigIndex() {
                                                     <div className="col-12">
                                                         <div className="d-flex align-items-start mb-2">
                                                             <i
-                                                                className="bi bi-calendar-check me-2 mt-1"
+                                                                className="bi bi-tags me-2 mt-1"
                                                                 style={{
                                                                     color: "#3498db",
                                                                 }}
@@ -2915,9 +3145,10 @@ export default function SigIndex() {
                                                                     color: "#2c3e50",
                                                                 }}
                                                             >
-                                                                Pendaftaran
-                                                                berlaku per
-                                                                tahun kalender
+                                                                Harus memilih
+                                                                salah satu jenis
+                                                                SIG yang
+                                                                tersedia
                                                             </span>
                                                         </div>
                                                     </div>
@@ -2940,6 +3171,59 @@ export default function SigIndex() {
                                                             </span>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* TAMBAHAN: Daftar Jenis SIG */}
+                                        <div className="mt-4">
+                                            <div
+                                                className="alert border-0 shadow-sm"
+                                                style={{
+                                                    backgroundColor: "#fff9e6",
+                                                    borderLeft:
+                                                        "4px solid #f39c12",
+                                                }}
+                                            >
+                                                <h6
+                                                    className="alert-heading fw-bold mb-3"
+                                                    style={{ color: "#7d6608" }}
+                                                >
+                                                    <i className="bi bi-list-ul me-2"></i>
+                                                    Jenis SIG yang Tersedia
+                                                </h6>
+                                                <div className="row g-2">
+                                                    {jenisSigOptions.map(
+                                                        (jenis, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="col-12"
+                                                            >
+                                                                <div className="d-flex align-items-start mb-2">
+                                                                    <div
+                                                                        className="badge bg-primary rounded-circle me-2 d-flex align-items-center justify-content-center"
+                                                                        style={{
+                                                                            width: "24px",
+                                                                            height: "24px",
+                                                                            fontSize:
+                                                                                "12px",
+                                                                        }}
+                                                                    >
+                                                                        {index +
+                                                                            1}
+                                                                    </div>
+                                                                    <span
+                                                                        className="small"
+                                                                        style={{
+                                                                            color: "#2c3e50",
+                                                                        }}
+                                                                    >
+                                                                        {jenis}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>

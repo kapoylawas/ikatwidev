@@ -17,7 +17,7 @@ class SigController extends Controller
     public function index()
     {
         $currentYear = date('Y');
-        
+
         // Cek apakah user sudah memiliki SIG untuk tahun INI
         $sig = Sig::where('user_id', auth()->user()->id)
             ->where('tahun', $currentYear) // FILTER BY CURRENT YEAR
@@ -57,7 +57,7 @@ class SigController extends Controller
             ->where('user_id', auth()->user()->id)
             ->where('cek_ts', 1)
             ->where('tahun', $tahun)->get();
-        
+
         $statusAnggota = User::where('id', auth()->user()->id)->first();
         $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
 
@@ -75,10 +75,21 @@ class SigController extends Controller
     public function store(Request $request)
     {
         $currentYear = date('Y');
-        
-        // Validasi input - hanya tahun berjalan
+
+        // Daftar jenis SIG yang valid
+        $validJenisSig = [
+            'Gangguan Komunikasi Neurogenik',
+            'Gangguan Spektrum Autisme',
+            'Gangguan Bahasa Perkembangan',
+            'Gangguan Makan dan Menelan Pediatrik',
+            'Anomali Kraniofasial (Resonansi dan Wicara)',
+            'Gangguan Pendengaran'
+        ];
+
+        // Validasi input
         $validator = Validator::make($request->all(), [
             'tahun' => 'required|integer|in:' . $currentYear,
+            'jenis_sig' => 'required|string|in:' . implode(',', $validJenisSig), // Tambahan validasi jenis_sig
         ]);
 
         if ($validator->fails()) {
@@ -103,11 +114,11 @@ class SigController extends Controller
                 'user_id' => auth()->id(),
                 'status' => 'approved',
                 'tahun' => $currentYear,
+                'jenis_sig' => $request->jenis_sig, // Tambahan field jenis_sig
             ]);
 
             return redirect()->route('account.sig.index')
-                ->with('success', 'Pendaftaran SIG ' . $currentYear . ' berhasil disimpan!');
-
+                ->with('success', 'Pendaftaran SIG ' . $currentYear . ' (' . $request->jenis_sig . ') berhasil disimpan!');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -115,13 +126,13 @@ class SigController extends Controller
     }
 
     public function verifyQRCode(Request $request)
-    { 
+    {
         try {
             // Ambil parameter dari QR Code
             $memberId = $request->query('mid');
             $year = $request->query('y');
             $timestamp = $request->query('t');
-            
+
             // Validasi parameter
             if (empty($memberId) || empty($year)) {
                 return Inertia::render('Web/VerifyResultSig', [
@@ -132,10 +143,10 @@ class SigController extends Controller
                     'errorCode' => 'INVALID_PARAMS'
                 ]);
             }
-            
+
             // Cari user berdasarkan no_anggota
             $user = User::where('no_anggota', $memberId)->first();
-            
+
             if (!$user) {
                 return Inertia::render('Web/VerifyResultSig', [
                     'success' => false,
@@ -148,12 +159,12 @@ class SigController extends Controller
                     'errorCode' => 'MEMBER_NOT_FOUND'
                 ]);
             }
-            
+
             // Cari data SIG untuk tahun tersebut
             $sig = Sig::where('user_id', $user->id)
-                     ->where('tahun', $year)
-                     ->first();
-            
+                ->where('tahun', $year)
+                ->first();
+
             if (!$sig) {
                 return Inertia::render('Web/VerifyResultSig', [
                     'success' => false,
@@ -168,15 +179,15 @@ class SigController extends Controller
                     'errorCode' => 'SIG_NOT_FOUND'
                 ]);
             }
-            
+
             // Check status
             if ($sig->status !== 'approved') {
-                $statusMessage = match($sig->status) {
+                $statusMessage = match ($sig->status) {
                     'pending' => 'Status: Menunggu verifikasi',
                     'rejected' => 'Status: Ditolak',
                     default => 'Status: Tidak aktif'
                 };
-                
+
                 return Inertia::render('Web/VerifyResultSig', [
                     'success' => false,
                     'message' => 'Kartu SIG tidak aktif. ' . $statusMessage,
@@ -194,11 +205,11 @@ class SigController extends Controller
                     'errorCode' => 'INACTIVE_CARD'
                 ]);
             }
-            
+
             // Check masa berlaku (sampai 31 Desember tahun tersebut)
             $expiryDate = Carbon::create($year, 12, 31, 23, 59, 59);
             $isExpired = Carbon::now()->gt($expiryDate);
-            
+
             if ($isExpired) {
                 return Inertia::render('Web/VerifyResultSig', [
                     'success' => false,
@@ -220,7 +231,7 @@ class SigController extends Controller
                     'errorCode' => 'CARD_EXPIRED'
                 ]);
             }
-            
+
             // Jika semua valid, tampilkan data lengkap
             return Inertia::render('Web/VerifyResultSig', [
                 'success' => true,
@@ -243,7 +254,6 @@ class SigController extends Controller
                 'scanDate' => now()->format('d-m-Y H:i:s'),
                 'qrTimestamp' => $timestamp
             ]);
-            
         } catch (\Exception $e) {
             return Inertia::render('Web/VerifyResultSig', [
                 'success' => false,
@@ -257,7 +267,7 @@ class SigController extends Controller
 
     private function getStatusLabel($status)
     {
-        return match($status) {
+        return match ($status) {
             'pending' => 'Menunggu Verifikasi',
             'approved' => 'Disetujui',
             'rejected' => 'Ditolak',
