@@ -85,5 +85,9 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'sliders.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'sliders.create', 'guard_name' => 'web']);
         Permission::create(['name' => 'sliders.delete', 'guard_name' => 'web']);
+
+         //permission videos
+        Permission::create(['name' => 'videos.index', 'guard_name' => 'web']);
+        
     }
 }

@@ -167,6 +167,11 @@ export default function Sidebar() {
                                         <i className="fa fa-map me-3"></i> Wilayah DPC
                                     </Link>
                                 )}
+                                {hasAnyPermission(["videos.index"]) && (
+                                    <Link href="/account/videos" className={getActiveClass("/account/videos")}>
+                                        <i className="fa fa-video me-3"></i> Videos
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     )}

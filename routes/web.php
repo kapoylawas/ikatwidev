@@ -75,6 +75,9 @@ Route::prefix('account')->group(function () {
         //route resource dpw
         Route::resource('/dpw', \App\Http\Controllers\Account\DpwController::class, ['as' => 'account'])->middleware('permission:dpw.index');
 
+        //route resource videos
+        Route::resource('/videos', \App\Http\Controllers\Account\VideoController::class, ['as' => 'account'])->middleware('permission:videos.index');
+
         //route resource print
         Route::resource('/print', \App\Http\Controllers\Account\PengajuanPrintController::class, ['as' => 'account'])->middleware('permission:pengajuan.index');
 
