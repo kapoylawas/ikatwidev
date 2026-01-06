@@ -140,9 +140,9 @@ export default function Register() {
                                             </div>
                                             <div className="flex-grow-1 ms-3">
                                                 <small>
-                                                    Setelah Register silahkan menghubungi{" "}
+                                                    Setelah Register harap konfirmasi{" "}<br></br>
                                                     <a target="_blank" href={adminAlan} className="alert-link fw-bold">
-                                                        Admin (085752145518)
+                                                        ke DPC/DPC setempat lokasi daftar
                                                     </a>{" "}
                                                     untuk verifikasi akun
                                                 </small>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->string('tahun')->nullable();
             $table->string('filevideo')->nullable();
+            $table->string('linkvideo')->nullable();
             $table->timestamps();
         });
     }

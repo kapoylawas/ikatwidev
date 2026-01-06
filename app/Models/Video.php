@@ -15,7 +15,8 @@ class Video extends Model
         'name',
         'status',
         'tahun',
-        'filevideo'
+        'filevideo',
+        'linkvideo'
     ];
 
     protected function filevideo(): Attribute
