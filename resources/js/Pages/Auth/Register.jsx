@@ -142,7 +142,7 @@ export default function Register() {
                                                 <small>
                                                     Setelah Register harap konfirmasi{" "}<br></br>
                                                     <a target="_blank" href={adminAlan} className="alert-link fw-bold">
-                                                        ke DPC/DPC setempat lokasi daftar
+                                                        ke DPW setempat lokasi daftar
                                                     </a>{" "}
                                                     untuk verifikasi akun
                                                 </small>
