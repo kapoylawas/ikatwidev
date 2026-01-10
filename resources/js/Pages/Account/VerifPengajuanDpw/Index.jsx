@@ -15,12 +15,173 @@ import Search from "../../../Shared/Search";
 export default function VerifPengajuanDpwIndex() {
     const { verif, biodata } = usePage().props;
 
-    // Debug data
-    console.log("=== DEBUG DATA ===");
-    console.log("Biodata:", biodata);
-    console.log("Biodata role:", biodata?.role);
-    console.log("Verif data:", verif.data);
-    console.log("===================");
+    // State untuk modal preview dokumen
+    const [showDocumentModal, setShowDocumentModal] = useState(false);
+    const [selectedDocument, setSelectedDocument] = useState(null);
+
+    // Fungsi untuk membuka modal preview dokumen
+    const openDocumentModal = (document) => {
+        setSelectedDocument(document);
+        setShowDocumentModal(true);
+    };
+
+    // Fungsi untuk menutup modal preview dokumen
+    const closeDocumentModal = () => {
+        setShowDocumentModal(false);
+        setSelectedDocument(null);
+    };
+
+    // Fungsi untuk render informasi dokumen (desktop)
+    const renderDocumentInfo = (vrf) => {
+        if (!vrf.document) {
+            return (
+                <div className="text-center">
+                    <div className="alert alert-warning py-1 mb-0">
+                        <i className="fas fa-exclamation-triangle me-1"></i>
+                        Dokumen tidak tersedia
+                    </div>
+                </div>
+            );
+        }
+
+        const fileName = vrf.document.split("/").pop();
+        const fileExtension = fileName.split(".").pop().toUpperCase();
+
+        return (
+            <div className="text-center">
+                <div
+                    className="card border-light shadow-sm hover-shadow"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openDocumentModal(vrf.document)}
+                >
+                    <div className="card-body py-2">
+                        <div className="d-flex align-items-center justify-content-center">
+                            <div className="bg-light rounded-circle p-2 me-2">
+                                <i className="fas fa-file-pdf text-danger"></i>
+                            </div>
+                            <div className="text-start flex-grow-1">
+                                <small className="text-muted d-block">
+                                    Dokumen Mutasi
+                                </small>
+                                <div
+                                    className="fw-semibold text-truncate"
+                                    style={{ maxWidth: "150px" }}
+                                >
+                                    {fileName}
+                                </div>
+                            </div>
+                            <div>
+                                <small className="badge bg-danger text-white">
+                                    {fileExtension}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <small className="text-muted mt-1 d-block">
+                    <i className="fas fa-eye me-1"></i>
+                    Klik untuk melihat dokumen
+                </small>
+                {vrf.checklist_status && (
+                    <div className="mt-2">
+                        <small className="badge bg-info text-white">
+                            <i className="fas fa-clipboard-check me-1"></i>
+                            Ceklist Lengkap
+                        </small>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    // Fungsi untuk render informasi dokumen (mobile)
+    const renderDocumentInfoMobile = (vrf) => {
+        if (!vrf.document) {
+            return (
+                <div className="alert alert-warning py-2 mb-3">
+                    <i className="fas fa-exclamation-triangle me-1"></i>
+                    Dokumen tidak tersedia
+                </div>
+            );
+        }
+
+        const fileName = vrf.document.split("/").pop();
+        const fileExtension = fileName.split(".").pop().toUpperCase();
+
+        return (
+            <div className="mb-3">
+                <div
+                    className="card border-light shadow-sm hover-shadow"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openDocumentModal(vrf.document)}
+                >
+                    <div className="card-body py-2">
+                        <div className="d-flex align-items-center">
+                            <div className="bg-light rounded-circle p-2 me-3">
+                                <i className="fas fa-file-pdf text-danger fa-lg"></i>
+                            </div>
+                            <div className="flex-grow-1">
+                                <small className="text-muted d-block">
+                                    Dokumen Mutasi
+                                </small>
+                                <div className="fw-semibold text-truncate">
+                                    {fileName}
+                                </div>
+                            </div>
+                            <div>
+                                <small className="badge bg-danger text-white me-2">
+                                    {fileExtension}
+                                </small>
+                                <i className="fas fa-external-link-alt text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <small className="text-muted mt-2 d-block text-center">
+                    <i className="fas fa-hand-pointer me-1"></i>
+                    Sentuh untuk melihat dokumen
+                </small>
+                {vrf.checklist_status && (
+                    <div className="text-center mt-2">
+                        <small className="badge bg-info text-white">
+                            <i className="fas fa-clipboard-check me-1"></i>
+                            Persyaratan Lengkap
+                        </small>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    // Fungsi untuk render checklist status jika ada
+    const renderChecklistStatus = (vrf) => {
+        if (!vrf.checklist_status) return null;
+        
+        try {
+            const checklist = JSON.parse(vrf.checklist_status);
+            if (!Array.isArray(checklist)) return null;
+            
+            const completed = checklist.filter(item => item.checked).length;
+            const total = checklist.length;
+            
+            return (
+                <div className="d-flex align-items-center mt-1">
+                    <small className="text-muted me-2">
+                        <i className="fas fa-clipboard-list me-1"></i>
+                        Ceklist: {completed}/{total}
+                    </small>
+                    <div className="progress flex-grow-1" style={{ height: "4px", width: "60px" }}>
+                        <div 
+                            className="progress-bar bg-success" 
+                            style={{ width: `${(completed/total) * 100}%` }}
+                        ></div>
+                    </div>
+                </div>
+            );
+        } catch (error) {
+            return null;
+        }
+    };
 
     const getStatusBadge = (status) => {
         switch (status) {
@@ -392,6 +553,10 @@ export default function VerifPengajuanDpwIndex() {
                                                         <i className="fas fa-route me-2"></i>
                                                         Rute Mutasi
                                                     </th>
+                                                    <th className="py-3 text-center" style={{ width: "18%" }}>
+                                                        <i className="fas fa-file me-2"></i>
+                                                        Dokumen
+                                                    </th>
                                                     <th className="py-3 text-center" style={{ width: "15%" }}>
                                                         <i className="fas fa-info-circle me-2"></i>
                                                         Status
@@ -430,6 +595,7 @@ export default function VerifPengajuanDpwIndex() {
                                                                                 <i className="fas fa-id-card me-1"></i>
                                                                                 {vrf.kta}
                                                                             </small>
+                                                                            {renderChecklistStatus(vrf)}
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -443,6 +609,9 @@ export default function VerifPengajuanDpwIndex() {
                                                                 </td>
                                                                 <td>
                                                                     {renderRuteMutasi(vrf)}
+                                                                </td>
+                                                                <td>
+                                                                    {renderDocumentInfo(vrf)}
                                                                 </td>
                                                                 <td className="text-center">
                                                                     <div className="d-flex flex-column align-items-center">
@@ -491,7 +660,7 @@ export default function VerifPengajuanDpwIndex() {
                                                     })
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="7" className="text-center py-5">
+                                                        <td colSpan="8" className="text-center py-5">
                                                             <div className="py-4">
                                                                 <i className="fas fa-inbox fa-3x text-muted mb-3"></i>
                                                                 <h5 className="text-muted">Tidak ada data pengajuan</h5>
@@ -524,6 +693,7 @@ export default function VerifPengajuanDpwIndex() {
                                                             <div>
                                                                 <h6 className="mb-0 fw-bold">{vrf.name}</h6>
                                                                 <small className="text-muted">KTA: {vrf.kta}</small>
+                                                                {renderChecklistStatus(vrf)}
                                                             </div>
                                                         </div>
                                                         <span className="badge bg-primary">
@@ -541,6 +711,9 @@ export default function VerifPengajuanDpwIndex() {
 
                                                     {/* Rute Mutasi */}
                                                     {renderRuteMutasiMobile(vrf)}
+
+                                                    {/* Dokumen Info */}
+                                                    {renderDocumentInfoMobile(vrf)}
 
                                                     {/* Status Info */}
                                                     <div className="mb-3">
@@ -608,8 +781,101 @@ export default function VerifPengajuanDpwIndex() {
                             </div>
                         </div>
                     )}
+
+                    {/* Modal Preview Dokumen */}
+                    {showDocumentModal && selectedDocument && (
+                        <div
+                            className="modal fade show"
+                            style={{
+                                display: "block",
+                                backgroundColor: "rgba(0,0,0,0.5)",
+                            }}
+                        >
+                            <div className="modal-dialog modal-lg modal-dialog-centered">
+                                <div className="modal-content">
+                                    <div className="modal-header bg-primary text-white">
+                                        <h5 className="modal-title">
+                                            <i className="fas fa-file-pdf me-2"></i>
+                                            Dokumen Mutasi
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close btn-close-white"
+                                            onClick={closeDocumentModal}
+                                        ></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="text-center mb-4">
+                                            <div className="alert alert-info">
+                                                <i className="fas fa-info-circle me-2"></i>
+                                                Dokumen berisi semua persyaratan mutasi dalam satu file PDF
+                                            </div>
+                                        </div>
+
+                                        {/* PDF Viewer */}
+                                        <div
+                                            className="border rounded"
+                                            style={{ height: "500px" }}
+                                        >
+                                            <iframe
+                                                src={selectedDocument}
+                                                title="Document Preview"
+                                                width="100%"
+                                                height="100%"
+                                                frameBorder="0"
+                                            />
+                                        </div>
+
+                                        <div className="mt-3 text-center">
+                                            <a
+                                                href={selectedDocument}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="btn btn-success me-2"
+                                            >
+                                                <i className="fas fa-external-link-alt me-1"></i>
+                                                Buka di Tab Baru
+                                            </a>
+                                            <a
+                                                href={selectedDocument}
+                                                download
+                                                className="btn btn-primary"
+                                            >
+                                                <i className="fas fa-download me-1"></i>
+                                                Unduh Dokumen
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            onClick={closeDocumentModal}
+                                        >
+                                            <i className="fas fa-times me-1"></i>
+                                            Tutup
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </LayoutAccount>
+
+            {/* Tambahkan CSS untuk hover effect */}
+            <style jsx>{`
+                .hover-shadow {
+                    transition: all 0.3s ease;
+                }
+                .hover-shadow:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+                }
+                .badge {
+                    font-size: 0.85em;
+                }
+            `}</style>
         </>
     );
 }

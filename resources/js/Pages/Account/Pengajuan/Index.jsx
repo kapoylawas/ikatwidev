@@ -33,7 +33,7 @@ export default function PengajuanIndex() {
     // Fungsi untuk memeriksa apakah bulan saat ini termasuk dalam periode yang diizinkan
     const isAllowedMonth = () => {
         const currentMonth = new Date().getMonth() + 1; // January = 1, December = 12
-        return currentMonth === 4 || currentMonth === 8 || currentMonth === 11; // April, Agustus, November
+        return currentMonth === 1 || currentMonth === 8 || currentMonth === 11; // Januari, Agustus, November
     };
 
     // Fungsi untuk memeriksa jumlah pengajuan di bulan ini
@@ -59,7 +59,7 @@ export default function PengajuanIndex() {
         if (!isAllowedMonth()) {
             setCanCreateSubmission(false);
             const currentMonth = new Date().toLocaleString('id-ID', { month: 'long' });
-            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan April, Agustus, dan November. Saat ini bulan ${currentMonth}`);
+            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan Januari, Agustus, dan November. Saat ini bulan ${currentMonth}`);
             return;
         }
 
@@ -81,7 +81,7 @@ export default function PengajuanIndex() {
 
     // Fungsi untuk mendapatkan nama bulan yang diizinkan
     const getAllowedMonths = () => {
-        return "April, Agustus, dan November";
+        return "Januari, Agustus, dan November";
     };
 
     // Fungsi untuk mendapatkan informasi batas pengajuan
@@ -572,7 +572,7 @@ export default function PengajuanIndex() {
                                                                         ? "Mulai dengan membuat pengajuan mutasi pertama Anda"
                                                                         : filter !== "PAID"
                                                                             ? "Anda perlu memiliki status PAID untuk membuat pengajuan mutasi"
-                                                                            : "Saat ini bukan periode pengajuan. Tunggu bulan April, Agustus, atau November"
+                                                                            : "Saat ini bukan periode pengajuan. Tunggu bulan Januari, Agustus, atau November"
                                                                     }
                                                                 </p>
                                                                 {canCreateSubmission ? (

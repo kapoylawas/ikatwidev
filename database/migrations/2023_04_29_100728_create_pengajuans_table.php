@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('keterangan');
             $table->string('tujuan_mutasi');
             $table->string('dpc_mutasi')->nullable();
+            $table->string('document')->nullable();
+            $table->string('tipe_document')->nullable();
             $table->string('status');
             $table->string('tipe_pindah');
             $table->text('keterangan_revisi')->nullable();

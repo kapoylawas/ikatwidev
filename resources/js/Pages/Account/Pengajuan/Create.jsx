@@ -17,11 +17,6 @@ export default function PengajuanCreate() {
     const { errors, transactions, statusAnggota, biodata, provinces, cities, pengajuans } =
         usePage().props;
 
-    // Debug: console log untuk memeriksa data yang diterima
-    console.log('Provinces:', provinces);
-    console.log('Cities:', cities);
-    console.log('Pengajuans:', pengajuans);
-
     const status = transactions && transactions.map ? transactions.map((ts) => ts.status) : [];
     const [name] = useState(statusAnggota?.status_anggota || '');
 
@@ -54,10 +49,125 @@ export default function PengajuanCreate() {
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    // =========== STATE UNTUK CEKLIST PERSYARATAN ===========
+    const [documentFile, setDocumentFile] = useState(null);
+    const [documentFileName, setDocumentFileName] = useState("");
+    
+    // State untuk ceklist persyaratan
+    const [checklistItems, setChecklistItems] = useState([
+        {
+            id: 1,
+            label: "Surat keterangan dari DPW/DPC",
+            description: "Surat keterangan resmi dari DPW/DPC asal",
+            checked: false,
+            required: true
+        },
+        {
+            id: 2,
+            label: "Akun Satu Sehat aktif",
+            description: "Screenshot profil biodata akun Satu Sehat yang aktif",
+            checked: false,
+            required: true
+        },
+        {
+            id: 3,
+            label: "STR Seumur Hidup",
+            description: "Scan STR Seumur Hidup yang masih berlaku",
+            checked: false,
+            required: true
+        },
+        {
+            id: 4,
+            label: "Pencabutan SIP tempat lama",
+            description: "Scan dokumen pencabutan SIP di tempat kerja lama",
+            checked: false,
+            required: true
+        },
+        {
+            id: 5,
+            label: "Surat permohonan mutasi",
+            description: "Surat permohonan mutasi yang ditandatangani",
+            checked: false,
+            required: true
+        }
+    ]);
+
+    // =========== FUNGSI UNTUK CEKLIST PERSYARATAN ===========
+    // Fungsi untuk menandai item ceklist
+    const toggleChecklistItem = (id) => {
+        if (!canCreateSubmission) return;
+        setChecklistItems(prevItems =>
+            prevItems.map(item =>
+                item.id === id ? { ...item, checked: !item.checked } : item
+            )
+        );
+    };
+
+    // Fungsi untuk memeriksa apakah semua persyaratan sudah dicentang
+    const validateChecklist = () => {
+        return checklistItems.every(item => !item.required || item.checked);
+    };
+
+    // Fungsi untuk menghitung persentase kelengkapan
+    const getChecklistCompletion = () => {
+        const totalRequired = checklistItems.filter(item => item.required).length;
+        const completed = checklistItems.filter(item => item.required && item.checked).length;
+        return {
+            completed,
+            total: totalRequired,
+            percentage: Math.round((completed / totalRequired) * 100)
+        };
+    };
+
+    // Fungsi untuk menangani upload file PDF gabungan
+    const handleFileUpload = (e) => {
+        if (!canCreateSubmission) return;
+        
+        const file = e.target.files[0];
+        if (file) {
+            // Validasi ukuran file (maksimal 10MB karena gabungan dokumen)
+            if (file.size > 10 * 1024 * 1024) {
+                Swal.fire({
+                    title: "File Terlalu Besar!",
+                    text: "Ukuran file maksimal 10MB untuk dokumen gabungan",
+                    icon: "error",
+                    confirmButtonText: "Mengerti"
+                });
+                return;
+            }
+
+            // Validasi tipe file (PDF saja)
+            if (file.type !== "application/pdf") {
+                Swal.fire({
+                    title: "Format File Salah!",
+                    text: "Hanya file PDF yang diizinkan",
+                    icon: "error",
+                    confirmButtonText: "Mengerti"
+                });
+                return;
+            }
+
+            setDocumentFile(file);
+            setDocumentFileName(file.name);
+        }
+    };
+
+    // Fungsi untuk menghapus file
+    const handleRemoveFile = () => {
+        setDocumentFile(null);
+        setDocumentFileName("");
+    };
+
+    // Fungsi untuk memvalidasi dokumen gabungan
+    const validateDocument = () => {
+        return documentFile !== null;
+    };
+
+    // =========== FUNGSI YANG SUDAH ADA ===========
     // Fungsi untuk memeriksa apakah bulan saat ini termasuk dalam periode yang diizinkan
     const isAllowedMonth = () => {
         const currentMonth = new Date().getMonth() + 1; // January = 1, December = 12
-        return currentMonth === 4 || currentMonth === 8 || currentMonth === 11; // April, Agustus, November
+        return currentMonth === 1 || currentMonth === 8 || currentMonth === 11; // Januari, Agustus, November
     };
 
     // Fungsi untuk mendapatkan nama bulan saat ini
@@ -109,7 +219,7 @@ export default function PengajuanCreate() {
 
         if (!isAllowedMonth()) {
             setCanCreateSubmission(false);
-            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan April, Agustus, dan November. Saat ini bulan ${monthName}`);
+            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan Januari, Agustus, dan November. Saat ini bulan ${monthName}`);
             return;
         }
 
@@ -144,7 +254,7 @@ export default function PengajuanCreate() {
 
     // Fungsi untuk mendapatkan nama bulan yang diizinkan
     const getAllowedMonths = () => {
-        return "April, Agustus, dan November";
+        return "Januari, Agustus, dan November";
     };
 
     // Fungsi untuk mendapatkan informasi batas pengajuan
@@ -228,7 +338,7 @@ export default function PengajuanCreate() {
         setTujuandpc("");
     };
 
-    // PERBAIKAN: method "storePengajuan" dengan validasi yang lebih ketat
+    // =========== PERBAIKAN: method "storePengajuan" dengan validasi CEKLIST ===========
     const storePengajuan = async (e) => {
         e.preventDefault();
 
@@ -259,28 +369,58 @@ export default function PengajuanCreate() {
             return;
         }
 
+        // Validasi ceklist persyaratan
+        if (!validateChecklist()) {
+            Swal.fire({
+                title: "Persyaratan Belum Lengkap!",
+                text: "Harap centang semua persyaratan yang diperlukan sebelum mengajukan mutasi",
+                icon: "warning",
+                confirmButtonText: "Mengerti"
+            });
+            return;
+        }
+
+        // Validasi dokumen gabungan
+        if (!validateDocument()) {
+            Swal.fire({
+                title: "Dokumen Belum Dilampirkan!",
+                text: "Harap unggah dokumen PDF gabungan yang berisi semua persyaratan",
+                icon: "warning",
+                confirmButtonText: "Mengerti"
+            });
+            return;
+        }
+
         // Set loading state
         setIsLoading(true);
 
         // Prepare data based on tipe pindah
-        const formData = {
-            user_id: id,
-            name: nama,
-            kta: kta,
-            province_id: provinceID,
-            city_id: cityID,
-            tgl_mutasi: tglmutasi,
-            keterangan: keterangan,
-            tipe_pindah: tipePindah,
-        };
+        const formData = new FormData();
+        formData.append('user_id', id);
+        formData.append('name', nama);
+        formData.append('kta', kta);
+        formData.append('province_id', provinceID);
+        formData.append('city_id', cityID);
+        formData.append('tgl_mutasi', tglmutasi);
+        formData.append('keterangan', keterangan);
+        formData.append('tipe_pindah', tipePindah);
+        // Tambahkan dokumen gabungan
+        formData.append('document', documentFile);
+        
+        // Tambahkan status ceklist sebagai JSON string
+        const checklistStatus = checklistItems.map(item => ({
+            label: item.label,
+            checked: item.checked
+        }));
+        formData.append('checklist_status', JSON.stringify(checklistStatus));
 
         // Add conditional fields based on tipe pindah
         if (tipePindah === "dpw") {
-            formData.tujuan_mutasi = tujuan;
-            formData.dpc_mutasi = tujuandpc;
+            formData.append('tujuan_mutasi', tujuan);
+            formData.append('dpc_mutasi', tujuandpc);
         } else if (tipePindah === "dpc") {
-            formData.tujuan_mutasi = provinceID;
-            formData.dpc_mutasi = tujuandpc;
+            formData.append('tujuan_mutasi', provinceID);
+            formData.append('dpc_mutasi', tujuandpc);
         }
 
         //sending data
@@ -288,6 +428,9 @@ export default function PengajuanCreate() {
             "/account/pengajuan",
             formData,
             {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
                 onSuccess: () => {
                     //show alert
                     Swal.fire({
@@ -337,7 +480,7 @@ export default function PengajuanCreate() {
         return dpwTujuan ? dpwTujuan.name : "DPW Tujuan";
     };
 
-    // PERBAIKAN: Fungsi untuk mengecek apakah form valid - lebih ketat
+    // =========== PERBAIKAN: Fungsi untuk mengecek apakah form valid - termasuk CEKLIST ===========
     const isFormValid = () => {
         if (!canCreateSubmission) return false;
 
@@ -345,12 +488,21 @@ export default function PengajuanCreate() {
         const currentCount = getCurrentMonthSubmissionsCount();
         if (currentCount >= 3) return false;
 
-        return tglmutasi &&
+        // Validasi form utama
+        const isMainFormValid = tglmutasi &&
             keterangan &&
             tipePindah &&
             ((tipePindah === "dpw" && tujuan && tujuandpc) ||
                 (tipePindah === "dpc" && tujuandpc)) &&
             isConfirmed;
+
+        // Validasi ceklist persyaratan
+        const isChecklistValid = validateChecklist();
+
+        // Validasi dokumen gabungan
+        const isDocumentValid = validateDocument();
+
+        return isMainFormValid && isChecklistValid && isDocumentValid;
     };
 
     // Fungsi untuk mendapatkan class form berdasarkan status akses
@@ -366,6 +518,9 @@ export default function PengajuanCreate() {
     // Safe rendering untuk arrays
     const safeProvinces = provinces && Array.isArray(provinces) ? provinces : [];
     const safeCities = cities && Array.isArray(cities) ? cities : [];
+
+    // Get checklist completion
+    const checklistCompletion = getChecklistCompletion();
 
     return (
         <>
@@ -924,6 +1079,205 @@ export default function PengajuanCreate() {
                                     )}
                                 </div>
 
+                                {/* =========== CEKLIST PERSYARATAN MUTASI =========== */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h6 className="text-primary mb-3 border-bottom pb-2">
+                                            <i className="fas fa-clipboard-check me-2"></i>
+                                            Ceklist Persyaratan Mutasi
+                                        </h6>
+                                        
+                                        {/* Progress Bar Kelengkapan */}
+                                        <div className="card mb-3 border-success">
+                                            <div className="card-body">
+                                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                                    <span className="fw-bold">Kelengkapan Persyaratan</span>
+                                                    <span className={`badge bg-${checklistCompletion.percentage === 100 ? 'success' : checklistCompletion.percentage >= 50 ? 'warning' : 'danger'}`}>
+                                                        {checklistCompletion.percentage}%
+                                                    </span>
+                                                </div>
+                                                <div className="progress" style={{ height: "10px" }}>
+                                                    <div
+                                                        className={`progress-bar bg-${checklistCompletion.percentage === 100 ? 'success' : checklistCompletion.percentage >= 50 ? 'warning' : 'danger'}`}
+                                                        role="progressbar"
+                                                        style={{ width: `${checklistCompletion.percentage}%` }}
+                                                        aria-valuenow={checklistCompletion.percentage}
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100"
+                                                    ></div>
+                                                </div>
+                                                <small className="text-muted mt-2 d-block">
+                                                    {checklistCompletion.completed} dari {checklistCompletion.total} persyaratan telah dipenuhi
+                                                </small>
+                                                {checklistCompletion.percentage === 100 && (
+                                                    <div className="alert alert-success mt-2 mb-0 py-2">
+                                                        <i className="fas fa-check-circle me-2"></i>
+                                                        <strong>Semua persyaratan sudah terpenuhi!</strong> Silakan lanjutkan dengan mengunggah dokumen.
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Card untuk Ceklist Persyaratan */}
+                                        <div className="card mb-4 border-primary">
+                                            <div className="card-header bg-primary text-white">
+                                                <h6 className="mb-0">
+                                                    <i className="fas fa-list-check me-2"></i>
+                                                    CEKLIS PERSYARATAN MUTASI (WAJIB DIPENUHI SEMUA)
+                                                </h6>
+                                            </div>
+                                            <div className="card-body">
+                                                <div className="alert alert-light mb-3">
+                                                    <strong>Instruksi:</strong> Centang semua persyaratan di bawah ini untuk melanjutkan pengajuan mutasi. 
+                                                    Setelah semua dicentang, unggah satu file PDF yang berisi semua dokumen yang diperlukan.
+                                                </div>
+                                                
+                                                {/* Daftar Ceklist */}
+                                                <div className="mb-4">
+                                                    <h6 className="fw-bold mb-3">Dokumen yang Diperlukan:</h6>
+                                                    <div className="list-group">
+                                                        {checklistItems.map((item) => (
+                                                            <div key={item.id} className="list-group-item list-group-item-action">
+                                                                <div className="d-flex align-items-center">
+                                                                    <div className="form-check flex-grow-1">
+                                                                        <input
+                                                                            className="form-check-input me-3"
+                                                                            type="checkbox"
+                                                                            id={`checklist-${item.id}`}
+                                                                            checked={item.checked}
+                                                                            onChange={() => toggleChecklistItem(item.id)}
+                                                                            disabled={isFormDisabled()}
+                                                                        />
+                                                                        <label 
+                                                                            className="form-check-label d-flex align-items-center" 
+                                                                            htmlFor={`checklist-${item.id}`}
+                                                                        >
+                                                                            <div>
+                                                                                <strong className={`${item.checked ? 'text-success' : 'text-dark'}`}>
+                                                                                    {item.label}
+                                                                                </strong>
+                                                                                <div className="form-text small">
+                                                                                    {item.description}
+                                                                                </div>
+                                                                            </div>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div>
+                                                                        {item.checked ? (
+                                                                            <span className="badge bg-success">
+                                                                                <i className="fas fa-check me-1"></i>
+                                                                                Terpenuhi
+                                                                            </span>
+                                                                        ) : (
+                                                                            <span className="badge bg-secondary">
+                                                                                <i className="fas fa-times me-1"></i>
+                                                                                Belum
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Upload File PDF Gabungan */}
+                                                <div className="border rounded p-3 bg-light">
+                                                    <div className="mb-3">
+                                                        <label className="form-label fw-bold">
+                                                            Upload Dokumen PDF Gabungan <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="alert alert-info mb-3">
+                                                            <i className="fas fa-info-circle me-2"></i>
+                                                            <strong>Catatan:</strong> Gabungkan semua dokumen yang tercantum di atas menjadi SATU file PDF.
+                                                            File harus berisi semua dokumen yang diperlukan dalam urutan yang rapi.
+                                                        </div>
+                                                        <div className="input-group">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                value={documentFileName}
+                                                                placeholder="Belum ada file dipilih"
+                                                                disabled
+                                                            />
+                                                            <label 
+                                                                className={`btn ${documentFile ? 'btn-outline-success' : 'btn-outline-primary'}`}
+                                                                htmlFor="fileUpload"
+                                                                disabled={isFormDisabled()}
+                                                            >
+                                                                <i className={`fas ${documentFile ? 'fa-check' : 'fa-upload'} me-1`}></i>
+                                                                {documentFile ? 'Ganti File' : 'Pilih File'}
+                                                            </label>
+                                                            <input
+                                                                type="file"
+                                                                className="form-control d-none"
+                                                                id="fileUpload"
+                                                                accept=".pdf,.PDF"
+                                                                onChange={handleFileUpload}
+                                                                disabled={isFormDisabled()}
+                                                            />
+                                                            {documentFile && (
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-outline-danger"
+                                                                    onClick={handleRemoveFile}
+                                                                    disabled={isFormDisabled()}
+                                                                >
+                                                                    <i className="fas fa-trash me-1"></i>
+                                                                    Hapus
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                        <div className="form-text">
+                                                            <i className="fas fa-info-circle me-1"></i>
+                                                            <span className="fst-italic">Format: PDF (maksimal 10MB)</span>
+                                                            {documentFile && (
+                                                                <span className="text-success ms-2">
+                                                                    <i className="fas fa-check-circle me-1"></i>
+                                                                    File siap diunggah
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        {errors.document && (
+                                                            <div className="alert alert-danger mt-2">
+                                                                {errors.document}
+                                                            </div>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Informasi File yang Diunggah */}
+                                                    {documentFile && (
+                                                        <div className="alert alert-success">
+                                                            <div className="d-flex align-items-center">
+                                                                <i className="fas fa-file-pdf fa-lg me-3 text-danger"></i>
+                                                                <div>
+                                                                    <strong>Dokumen yang diunggah:</strong>
+                                                                    <div className="small">
+                                                                        <i className="fas fa-file me-1"></i>
+                                                                        {documentFileName} 
+                                                                        <span className="text-muted ms-2">
+                                                                            ({Math.round(documentFile.size / 1024)} KB)
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                
+                                                {/* Pesan jika belum memenuhi semua persyaratan */}
+                                                {!validateChecklist() && (
+                                                    <div className="alert alert-warning mt-3">
+                                                        <i className="fas fa-exclamation-triangle me-2"></i>
+                                                        <strong>Perhatian:</strong> Anda belum mencentang semua persyaratan yang diperlukan.
+                                                        Harap pastikan semua dokumen sudah tersedia sebelum mengunggah file PDF.
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {/* Keterangan Section */}
                                 <div className="row mb-4">
                                     <div className="col-12">
@@ -1010,6 +1364,11 @@ export default function PengajuanCreate() {
                                                     setTujuan("");
                                                     setTujuandpc("");
                                                     setFilteredCities([]);
+                                                    setChecklistItems(prev => 
+                                                        prev.map(item => ({ ...item, checked: false }))
+                                                    );
+                                                    setDocumentFile(null);
+                                                    setDocumentFileName("");
                                                     setIsConfirmed(false);
                                                 }}
                                                 disabled={isFormDisabled() || isLoading}
