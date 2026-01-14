@@ -53,43 +53,30 @@ export default function PengajuanCreate() {
     const [documentFile, setDocumentFile] = useState(null);
     const [documentFileName, setDocumentFileName] = useState("");
     
-    // State untuk ceklist persyaratan
+    // State untuk ceklist persyaratan - HILANGKAN 2 ITEM
     const [checklistItems, setChecklistItems] = useState([
         {
             id: 1,
-            label: "Surat keterangan dari DPW/DPC",
-            description: "Surat keterangan resmi dari DPW/DPC asal",
-            checked: false,
-            required: true
-        },
-        {
-            id: 2,
             label: "Akun Satu Sehat aktif",
             description: "Screenshot profil biodata akun Satu Sehat yang aktif",
             checked: false,
             required: true
         },
         {
-            id: 3,
+            id: 2,
             label: "STR Seumur Hidup",
             description: "Scan STR Seumur Hidup yang masih berlaku",
             checked: false,
             required: true
         },
         {
-            id: 4,
+            id: 3,
             label: "Pencabutan SIP tempat lama",
             description: "Scan dokumen pencabutan SIP di tempat kerja lama",
             checked: false,
             required: true
-        },
-        {
-            id: 5,
-            label: "Surat permohonan mutasi",
-            description: "Surat permohonan mutasi yang ditandatangani",
-            checked: false,
-            required: true
         }
+        // Hapus: "Surat keterangan dari DPW/DPC" dan "Surat permohonan mutasi"
     ]);
 
     // =========== FUNGSI UNTUK CEKLIST PERSYARATAN ===========
