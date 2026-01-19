@@ -11,8 +11,8 @@ class VideoController extends Controller
 {
     public function index()
     {
-         $videos = Video::when(request()->q, function($videos) {
-            $videos = $videos->where('name', 'like', '%'. request()->q . '%');
+        $videos = Video::when(request()->q, function ($videos) {
+            $videos = $videos->where('name', 'like', '%' . request()->q . '%');
         })->latest()->paginate(10);
 
         $videos->appends(['q' => request()->q]);
@@ -50,5 +50,21 @@ class VideoController extends Controller
         return redirect()->route('account.videos.index')->with([
             'success' => 'Video berhasil ditambahkan!'
         ]);
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $video = Video::findOrFail($id);
+            $video->delete();
+
+            return redirect()->route('account.videos.index')->with([
+                'success' => 'Video berhasil dihapus!'
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route('account.videos.index')->with([
+                'error' => 'Gagal menghapus video: ' . $e->getMessage()
+            ]);
+        }
     }
 }
