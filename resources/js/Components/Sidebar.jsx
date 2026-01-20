@@ -209,6 +209,11 @@ export default function Sidebar() {
                                         <i className="fa fa-address-card me-3"></i> SIG
                                     </Link>
                                 )}
+                                {hasAnyPermission(["videousers.index"]) && (
+                                    <Link href="/account/materi" className={getActiveClass("/account/materi")}>
+                                        <i className="fa fa-video me-3"></i> Materi Video
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     )}
