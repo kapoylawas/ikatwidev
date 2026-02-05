@@ -7,6 +7,7 @@
         <th>Pendidikan</th>
         <th>Status Kepegawaian</th>
         <th>Tempat Bekerja </th>
+        <th>alamat Bekerja </th>
     </tr>
     @foreach ($data as $user)
         <tr>
@@ -17,6 +18,7 @@
             <td>{{ $user->pendidikan }}</td>
             <td>{{ $user->kepegawaian }}</td>
             <td>{{ $user->bekerja }}</td>
+            <td>{{ $user->alamat_tempat_bekerja }}</td>
         </tr>
     @endforeach
 </table>
