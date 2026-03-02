@@ -52,10 +52,10 @@ export default function CartIndex() {
                                                                                     cart
                                                                                         .product
                                                                                         .title
-                                                                                }{" "}
-                                                                                {
-                                                                                    cart.tahun
                                                                                 }
+                                                                                {cart.tahun && cart.tahun !== "-" && (
+                                                                                    <> {" "}{cart.tahun}</>
+                                                                                )}
                                                                             </h4>
 
                                                                             <div className="row">

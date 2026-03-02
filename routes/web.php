@@ -81,6 +81,9 @@ Route::prefix('account')->group(function () {
         //route resource materi videos
         Route::resource('/materi', \App\Http\Controllers\Account\MateriController::class, ['as' => 'account'])->middleware('permission:videousers.index');
 
+        //route resource materi videos
+        Route::resource('/donasi', \App\Http\Controllers\Account\DonasiController::class, ['as' => 'account'])->middleware('permission:videousers.index');
+
         //route resource print
         Route::resource('/print', \App\Http\Controllers\Account\PengajuanPrintController::class, ['as' => 'account'])->middleware('permission:pengajuan.index');
 

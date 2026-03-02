@@ -97,7 +97,10 @@ class CheckoutController extends Controller
 
         DB::transaction(function () use ($duitkuConfig, $request) {
 
-            $tahun = date("Y");
+            // Get tahun from first cart item, fallback to current year
+            $firstCart = Cart::where('user_id', auth()->user()->id)->first();
+            $tahun = $firstCart && $firstCart->tahun !== null ? $firstCart->tahun : date("Y");
+            
             $paymentAmount      = $request->grand_total;
             $email              = $request->email;
             $merchantOrderId    = 'INV-' . time();

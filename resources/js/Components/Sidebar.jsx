@@ -214,9 +214,14 @@ export default function Sidebar() {
                                         <i className="fa fa-video me-3"></i> Materi Video
                                     </Link>
                                 )}
+                                {hasAnyPermission(["videousers.index"]) && (
+                                    <Link href="/account/donasi" className={getActiveClass("/account/donasi")}>
+                                        <i className="fa fa-donate me-3"></i> Donasi
+                                    </Link>
+                                )}
                             </div>
-                        </div>
-                    )}
+                            </div>
+                        )}
 
                 {/* Keuangan */}
                 {(hasAnyPermission(["tagihan.index"]) ||

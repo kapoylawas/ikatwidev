@@ -16,8 +16,15 @@ class CartController extends Controller
                 ->latest()
                 ->get();
         
+        //calculate total price
+        $totalPrice = $carts->sum('price');
+        
         return inertia('Web/Carts/Index', [
             'carts'       => $carts,
+            'dataCarts'   => [
+                'price' => $totalPrice,
+                'count' => $carts->count(),
+            ],
         ]);
     }
 
