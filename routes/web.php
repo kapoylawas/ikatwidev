@@ -190,6 +190,10 @@ Route::prefix('account')->group(function () {
         Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
             ->middleware('permission:transactions.show');
 
+        //route transaksi donasi index
+        Route::get('/transaksi-donasi', [App\Http\Controllers\Account\TransaksiDonasiController::class, 'index'])->name('account.transaksi-donasi.index')
+            ->middleware('permission:transactions.index');
+
         //route resource sliders
         Route::resource('/sliders', App\Http\Controllers\Account\SliderController::class, ['except' => ['create', 'show', 'edit', 'update'], 'as' => 'account'])
             ->middleware('permission:sliders.index|sliders.create|sliders.delete');

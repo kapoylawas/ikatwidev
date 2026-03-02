@@ -243,6 +243,12 @@ export default function Sidebar() {
                                         <i className="fa fa-exchange-alt me-3"></i> Transaksi
                                     </Link>
                                 )}
+
+                                {hasAnyPermission(["transactions.index"]) && (
+                                    <Link href="/account/transaksi-donasi" className={getActiveClass("/account/transaksi-donasi")}>
+                                        <i className="fa fa-hand-holding-heart me-3"></i> Transaksi Donasi
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     )}
