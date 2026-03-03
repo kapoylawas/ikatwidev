@@ -123,8 +123,9 @@ class CheckoutController extends Controller
                 'courier_cost'              => $request->courier_cost,
                 'grand_total'               => $request->grand_total,
                 'address'                   => $request->address,
-                'cek_ts'                   => 1,
+                'cek_ts'                    => 1,
                 'status'                    => 'UNPAID',
+                'keterangan'                => $firstCart->keterangan ?? null,
             ]);
 
             //create transaction details & item details
@@ -143,6 +144,7 @@ class CheckoutController extends Controller
                     'qty'               => $cart->qty,
                     'price'             => $cart->price,
                     'tahun'             => $cart->tahun,
+                    'keterangan'        => $cart->keterangan,
                 ]);
 
                 //assign item details

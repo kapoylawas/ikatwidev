@@ -62,8 +62,9 @@ class CartController extends Controller
                 'size'          => $request->size,
                 'price'         => (int) $request->price,
                 'qty'           => $request->qty,
-                'tahun'           => 2023,
-                'weight'        => $request->weight
+                'tahun'         => 2023,
+                'weight'        => $request->weight,
+                'keterangan'    => $request->keterangan ?? null,
             ]);
 
         }

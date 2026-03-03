@@ -55,6 +55,7 @@ class DonasiController extends Controller
                 'price'         => (int) $request->price,
                 'qty'           => "1",
                 'tahun'         => "",
+                'keterangan'    => $request->keterangan ?? null,
             ]);
 
         }

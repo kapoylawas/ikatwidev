@@ -11,6 +11,7 @@ export default function DonasiIndex() {
         product_id: donasi?.id || "",
         price: "",
         size: "Donasi",
+        keterangan: "",
     });
 
     const formatRupiah = (value) => {
@@ -44,7 +45,10 @@ export default function DonasiIndex() {
         }
         
         post("/account/donasi", {
-            onSuccess: () => setDisplayNominal(""),
+            onSuccess: () => {
+                setDisplayNominal("");
+                setData("keterangan", "");
+            },
         });
     };
 
@@ -174,6 +178,21 @@ export default function DonasiIndex() {
                                             {errors.price && (
                                                 <div className="invalid-feedback d-block">{errors.price}</div>
                                             )}
+                                        </div>
+
+                                        {/* Keterangan Input */}
+                                        <div className="mb-4">
+                                            <label className="form-label text-muted small fw-bold text-uppercase">
+                                                <i className="fa fa-comment-alt me-1"></i>
+                                                Keterangan (Opsional)
+                                            </label>
+                                            <textarea
+                                                className="form-control border-2 border-primary rounded-3"
+                                                rows="3"
+                                                placeholder="Tulis keterangan atau doa Anda di sini..."
+                                                value={data.keterangan}
+                                                onChange={(e) => setData("keterangan", e.target.value)}
+                                            />
                                         </div>
 
                                         {/* Info */}

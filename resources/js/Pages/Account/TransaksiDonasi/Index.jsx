@@ -17,7 +17,7 @@ export default function TransaksiDonasiIndex() {
                 );
             case "UNPAID":
                 return (
-                    <span className="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">
+                    <span className="badge bg-warning text-dark px-3 py-2 rounded-pill">
                         <i className="fa fa-clock me-1"></i> MENUNGGU
                     </span>
                 );
@@ -116,7 +116,7 @@ export default function TransaksiDonasiIndex() {
                                             <tr>
                                                 <th className="border-0">No. Invoice</th>
                                                 <th className="border-0">Nama Donatur</th>
-                                                {/* <th className="border-0">DPC/DPW</th> */}
+                                                <th className="border-0">Keterangan</th>
                                                 <th className="border-0">Nominal</th>
                                                 <th className="border-0">Status</th>
                                                 <th className="border-0">Tanggal</th>
@@ -141,14 +141,16 @@ export default function TransaksiDonasiIndex() {
                                                             </span>
                                                         </div>
                                                     </td>
-                                                    {/* <td>
-                                                        <small className="d-block text-muted">
-                                                            {transaksi.city?.name}
-                                                        </small>
-                                                        <small className="text-muted">
-                                                            {transaksi.province?.name}
-                                                        </small>
-                                                    </td> */}
+                                                    <td>
+                                                        {transaksi.keterangan ? (
+                                                            <span className="text-dark">
+                                                                <i className="fa fa-comment-alt text-primary me-1"></i>
+                                                                {transaksi.keterangan}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-muted fst-italic">-</span>
+                                                        )}
+                                                    </td>
                                                     <td>
                                                         <span className="fw-bold text-primary fs-5">
                                                             Rp {FormatPrice(transaksi.grand_total)}

@@ -25,7 +25,8 @@ class Transaction extends Model
         'cek_ts',
         'reference',
         'tahun',
-        'address'
+        'address',
+        'keterangan',
     ];
 
     /**

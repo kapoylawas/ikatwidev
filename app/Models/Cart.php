@@ -19,7 +19,8 @@ class Cart extends Model
         'price',
         'qty',
         'weight',
-        'tahun'
+        'tahun',
+        'keterangan',
     ];
 
     /**
