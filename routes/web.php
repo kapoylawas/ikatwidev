@@ -185,10 +185,14 @@ Route::prefix('account')->group(function () {
         //route transactions index
         Route::get('/transactions', [App\Http\Controllers\Account\TransactionController::class, 'index'])->name('account.transactions.index')
             ->middleware('permission:transactions.index');
-
+        
         //route transactions show
         Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
             ->middleware('permission:transactions.show');
+        
+        //route transactions delete
+        Route::delete('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'destroy'])->name('account.transactions.destroy')
+            ->middleware('permission:transactions.index');
 
         //route transaksi donasi index
         Route::get('/transaksi-donasi', [App\Http\Controllers\Account\TransaksiDonasiController::class, 'index'])->name('account.transaksi-donasi.index')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Exports\TransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -60,6 +61,19 @@ class TransactionController extends Controller
         return inertia('Account/Transactions/Show', [
             'transaction' => $transaction,
         ]);
+    }
+
+    public function destroy($invoice)
+    {
+        $transaction = Transaction::where('invoice', $invoice)->firstOrFail();
+        
+        // delete transaction details first
+        $transaction->transactionDetails()->delete();
+        
+        // delete transaction
+        $transaction->delete();
+
+        return redirect()->route('account.transactions.index');
     }
 
     public function export()

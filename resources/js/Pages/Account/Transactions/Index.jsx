@@ -7,6 +7,12 @@ import LayoutAccount from "../../../Layouts/Account";
 //import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
+//import inertia
+import { Inertia } from "@inertiajs/inertia";
+
+//import Sweet Alert
+import Swal from "sweetalert2";
+
 //import permissions
 import hasAnyPermission from "../../../Utils/Permissions";
 
@@ -22,6 +28,33 @@ import Pagination from "../../../Shared/Pagination";
 export default function TransactionIndex() {
     //destruct props "transactions"
     const { transactions } = usePage().props;
+
+    const destroy = (invoice) => {
+        Swal.fire({
+            title: "Hapus Transaksi?",
+            text: "Data transaksi akan dihapus permanen dan tidak dapat dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Inertia.delete(`/account/transactions/${invoice}`, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: "Terhapus!",
+                            text: "Transaksi berhasil dihapus.",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                    },
+                });
+            }
+        });
+    };
 
     return (
         <>
@@ -162,6 +195,16 @@ export default function TransactionIndex() {
                                                                 >
                                                                     <i className="fa fa-list-ul"></i>
                                                                 </Link>
+                                                            )}
+                                                            {hasAnyPermission([
+                                                                "transactions.index",
+                                                            ]) && (
+                                                                <button
+                                                                    onClick={() => destroy(transaction.invoice)}
+                                                                    className="btn btn-danger btn-sm"
+                                                                >
+                                                                    <i className="fa fa-trash"></i>
+                                                                </button>
                                                             )}
                                                         </td>
                                                     </tr>
