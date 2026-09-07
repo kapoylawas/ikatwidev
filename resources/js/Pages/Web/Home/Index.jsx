@@ -366,7 +366,7 @@ export default function HomeIndex() {
                                 </span>
                             </div>
 
-                            {/* 3D App Grid: 4 columns */}
+                            {/* 3D App Grid: 2 columns on mobile, 4 columns on desktop */}
                             <div className="row g-2.5 g-sm-3">
                                 {menuItems.map((item, index) => {
                                     const CardContent = (
@@ -379,7 +379,7 @@ export default function HomeIndex() {
                                                 boxShadow: '0 6px 18px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04)',
                                                 transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
                                                 minHeight: '124px',
-                                                padding: '14px 10px',
+                                                padding: '16px 12px',
                                             }}
                                         >
                                             {/* Top Badge */}
@@ -392,7 +392,7 @@ export default function HomeIndex() {
                                                         fontSize: '0.62rem',
                                                         fontWeight: 800,
                                                         letterSpacing: '0.03em',
-                                                        padding: '3px 7px',
+                                                        padding: '3px 8px',
                                                         border: '1px solid rgba(255,255,255,0.4)',
                                                     }}
                                                 >
@@ -404,8 +404,8 @@ export default function HomeIndex() {
                                             <div
                                                 className="app-3d-icon d-flex align-items-center justify-content-center mb-2.5"
                                                 style={{
-                                                    width: '54px',
-                                                    height: '54px',
+                                                    width: '52px',
+                                                    height: '52px',
                                                     borderRadius: '16px',
                                                     background: item.gradient,
                                                     boxShadow: `0 8px 20px -3px ${item.shadowColor}, inset 0 1px 1px rgba(255,255,255,0.5)`,
@@ -418,17 +418,17 @@ export default function HomeIndex() {
                                             </div>
 
                                             {/* Label */}
-                                            <div className="card-item-title fw-bold text-truncate w-100" style={{ fontSize: '0.88rem', color: '#0f172a', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+                                            <div className="card-item-title fw-bold w-100 text-truncate px-1" style={{ fontSize: '0.9rem', color: '#0f172a', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
                                                 {item.name}
                                             </div>
-                                            <div className="card-item-subtitle text-truncate w-100 mt-0.5" style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 500 }}>
+                                            <div className="card-item-subtitle w-100 text-truncate px-1 mt-0.5" style={{ fontSize: '0.74rem', color: '#64748b', fontWeight: 500 }}>
                                                 {item.subtitle}
                                             </div>
                                         </div>
                                     );
 
                                     return (
-                                        <div className="col-3 col-md-3" key={index}>
+                                        <div className="col-6 col-sm-6 col-md-3" key={index}>
                                             {item.external ? (
                                                 <a
                                                     href={item.href}
