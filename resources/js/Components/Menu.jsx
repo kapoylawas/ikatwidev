@@ -9,7 +9,7 @@ import axios from "axios";
 
 export default function Menu() {
     //destruct props "auth" & "url"
-    const { auth, url } = usePage().props;
+    const { auth } = usePage().props;
 
     //define state
     const [products, setProducts] = useState([]);
@@ -43,25 +43,27 @@ export default function Menu() {
 
     return (
         <>
-            {/* Floating 3D Mobile Navigation Dock */}
+            {/* Floating 3D Mobile Navigation Dock - Max Width 820px to match cards */}
             <nav
                 className="fixed-bottom mx-auto p-1"
                 style={{
-                    maxWidth: '460px',
+                    maxWidth: '820px',
                     width: 'calc(100% - 24px)',
-                    bottom: '14px',
+                    bottom: '12px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
                     zIndex: 1040,
                 }}
             >
                 <div
-                    className="d-flex align-items-center justify-content-around py-2 px-1 shadow-lg"
+                    className="d-flex align-items-center justify-content-around py-2 px-2 shadow-lg"
                     style={{
-                        backgroundColor: 'rgba(6, 78, 59, 0.94)',
+                        backgroundColor: 'rgba(6, 78, 59, 0.95)',
                         backdropFilter: 'blur(16px)',
                         WebkitBackdropFilter: 'blur(16px)',
-                        borderRadius: '24px',
+                        borderRadius: '20px',
                         border: '1px solid rgba(255, 255, 255, 0.18)',
-                        boxShadow: '0 16px 36px -6px rgba(6, 78, 59, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
+                        boxShadow: '0 12px 30px -4px rgba(6, 78, 59, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
                     }}
                 >
                     {/* Item: Beranda */}
@@ -84,9 +86,9 @@ export default function Menu() {
                                 boxShadow: isCurrent('/') ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
                             }}
                         >
-                            <i className="fa fa-home" style={{ fontSize: '1.15rem' }}></i>
+                            <i className="fas fa-home" style={{ fontSize: '1.15rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/') ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: isCurrent('/') ? 700 : 500, letterSpacing: '0.02em' }}>
                             Beranda
                         </span>
                     </Link>
@@ -111,9 +113,9 @@ export default function Menu() {
                                 boxShadow: isCurrent('/account/tagihan') ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
                             }}
                         >
-                            <i className="fa fa-receipt" style={{ fontSize: '1.05rem' }}></i>
+                            <i className="fas fa-file-invoice-dollar" style={{ fontSize: '1.05rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/account/tagihan') ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: isCurrent('/account/tagihan') ? 700 : 500, letterSpacing: '0.02em' }}>
                             Tagihan
                         </span>
                     </Link>
@@ -138,9 +140,9 @@ export default function Menu() {
                                 boxShadow: isCurrent('/account/ekta') ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
                             }}
                         >
-                            <i className="fa fa-id-card" style={{ fontSize: '1.05rem' }}></i>
+                            <i className="fas fa-id-card" style={{ fontSize: '1.05rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/account/ekta') ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: isCurrent('/account/ekta') ? 700 : 500, letterSpacing: '0.02em' }}>
                             e-KTA
                         </span>
                     </Link>
@@ -165,9 +167,9 @@ export default function Menu() {
                                 boxShadow: (isCurrent('/account/dashboard') || isCurrent('/login')) ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
                             }}
                         >
-                            <i className="fa fa-user-circle" style={{ fontSize: '1.15rem' }}></i>
+                            <i className="fas fa-user-circle" style={{ fontSize: '1.15rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.68rem', fontWeight: (isCurrent('/account/dashboard') || isCurrent('/login')) ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: (isCurrent('/account/dashboard') || isCurrent('/login')) ? 700 : 500, letterSpacing: '0.02em' }}>
                             {auth && auth.user ? "Akun" : "Masuk"}
                         </span>
                     </Link>
@@ -180,7 +182,7 @@ export default function Menu() {
                     <div className="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
                         <div className="modal-header text-white" style={{ backgroundColor: '#064e3b' }}>
                             <h6 className="modal-title fw-bold" id="exampleModalLabel">
-                                <i className="fa fa-search me-2"></i> Pencarian
+                                <i className="fas fa-search me-2"></i> Pencarian
                             </h6>
                             <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>

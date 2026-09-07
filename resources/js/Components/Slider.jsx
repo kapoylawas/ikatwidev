@@ -7,14 +7,13 @@ import { usePage } from '@inertiajs/inertia-react';
 export default function Slider() {
     //destruct props sliders
     const { sliders = [] } = usePage().props;
-    const [brokenImages, setBrokenImages] = useState({});
+    const [imgError, setImgError] = useState(false);
 
-    const validSliders = Array.isArray(sliders) ? sliders.filter((_, idx) => !brokenImages[idx]) : [];
-    const hasValidSliders = validSliders.length > 0;
+    const hasSliders = Array.isArray(sliders) && sliders.length > 0 && !imgError;
 
     return (
         <div className="slider-wrapper mb-4">
-            {hasValidSliders ? (
+            {hasSliders ? (
                 <div
                     id="carouselHomeSlider"
                     className="carousel slide shadow-md overflow-hidden"
@@ -25,7 +24,7 @@ export default function Slider() {
                     }}
                 >
                     <div className="carousel-indicators">
-                        {validSliders.map((_, index) => (
+                        {sliders.map((_, index) => (
                             <button
                                 key={index}
                                 type="button"
@@ -38,25 +37,23 @@ export default function Slider() {
                         ))}
                     </div>
                     <div className="carousel-inner">
-                        {validSliders.map((slider, index) => (
+                        {sliders.map((slider, index) => (
                             <div className={`${index === 0 ? "active carousel-item" : "carousel-item"}`} key={index}>
                                 <img
                                     src={slider.image}
                                     className="d-block w-100 object-fit-cover"
-                                    alt={slider.title || "IKATWI Banner"}
+                                    alt={slider.title || "IKATWI"}
                                     style={{
                                         maxHeight: '220px',
                                         minHeight: '160px',
                                         objectFit: 'cover',
                                     }}
-                                    onError={() => {
-                                        setBrokenImages(prev => ({ ...prev, [index]: true }));
-                                    }}
+                                    onError={() => setImgError(true)}
                                 />
                             </div>
                         ))}
                     </div>
-                    {validSliders.length > 1 && (
+                    {sliders.length > 1 && (
                         <>
                             <button className="carousel-control-prev" type="button" data-bs-target="#carouselHomeSlider" data-bs-slide="prev">
                                 <span className="carousel-control-prev-icon rounded-circle p-2.5" style={{ backgroundColor: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(4px)' }} aria-hidden="true"></span>
@@ -72,7 +69,7 @@ export default function Slider() {
             ) : (
                 /* 3D Modern Hero Banner */
                 <div
-                    className="hero-3d-banner p-4 p-sm-4 text-white position-relative overflow-hidden shadow-lg"
+                    className="hero-3d-banner p-4 text-white position-relative overflow-hidden shadow-lg"
                     style={{
                         borderRadius: '20px',
                         background: 'linear-gradient(135deg, #064e3b 0%, #047857 45%, #059669 100%)',
@@ -80,10 +77,10 @@ export default function Slider() {
                     }}
                 >
                     <div
-                        className="position-absolute end-0 bottom-0 opacity-10 pointer-events-none p-2"
-                        style={{ transform: 'translate(10%, 15%)' }}
+                        className="position-absolute end-0 top-50 translate-middle-y opacity-10 pointer-events-none me-3"
+                        style={{ pointerEvents: 'none' }}
                     >
-                        <img src="/assets/images/logo.png" alt="IKATWI Watermark" style={{ width: '180px', height: 'auto' }} />
+                        <img src="/assets/images/logo.png" alt="IKATWI Watermark" style={{ width: '130px', height: 'auto' }} />
                     </div>
 
                     <div className="position-relative z-1">
@@ -103,7 +100,7 @@ export default function Slider() {
                         <h4 className="fw-bold mb-1.5 text-white" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.25)', letterSpacing: '-0.01em' }}>
                             Portal Digital IKATWI
                         </h4>
-                        <p className="mb-0 text-white-50 small" style={{ maxWidth: '520px', lineHeight: 1.45, fontSize: '0.8rem' }}>
+                        <p className="mb-0 text-white-50 small" style={{ maxWidth: '540px', lineHeight: 1.45, fontSize: '0.8rem' }}>
                             Mewujudkan pelayanan terapi wicara yang profesional, mandiri, bermartabat, dan terstandarisasi di seluruh Indonesia.
                         </p>
                     </div>
