@@ -120,14 +120,15 @@ export default function UserEdit() {
                         <div className="d-flex align-items-center gap-3">
                             <Link
                                 href="/account/biodatas"
-                                className="btn btn-light border d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 text-dark fw-semibold"
+                                className="btn btn-light border d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 fw-semibold"
+                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                             >
                                 <i className="fa fa-arrow-left"></i>
                                 <span>Kembali</span>
                             </Link>
                             <div>
-                                <h4 className="mb-0 fw-bold text-dark">Edit Biodata Anggota</h4>
-                                <small className="text-muted">Perbarui data profil, pendidikan, dan institusi kerja</small>
+                                <h4 className="mb-0 fw-bold" style={{ color: '#0f172a' }}>Edit Biodata Anggota</h4>
+                                <small style={{ color: '#64748b' }}>Perbarui data profil, pendidikan, dan institusi kerja</small>
                             </div>
                         </div>
 
@@ -137,11 +138,11 @@ export default function UserEdit() {
                                 onClick={updateUser}
                                 disabled={isLoading}
                                 className="btn btn-success fw-bold d-inline-flex align-items-center gap-2 px-4 py-2 rounded-3 shadow-sm"
-                                style={{ backgroundColor: '#059669', borderColor: '#059669' }}
+                                style={{ backgroundColor: '#059669', borderColor: '#059669', color: '#ffffff' }}
                             >
                                 {isLoading ? (
                                     <>
-                                        <span className="spinner-border spinner-border-sm" role="status"></span>
+                                        <span className="spinner-border spinner-border-sm text-light" role="status"></span>
                                         <span>Menyimpan...</span>
                                     </>
                                 ) : (
@@ -159,45 +160,49 @@ export default function UserEdit() {
                             
                             {/* 1. Data Pribadi & Kontak */}
                             <div className="col-12 col-lg-6">
-                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                <div className="card border-0 shadow-sm rounded-4 h-100" style={{ backgroundColor: '#ffffff' }}>
                                     <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
-                                        <div className="p-2 bg-success bg-opacity-10 text-success rounded-3">
+                                        <div className="p-2 rounded-3" style={{ backgroundColor: '#ecfdf5', color: '#059669' }}>
                                             <i className="fa fa-user"></i>
                                         </div>
-                                        <h6 className="mb-0 fw-bold text-dark">Data Pribadi & Kontak</h6>
+                                        <h6 className="mb-0 fw-bold" style={{ color: '#0f172a' }}>Data Pribadi & Kontak</h6>
                                     </div>
                                     <div className="card-body p-3.5">
                                         
                                         {/* Avatar preview & upload */}
-                                        <div className="d-flex align-items-center gap-3 mb-4 p-3 bg-light rounded-3 border">
+                                        <div 
+                                            className="d-flex align-items-center gap-3 mb-4 p-3 rounded-3"
+                                            style={{ backgroundColor: '#f8fafc', border: '1.5px dashed #cbd5e1' }}
+                                        >
                                             <img
                                                 src={imagePreview}
                                                 alt="Preview Foto"
-                                                className="rounded-circle border"
-                                                style={{ width: "64px", height: "64px", objectFit: "cover" }}
+                                                className="rounded-circle"
+                                                style={{ width: "64px", height: "64px", objectFit: "cover", border: '2px solid #059669', backgroundColor: '#ffffff' }}
                                                 onError={(e) => {
                                                     e.target.onerror = null;
                                                     e.target.src = "/assets/images/user.png";
                                                 }}
                                             />
                                             <div className="flex-grow-1">
-                                                <label className="form-label small fw-bold text-dark mb-1">
-                                                    Ganti Pas Foto (Opsional)
+                                                <label className="form-label small fw-bold mb-1 d-block" style={{ color: '#0f172a' }}>
+                                                    <i className="fa fa-camera text-success me-1.5"></i> Ganti Pas Foto (Opsional)
                                                 </label>
                                                 <input
                                                     type="file"
                                                     accept="image/*"
                                                     className="form-control form-control-sm"
                                                     onChange={handleImageChange}
+                                                    style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                 />
-                                                <small className="text-muted" style={{ fontSize: "0.75rem" }}>
-                                                    Format: JPG, PNG. Maksimal 2MB.
+                                                <small className="d-block mt-1" style={{ fontSize: "0.75rem", color: '#64748b' }}>
+                                                    Format: JPG, JPEG, PNG. Maksimal 2MB.
                                                 </small>
                                             </div>
                                         </div>
 
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Nama Lengkap & Gelar <span className="text-danger">*</span>
                                             </label>
                                             <input
@@ -206,6 +211,7 @@ export default function UserEdit() {
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
                                                 placeholder="Contoh: Dobe Darmawan Ricci Yuliarna, A.Md.TW"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                 required
                                             />
                                             {errors.name && <div className="invalid-feedback">{errors.name}</div>}
@@ -213,7 +219,7 @@ export default function UserEdit() {
 
                                         <div className="row g-2 mb-3">
                                             <div className="col-sm-6">
-                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                     NIK (16 Digit) <span className="text-danger">*</span>
                                                 </label>
                                                 <input
@@ -223,12 +229,13 @@ export default function UserEdit() {
                                                     onChange={(e) => setNik(e.target.value)}
                                                     maxLength={16}
                                                     placeholder="16 digit NIK KTP"
+                                                    style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                     required
                                                 />
                                                 {errors.nik && <div className="invalid-feedback">{errors.nik}</div>}
                                             </div>
                                             <div className="col-sm-6">
-                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                     Email Terdaftar <span className="text-danger">*</span>
                                                 </label>
                                                 <input
@@ -237,6 +244,7 @@ export default function UserEdit() {
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
                                                     placeholder="nama@email.com"
+                                                    style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                     required
                                                 />
                                                 {errors.email && <div className="invalid-feedback">{errors.email}</div>}
@@ -245,7 +253,7 @@ export default function UserEdit() {
 
                                         <div className="row g-2 mb-3">
                                             <div className="col-sm-6">
-                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                     Tempat Lahir
                                                 </label>
                                                 <input
@@ -254,10 +262,11 @@ export default function UserEdit() {
                                                     value={tempatlahir}
                                                     onChange={(e) => setTempatlahir(e.target.value)}
                                                     placeholder="Kota / Tempat Kelahiran"
+                                                    style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                 />
                                             </div>
                                             <div className="col-sm-6">
-                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                     Tanggal Lahir
                                                 </label>
                                                 <input
@@ -265,12 +274,13 @@ export default function UserEdit() {
                                                     className="form-control"
                                                     value={tgllahir}
                                                     onChange={(e) => setTgllahir(e.target.value)}
+                                                    style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Nomor Telepon / WhatsApp <span className="text-danger">*</span>
                                             </label>
                                             <input
@@ -279,13 +289,14 @@ export default function UserEdit() {
                                                 value={phone}
                                                 onChange={(e) => setPhone(e.target.value)}
                                                 placeholder="Contoh: 08123456789"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                 required
                                             />
                                             {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                                         </div>
 
                                         <div className="mb-0">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Alamat Sesuai KTP
                                             </label>
                                             <textarea
@@ -294,6 +305,7 @@ export default function UserEdit() {
                                                 value={alamat}
                                                 onChange={(e) => setAlamat(e.target.value)}
                                                 placeholder="Alamat lengkap sesuai KTP"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             ></textarea>
                                         </div>
 
@@ -303,23 +315,24 @@ export default function UserEdit() {
 
                             {/* 2. Riwayat Pendidikan */}
                             <div className="col-12 col-lg-6">
-                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                <div className="card border-0 shadow-sm rounded-4 h-100" style={{ backgroundColor: '#ffffff' }}>
                                     <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
-                                        <div className="p-2 bg-primary bg-opacity-10 text-primary rounded-3">
+                                        <div className="p-2 rounded-3" style={{ backgroundColor: '#eff6ff', color: '#2563eb' }}>
                                             <i className="fa fa-graduation-cap"></i>
                                         </div>
-                                        <h6 className="mb-0 fw-bold text-dark">Riwayat Pendidikan</h6>
+                                        <h6 className="mb-0 fw-bold" style={{ color: '#0f172a' }}>Riwayat Pendidikan</h6>
                                     </div>
                                     <div className="card-body p-3.5">
                                         
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Jenjang Pendidikan Terapi Wicara
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={pendidikan}
                                                 onChange={(e) => setPendidikan(e.target.value)}
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             >
                                                 <option value="">-- Pilih Jenjang Pendidikan --</option>
                                                 <option value="D3">D3 (Diploma Tiga)</option>
@@ -330,13 +343,14 @@ export default function UserEdit() {
                                         </div>
 
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Nama Perguruan Tinggi Terapi Wicara
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={istitusi}
                                                 onChange={(e) => setIstitusi(e.target.value)}
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             >
                                                 <option value="">-- Pilih Perguruan Tinggi --</option>
                                                 <option value="Poltekes Kemenkes Surakarta">Poltekes Kemenkes Surakarta</option>
@@ -350,7 +364,7 @@ export default function UserEdit() {
                                         </div>
 
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Alamat Perguruan Tinggi Terapi Wicara
                                             </label>
                                             <textarea
@@ -359,17 +373,19 @@ export default function UserEdit() {
                                                 value={almtistitusi}
                                                 onChange={(e) => setAlmtistitusi(e.target.value)}
                                                 placeholder="Alamat lengkap kampus almamater"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             ></textarea>
                                         </div>
 
                                         <div className="mb-0">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Pendidikan Non Terapi Wicara
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={nonlinear}
                                                 onChange={(e) => setNonlinear(e.target.value)}
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             >
                                                 <option value="">-- Pilih Jenjang Non-TW --</option>
                                                 <option value="Sarjana">Sarjana (S1)</option>
@@ -385,23 +401,24 @@ export default function UserEdit() {
 
                             {/* 3. Informasi Pekerjaan */}
                             <div className="col-12 col-lg-6">
-                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                <div className="card border-0 shadow-sm rounded-4 h-100" style={{ backgroundColor: '#ffffff' }}>
                                     <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
-                                        <div className="p-2 bg-purple bg-opacity-10 text-purple rounded-3" style={{ color: '#7c3aed', background: '#faf5ff' }}>
+                                        <div className="p-2 rounded-3" style={{ color: '#7c3aed', backgroundColor: '#faf5ff' }}>
                                             <i className="fa fa-briefcase"></i>
                                         </div>
-                                        <h6 className="mb-0 fw-bold text-dark">Informasi Pekerjaan</h6>
+                                        <h6 className="mb-0 fw-bold" style={{ color: '#0f172a' }}>Informasi Pekerjaan</h6>
                                     </div>
                                     <div className="card-body p-3.5">
                                         
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Status Kepegawaian
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={kepegawaian}
                                                 onChange={(e) => setKepegawaian(e.target.value)}
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             >
                                                 <option value="">-- Pilih Status Kepegawaian --</option>
                                                 <option value="PNS">PNS / ASN</option>
@@ -414,7 +431,7 @@ export default function UserEdit() {
                                         </div>
 
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Tempat / Jenis Unit Bekerja
                                             </label>
                                             <input
@@ -423,11 +440,12 @@ export default function UserEdit() {
                                                 value={bekerja}
                                                 onChange={(e) => setBekerja(e.target.value)}
                                                 placeholder="Contoh: Rumah Sakit, Klinik, Sekolah, dll"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             />
                                         </div>
 
                                         <div className="mb-3">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Nama Institusi / Faskes Tempat Bekerja
                                             </label>
                                             <input
@@ -436,11 +454,12 @@ export default function UserEdit() {
                                                 value={lokasipekerjaan}
                                                 onChange={(e) => setLokasipekerjaan(e.target.value)}
                                                 placeholder="Nama Rumah Sakit / Klinik / Instansi"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             />
                                         </div>
 
                                         <div className="mb-0">
-                                            <label className="form-label small fw-bold text-dark mb-1">
+                                            <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                 Alamat Institusi Tempat Bekerja
                                             </label>
                                             <textarea
@@ -449,6 +468,7 @@ export default function UserEdit() {
                                                 value={alamatTempatBekerja}
                                                 onChange={(e) => setAlamatTempatBekerja(e.target.value)}
                                                 placeholder="Alamat lengkap tempat bekerja"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                             ></textarea>
                                         </div>
 
@@ -458,36 +478,46 @@ export default function UserEdit() {
 
                             {/* 4. Organisasi & Keamanan Akun */}
                             <div className="col-12 col-lg-6">
-                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                <div className="card border-0 shadow-sm rounded-4 h-100" style={{ backgroundColor: '#ffffff' }}>
                                     <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
-                                        <div className="p-2 bg-warning bg-opacity-10 text-warning rounded-3">
+                                        <div className="p-2 rounded-3" style={{ backgroundColor: '#fffbeb', color: '#d97706' }}>
                                             <i className="fa fa-lock"></i>
                                         </div>
-                                        <h6 className="mb-0 fw-bold text-dark">Organisasi & Keamanan Akun</h6>
+                                        <h6 className="mb-0 fw-bold" style={{ color: '#0f172a' }}>Organisasi & Keamanan Akun</h6>
                                     </div>
                                     <div className="card-body p-3.5">
                                         
                                         <div className="row g-2 mb-3">
                                             <div className="col-sm-6">
-                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                     DPW Terdaftar
                                                 </label>
-                                                <select className="form-select bg-light" disabled value={provinceID}>
+                                                <select 
+                                                    className="form-select" 
+                                                    disabled 
+                                                    value={provinceID}
+                                                    style={{ backgroundColor: '#f1f5f9', color: '#334155', borderColor: '#cbd5e1' }}
+                                                >
                                                     <option value="">-- DPW --</option>
                                                     {provinces.map((prov) => (
                                                         <option key={prov.id} value={prov.id}>{prov.name}</option>
                                                     ))}
                                                 </select>
-                                                <small className="text-muted" style={{ fontSize: "0.72rem" }}>
+                                                <small className="d-block mt-1" style={{ fontSize: "0.72rem", color: '#64748b' }}>
                                                     Hubungi Admin jika ingin mutasi wilayah.
                                                 </small>
                                             </div>
 
                                             <div className="col-sm-6">
-                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                <label className="form-label small fw-bold mb-1" style={{ color: '#0f172a' }}>
                                                     DPC Terdaftar
                                                 </label>
-                                                <select className="form-select bg-light" disabled value={cityID}>
+                                                <select 
+                                                    className="form-select" 
+                                                    disabled 
+                                                    value={cityID}
+                                                    style={{ backgroundColor: '#f1f5f9', color: '#334155', borderColor: '#cbd5e1' }}
+                                                >
                                                     <option value="">-- DPC --</option>
                                                     {cities.map((ct) => (
                                                         <option key={ct.id} value={ct.id}>{ct.name}</option>
@@ -496,12 +526,15 @@ export default function UserEdit() {
                                             </div>
                                         </div>
 
-                                        <div className="p-3 bg-light rounded-3 border mb-3">
+                                        <div 
+                                            className="p-3 rounded-3 mb-3"
+                                            style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}
+                                        >
                                             <div className="d-flex align-items-center gap-2 mb-2">
-                                                <i className="fa fa-key text-emerald"></i>
-                                                <span className="small fw-bold text-dark">Ubah Password Akun (Opsional)</span>
+                                                <i className="fa fa-key text-success"></i>
+                                                <span className="small fw-bold" style={{ color: '#0f172a' }}>Ubah Password Akun (Opsional)</span>
                                             </div>
-                                            <p className="text-muted small mb-2" style={{ fontSize: "0.76rem" }}>
+                                            <p className="small mb-2" style={{ fontSize: "0.76rem", color: '#64748b' }}>
                                                 Biarkan kosong jika tidak ingin mengubah password akun Anda saat ini.
                                             </p>
 
@@ -514,6 +547,7 @@ export default function UserEdit() {
                                                         onChange={(e) => setPassword(e.target.value)}
                                                         placeholder="Password Baru"
                                                         autoComplete="new-password"
+                                                        style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                     />
                                                 </div>
                                                 <div className="col-sm-6">
@@ -524,6 +558,7 @@ export default function UserEdit() {
                                                         onChange={(e) => setPasswordConfirmation(e.target.value)}
                                                         placeholder="Konfirmasi Password"
                                                         autoComplete="new-password"
+                                                        style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
                                                     />
                                                 </div>
                                             </div>
@@ -531,14 +566,18 @@ export default function UserEdit() {
 
                                         {/* Action buttons */}
                                         <div className="d-flex justify-content-end gap-2 pt-2">
-                                            <Link href="/account/biodatas" className="btn btn-light border px-4 py-2 rounded-3 text-dark fw-semibold">
+                                            <Link 
+                                                href="/account/biodatas" 
+                                                className="btn btn-light border px-4 py-2 rounded-3 fw-semibold"
+                                                style={{ backgroundColor: '#ffffff', color: '#0f172a', borderColor: '#cbd5e1' }}
+                                            >
                                                 Batal
                                             </Link>
                                             <button
                                                 type="submit"
                                                 disabled={isLoading}
                                                 className="btn btn-success fw-bold px-4 py-2 rounded-3 shadow-sm"
-                                                style={{ backgroundColor: '#059669', borderColor: '#059669' }}
+                                                style={{ backgroundColor: '#059669', borderColor: '#059669', color: '#ffffff' }}
                                             >
                                                 {isLoading ? "Menyimpan..." : "Simpan Perubahan"}
                                             </button>

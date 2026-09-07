@@ -349,8 +349,8 @@ export default function BiodataIndex() {
 
                                         {/* QR Code Card Frame */}
                                         <div className="col-12">
-                                            <div className="p-3 rounded-3 bg-light border text-center">
-                                                <span className="d-block small text-muted fw-bold mb-2">QR Code E-KTA Resmi IKATWI</span>
+                                            <div className="p-3 rounded-3 border text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <span className="d-block small fw-bold mb-2" style={{ color: '#334155' }}>QR Code E-KTA Resmi IKATWI</span>
                                                 
                                                 {canAccessEkta ? (
                                                     <div className="d-flex flex-column align-items-center">
