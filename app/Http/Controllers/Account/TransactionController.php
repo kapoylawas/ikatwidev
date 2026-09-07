@@ -19,39 +19,51 @@ class TransactionController extends Controller
          * get role
          */
         $role = auth()->user()->getRoleNames();
-
         $searchString = request()->q;
+        $status = request()->status;
 
-        
         // Auto-expire transactions older than 24h & clean up superseded UNPAID
         Transaction::expireOldUnpaidTransactions();
 
         /**
-         * get transactions
+         * build query
          */
-        if ($role[0] == 'admin' || $role[0] == 'bendahara') {
+        $query = Transaction::query();
 
-            $transactions = Transaction::whereHas('user', function ($query) use ($searchString){
-                $query->where('name', 'like', '%'.$searchString.'%');
-            })
-            ->with(['user' => function($query) use ($searchString){
-                $query->where('name', 'like', '%'.$searchString.'%');
-            }])->latest()->paginate(10);
-        } else {
-            $transactions = Transaction::whereHas('user', function ($query) use ($searchString){
-                $query->where('name', 'like', '%'.$searchString.'%');
-            })
-            ->with(['user' => function($query) use ($searchString){
-                $query->where('name', 'like', '%'.$searchString.'%');
-            }])->where('user_id', auth()->user()->id)->latest()->paginate(10);
+        if ($role[0] != 'admin' && $role[0] != 'bendahara') {
+            $query->where('user_id', auth()->user()->id);
         }
 
+        if (!empty($searchString)) {
+            $query->where(function ($q) use ($searchString) {
+                $q->where('invoice', 'like', '%' . $searchString . '%')
+                  ->orWhereHas('user', function ($uq) use ($searchString) {
+                      $uq->where('name', 'like', '%' . $searchString . '%')
+                         ->orWhere('no_anggota', 'like', '%' . $searchString . '%')
+                         ->orWhere('email', 'like', '%' . $searchString . '%');
+                  });
+            });
+        }
+
+        if (!empty($status) && in_array($status, ['UNPAID', 'PAID', 'EXPIRED', 'CANCELLED'])) {
+            $query->where('status', $status);
+        }
+
+        $transactions = $query->with('user')->latest()->paginate(10);
+
         //append query string to pagination links
-        $transactions->appends(['q' => request()->q]);
+        $transactions->appends(array_filter([
+            'q' => $searchString,
+            'status' => $status,
+        ]));
 
         //return inertia
         return inertia('Account/Transactions/Index', [
             'transactions' => $transactions,
+            'filters' => [
+                'q' => $searchString ?? '',
+                'status' => $status ?? '',
+            ],
         ]);
     }
 
