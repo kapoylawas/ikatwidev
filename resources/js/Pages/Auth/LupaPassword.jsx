@@ -94,11 +94,20 @@ export default function LupaPassword() {
                         
                         {/* Header Title */}
                         <div className="p-4 text-center text-white" style={{ background: 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%)' }}>
-                            <div className="badge bg-white bg-opacity-20 px-3 py-1.5 rounded-pill mb-2 text-uppercase fw-semibold" style={{ fontSize: '0.72rem', letterSpacing: '0.08em' }}>
-                                <i className="fas fa-shield-alt me-1.5 text-warning"></i> Pemulihan Akun Resmi
+                            <div 
+                                className="d-inline-flex align-items-center justify-content-center px-3.5 py-1.5 rounded-pill mb-2 fw-bold text-uppercase shadow-sm" 
+                                style={{ 
+                                    backgroundColor: '#ffffff', 
+                                    color: '#064e3b', 
+                                    fontSize: '0.76rem', 
+                                    letterSpacing: '0.06em' 
+                                }}
+                            >
+                                <i className="fas fa-shield-alt text-warning me-2" style={{ fontSize: '0.85rem' }}></i>
+                                <span>Pemulihan Akun Resmi</span>
                             </div>
-                            <h4 className="fw-bold mb-1">Reset Password Anggota</h4>
-                            <p className="text-white-50 small mb-0" style={{ fontSize: '0.84rem' }}>
+                            <h4 className="fw-bold mb-1 text-white">Reset Password Anggota</h4>
+                            <p className="text-white small mb-0" style={{ fontSize: '0.86rem', opacity: 0.92 }}>
                                 Pulihkan akses ke akun IKATWI Anda dengan verifikasi data NIK
                             </p>
                         </div>
@@ -106,22 +115,22 @@ export default function LupaPassword() {
                         <div className="p-4 p-sm-4.5">
 
                             {/* Informational Guidance Box */}
-                            <div className="p-3.5 rounded-3 mb-4" style={{ backgroundColor: '#f0fdf4', border: '1.5px solid #bbf7d0' }}>
+                            <div className="p-3.5 rounded-3 mb-4" style={{ backgroundColor: '#f0fdf4', border: '1.5px solid #bbf7d0', padding: '16px' }}>
                                 <div className="d-flex align-items-center gap-2 mb-2">
-                                    <i className="fas fa-info-circle text-success" style={{ fontSize: '1.1rem' }}></i>
-                                    <span className="fw-bold text-dark" style={{ fontSize: '0.88rem' }}>Panduan Reset Password:</span>
+                                    <i className="fas fa-info-circle text-success" style={{ fontSize: '1.15rem' }}></i>
+                                    <span className="fw-bold" style={{ fontSize: '0.9rem', color: '#064e3b' }}>Panduan Reset Password:</span>
                                 </div>
-                                <div className="d-flex flex-column gap-2 text-muted" style={{ fontSize: '0.82rem', lineHeight: '1.45' }}>
+                                <div className="d-flex flex-column gap-2.5" style={{ fontSize: '0.84rem', lineHeight: '1.45', color: '#334155' }}>
                                     <div className="d-flex align-items-start gap-2">
-                                        <span className="badge rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '20px', height: '20px', fontSize: '0.68rem' }}>1</span>
+                                        <span className="badge rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '22px', height: '22px', fontSize: '0.72rem', backgroundColor: '#059669' }}>1</span>
                                         <span>Masukkan <strong>Nomor Anggota (No. KTA)</strong> atau <strong>Email Terdaftar</strong>.</span>
                                     </div>
                                     <div className="d-flex align-items-start gap-2">
-                                        <span className="badge rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '20px', height: '20px', fontSize: '0.68rem' }}>2</span>
+                                        <span className="badge rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '22px', height: '22px', fontSize: '0.72rem', backgroundColor: '#059669' }}>2</span>
                                         <span>Masukkan <strong>16 Digit NIK</strong> sesuai dengan KTP / database anggota Anda.</span>
                                     </div>
                                     <div className="d-flex align-items-start gap-2">
-                                        <span className="badge rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '20px', height: '20px', fontSize: '0.68rem' }}>3</span>
+                                        <span className="badge rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '22px', height: '22px', fontSize: '0.72rem', backgroundColor: '#059669' }}>3</span>
                                         <span>Setelah klik tombol reset, password akun Anda otomatis menjadi <strong>16 Digit NIK Anda</strong>.</span>
                                     </div>
                                 </div>
