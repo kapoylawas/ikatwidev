@@ -23,6 +23,12 @@ export default function LupaPassword() {
         e.preventDefault();
         
         if (!identifier.trim() || !nik.trim()) {
+            Swal.fire({
+                title: "Perhatian",
+                text: "Harap lengkapi Nomor Anggota / Email dan NIK Anda.",
+                icon: "warning",
+                confirmButtonColor: "#059669",
+            });
             return;
         }
 
@@ -37,11 +43,17 @@ export default function LupaPassword() {
             {
                 onSuccess: () => {
                     Swal.fire({
-                        title: "Reset Berhasil",
-                        text: "Password Anda berhasil direset menjadi 16 digit NIK Anda. Silakan login.",
+                        title: "Reset Berhasil!",
+                        html: `
+                            <p class="mb-2">Password akun Anda telah berhasil direset menjadi <strong>16 Digit NIK</strong> Anda.</p>
+                            <div class="p-3 bg-light rounded text-start small border mt-3">
+                                <div><strong>Username:</strong> ${identifier.trim()}</div>
+                                <div><strong>Password Baru:</strong> 16 Digit NIK Anda</div>
+                            </div>
+                        `,
                         icon: "success",
-                        confirmButtonText: "Ke Halaman Login",
-                        confirmButtonColor: "#1b5e20",
+                        confirmButtonText: "Lanjut ke Halaman Login",
+                        confirmButtonColor: "#059669",
                     }).then(() => {
                         Inertia.visit("/login");
                     });
@@ -64,324 +76,203 @@ export default function LupaPassword() {
     return (
         <>
             <Head>
-                <title>Reset Password - IKATWI</title>
+                <title>Reset Password Anggota - IKATWI</title>
             </Head>
+            
+            <div className="min-vh-100 d-flex align-items-center justify-content-center py-5 background-ikatwi">
+                <div className="container" style={{ maxWidth: "520px" }}>
+                    
+                    {/* Brand Header */}
+                    <div className="text-center mb-4">
+                        <Link href="/" className="text-decoration-none d-inline-block">
+                            <div className="logo-badge bg-white rounded-circle shadow-lg mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: '80px', height: '80px', border: '3px solid rgba(255,255,255,0.4)' }}>
+                                <img 
+                                    src="/assets/images/logo.png" 
+                                    width="52" 
+                                    alt="IKATWI Logo"
+                                    className="img-fluid"
+                                />
+                            </div>
+                            <h3 className="text-white fw-bold mb-0" style={{ letterSpacing: '0.04em' }}>IKATWI</h3>
+                        </Link>
+                        <p className="text-white-50 small mb-0 mt-1">Ikatan Terapis Wicara Indonesia</p>
+                    </div>
 
-            <style>{`
-                *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-                html, body { height: 100%; }
-
-                @keyframes spin   { to { transform: rotate(360deg); } }
-                @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-                @keyframes blob   { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-20px) scale(1.05)} 66%{transform:translate(-20px,20px) scale(0.97)} }
-
-                .lg-page {
-                    min-height: 100vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 24px 16px;
-                    font-family: 'Segoe UI', system-ui, sans-serif;
-                    background: linear-gradient(135deg, #0f3d15 0%, #1b5e20 40%, #2e7d32 70%, #43a047 100%);
-                    position: relative;
-                    overflow: hidden;
-                }
-                .lg-blob1, .lg-blob2, .lg-blob3 {
-                    position: absolute; border-radius: 50%;
-                    background: rgba(255,255,255,0.06);
-                    pointer-events: none;
-                    animation: blob 12s ease-in-out infinite;
-                }
-                .lg-blob1 { width:480px;height:480px; top:-180px;left:-150px; animation-delay:0s; }
-                .lg-blob2 { width:360px;height:360px; bottom:-120px;right:-100px; animation-delay:4s; }
-                .lg-blob3 { width:200px;height:200px; top:50%;left:60%; animation-delay:8s; }
-
-                .lg-card {
-                    position: relative; z-index: 1;
-                    width: 100%; max-width: 440px;
-                    background: #fff;
-                    border-radius: 20px;
-                    overflow: hidden;
-                    box-shadow: 0 25px 80px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.2);
-                    animation: fadeUp .5s ease both;
-                }
-
-                /* card top bar */
-                .lg-bar {
-                    height: 5px;
-                    background: linear-gradient(90deg, #1b5e20, #66bb6a, #1b5e20);
-                }
-
-                /* logo header inside card */
-                .lg-head {
-                    background: linear-gradient(135deg, #1b5e20, #2e7d32);
-                    padding: 28px 24px 22px;
-                    text-align: center;
-                    position: relative;
-                    overflow: hidden;
-                }
-                .lg-head::before {
-                    content:''; position:absolute; border-radius:50%;
-                    width:160px;height:160px;
-                    background:rgba(255,255,255,0.07);
-                    top:-50px;right:-40px;
-                }
-                .lg-head::after {
-                    content:''; position:absolute; border-radius:50%;
-                    width:100px;height:100px;
-                    background:rgba(255,255,255,0.05);
-                    bottom:-30px;left:-25px;
-                }
-                .lg-logo {
-                    width:68px;height:68px;border-radius:50%;object-fit:cover;
-                    background:#fff;padding:6px;
-                    border:3px solid rgba(255,255,255,0.35);
-                    box-shadow:0 6px 20px rgba(0,0,0,0.25);
-                    display:block;margin:0 auto 12px;
-                    position:relative;z-index:1;
-                }
-                .lg-org  { color:#fff;font-size:1.45rem;font-weight:800;letter-spacing:.5px;position:relative;z-index:1;margin-bottom:3px; }
-                .lg-orgsub { color:rgba(255,255,255,0.7);font-size:.78rem;position:relative;z-index:1; }
-
-                /* body */
-                .lg-body { padding: 32px 34px 28px; }
-
-                .lg-fhead { text-align:center;margin-bottom:20px; }
-                .lg-ftitle { font-size:1.4rem;font-weight:700;color:#162b17;margin:0 0 4px; }
-                .lg-fsub   { color:#6b7280;font-size:.85rem;margin:0; }
-
-                .lg-ealert {
-                    background:#fef2f2;border:1px solid #fecaca;
-                    border-left:4px solid #ef4444;color:#dc2626;
-                    padding:10px 14px;border-radius:10px;
-                    margin-bottom:18px;font-size:.84rem;font-weight:500;
-                    display:flex;align-items:center;gap:8px;
-                }
-
-                .lg-ialert {
-                    background:#f0fdf4;border:1px solid #bbf7d0;
-                    border-left:4px solid #16a34a;color:#166534;
-                    padding:10px 14px;border-radius:10px;
-                    margin-bottom:18px;font-size:.83rem;line-height:1.4;
-                    display:flex;align-items:flex-start;gap:10px;
-                }
-                .lg-ialert i { color:#16a34a;margin-top:2px;flex-shrink:0; }
-
-                .lg-field { margin-bottom:18px; }
-                .lg-label { display:block;margin-bottom:6px;font-size:.855rem;font-weight:600;color:#374151; }
-                .lg-label i { color:#2e7d32;margin-right:6px; }
-
-                .lg-iwrap { position:relative; }
-                .lg-input {
-                    width:100%;padding:11px 15px;
-                    border:2px solid #e2e8f0;border-radius:11px;
-                    font-size:.92rem;background:#f8fafb;color:#111;
-                    outline:none;
-                    transition:border-color .2s,box-shadow .2s,background .2s;
-                }
-                .lg-input:focus {
-                    border-color:#2e7d32;background:#fff;
-                    box-shadow:0 0 0 3px rgba(46,125,50,0.13);
-                }
-                .lg-input.err { border-color:#ef5350;background:#fff6f6; }
-                .lg-input:disabled { opacity:.55;cursor:not-allowed; }
-                .lg-etxt { display:block;margin-top:5px;font-size:.78rem;color:#ef4444; }
-                .lg-etxt i { margin-right:3px; }
-
-                .lg-btnlogin {
-                    width:100%;padding:13px;
-                    background:linear-gradient(135deg,#1b5e20,#2e7d32);
-                    color:#fff;border:none;border-radius:11px;
-                    font-size:.95rem;font-weight:600;cursor:pointer;
-                    display:flex;align-items:center;justify-content:center;gap:8px;
-                    box-shadow:0 4px 16px rgba(27,94,32,0.32);
-                    transition:transform .2s,box-shadow .2s;
-                    margin-bottom:11px;
-                }
-                .lg-btnlogin:hover:not(:disabled) {
-                    transform:translateY(-2px);
-                    box-shadow:0 8px 22px rgba(27,94,32,0.4);
-                }
-                .lg-btnlogin:disabled { background:#c8d8c9;box-shadow:none;cursor:not-allowed;transform:none; }
-
-                .lg-btnback {
-                    width:100%;padding:11px;
-                    background:transparent;color:#2e7d32;
-                    border:2px solid #2e7d32;border-radius:11px;
-                    font-size:.9rem;font-weight:600;cursor:pointer;
-                    display:flex;align-items:center;justify-content:center;gap:8px;
-                    transition:background .2s,color .2s;
-                    text-decoration:none;
-                }
-                .lg-btnback:hover { background:#f0faf0;color:#1b5e20;border-color:#1b5e20; }
-
-                .lg-spinner {
-                    display:inline-block;width:15px;height:15px;
-                    border:2px solid rgba(255,255,255,0.3);
-                    border-top-color:#fff;border-radius:50%;
-                    animation:spin .75s linear infinite;
-                }
-
-                .lg-footer {
-                    text-align:center;margin-top:20px;
-                    color:rgba(255,255,255,0.45);font-size:.76rem;
-                    position:relative;z-index:1;
-                }
-
-                @media (max-width: 480px) {
-                    .lg-page {
-                        padding: 20px 16px;
-                        align-items: center;
-                    }
-                    .lg-card {
-                        border-radius: 18px;
-                        max-width: 100%;
-                        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-                    }
-                    .lg-head {
-                        padding: 22px 20px 18px;
-                    }
-                    .lg-logo {
-                        width: 58px;
-                        height: 58px;
-                        margin-bottom: 10px;
-                    }
-                    .lg-org { font-size: 1.25rem; }
-                    .lg-body { padding: 24px 20px 22px; }
-                    .lg-ftitle { font-size: 1.2rem; }
-                    .lg-btnlogin, .lg-btnback { padding: 13px; font-size: .9rem; }
-                    .lg-footer { margin-top: 14px; }
-                    .lg-blob1, .lg-blob2, .lg-blob3 { display: none; }
-                }
-                @media (max-width: 360px) {
-                    .lg-body  { padding: 20px 16px 18px; }
-                    .lg-head  { padding: 18px 16px 14px; }
-                }
-            `}</style>
-
-            <div className="lg-page">
-                <div className="lg-blob1"></div>
-                <div className="lg-blob2"></div>
-                <div className="lg-blob3"></div>
-
-                <div style={{position:'relative',zIndex:1,width:'100%',maxWidth:'440px'}}>
-                    <div className="lg-card">
-                        <div className="lg-bar"></div>
-
-                        {/* Logo Header */}
-                        <div className="lg-head">
-                            <img
-                                src="/assets/images/logo.png"
-                                className="lg-logo" alt="IKATWI"
-                                onError={(e) => { e.target.style.display="none"; }}
-                            />
-                            <div className="lg-org">IKATWI</div>
-                            <div className="lg-orgsub">Ikatan Terapis Wicara Indonesia</div>
+                    {/* Main Card */}
+                    <div className="card border-0 shadow-lg overflow-hidden" style={{ borderRadius: '20px', backgroundColor: '#ffffff' }}>
+                        
+                        {/* Card Header */}
+                        <div className="p-4 text-center text-white" style={{ background: 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%)' }}>
+                            <div className="mb-2">
+                                <i className="fas fa-shield-alt text-warning fs-3"></i>
+                            </div>
+                            <h4 className="fw-bold mb-1 text-white">Reset Password Anggota</h4>
+                            <p className="text-white-50 small mb-0" style={{ fontSize: '0.86rem' }}>
+                                Pulihkan akses ke akun IKATWI Anda dengan verifikasi data NIK
+                            </p>
                         </div>
 
-                        {/* Form Body */}
-                        <div className="lg-body">
-                            <div className="lg-fhead">
-                                <h2 className="lg-ftitle">Reset Password</h2>
-                                <p className="lg-fsub">Masukkan data identitas akun Anda</p>
-                            </div>
+                        <div className="p-4 p-sm-4">
 
-                            {/* Informational Alert */}
-                            <div className="lg-ialert">
-                                <i className="fa fa-info-circle"></i>
-                                <div>
-                                    Setelah reset, password Anda otomatis berubah menjadi <strong>16 digit NIK</strong> Anda.
+                            {/* Informational Guidance Box */}
+                            <div className="p-3 rounded-3 mb-4" style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+                                <div className="d-flex align-items-center gap-2 mb-2">
+                                    <i className="fas fa-info-circle text-success" style={{ fontSize: '1.1rem' }}></i>
+                                    <span className="fw-bold" style={{ fontSize: '0.88rem', color: '#064e3b' }}>Panduan Reset Password:</span>
+                                </div>
+                                <div className="d-flex flex-column gap-2" style={{ fontSize: '0.82rem', lineHeight: '1.45', color: '#334155' }}>
+                                    <div className="d-flex align-items-start gap-2">
+                                        <span className="badge rounded-circle text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '20px', height: '20px', fontSize: '0.7rem', backgroundColor: '#059669' }}>1</span>
+                                        <span>Masukkan <strong>Nomor Anggota (No. KTA)</strong> atau <strong>Email Terdaftar</strong>.</span>
+                                    </div>
+                                    <div className="d-flex align-items-start gap-2">
+                                        <span className="badge rounded-circle text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '20px', height: '20px', fontSize: '0.7rem', backgroundColor: '#059669' }}>2</span>
+                                        <span>Masukkan <strong>16 Digit NIK</strong> sesuai dengan KTP / database anggota Anda.</span>
+                                    </div>
+                                    <div className="d-flex align-items-start gap-2">
+                                        <span className="badge rounded-circle text-white d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '20px', height: '20px', fontSize: '0.7rem', backgroundColor: '#059669' }}>3</span>
+                                        <span>Setelah reset berhasil, password akun otomatis berubah menjadi <strong>16 Digit NIK Anda</strong>.</span>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Error Alert */}
                             {(formErrors.meta || formErrors.no_anggota || formErrors.nik) && (
-                                <div className="lg-ealert">
-                                    <i className="fa fa-exclamation-circle"></i>
+                                <div className="alert alert-danger border-0 shadow-sm mb-4 d-flex align-items-center gap-2.5 rounded-3 py-2 px-3" style={{ fontSize: '0.84rem' }}>
+                                    <i className="fas fa-exclamation-circle text-danger fs-5 flex-shrink-0"></i>
                                     <div>{formErrors.meta || formErrors.no_anggota || formErrors.nik}</div>
                                 </div>
                             )}
 
+                            {/* Reset Form */}
                             <form onSubmit={resetHandler}>
                                 
                                 {/* Identifier Input */}
-                                <div className="lg-field">
-                                    <label className="lg-label">
-                                        <i className="fa fa-id-card"></i>No. Anggota atau Email
+                                <div className="mb-3">
+                                    <label className="form-label fw-semibold text-dark mb-1" style={{ fontSize: '0.85rem' }}>
+                                        <i className="fas fa-id-badge text-success me-1.5"></i>
+                                        Nomor Anggota (No. KTA) / Email
                                     </label>
-                                    <div className="lg-iwrap">
+                                    <div className="input-group">
+                                        <span className="input-group-text bg-light border-end-0 text-muted" style={{ borderColor: '#cbd5e1' }}>
+                                            <i className="fas fa-user"></i>
+                                        </span>
                                         <input
                                             type="text"
-                                            className={`lg-input${formErrors.no_anggota ? " err" : ""}`}
+                                            className={`form-control border-start-0 ps-1 ${formErrors.no_anggota ? 'is-invalid' : ''}`}
                                             value={identifier}
                                             onChange={(e) => setIdentifier(e.target.value)}
                                             placeholder="Contoh: 101007 atau email@domain.com"
                                             disabled={isLoading}
-                                            autoComplete="username"
+                                            style={{ borderColor: '#cbd5e1', fontSize: '0.9rem', height: '44px' }}
                                         />
                                     </div>
                                     {formErrors.no_anggota && (
-                                        <span className="lg-etxt">
-                                            <i className="fa fa-times-circle"></i>{formErrors.no_anggota}
-                                        </span>
+                                        <div className="text-danger small mt-1" style={{ fontSize: '0.78rem' }}>
+                                            {formErrors.no_anggota}
+                                        </div>
                                     )}
                                 </div>
 
                                 {/* NIK Input */}
-                                <div className="lg-field">
-                                    <label className="lg-label">
-                                        <i className="fa fa-key"></i>NIK (16 Digit)
+                                <div className="mb-4">
+                                    <label className="form-label fw-semibold text-dark mb-1" style={{ fontSize: '0.85rem' }}>
+                                        <i className="fas fa-key text-success me-1.5"></i>
+                                        NIK (16 Digit Nomor Induk Kependudukan)
                                     </label>
-                                    <div className="lg-iwrap">
+                                    <div className="input-group">
+                                        <span className="input-group-text bg-light border-end-0 text-muted" style={{ borderColor: '#cbd5e1' }}>
+                                            <i className="fas fa-lock"></i>
+                                        </span>
                                         <input
                                             type="text"
-                                            className={`lg-input${formErrors.nik ? " err" : ""}`}
+                                            className={`form-control border-start-0 ps-1 ${formErrors.nik ? 'is-invalid' : ''}`}
                                             value={nik}
                                             onChange={(e) => setNik(e.target.value)}
-                                            placeholder="Masukkan 16 digit NIK"
+                                            placeholder="Masukkan 16 digit NIK Anda"
                                             maxLength={16}
                                             disabled={isLoading}
+                                            style={{ borderColor: '#cbd5e1', fontSize: '0.9rem', height: '44px' }}
                                         />
                                     </div>
                                     {formErrors.nik && (
-                                        <span className="lg-etxt">
-                                            <i className="fa fa-times-circle"></i>{formErrors.nik}
-                                        </span>
+                                        <div className="text-danger small mt-1" style={{ fontSize: '0.78rem' }}>
+                                            {formErrors.nik}
+                                        </div>
                                     )}
                                 </div>
 
                                 {/* Submit Button */}
                                 <button
+                                    className="btn btn-emerald-submit w-100 fw-bold py-2.5 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2"
                                     type="submit"
-                                    className="lg-btnlogin"
                                     disabled={isLoading || !identifier.trim() || !nik.trim()}
+                                    style={{
+                                        background: 'linear-gradient(135deg, #064e3b 0%, #059669 100%)',
+                                        color: '#ffffff',
+                                        border: 'none',
+                                        fontSize: '0.95rem',
+                                        height: '46px',
+                                        transition: 'all 0.25s ease',
+                                    }}
                                 >
                                     {isLoading ? (
                                         <>
-                                            <span className="lg-spinner"></span>
-                                            <span>Memproses...</span>
+                                            <div className="spinner-border spinner-border-sm text-light" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                            <span>Memproses Reset...</span>
                                         </>
                                     ) : (
                                         <>
-                                            <i className="fa fa-redo-alt"></i>
-                                            <span>Reset Password</span>
+                                            <i className="fas fa-redo-alt"></i>
+                                            <span>Reset Password Sekarang</span>
                                         </>
                                     )}
                                 </button>
-
-                                {/* Back to Login */}
-                                <Link href="/login" className="lg-btnback">
-                                    <i className="fa fa-arrow-left"></i> Kembali ke Login
-                                </Link>
                             </form>
+
+                            {/* Back to Login Link */}
+                            <div className="text-center mt-3 pt-3 border-top">
+                                <p className="text-muted small mb-0">
+                                    Sudah ingat password Anda?{" "}
+                                    <Link href="/login" className="text-success fw-bold text-decoration-none hover-underline">
+                                        Masuk di Sini →
+                                    </Link>
+                                </p>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div className="lg-footer">
-                        &copy; {new Date().getFullYear()} IKATWI. All rights reserved.
+                    {/* Bottom Support Info */}
+                    <div className="text-center mt-3 text-white-50 small" style={{ fontSize: '0.78rem' }}>
+                        Butuh bantuan teknis? Hubungi Admin Pengurus Wilayah (DPW) atau DPC Anda.
                     </div>
+
                 </div>
             </div>
+
+            <style jsx>{`
+                .background-ikatwi {
+                    background: linear-gradient(135deg, #042f2e 0%, #064e3b 50%, #065f46 100%);
+                    min-height: 100vh;
+                }
+                
+                .btn-emerald-submit:hover:not(:disabled) {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px -2px rgba(5, 150, 105, 0.4) !important;
+                    filter: brightness(1.08);
+                }
+
+                .btn-emerald-submit:active {
+                    transform: scale(0.98);
+                }
+
+                .hover-underline:hover {
+                    text-decoration: underline !important;
+                }
+            `}</style>
         </>
     );
 }
