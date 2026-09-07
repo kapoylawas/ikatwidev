@@ -26,34 +26,47 @@ export default function UserVerifikasiAnggota() {
     const [cityID, setCityID] = useState(user.city_id);
     const [statusAnggota, setStatusAnggota] = useState(user.status_anggota);
     const [confirm, setConfirm] = useState(user.confirm);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setConfirm(status === "true");
     }, [status]);
 
     //method "updateUser"
-    const updateUser = async (e) => {
+    const updateUser = (e) => {
         e.preventDefault();
+        if (loading) return;
+
+        setLoading(true);
 
         //sending data
         Inertia.post(
             `/account/users/verifNoAnggota/${user.id}`,
             {
-                //data
                 name: name,
                 _method: "PUT",
             },
             {
+                onStart: () => setLoading(true),
+                onFinish: () => setLoading(false),
                 onSuccess: () => {
-                    //show alert
+                    setLoading(false);
                     Swal.fire({
-                        title: "Success!",
-                        text: "Data updated successfully!",
+                        title: "Berhasil!",
+                        text: "Nomor Anggota berhasil diterbitkan dan anggota telah aktif!",
                         icon: "success",
                         showConfirmButton: false,
-                        timer: 1500,
+                        timer: 1800,
                     });
                 },
+                onError: (err) => {
+                    setLoading(false);
+                    Swal.fire({
+                        title: "Terjadi Kendala",
+                        text: "Gagal memproses verifikasi anggota. Silakan coba kembali.",
+                        icon: "error",
+                    });
+                }
             }
         );
     };
@@ -261,16 +274,29 @@ export default function UserVerifikasiAnggota() {
                                 ) : (
                                     <button
                                         type="submit"
+                                        disabled={loading}
                                         className="btn btn-sm d-inline-flex align-items-center gap-2 px-4 py-2 text-white border-0 shadow-sm"
                                         style={{
                                             backgroundColor: '#059669',
                                             borderRadius: '8px',
                                             fontWeight: 600,
-                                            fontSize: '0.85rem'
+                                            fontSize: '0.85rem',
+                                            opacity: loading ? 0.75 : 1,
+                                            cursor: loading ? 'not-allowed' : 'pointer',
+                                            transition: 'all 0.2s ease'
                                         }}
                                     >
-                                        <i className="fa fa-check-circle"></i>
-                                        <span>Setujui & Terbitkan No. Anggota</span>
+                                        {loading ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                <span>Sedang Memproses & Menerbitkan...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <i className="fa fa-check-circle"></i>
+                                                <span>Setujui & Terbitkan No. Anggota</span>
+                                            </>
+                                        )}
                                     </button>
                                 )}
                             </div>

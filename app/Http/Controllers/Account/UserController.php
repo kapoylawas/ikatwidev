@@ -12,9 +12,6 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Mail\UserActivatedMail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -387,24 +384,21 @@ class UserController extends Controller
         return redirect()->route('account.users.index');
     }
 
-    public function updateVerifikasiAnggota(Request $request, User $user)
+    public function updateVerifikasiAnggota(Request $request, $user)
     {
-        $user->update([
-            'name'       => $request->name,
-            'confirm'    => 'true',
-            'no_anggota' => $user->no_anggota ?: User::generateNextNoAnggota(),
-        ]);
-
-        // Kirim email notifikasi aktivasi ke anggota jika memiliki email
-        if (!empty($user->email)) {
-            try {
-                Mail::to($user->email)->send(new UserActivatedMail($user));
-            } catch (\Exception $e) {
-                Log::error('Gagal mengirim email aktivasi ke ' . $user->email . ': ' . $e->getMessage());
-            }
+        if (!($user instanceof User)) {
+            $user = User::findOrFail($user);
         }
 
+        $noAnggota = $user->no_anggota ?: User::generateNextNoAnggota();
+
+        $user->update([
+            'name'       => $request->name ?: $user->name,
+            'confirm'    => 'true',
+            'no_anggota' => $noAnggota,
+        ]);
+
         //redirect
-        return redirect()->route('account.users.index');
+        return redirect()->route('account.users.verifikasi');
     }    
 }

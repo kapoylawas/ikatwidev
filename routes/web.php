@@ -216,7 +216,7 @@ Route::prefix('account')->group(function () {
 
         Route::get('/cetak/ekta', [\App\Http\Controllers\Account\EktaController::class, 'cetakekta'])->name('account.cetak.ekta');
 
-        Route::put('/users/verifNoAnggota/{user}', [\App\Http\Controllers\Account\UserController::class, 'updateVerifikasiAnggota']);
+        Route::match(['put', 'post'], '/users/verifNoAnggota/{user}', [\App\Http\Controllers\Account\UserController::class, 'updateVerifikasiAnggota'])->name('account.users.verif_no_anggota');
 
         Route::get('export-users', function () {
             return Excel::download(new UsersExport, 'usrs.xlsx');
