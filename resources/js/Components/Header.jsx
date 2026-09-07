@@ -10,172 +10,175 @@ export default function Header() {
 
     return (
         <header
-            className="fixed-top mx-auto"
+            className="fixed-top shadow-sm"
             style={{
-                top: '12px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                maxWidth: '820px',
-                width: 'calc(100% - 24px)',
-                zIndex: 1040,
+                backgroundColor: '#064e3b',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                zIndex: 1030,
             }}
         >
-            <div
-                className="d-flex align-items-center justify-content-between px-3 py-2 shadow-lg"
-                style={{
-                    backgroundColor: 'rgba(6, 78, 59, 0.95)',
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(255, 255, 255, 0.18)',
-                    boxShadow: '0 12px 30px -4px rgba(6, 78, 59, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
-                    minHeight: '58px',
-                }}
-            >
-                {/* Brand Logo & Name */}
-                <Link
-                    href="/"
-                    className="d-flex align-items-center gap-2.5 text-decoration-none text-white"
-                >
-                    <div
-                        className="rounded-circle p-1 bg-white shadow-sm d-flex align-items-center justify-content-center"
-                        style={{ width: '38px', height: '38px' }}
+            <div className="container" style={{ maxWidth: '960px' }}>
+                <div className="d-flex align-items-center justify-content-between py-2 px-1" style={{ minHeight: '60px' }}>
+                    
+                    {/* Brand Logo & Name */}
+                    <Link
+                        href="/"
+                        className="d-flex align-items-center gap-2.5 text-decoration-none text-white"
                     >
-                        <img
-                            src="/assets/images/logo.png"
-                            width="28"
-                            height="28"
-                            alt="Logo IKATWI"
-                            className="object-fit-contain"
-                        />
-                    </div>
-                    <div>
-                        <div className="fw-bold text-white mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', lineHeight: 1.15 }}>
-                            IKATWI
+                        <div
+                            className="rounded-circle p-1 bg-white shadow-sm d-flex align-items-center justify-content-center"
+                            style={{ width: '38px', height: '38px' }}
+                        >
+                            <img
+                                src="/assets/images/logo.png"
+                                width="28"
+                                height="28"
+                                alt="Logo IKATWI"
+                                className="object-fit-contain"
+                            />
                         </div>
-                        <div className="text-emerald-200 small" style={{ fontSize: '0.67rem', color: '#a7f3d0', fontWeight: 500, letterSpacing: '0.02em' }}>
-                            Ikatan Terapis Wicara Indonesia
+                        <div>
+                            <div className="fw-bold text-white mb-0" style={{ fontSize: '0.98rem', letterSpacing: '-0.01em', lineHeight: 1.15 }}>
+                                IKATWI
+                            </div>
+                            <div className="text-emerald-200 small" style={{ fontSize: '0.68rem', color: '#a7f3d0', fontWeight: 500, letterSpacing: '0.02em' }}>
+                                Ikatan Terapis Wicara Indonesia
+                            </div>
                         </div>
+                    </Link>
+
+                    {/* Right Action: Menu & Dashboard shortcut */}
+                    <div className="d-flex align-items-center gap-2">
+                        {auth && auth.user ? (
+                            <Link
+                                href="/account/dashboard"
+                                className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill text-white shadow-sm"
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+                                    border: '1px solid rgba(255, 255, 255, 0.28)',
+                                    fontSize: '0.8rem',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                <i className="fas fa-chart-pie text-warning"></i>
+                                <span className="d-none d-sm-inline">Dashboard</span>
+                            </Link>
+                        ) : (
+                            <Link
+                                href="/login"
+                                className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill text-white shadow-sm"
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+                                    border: '1px solid rgba(255, 255, 255, 0.28)',
+                                    fontSize: '0.8rem',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                <i className="fas fa-sign-in-alt"></i>
+                                <span>Masuk</span>
+                            </Link>
+                        )}
+
+                        <Dropdown align="end">
+                            <Dropdown.Toggle
+                                id="header-menu-dropdown"
+                                className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill text-white border-0 shadow-sm custom-header-btn"
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+                                    border: '1px solid rgba(255, 255, 255, 0.28)',
+                                    fontSize: '0.8rem',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                <i className="fas fa-bars"></i>
+                                <span className="d-none d-sm-inline">Menu</span>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu
+                                className="border-0 shadow-lg p-2 mt-2"
+                                style={{
+                                    borderRadius: '16px',
+                                    minWidth: '220px',
+                                    backgroundColor: '#ffffff',
+                                    border: '1px solid #e2e8f0',
+                                }}
+                            >
+                                <div className="px-3 py-1.5 mb-1 text-muted fw-bold" style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                    Navigasi Utama
+                                </div>
+
+                                <Dropdown.Item as={Link} href="/history" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-university text-primary" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Sejarah & Profil</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/visimisi" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-bullseye text-success" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Visi & Misi</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/kegiatan" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-calendar-alt text-purple" style={{ width: '18px', color: '#7c3aed' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Agenda Kegiatan</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/anggota" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-users text-warning" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Data Anggota</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/wilayah" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-map-marked-alt text-danger" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Pengurus Wilayah (DPW)</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/wilayahdpc" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-building text-info" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Pengurus Cabang (DPC)</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Divider className="my-1 border-light" />
+
+                                <div className="px-3 py-1.5 mb-1 text-muted fw-bold" style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                    Layanan Eksternal
+                                </div>
+
+                                <Dropdown.Item
+                                    href="https://ikatwisiporlin-ktki.kemkes.go.id/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center justify-content-between"
+                                >
+                                    <div className="d-flex align-items-center gap-2.5">
+                                        <i className="fas fa-laptop-medical text-primary" style={{ width: '18px' }}></i>
+                                        <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>SIPORLIN KTKI</span>
+                                    </div>
+                                    <i className="fas fa-external-link-alt text-muted" style={{ fontSize: '0.7rem' }}></i>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item
+                                    href="https://siedunakes-ktki.kemkes.go.id/home/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center justify-content-between"
+                                >
+                                    <div className="d-flex align-items-center gap-2.5">
+                                        <i className="fas fa-id-card-alt text-success" style={{ width: '18px' }}></i>
+                                        <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>SIDU Nakes</span>
+                                    </div>
+                                    <i className="fas fa-external-link-alt text-muted" style={{ fontSize: '0.7rem' }}></i>
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
-                </Link>
 
-                {/* Right Action: Menu & Dashboard shortcut */}
-                <div className="d-flex align-items-center gap-2">
-                    {auth && auth.user && (
-                        <Link
-                            href="/account/dashboard"
-                            className="btn btn-sm d-none d-sm-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill text-white"
-                            style={{
-                                backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                border: '1px solid rgba(255, 255, 255, 0.25)',
-                                fontSize: '0.78rem',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <i className="fas fa-chart-pie text-warning"></i>
-                            <span>Dashboard</span>
-                        </Link>
-                    )}
-
-                    <Dropdown align="end">
-                        <Dropdown.Toggle
-                            id="header-menu-dropdown"
-                            className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill text-white border-0 shadow-sm custom-header-btn"
-                            style={{
-                                backgroundColor: 'rgba(255, 255, 255, 0.18)',
-                                backdropFilter: 'blur(8px)',
-                                border: '1px solid rgba(255, 255, 255, 0.25)',
-                                fontSize: '0.82rem',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <i className="fas fa-bars"></i>
-                            <span>Menu</span>
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu
-                            className="border-0 shadow-lg p-2 mt-2"
-                            style={{
-                                borderRadius: '16px',
-                                minWidth: '220px',
-                                backgroundColor: '#ffffff',
-                                border: '1px solid #e2e8f0',
-                            }}
-                        >
-                            <div className="px-3 py-1.5 mb-1 text-muted fw-bold" style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                Navigasi Utama
-                            </div>
-
-                            <Dropdown.Item as={Link} href="/history" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
-                                <i className="fas fa-university text-primary" style={{ width: '18px' }}></i>
-                                <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Sejarah & Profil</span>
-                            </Dropdown.Item>
-
-                            <Dropdown.Item as={Link} href="/visimisi" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
-                                <i className="fas fa-bullseye text-success" style={{ width: '18px' }}></i>
-                                <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Visi & Misi</span>
-                            </Dropdown.Item>
-
-                            <Dropdown.Item as={Link} href="/kegiatan" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
-                                <i className="fas fa-calendar-alt text-purple" style={{ width: '18px', color: '#7c3aed' }}></i>
-                                <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Agenda Kegiatan</span>
-                            </Dropdown.Item>
-
-                            <Dropdown.Item as={Link} href="/anggota" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
-                                <i className="fas fa-users text-warning" style={{ width: '18px' }}></i>
-                                <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Data Anggota</span>
-                            </Dropdown.Item>
-
-                            <Dropdown.Item as={Link} href="/wilayah" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
-                                <i className="fas fa-map-marked-alt text-danger" style={{ width: '18px' }}></i>
-                                <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Pengurus Wilayah (DPW)</span>
-                            </Dropdown.Item>
-
-                            <Dropdown.Item as={Link} href="/wilayahdpc" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
-                                <i className="fas fa-building text-info" style={{ width: '18px' }}></i>
-                                <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Pengurus Cabang (DPC)</span>
-                            </Dropdown.Item>
-
-                            <Dropdown.Divider className="my-1 border-light" />
-
-                            <div className="px-3 py-1.5 mb-1 text-muted fw-bold" style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                Layanan Eksternal
-                            </div>
-
-                            <Dropdown.Item
-                                href="https://ikatwisiporlin-ktki.kemkes.go.id/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center justify-content-between"
-                            >
-                                <div className="d-flex align-items-center gap-2.5">
-                                    <i className="fas fa-laptop-medical text-primary" style={{ width: '18px' }}></i>
-                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>SIPORLIN KTKI</span>
-                                </div>
-                                <i className="fas fa-external-link-alt text-muted" style={{ fontSize: '0.7rem' }}></i>
-                            </Dropdown.Item>
-
-                            <Dropdown.Item
-                                href="https://siedunakes-ktki.kemkes.go.id/home/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center justify-content-between"
-                            >
-                                <div className="d-flex align-items-center gap-2.5">
-                                    <i className="fas fa-id-card-alt text-success" style={{ width: '18px' }}></i>
-                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>SIDU Nakes</span>
-                                </div>
-                                <i className="fas fa-external-link-alt text-muted" style={{ fontSize: '0.7rem' }}></i>
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
                 </div>
             </div>
 
             <style jsx>{`
                 .custom-header-btn:hover {
                     background-color: rgba(255, 255, 255, 0.28) !important;
-                    transform: translateY(-1px);
                 }
                 .dropdown-item-modern:hover {
                     background-color: #f1f5f9 !important;

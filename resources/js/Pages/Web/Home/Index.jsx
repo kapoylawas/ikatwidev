@@ -107,8 +107,8 @@ export default function HomeIndex() {
                 <title>IKATWI - Ikatan Terapis Wicara Indonesia</title>
             </Head>
             <LayoutWeb>
-                <div className="home-wrapper" style={{ paddingTop: '76px', paddingBottom: '96px', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
-                    <div className="container" style={{ maxWidth: '820px' }}>
+                <div className="home-wrapper" style={{ paddingTop: '82px', paddingBottom: '70px', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+                    <div className="container" style={{ maxWidth: '960px' }}>
                         
                         {/* 1. Slider / Hero Banner */}
                         <Slider sliders={sliders} />
@@ -117,65 +117,61 @@ export default function HomeIndex() {
                         {auth && auth.user ? (
                             <div className="mb-4">
                                 <div
-                                    className="card-3d-kta position-relative overflow-hidden text-white p-3.5 p-sm-4 shadow-lg"
+                                    className="card-3d-kta position-relative overflow-hidden text-white p-4 shadow-lg"
                                     style={{
                                         borderRadius: '24px',
                                         background: 'linear-gradient(135deg, #064e3b 0%, #047857 45%, #065f46 80%, #022c22 100%)',
-                                        boxShadow: '0 16px 36px -8px rgba(5, 150, 105, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) inset',
-                                        transformStyle: 'preserve-3d',
+                                        boxShadow: '0 16px 36px -8px rgba(5, 150, 105, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.15) inset',
                                         transition: 'all 0.3s ease',
                                     }}
                                 >
-                                    {/* Holographic Specular & Watermark */}
-                                    <div className="kta-hologram-glow position-absolute top-0 end-0 w-100 h-100 pointer-events-none"></div>
+                                    {/* Subtle Ambient Glow */}
                                     <div
-                                        className="position-absolute end-0 top-50 translate-middle-y opacity-10 pointer-events-none me-2"
-                                        style={{ pointerEvents: 'none', zIndex: 1 }}
-                                    >
-                                        <img src="/assets/images/logo.png" alt="Watermark" style={{ width: '130px', height: 'auto' }} />
-                                    </div>
+                                        className="position-absolute top-0 end-0 w-100 h-100 pointer-events-none"
+                                        style={{ background: 'radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.15) 0%, transparent 60%)' }}
+                                    ></div>
 
-                                    {/* Card Top Row: Logo & Chip */}
+                                    {/* Card Header: Brand & Smart Chip */}
                                     <div className="d-flex justify-content-between align-items-center mb-3 position-relative z-2">
                                         <div className="d-flex align-items-center gap-2">
-                                            <div className="bg-white rounded-circle p-1 shadow-sm d-flex align-items-center justify-content-center" style={{ width: '34px', height: '34px' }}>
+                                            <div className="bg-white rounded-circle p-1 shadow-sm d-flex align-items-center justify-content-center" style={{ width: '36px', height: '36px' }}>
                                                 <img
                                                     src="/assets/images/logo.png"
                                                     alt="IKATWI"
-                                                    style={{ width: '24px', height: '24px' }}
+                                                    style={{ width: '26px', height: '26px' }}
                                                 />
                                             </div>
                                             <div>
-                                                <div className="fw-bold text-white text-uppercase" style={{ fontSize: '0.74rem', letterSpacing: '0.06em', lineHeight: 1.15 }}>
+                                                <div className="fw-bold text-white text-uppercase" style={{ fontSize: '0.76rem', letterSpacing: '0.06em', lineHeight: 1.15 }}>
                                                     IKATAN TERAPIS WICARA INDONESIA
                                                 </div>
-                                                <div className="text-white-50" style={{ fontSize: '0.62rem', letterSpacing: '0.04em' }}>
+                                                <div className="text-white-50" style={{ fontSize: '0.64rem', letterSpacing: '0.04em' }}>
                                                     KARTU ANGGOTA DIGITAL (e-KTA)
                                                 </div>
                                             </div>
                                         </div>
 
-                                        {/* Smart Chip & NFC Icon */}
+                                        {/* Smart Chip & Contactless */}
                                         <div className="d-flex align-items-center gap-2">
                                             <div
                                                 className="emv-chip d-flex align-items-center justify-content-center shadow-sm"
                                                 style={{
-                                                    width: '36px',
-                                                    height: '26px',
+                                                    width: '38px',
+                                                    height: '28px',
                                                     borderRadius: '6px',
                                                     background: 'linear-gradient(135deg, #fef08a 0%, #eab308 50%, #ca8a04 100%)',
                                                     border: '1px solid #fde047',
                                                     boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
                                                 }}
                                             >
-                                                <i className="fas fa-microchip text-dark" style={{ fontSize: '0.85rem', opacity: 0.8 }}></i>
+                                                <i className="fas fa-microchip text-dark" style={{ fontSize: '0.9rem', opacity: 0.8 }}></i>
                                             </div>
-                                            <i className="fas fa-wifi fa-rotate-90 text-white-50" style={{ fontSize: '0.85rem' }}></i>
+                                            <i className="fas fa-wifi fa-rotate-90 text-white-50" style={{ fontSize: '0.9rem' }}></i>
                                         </div>
                                     </div>
 
-                                    {/* Card Middle: Avatar & Info */}
-                                    <div className="d-flex align-items-center gap-3 my-2.5 position-relative z-2">
+                                    {/* Card Body: User Info */}
+                                    <div className="d-flex align-items-center gap-3 my-3 position-relative z-2">
                                         <div className="position-relative flex-shrink-0">
                                             <div
                                                 className="rounded-circle p-1"
@@ -188,7 +184,7 @@ export default function HomeIndex() {
                                                     src={auth.user.image || "/assets/images/user.png"}
                                                     alt={auth.user.name}
                                                     className="rounded-circle object-fit-cover"
-                                                    style={{ width: '58px', height: '58px', backgroundColor: '#ffffff', display: 'block' }}
+                                                    style={{ width: '60px', height: '60px', backgroundColor: '#ffffff', display: 'block' }}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src = "/assets/images/user.png";
@@ -198,11 +194,11 @@ export default function HomeIndex() {
                                             <div
                                                 className="position-absolute bottom-0 end-0 rounded-circle d-flex align-items-center justify-content-center text-white"
                                                 style={{
-                                                    width: '18px',
-                                                    height: '18px',
+                                                    width: '20px',
+                                                    height: '20px',
                                                     backgroundColor: auth.user.no_anggota ? '#10b981' : '#f59e0b',
                                                     border: '2px solid #064e3b',
-                                                    fontSize: '0.6rem',
+                                                    fontSize: '0.65rem',
                                                 }}
                                             >
                                                 <i className={`fas ${auth.user.no_anggota ? 'fa-check' : 'fa-clock'}`}></i>
@@ -210,10 +206,10 @@ export default function HomeIndex() {
                                         </div>
 
                                         <div className="overflow-hidden">
-                                            <h5 className="fw-bold mb-1 text-truncate text-white" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)', fontSize: '1.02rem' }}>
+                                            <h5 className="fw-bold mb-1 text-truncate text-white" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)', fontSize: '1.08rem' }}>
                                                 {auth.user.name}
                                             </h5>
-                                            <div className="text-white-50 small mb-1 text-truncate" style={{ fontSize: '0.75rem' }}>
+                                            <div className="text-white-50 small mb-1.5 text-truncate" style={{ fontSize: '0.78rem' }}>
                                                 <i className="fas fa-envelope me-1 opacity-75"></i>
                                                 {auth.user.email}
                                             </div>
@@ -222,7 +218,7 @@ export default function HomeIndex() {
                                                 style={{
                                                     backgroundColor: 'rgba(255, 255, 255, 0.16)',
                                                     backdropFilter: 'blur(4px)',
-                                                    fontSize: '0.7rem',
+                                                    fontSize: '0.72rem',
                                                     fontWeight: 600,
                                                     border: '1px solid rgba(255, 255, 255, 0.25)',
                                                 }}
@@ -241,25 +237,25 @@ export default function HomeIndex() {
                                         </div>
                                     </div>
 
-                                    {/* Card Bottom: Member ID & Actions */}
+                                    {/* Card Footer: No Anggota & Button */}
                                     <div className="pt-2.5 border-top border-white border-opacity-15 d-flex justify-content-between align-items-end position-relative z-2">
                                         <div>
-                                            <div className="text-white-50" style={{ fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                            <div className="text-white-50" style={{ fontSize: '0.64rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                                 Nomor Anggota IKATWI
                                             </div>
-                                            <div className="font-monospace fw-bold text-white" style={{ fontSize: '1.02rem', letterSpacing: '0.1em', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                                            <div className="font-monospace fw-bold text-white" style={{ fontSize: '1.05rem', letterSpacing: '0.1em', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
                                                 {auth.user.no_anggota || "BELUM TERBIT"}
                                             </div>
                                         </div>
 
                                         <Link
                                             href="/account/ekta"
-                                            className="btn btn-sm text-white px-3 py-1.5 rounded-pill d-inline-flex align-items-center gap-1.5 shadow-sm"
+                                            className="btn btn-sm text-white px-3.5 py-1.5 rounded-pill d-inline-flex align-items-center gap-1.5 shadow-sm"
                                             style={{
                                                 backgroundColor: 'rgba(255, 255, 255, 0.22)',
                                                 backdropFilter: 'blur(8px)',
                                                 border: '1px solid rgba(255, 255, 255, 0.35)',
-                                                fontSize: '0.75rem',
+                                                fontSize: '0.78rem',
                                                 fontWeight: 600,
                                                 transition: 'all 0.2s ease',
                                             }}
@@ -270,7 +266,7 @@ export default function HomeIndex() {
                                     </div>
                                 </div>
 
-                                {/* Quick 3D Stat Chips Below Card */}
+                                {/* Quick Stat Chips Below Card */}
                                 <div className="row g-2 mt-2">
                                     <div className="col-6 col-md-3">
                                         <div
@@ -327,7 +323,7 @@ export default function HomeIndex() {
                                 </div>
                             </div>
                         ) : (
-                            /* Guest Welcome 3D Card */
+                            /* Guest Welcome Card */
                             <div
                                 className="p-4 rounded-4 text-white mb-4 shadow-lg position-relative overflow-hidden"
                                 style={{
@@ -357,20 +353,20 @@ export default function HomeIndex() {
                         <div className="mb-4">
                             <div className="d-flex justify-content-between align-items-center mb-3 px-1">
                                 <div>
-                                    <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.05rem' }}>
+                                    <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.08rem' }}>
                                         <i className="fas fa-th-large text-success me-2"></i>
                                         Menu Utama
                                     </h5>
-                                    <span className="text-muted small" style={{ fontSize: '0.74rem' }}>
+                                    <span className="text-muted small" style={{ fontSize: '0.76rem' }}>
                                         Akses cepat layanan & informasi resmi organisasi
                                     </span>
                                 </div>
-                                <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0', fontSize: '0.72rem', fontWeight: 600 }}>
+                                <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0', fontSize: '0.74rem', fontWeight: 600 }}>
                                     <i className="fas fa-bolt me-1 text-warning"></i> 8 Layanan
                                 </span>
                             </div>
 
-                            {/* 3D App Grid: 4 columns on mobile & desktop */}
+                            {/* 3D App Grid: 4 columns */}
                             <div className="row g-2.5 g-sm-3">
                                 {menuItems.map((item, index) => {
                                     const CardContent = (
@@ -405,8 +401,8 @@ export default function HomeIndex() {
                                             <div
                                                 className="app-3d-icon d-flex align-items-center justify-content-center mb-2"
                                                 style={{
-                                                    width: '46px',
-                                                    height: '46px',
+                                                    width: '48px',
+                                                    height: '48px',
                                                     borderRadius: '14px',
                                                     background: item.gradient,
                                                     boxShadow: `0 8px 18px -4px ${item.shadowColor}, inset 0 1px 1px rgba(255,255,255,0.4)`,
@@ -419,10 +415,10 @@ export default function HomeIndex() {
                                             </div>
 
                                             {/* Label */}
-                                            <div className="fw-bold text-dark text-truncate w-100" style={{ fontSize: '0.8rem', lineHeight: 1.2 }}>
+                                            <div className="fw-bold text-dark text-truncate w-100" style={{ fontSize: '0.82rem', lineHeight: 1.2 }}>
                                                 {item.name}
                                             </div>
-                                            <div className="text-muted small text-truncate w-100 mt-0.5" style={{ fontSize: '0.65rem' }}>
+                                            <div className="text-muted small text-truncate w-100 mt-0.5" style={{ fontSize: '0.67rem' }}>
                                                 {item.subtitle}
                                             </div>
                                         </div>
@@ -454,11 +450,11 @@ export default function HomeIndex() {
                         <div className="mb-4">
                             <div className="d-flex justify-content-between align-items-center mb-3 px-1">
                                 <div>
-                                    <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.05rem' }}>
+                                    <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.08rem' }}>
                                         <i className="fas fa-calendar-alt text-primary me-2"></i>
                                         Agenda Kegiatan Terbaru
                                     </h5>
-                                    <span className="text-muted small" style={{ fontSize: '0.74rem' }}>
+                                    <span className="text-muted small" style={{ fontSize: '0.76rem' }}>
                                         Seminar, workshop, dan agenda resmi profesi
                                     </span>
                                 </div>
@@ -498,12 +494,8 @@ export default function HomeIndex() {
 
             <style jsx>{`
                 .card-3d-kta:hover {
-                    transform: translateY(-3px) scale(1.01);
-                    box-shadow: 0 22px 48px -10px rgba(5, 150, 105, 0.5) !important;
-                }
-
-                .kta-hologram-glow {
-                    background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
+                    transform: translateY(-3px);
+                    box-shadow: 0 20px 44px -10px rgba(5, 150, 105, 0.45) !important;
                 }
 
                 .app-3d-card:hover {

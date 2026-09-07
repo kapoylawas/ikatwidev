@@ -43,11 +43,11 @@ export default function Menu() {
 
     return (
         <>
-            {/* Floating 3D Mobile Navigation Dock - Max Width 820px to match cards */}
+            {/* Mobile-Only Floating 3D Navigation Dock */}
             <nav
-                className="fixed-bottom mx-auto p-1"
+                className="fixed-bottom mx-auto p-1 d-block d-md-none mobile-bottom-dock"
                 style={{
-                    maxWidth: '820px',
+                    maxWidth: '460px',
                     width: 'calc(100% - 24px)',
                     bottom: '12px',
                     left: '50%',
@@ -56,14 +56,14 @@ export default function Menu() {
                 }}
             >
                 <div
-                    className="d-flex align-items-center justify-content-around py-2 px-2 shadow-lg"
+                    className="d-flex align-items-center justify-content-around py-2 px-1 shadow-lg"
                     style={{
-                        backgroundColor: 'rgba(6, 78, 59, 0.95)',
+                        backgroundColor: 'rgba(6, 78, 59, 0.96)',
                         backdropFilter: 'blur(16px)',
                         WebkitBackdropFilter: 'blur(16px)',
-                        borderRadius: '20px',
+                        borderRadius: '24px',
                         border: '1px solid rgba(255, 255, 255, 0.18)',
-                        boxShadow: '0 12px 30px -4px rgba(6, 78, 59, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
+                        boxShadow: '0 12px 30px -4px rgba(6, 78, 59, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
                     }}
                 >
                     {/* Item: Beranda */}
@@ -88,7 +88,7 @@ export default function Menu() {
                         >
                             <i className="fas fa-home" style={{ fontSize: '1.15rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.72rem', fontWeight: isCurrent('/') ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/') ? 700 : 500, letterSpacing: '0.02em' }}>
                             Beranda
                         </span>
                     </Link>
@@ -115,7 +115,7 @@ export default function Menu() {
                         >
                             <i className="fas fa-file-invoice-dollar" style={{ fontSize: '1.05rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.72rem', fontWeight: isCurrent('/account/tagihan') ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/account/tagihan') ? 700 : 500, letterSpacing: '0.02em' }}>
                             Tagihan
                         </span>
                     </Link>
@@ -142,7 +142,7 @@ export default function Menu() {
                         >
                             <i className="fas fa-id-card" style={{ fontSize: '1.05rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.72rem', fontWeight: isCurrent('/account/ekta') ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/account/ekta') ? 700 : 500, letterSpacing: '0.02em' }}>
                             e-KTA
                         </span>
                     </Link>
@@ -169,7 +169,7 @@ export default function Menu() {
                         >
                             <i className="fas fa-user-circle" style={{ fontSize: '1.15rem' }}></i>
                         </div>
-                        <span style={{ fontSize: '0.72rem', fontWeight: (isCurrent('/account/dashboard') || isCurrent('/login')) ? 700 : 500, letterSpacing: '0.02em' }}>
+                        <span style={{ fontSize: '0.68rem', fontWeight: (isCurrent('/account/dashboard') || isCurrent('/login')) ? 700 : 500, letterSpacing: '0.02em' }}>
                             {auth && auth.user ? "Akun" : "Masuk"}
                         </span>
                     </Link>
@@ -220,6 +220,11 @@ export default function Menu() {
             </div>
 
             <style jsx>{`
+                @media (min-width: 768px) {
+                    .mobile-bottom-dock {
+                        display: none !important;
+                    }
+                }
                 .nav-dock-item:active {
                     transform: scale(0.92);
                 }
