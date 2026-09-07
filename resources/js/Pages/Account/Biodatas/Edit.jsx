@@ -1,10 +1,10 @@
 //import react
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
 
-//import Head, usePage
+//import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 
 //import Inertia adapter
@@ -17,742 +17,540 @@ export default function UserEdit() {
     const { errors, biodata, cities, provinces } = usePage().props;
 
     // state user
-    const [name, setName] = useState(biodata.name);
-    const [nik, setNik] = useState(biodata.nik);
-    const [email, setEmail] = useState(biodata.email);
-    const [phone, setPhone] = useState(biodata.phone);
-    const [alamat, setAlamat] = useState(biodata.alamat);
-    const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir);
-    const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir);
-    const [lokasipekerjaan, setLokasipekerjaan] = useState(
-        biodata.lokasi_pekerjaan
-    );
-    const [alamatTempatBekerja, setAlamatTempatBekerja] = useState(
-        biodata.alamat_tempat_bekerja
-    );
-    const [provinceID, setProvinceID] = useState(biodata.province_id);
-    const [cityID, setCityID] = useState(biodata.city_id);
-    const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota);
-    const [pendidikan, setPendidikan] = useState(biodata.pendidikan);
-    const [nonlinear, setNonlinear] = useState(biodata.nonlinear);
-    const [kepegawaian, setKepegawaian] = useState(biodata.kepegawaian);
-    const [bekerja, setBekerja] = useState(biodata.bekerja);
-    const [istitusi, setIstitusi] = useState(biodata.istitusi);
-    const [almtistitusi, setAlmtistitusi] = useState(biodata.almtistitusi);
+    const [name, setName] = useState(biodata.name || "");
+    const [nik, setNik] = useState(biodata.nik || "");
+    const [email, setEmail] = useState(biodata.email || "");
+    const [phone, setPhone] = useState(biodata.phone || "");
+    const [alamat, setAlamat] = useState(biodata.alamat || "");
+    const [tempatlahir, setTempatlahir] = useState(biodata.tempat_lahir || "");
+    const [tgllahir, setTgllahir] = useState(biodata.tgl_lahir || "");
+    const [lokasipekerjaan, setLokasipekerjaan] = useState(biodata.lokasi_pekerjaan || "");
+    const [alamatTempatBekerja, setAlamatTempatBekerja] = useState(biodata.alamat_tempat_bekerja || "");
+    const [provinceID, setProvinceID] = useState(biodata.province_id || "");
+    const [cityID, setCityID] = useState(biodata.city_id || "");
+    const [statusAnggota, setStatusAnggota] = useState(biodata.status_anggota || "Anggota Biasa");
+    const [pendidikan, setPendidikan] = useState(biodata.pendidikan || "");
+    const [nonlinear, setNonlinear] = useState(biodata.nonlinear || "");
+    const [kepegawaian, setKepegawaian] = useState(biodata.kepegawaian || "");
+    const [bekerja, setBekerja] = useState(biodata.bekerja || "");
+    const [istitusi, setIstitusi] = useState(biodata.istitusi || "");
+    const [almtistitusi, setAlmtistitusi] = useState(biodata.almtistitusi || "");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(biodata.image || "/assets/images/user.png");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
 
     //method updateUser
     const updateUser = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
-        //sending data
-        Inertia.post(
-            `/account/biodatas/${biodata.id}`,
-            {
-                //data
-                name: name,
-                email: email,
-                nik: nik,
-                phone: phone,
-                alamat: alamat,
-                tempat_lahir: tempatlahir,
-                tgl_lahir: tgllahir,
-                lokasi_pekerjaan: lokasipekerjaan,
-                status_anggota: statusAnggota,
-                image: image,
-                province_id: provinceID,
-                city_id: cityID,
-                pendidikan: pendidikan,
-                nonlinear: nonlinear,
-                kepegawaian: kepegawaian,
-                bekerja: bekerja,
-                istitusi: istitusi,
-                almtistitusi: almtistitusi,
-                alamat_tempat_bekerja: alamatTempatBekerja,
-                password: password,
-                password_confirmation: passwordConfirmation,
-                _method: "PUT",
+        const formData = {
+            name: name,
+            email: email,
+            nik: nik,
+            phone: phone,
+            alamat: alamat,
+            tempat_lahir: tempatlahir,
+            tgl_lahir: tgllahir,
+            lokasi_pekerjaan: lokasipekerjaan,
+            status_anggota: statusAnggota,
+            province_id: provinceID,
+            city_id: cityID,
+            pendidikan: pendidikan,
+            nonlinear: nonlinear,
+            kepegawaian: kepegawaian,
+            bekerja: bekerja,
+            istitusi: istitusi,
+            almtistitusi: almtistitusi,
+            alamat_tempat_bekerja: alamatTempatBekerja,
+            password: password,
+            password_confirmation: passwordConfirmation,
+            _method: "PUT",
+        };
+
+        if (image) {
+            formData.image = image;
+        }
+
+        Inertia.post(`/account/biodatas/${biodata.id}`, formData, {
+            onSuccess: () => {
+                Swal.fire({
+                    title: "Berhasil!",
+                    text: "Biodata anggota berhasil diperbarui.",
+                    icon: "success",
+                    confirmButtonColor: "#059669",
+                }).then(() => {
+                    Inertia.visit("/account/biodatas");
+                });
+                setIsLoading(false);
             },
-            {
-                onSuccess: () => {
-                    //show alert
-                    Swal.fire({
-                        title: "Success!",
-                        text: "Data updated successfully!",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
-                },
-            }
-        );
+            onError: () => {
+                setIsLoading(false);
+            },
+        });
     };
+
+    useEffect(() => {
+        const unsubscribe = Inertia.on("finish", () => {
+            setIsLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
 
     return (
         <>
             <Head>
-                <title>Edit Users - IKATWI</title>
+                <title>Edit Biodata Anggota - IKATWI</title>
             </Head>
             <LayoutAccount>
-                <div className="row mt-2">
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-3 col-12 mb-2">
-                                <Link
-                                    href="/account/biodatas"
-                                    className="btn btn-md btn-admin border-0 shadow w-100"
-                                    type="button"
-                                >
-                                    <i className="fa fa-arrow-left me-2"></i>
-                                    KEMBALI
-                                </Link>
+                <div className="container-fluid px-0 py-2">
+                    
+                    {/* Header Bar */}
+                    <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                        <div className="d-flex align-items-center gap-3">
+                            <Link
+                                href="/account/biodatas"
+                                className="btn btn-light border d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 text-dark fw-semibold"
+                            >
+                                <i className="fa fa-arrow-left"></i>
+                                <span>Kembali</span>
+                            </Link>
+                            <div>
+                                <h4 className="mb-0 fw-bold text-dark">Edit Biodata Anggota</h4>
+                                <small className="text-muted">Perbarui data profil, pendidikan, dan institusi kerja</small>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row mt-1">
-                    <div className="col-12">
-                        <div className="card border-0 rounded shadow-sm border-top-admin">
-                            <div className="card-header">
-                                <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Edit User
-                                    Ikatwi
-                                </span>
-                            </div>
 
-                            <div className="card-body">
-                                <label className="form-label fw-bold">
-                                    Biodata Pribadi :
-                                </label>
-                                <form onSubmit={updateUser}>
-                                    <div className="mb-3">
-                                        <label className="form-label">
-                                            Pas Foto
-                                        </label>
-                                        <input
-                                            type="file"
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setImage(e.target.files[0])
-                                            }
-                                        />
+                        <div className="d-flex gap-2">
+                            <button
+                                type="button"
+                                onClick={updateUser}
+                                disabled={isLoading}
+                                className="btn btn-success fw-bold d-inline-flex align-items-center gap-2 px-4 py-2 rounded-3 shadow-sm"
+                                style={{ backgroundColor: '#059669', borderColor: '#059669' }}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm" role="status"></span>
+                                        <span>Menyimpan...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <i className="fa fa-save"></i>
+                                        <span>Simpan Perubahan</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+
+                    <form onSubmit={updateUser}>
+                        <div className="row g-4">
+                            
+                            {/* 1. Data Pribadi & Kontak */}
+                            <div className="col-12 col-lg-6">
+                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                    <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
+                                        <div className="p-2 bg-success bg-opacity-10 text-success rounded-3">
+                                            <i className="fa fa-user"></i>
+                                        </div>
+                                        <h6 className="mb-0 fw-bold text-dark">Data Pribadi & Kontak</h6>
                                     </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                NIK
+                                    <div className="card-body p-3.5">
+                                        
+                                        {/* Avatar preview & upload */}
+                                        <div className="d-flex align-items-center gap-3 mb-4 p-3 bg-light rounded-3 border">
+                                            <img
+                                                src={imagePreview}
+                                                alt="Preview Foto"
+                                                className="rounded-circle border"
+                                                style={{ width: "64px", height: "64px", objectFit: "cover" }}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = "/assets/images/user.png";
+                                                }}
+                                            />
+                                            <div className="flex-grow-1">
+                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                    Ganti Pas Foto (Opsional)
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    className="form-control form-control-sm"
+                                                    onChange={handleImageChange}
+                                                />
+                                                <small className="text-muted" style={{ fontSize: "0.75rem" }}>
+                                                    Format: JPG, PNG. Maksimal 2MB.
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
+                                                Nama Lengkap & Gelar <span className="text-danger">*</span>
                                             </label>
-                                            <div className="input-group mb-3">
+                                            <input
+                                                type="text"
+                                                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
+                                                placeholder="Contoh: Dobe Darmawan Ricci Yuliarna, A.Md.TW"
+                                                required
+                                            />
+                                            {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+                                        </div>
+
+                                        <div className="row g-2 mb-3">
+                                            <div className="col-sm-6">
+                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                    NIK (16 Digit) <span className="text-danger">*</span>
+                                                </label>
                                                 <input
-                                                    type="number"
-                                                    className="form-control"
+                                                    type="text"
+                                                    className={`form-control ${errors.nik ? 'is-invalid' : ''}`}
                                                     value={nik}
-                                                    onChange={(e) =>
-                                                        setNik(e.target.value)
-                                                    }
-                                                    placeholder="No Induk Kependudukan"
+                                                    onChange={(e) => setNik(e.target.value)}
+                                                    maxLength={16}
+                                                    placeholder="16 digit NIK KTP"
+                                                    required
                                                 />
+                                                {errors.nik && <div className="invalid-feedback">{errors.nik}</div>}
                                             </div>
-                                            {errors.nik && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.nik}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label">
-                                                    Nama dan Gelar
+                                            <div className="col-sm-6">
+                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                    Email Terdaftar <span className="text-danger">*</span>
                                                 </label>
                                                 <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={name}
-                                                    onChange={(e) =>
-                                                        setName(e.target.value)
-                                                    }
-                                                    placeholder="Enter Full Name"
-                                                />
-                                            </div>
-                                            {errors.name && (
-                                                <div className="alert alert-danger">
-                                                    {errors.name}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label">
-                                                    Alamat Email
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
+                                                    type="email"
+                                                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                                                     value={email}
-                                                    onChange={(e) =>
-                                                        setEmail(e.target.value)
-                                                    }
-                                                    placeholder="Enter Email Address"
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    placeholder="nama@email.com"
+                                                    required
                                                 />
+                                                {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                                             </div>
-                                            {errors.email && (
-                                                <div className="alert alert-danger">
-                                                    {errors.email}
-                                                </div>
-                                            )}
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
+
+                                        <div className="row g-2 mb-3">
+                                            <div className="col-sm-6">
+                                                <label className="form-label small fw-bold text-dark mb-1">
                                                     Tempat Lahir
                                                 </label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
                                                     value={tempatlahir}
-                                                    onChange={(e) =>
-                                                        setTempatlahir(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Tempat Kelahiran"
+                                                    onChange={(e) => setTempatlahir(e.target.value)}
+                                                    placeholder="Kota / Tempat Kelahiran"
                                                 />
                                             </div>
-                                            {errors.tempat_lahir && (
-                                                <div className="alert alert-danger">
-                                                    {errors.tempat_lahir}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
+                                            <div className="col-sm-6">
+                                                <label className="form-label small fw-bold text-dark mb-1">
                                                     Tanggal Lahir
                                                 </label>
                                                 <input
                                                     type="date"
                                                     className="form-control"
                                                     value={tgllahir}
-                                                    onChange={(e) =>
-                                                        setTgllahir(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Tanggal Lahir"
+                                                    onChange={(e) => setTgllahir(e.target.value)}
                                                 />
                                             </div>
-                                            {errors.email && (
-                                                <div className="alert alert-danger">
-                                                    {errors.email}
-                                                </div>
-                                            )}
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                No. Tlpn/HP
+
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
+                                                Nomor Telepon / WhatsApp <span className="text-danger">*</span>
                                             </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    value={phone}
-                                                    onChange={(e) =>
-                                                        setPhone(e.target.value)
-                                                    }
-                                                    placeholder="No Telephone"
-                                                />
-                                            </div>
-                                            {errors.phone && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.phone}
-                                                </div>
-                                            )}
+                                            <input
+                                                type="text"
+                                                className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                                placeholder="Contoh: 08123456789"
+                                                required
+                                            />
+                                            {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                                         </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
+
+                                        <div className="mb-0">
+                                            <label className="form-label small fw-bold text-dark mb-1">
                                                 Alamat Sesuai KTP
                                             </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={alamat}
-                                                    onChange={(e) =>
-                                                        setAlamat(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Alamat Lengkap Sesuai KTP"
-                                                />
-                                            </div>
-                                            {errors.alamat && (
-                                                <div className="alert alert-danger">
-                                                    {errors.alamat}
-                                                </div>
-                                            )}
+                                            <textarea
+                                                className="form-control"
+                                                rows="3"
+                                                value={alamat}
+                                                onChange={(e) => setAlamat(e.target.value)}
+                                                placeholder="Alamat lengkap sesuai KTP"
+                                            ></textarea>
                                         </div>
+
                                     </div>
-                                    <hr />
-                                    <label className="form-label fw-bold">
-                                        Riwayat Pendidikan :
-                                    </label>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                Pendidikan Terapi Wicara
+                                </div>
+                            </div>
+
+                            {/* 2. Riwayat Pendidikan */}
+                            <div className="col-12 col-lg-6">
+                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                    <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
+                                        <div className="p-2 bg-primary bg-opacity-10 text-primary rounded-3">
+                                            <i className="fa fa-graduation-cap"></i>
+                                        </div>
+                                        <h6 className="mb-0 fw-bold text-dark">Riwayat Pendidikan</h6>
+                                    </div>
+                                    <div className="card-body p-3.5">
+                                        
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
+                                                Jenjang Pendidikan Terapi Wicara
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={pendidikan}
-                                                onChange={(e) =>
-                                                    setPendidikan(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                onChange={(e) => setPendidikan(e.target.value)}
                                             >
-                                                <option value="">
-                                                    -- Select Jenjang Pendidikan
-                                                    --
-                                                </option>
-                                                <option value="D3">DIII</option>
-                                                <option value="D4">DIV</option>
-                                                <option value="S2 (Magister Terapi Wicara)">
-                                                    S2 (Magister Terapi Wicara)
-                                                </option>
-                                                <option value="S3 (Doktor Terapi Wicara)">
-                                                    S3 (Doktor Terapi Wicara)
-                                                </option>
+                                                <option value="">-- Pilih Jenjang Pendidikan --</option>
+                                                <option value="D3">D3 (Diploma Tiga)</option>
+                                                <option value="D4">D4 (Diploma Empat)</option>
+                                                <option value="S2 (Magister Terapi Wicara)">S2 (Magister Terapi Wicara)</option>
+                                                <option value="S3 (Doktor Terapi Wicara)">S3 (Doktor Terapi Wicara)</option>
                                             </select>
-                                            {errors.status_anggota && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.status_anggota}
-                                                </div>
-                                            )}
                                         </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
-                                                Nama Perguruan Tinggi Terapi
-                                                Wicara
+
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
+                                                Nama Perguruan Tinggi Terapi Wicara
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={istitusi}
-                                                onChange={(e) =>
-                                                    setIstitusi(e.target.value)
-                                                }
+                                                onChange={(e) => setIstitusi(e.target.value)}
                                             >
-                                                <option value="">
-                                                    -- Select Perguruan Tinggi
-                                                    Terapi Wicara --
-                                                </option>
-                                                <option value="Poltekes Kemenkes Surakarta">
-                                                    Poltekes Kemenkes Surakarta
-                                                </option>
+                                                <option value="">-- Pilih Perguruan Tinggi --</option>
+                                                <option value="Poltekes Kemenkes Surakarta">Poltekes Kemenkes Surakarta</option>
                                                 <option value="Akademi Terapi Wicara Yayasan Bina Wicara Jakarta">
-                                                    Akademi Terapi Wicara
-                                                    Yayasan Bina Wicara Jakarta
+                                                    Akademi Terapi Wicara Yayasan Bina Wicara Jakarta
                                                 </option>
-                                                <option value="Politeknik AL Islam Bandung">
-                                                    Politeknik AL Islam Bandung
-                                                </option>
-                                                <option value="Stikes Mercubaktijaya Padang">
-                                                    Stikes Mercubaktijaya Padang
-                                                </option>
-                                                <option value="Lain-Lain">
-                                                    Lain-Lain
-                                                </option>
+                                                <option value="Politeknik AL Islam Bandung">Politeknik AL Islam Bandung</option>
+                                                <option value="Stikes Mercubaktijaya Padang">Stikes Mercubaktijaya Padang</option>
+                                                <option value="Lain-Lain">Lain-Lain</option>
                                             </select>
-                                            {errors.istitusi && (
-                                                <div className="alert alert-danger">
-                                                    {errors.istitusi}
-                                                </div>
-                                            )}
                                         </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
-                                                Alamat Perguruan Tinggi Terapi
-                                                Wicara
+
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
+                                                Alamat Perguruan Tinggi Terapi Wicara
                                             </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={almtistitusi}
-                                                    onChange={(e) =>
-                                                        setAlmtistitusi(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Alamat Lengkap Istitusi"
-                                                />
-                                            </div>
-                                            {errors.almtistitusi && (
-                                                <div className="alert alert-danger">
-                                                    {errors.almtistitusi}
-                                                </div>
-                                            )}
+                                            <textarea
+                                                className="form-control"
+                                                rows="2"
+                                                value={almtistitusi}
+                                                onChange={(e) => setAlmtistitusi(e.target.value)}
+                                                placeholder="Alamat lengkap kampus almamater"
+                                            ></textarea>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
+
+                                        <div className="mb-0">
+                                            <label className="form-label small fw-bold text-dark mb-1">
                                                 Pendidikan Non Terapi Wicara
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={nonlinear}
-                                                onChange={(e) =>
-                                                    setNonlinear(e.target.value)
-                                                }
+                                                onChange={(e) => setNonlinear(e.target.value)}
                                             >
-                                                <option value="">
-                                                    -- Select Jenjang Pendidikan
-                                                    Non Linear --
-                                                </option>
-                                                <option value="Sarjana">
-                                                    Sarjana
-                                                </option>
-                                                <option value="Magister">
-                                                    Magister
-                                                </option>
-                                                <option value="Doktor">
-                                                    Doktor
-                                                </option>
-                                                <option value="Tidak">
-                                                    Tidak Ada
-                                                </option>
+                                                <option value="">-- Pilih Jenjang Non-TW --</option>
+                                                <option value="Sarjana">Sarjana (S1)</option>
+                                                <option value="Magister">Magister (S2)</option>
+                                                <option value="Doktor">Doktor (S3)</option>
+                                                <option value="Tidak">Tidak Ada</option>
                                             </select>
-                                            {errors.status_anggota && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.status_anggota}
-                                                </div>
-                                            )}
                                         </div>
+
                                     </div>
-                                    <hr />
-                                    <label className="form-label fw-bold">
-                                        Informasi Pekerjaan :
-                                    </label>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
+                                </div>
+                            </div>
+
+                            {/* 3. Informasi Pekerjaan */}
+                            <div className="col-12 col-lg-6">
+                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                    <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
+                                        <div className="p-2 bg-purple bg-opacity-10 text-purple rounded-3" style={{ color: '#7c3aed', background: '#faf5ff' }}>
+                                            <i className="fa fa-briefcase"></i>
+                                        </div>
+                                        <h6 className="mb-0 fw-bold text-dark">Informasi Pekerjaan</h6>
+                                    </div>
+                                    <div className="card-body p-3.5">
+                                        
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
                                                 Status Kepegawaian
                                             </label>
                                             <select
                                                 className="form-select"
                                                 value={kepegawaian}
-                                                onChange={(e) =>
-                                                    setKepegawaian(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                onChange={(e) => setKepegawaian(e.target.value)}
                                             >
-                                                <option value="">
-                                                    -- Select Status Kepegawaian
-                                                    --
-                                                </option>
-                                                <option value="BLU/KONTRAK">
-                                                    BLU/KONTRAK
-                                                </option>
-                                                <option value="Swasta">
-                                                    Swasta
-                                                </option>
-                                                <option value="PNS">PNS</option>
-                                                <option value="PPPK">
-                                                    PPPK
-                                                </option>
-                                                <option value="Belum Bekerja">
-                                                    Belum Bekerja
-                                                </option>
+                                                <option value="">-- Pilih Status Kepegawaian --</option>
+                                                <option value="PNS">PNS / ASN</option>
+                                                <option value="PPPK">PPPK</option>
+                                                <option value="Swasta">Pegawai Swasta</option>
+                                                <option value="Honorer">Honorer / Kontrak</option>
+                                                <option value="Mandiri">Praktik Mandiri</option>
+                                                <option value="Belum Bekerja">Belum Bekerja</option>
                                             </select>
-                                            {errors.status_anggota && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.status_anggota}
-                                                </div>
-                                            )}
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                Tempat Bekerja
+
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
+                                                Tempat / Jenis Unit Bekerja
                                             </label>
-                                            <select
-                                                className="form-select"
+                                            <input
+                                                type="text"
+                                                className="form-control"
                                                 value={bekerja}
-                                                onChange={(e) =>
-                                                    setBekerja(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select Tempat Bekerja --
-                                                </option>
-                                                <option value="Klinik Swasta">
-                                                    Klinik Swasta
-                                                </option>
-                                                <option value="Rumah Sakit Swasta">
-                                                    Rumah Sakit Swasta
-                                                </option>
-                                                <option value="Rumah Sakit Umum Pusat">
-                                                    Rumah Sakit Umum Pusat
-                                                </option>
-                                                <option value="Rumah Sakit Umum Daerah">
-                                                    Rumah Sakit Umum Daerah
-                                                </option>
-                                                <option value="Rumah Sakit Militer">
-                                                    Rumah Sakit Militer
-                                                </option>
-                                                <option value="Rumah Sakit Khusus">
-                                                    Rumah Sakit Khusus
-                                                </option>
-                                                <option value="Puskesmas">
-                                                    Puskesmas
-                                                </option>
-                                                <option value="Sekolah Luar Biasa">
-                                                    Sekolah Luar Biasa
-                                                </option>
-                                                <option value="Perguruan Tinggi">
-                                                    Perguruan Tinggi
-                                                </option>
-                                                <option value="Belum Bekerja">
-                                                    Belum Bekerja
-                                                </option>
-                                                <option value="Freelance">
-                                                    Freelance
-                                                </option>
-                                                <option value="Lainnya">
-                                                    Lainnya
-                                                </option>
-                                            </select>
-                                            {errors.status_anggota && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.status_anggota}
-                                                </div>
-                                            )}
+                                                onChange={(e) => setBekerja(e.target.value)}
+                                                placeholder="Contoh: Rumah Sakit, Klinik, Sekolah, dll"
+                                            />
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                Nama Institusi Tempat Bekerja
+
+                                        <div className="mb-3">
+                                            <label className="form-label small fw-bold text-dark mb-1">
+                                                Nama Institusi / Faskes Tempat Bekerja
                                             </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={lokasipekerjaan}
-                                                    onChange={(e) =>
-                                                        setLokasipekerjaan(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder=" Nama Institusi Tempat Bekerja"
-                                                />
-                                            </div>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={lokasipekerjaan}
+                                                onChange={(e) => setLokasipekerjaan(e.target.value)}
+                                                placeholder="Nama Rumah Sakit / Klinik / Instansi"
+                                            />
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
+
+                                        <div className="mb-0">
+                                            <label className="form-label small fw-bold text-dark mb-1">
                                                 Alamat Institusi Tempat Bekerja
                                             </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={alamatTempatBekerja}
-                                                    onChange={(e) =>
-                                                        setAlamatTempatBekerja(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder=" Nama Institusi Tempat Bekerja"
-                                                />
-                                            </div>
+                                            <textarea
+                                                className="form-control"
+                                                rows="2"
+                                                value={alamatTempatBekerja}
+                                                onChange={(e) => setAlamatTempatBekerja(e.target.value)}
+                                                placeholder="Alamat lengkap tempat bekerja"
+                                            ></textarea>
                                         </div>
+
                                     </div>
-                                    <hr />
-                                    <label className="form-label fw-bold">
-                                        Status Keanggotaan :
-                                    </label>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                Status Anggota
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={statusAnggota}
-                                                disabled
-                                                onChange={(e) =>
-                                                    setStatusAnggota(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select Status Keanggotaan
-                                                    --
-                                                </option>
-                                                <option value="Anggota Biasa">
-                                                    Anggota Biasa
-                                                </option>
-                                                <option value="Anggota Luar Biasa">
-                                                    Anggota Luar Biasa
-                                                </option>
-                                                <option value="Anggota Kehormatan">
-                                                    Anggota Kehormatan
-                                                </option>
-                                            </select>
-                                            {errors.status_anggota && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.status_anggota}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                DPW
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                disabled
-                                                value={provinceID}
-                                                onChange={(e) =>
-                                                    setProvinceID(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPW --
-                                                </option>
-                                                {provinces.map((province) => (
-                                                    <option
-                                                        value={province.id}
-                                                        key={province.id}
-                                                    >
-                                                        {province.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.province_id && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.province_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                DPC
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                disabled
-                                                value={cityID}
-                                                onChange={(e) =>
-                                                    setCityID(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPC --
-                                                </option>
-                                                {cities.map((city) => (
-                                                    <option
-                                                        value={city.id}
-                                                        key={city.id}
-                                                    >
-                                                        {city.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.city_id && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.city_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    {/*  */}
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Password
-                                                </label>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    value={password}
-                                                    onChange={(e) =>
-                                                        setPassword(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Password"
-                                                />
-                                            </div>
-                                            {errors.password && (
-                                                <div className="alert alert-danger">
-                                                    {errors.password}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Password Confirmation
-                                                </label>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    value={passwordConfirmation}
-                                                    onChange={(e) =>
-                                                        setPasswordConfirmation(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Password Confirmation"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-md btn-success me-2"
-                                        >
-                                            <i className="fa fa-save"></i> Save
-                                        </button>
-                                        <button
-                                            type="reset"
-                                            className="btn btn-md btn-warning"
-                                        >
-                                            <i className="fa fa-redo"></i> Reset
-                                        </button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
+
+                            {/* 4. Organisasi & Keamanan Akun */}
+                            <div className="col-12 col-lg-6">
+                                <div className="card border-0 shadow-sm rounded-4 h-100">
+                                    <div className="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2.5">
+                                        <div className="p-2 bg-warning bg-opacity-10 text-warning rounded-3">
+                                            <i className="fa fa-lock"></i>
+                                        </div>
+                                        <h6 className="mb-0 fw-bold text-dark">Organisasi & Keamanan Akun</h6>
+                                    </div>
+                                    <div className="card-body p-3.5">
+                                        
+                                        <div className="row g-2 mb-3">
+                                            <div className="col-sm-6">
+                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                    DPW Terdaftar
+                                                </label>
+                                                <select className="form-select bg-light" disabled value={provinceID}>
+                                                    <option value="">-- DPW --</option>
+                                                    {provinces.map((prov) => (
+                                                        <option key={prov.id} value={prov.id}>{prov.name}</option>
+                                                    ))}
+                                                </select>
+                                                <small className="text-muted" style={{ fontSize: "0.72rem" }}>
+                                                    Hubungi Admin jika ingin mutasi wilayah.
+                                                </small>
+                                            </div>
+
+                                            <div className="col-sm-6">
+                                                <label className="form-label small fw-bold text-dark mb-1">
+                                                    DPC Terdaftar
+                                                </label>
+                                                <select className="form-select bg-light" disabled value={cityID}>
+                                                    <option value="">-- DPC --</option>
+                                                    {cities.map((ct) => (
+                                                        <option key={ct.id} value={ct.id}>{ct.name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-3 bg-light rounded-3 border mb-3">
+                                            <div className="d-flex align-items-center gap-2 mb-2">
+                                                <i className="fa fa-key text-emerald"></i>
+                                                <span className="small fw-bold text-dark">Ubah Password Akun (Opsional)</span>
+                                            </div>
+                                            <p className="text-muted small mb-2" style={{ fontSize: "0.76rem" }}>
+                                                Biarkan kosong jika tidak ingin mengubah password akun Anda saat ini.
+                                            </p>
+
+                                            <div className="row g-2">
+                                                <div className="col-sm-6">
+                                                    <input
+                                                        type="password"
+                                                        className="form-control form-control-sm"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
+                                                        placeholder="Password Baru"
+                                                        autoComplete="new-password"
+                                                    />
+                                                </div>
+                                                <div className="col-sm-6">
+                                                    <input
+                                                        type="password"
+                                                        className="form-control form-control-sm"
+                                                        value={passwordConfirmation}
+                                                        onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                                        placeholder="Konfirmasi Password"
+                                                        autoComplete="new-password"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Action buttons */}
+                                        <div className="d-flex justify-content-end gap-2 pt-2">
+                                            <Link href="/account/biodatas" className="btn btn-light border px-4 py-2 rounded-3 text-dark fw-semibold">
+                                                Batal
+                                            </Link>
+                                            <button
+                                                type="submit"
+                                                disabled={isLoading}
+                                                className="btn btn-success fw-bold px-4 py-2 rounded-3 shadow-sm"
+                                                style={{ backgroundColor: '#059669', borderColor: '#059669' }}
+                                            >
+                                                {isLoading ? "Menyimpan..." : "Simpan Perubahan"}
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
+                    </form>
+
                 </div>
             </LayoutAccount>
         </>

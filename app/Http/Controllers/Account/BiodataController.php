@@ -18,10 +18,15 @@ class BiodataController extends Controller
         $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
 
         $tahun = date('Y');
-        $transactions = Transaction::with('user')
+        $transactions = Transaction::with('user', 'transactionDetails')
             ->where('user_id', auth()->user()->id)
             ->where('cek_ts', 1)
-            ->where('tahun', $tahun)->get();
+            ->where(function ($q) use ($tahun) {
+                $q->where('tahun', $tahun)
+                  ->orWhereHas('transactionDetails', function ($qd) use ($tahun) {
+                      $qd->where('tahun', $tahun);
+                  });
+            })->get();
         $statusAnggota = User::where('id', auth()->user()->id)->first();
 
         //return inertia
