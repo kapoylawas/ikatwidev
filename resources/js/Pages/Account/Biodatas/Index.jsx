@@ -132,32 +132,33 @@ export default function BiodataIndex() {
                     </div>
 
                     {/* Information Grid */}
+                    {/* Information Grid */}
                     <div className="row g-4">
                         
-                        {/* 1. Informasi Pribadi & Kontak */}
+                        {/* 1. Informasi Pribadi & Kontak (Emerald / Green Theme) */}
                         <div className="col-12 col-lg-6">
-                            <div className="card bio-info-card h-100">
-                                <div className="card-header bg-white d-flex align-items-center gap-2.5 py-3 border-bottom">
-                                    <div className="bio-card-icon-wrap bg-emerald-light">
-                                        <i className="fa fa-user text-emerald"></i>
+                            <div className="card bio-info-card bio-card-emerald h-100">
+                                <div className="card-header bio-header-emerald d-flex align-items-center gap-2.5 py-3">
+                                    <div className="bio-card-icon-wrap bg-emerald-main text-white shadow-sm">
+                                        <i className="fa fa-user"></i>
                                     </div>
                                     <div>
-                                        <h6 className="mb-0 fw-bold text-dark">Data Pribadi & Kontak</h6>
-                                        <small className="text-muted">Identitas kependudukan dan kontak anggota</small>
+                                        <h6 className="mb-0 fw-bold text-emerald-dark">Data Pribadi & Kontak</h6>
+                                        <small className="text-emerald-sub">Identitas kependudukan dan kontak anggota</small>
                                     </div>
                                 </div>
                                 <div className="card-body p-3.5">
                                     <div className="row g-3">
                                         
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-fingerprint me-1.5 text-muted"></i>NIK</span>
+                                            <div className="bio-field-box bio-field-emerald">
+                                                <span className="bio-label text-emerald-label"><i className="fa fa-fingerprint me-1.5 text-success"></i>NIK</span>
                                                 <div className="d-flex align-items-center justify-content-between">
                                                     <span className="bio-value">{biodata.nik || "-"}</span>
                                                     {biodata.nik && (
                                                         <button
                                                             type="button"
-                                                            className="btn btn-sm btn-link p-0 text-muted"
+                                                            className="btn btn-sm btn-link p-0 text-muted bio-copy-btn"
                                                             onClick={() => handleCopy(biodata.nik, "nik")}
                                                             title="Salin NIK"
                                                         >
@@ -169,18 +170,18 @@ export default function BiodataIndex() {
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-certificate me-1.5 text-muted"></i>No. STR</span>
+                                            <div className="bio-field-box bio-field-emerald">
+                                                <span className="bio-label text-emerald-label"><i className="fa fa-certificate me-1.5 text-success"></i>No. STR</span>
                                                 <span className="bio-value">{biodata.no_str || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-envelope me-1.5 text-muted"></i>Email</span>
+                                            <div className="bio-field-box bio-field-emerald">
+                                                <span className="bio-label text-emerald-label"><i className="fa fa-envelope me-1.5 text-success"></i>Email</span>
                                                 <span className="bio-value text-truncate d-block" title={biodata.email}>
                                                     {biodata.email ? (
-                                                        <a href={`mailto:${biodata.email}`} className="text-decoration-none text-dark">
+                                                        <a href={`mailto:${biodata.email}`} className="text-decoration-none text-dark hover-emerald">
                                                             {biodata.email}
                                                         </a>
                                                     ) : "-"}
@@ -189,8 +190,8 @@ export default function BiodataIndex() {
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-phone me-1.5 text-muted"></i>No. Telepon / WhatsApp</span>
+                                            <div className="bio-field-box bio-field-emerald">
+                                                <span className="bio-label text-emerald-label"><i className="fa fa-phone me-1.5 text-success"></i>No. Telepon / WhatsApp</span>
                                                 <span className="bio-value">
                                                     {biodata.phone ? (
                                                         <a href={`https://wa.me/${biodata.phone.replace(/^0/, '62').replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="text-decoration-none text-success fw-semibold">
@@ -202,8 +203,8 @@ export default function BiodataIndex() {
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-birthday-cake me-1.5 text-muted"></i>Tempat, Tanggal Lahir</span>
+                                            <div className="bio-field-box bio-field-emerald">
+                                                <span className="bio-label text-emerald-label"><i className="fa fa-birthday-cake me-1.5 text-success"></i>Tempat, Tanggal Lahir</span>
                                                 <span className="bio-value">
                                                     {biodata.tempat_lahir || "-"}, {formatDate(biodata.tgl_lahir)}
                                                 </span>
@@ -211,8 +212,8 @@ export default function BiodataIndex() {
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-map-marked-alt me-1.5 text-muted"></i>Alamat Lengkap (KTP)</span>
+                                            <div className="bio-field-box bio-field-emerald">
+                                                <span className="bio-label text-emerald-label"><i className="fa fa-map-marked-alt me-1.5 text-success"></i>Alamat Lengkap (KTP)</span>
                                                 <span className="bio-value">{biodata.alamat || "-"}</span>
                                             </div>
                                         </div>
@@ -222,45 +223,45 @@ export default function BiodataIndex() {
                             </div>
                         </div>
 
-                        {/* 2. Riwayat Pendidikan */}
+                        {/* 2. Riwayat Pendidikan (Blue / Cyan Theme) */}
                         <div className="col-12 col-lg-6">
-                            <div className="card bio-info-card h-100">
-                                <div className="card-header bg-white d-flex align-items-center gap-2.5 py-3 border-bottom">
-                                    <div className="bio-card-icon-wrap bg-blue-light">
-                                        <i className="fa fa-graduation-cap text-primary"></i>
+                            <div className="card bio-info-card bio-card-blue h-100">
+                                <div className="card-header bio-header-blue d-flex align-items-center gap-2.5 py-3">
+                                    <div className="bio-card-icon-wrap bg-blue-main text-white shadow-sm">
+                                        <i className="fa fa-graduation-cap"></i>
                                     </div>
                                     <div>
-                                        <h6 className="mb-0 fw-bold text-dark">Riwayat Pendidikan</h6>
-                                        <small className="text-muted">Kualifikasi akademik dan almamater</small>
+                                        <h6 className="mb-0 fw-bold text-blue-dark">Riwayat Pendidikan</h6>
+                                        <small className="text-blue-sub">Kualifikasi akademik dan almamater</small>
                                     </div>
                                 </div>
                                 <div className="card-body p-3.5">
                                     <div className="row g-3">
                                         
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-user-graduate me-1.5 text-muted"></i>Pendidikan Terapi Wicara</span>
-                                                <span className="bio-value fw-bold text-emerald">{biodata.pendidikan || "-"}</span>
+                                            <div className="bio-field-box bio-field-blue">
+                                                <span className="bio-label text-blue-label"><i className="fa fa-user-graduate me-1.5 text-primary"></i>Pendidikan Terapi Wicara</span>
+                                                <span className="bio-value fw-bold text-primary">{biodata.pendidikan || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-university me-1.5 text-muted"></i>Institusi / Perguruan Tinggi</span>
+                                            <div className="bio-field-box bio-field-blue">
+                                                <span className="bio-label text-blue-label"><i className="fa fa-university me-1.5 text-primary"></i>Institusi / Perguruan Tinggi</span>
                                                 <span className="bio-value">{biodata.istitusi || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-map-pin me-1.5 text-muted"></i>Alamat Perguruan Tinggi</span>
+                                            <div className="bio-field-box bio-field-blue">
+                                                <span className="bio-label text-blue-label"><i className="fa fa-map-pin me-1.5 text-primary"></i>Alamat Perguruan Tinggi</span>
                                                 <span className="bio-value">{biodata.almtistitusi || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-award me-1.5 text-muted"></i>Pendidikan Non-Terapi Wicara</span>
+                                            <div className="bio-field-box bio-field-blue">
+                                                <span className="bio-label text-blue-label"><i className="fa fa-award me-1.5 text-primary"></i>Pendidikan Non-Terapi Wicara</span>
                                                 <span className="bio-value">{biodata.nonlinear || "Tidak ada"}</span>
                                             </div>
                                         </div>
@@ -270,45 +271,45 @@ export default function BiodataIndex() {
                             </div>
                         </div>
 
-                        {/* 3. Informasi Pekerjaan */}
+                        {/* 3. Informasi Pekerjaan (Purple / Violet Theme) */}
                         <div className="col-12 col-lg-6">
-                            <div className="card bio-info-card h-100">
-                                <div className="card-header bg-white d-flex align-items-center gap-2.5 py-3 border-bottom">
-                                    <div className="bio-card-icon-wrap bg-purple-light">
-                                        <i className="fa fa-briefcase text-purple"></i>
+                            <div className="card bio-info-card bio-card-purple h-100">
+                                <div className="card-header bio-header-purple d-flex align-items-center gap-2.5 py-3">
+                                    <div className="bio-card-icon-wrap bg-purple-main text-white shadow-sm">
+                                        <i className="fa fa-briefcase"></i>
                                     </div>
                                     <div>
-                                        <h6 className="mb-0 fw-bold text-dark">Informasi Pekerjaan</h6>
-                                        <small className="text-muted">Status kepegawaian dan unit kerja faskes</small>
+                                        <h6 className="mb-0 fw-bold text-purple-dark">Informasi Pekerjaan</h6>
+                                        <small className="text-purple-sub">Status kepegawaian dan unit kerja faskes</small>
                                     </div>
                                 </div>
                                 <div className="card-body p-3.5">
                                     <div className="row g-3">
                                         
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-user-tag me-1.5 text-muted"></i>Status Kepegawaian</span>
+                                            <div className="bio-field-box bio-field-purple">
+                                                <span className="bio-label text-purple-label"><i className="fa fa-user-tag me-1.5 text-purple"></i>Status Kepegawaian</span>
                                                 <span className="bio-value">{biodata.kepegawaian || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-clinic-medical me-1.5 text-muted"></i>Tempat Bekerja</span>
+                                            <div className="bio-field-box bio-field-purple">
+                                                <span className="bio-label text-purple-label"><i className="fa fa-clinic-medical me-1.5 text-purple"></i>Tempat Bekerja</span>
                                                 <span className="bio-value">{biodata.bekerja || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-hospital me-1.5 text-muted"></i>Nama Institusi / Faskes</span>
+                                            <div className="bio-field-box bio-field-purple">
+                                                <span className="bio-label text-purple-label"><i className="fa fa-hospital me-1.5 text-purple"></i>Nama Institusi / Faskes</span>
                                                 <span className="bio-value">{biodata.lokasi_pekerjaan || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-building me-1.5 text-muted"></i>Alamat Tempat Bekerja</span>
+                                            <div className="bio-field-box bio-field-purple">
+                                                <span className="bio-label text-purple-label"><i className="fa fa-building me-1.5 text-purple"></i>Alamat Tempat Bekerja</span>
                                                 <span className="bio-value">{biodata.alamat_tempat_bekerja || "-"}</span>
                                             </div>
                                         </div>
@@ -318,43 +319,45 @@ export default function BiodataIndex() {
                             </div>
                         </div>
 
-                        {/* 4. Status Organisasi & E-KTA Verifikasi */}
+                        {/* 4. Status Organisasi & E-KTA Verifikasi (Amber / Gold Theme) */}
                         <div className="col-12 col-lg-6">
-                            <div className="card bio-info-card h-100">
-                                <div className="card-header bg-white d-flex align-items-center gap-2.5 py-3 border-bottom">
-                                    <div className="bio-card-icon-wrap bg-amber-light">
-                                        <i className="fa fa-id-badge text-warning"></i>
+                            <div className="card bio-info-card bio-card-amber h-100">
+                                <div className="card-header bio-header-amber d-flex align-items-center gap-2.5 py-3">
+                                    <div className="bio-card-icon-wrap bg-amber-main text-white shadow-sm">
+                                        <i className="fa fa-id-badge"></i>
                                     </div>
                                     <div>
-                                        <h6 className="mb-0 fw-bold text-dark">Status Keanggotaan & QR Code</h6>
-                                        <small className="text-muted">Afiliasi wilayah dan verifikasi keabsahan</small>
+                                        <h6 className="mb-0 fw-bold text-amber-dark">Status Keanggotaan & QR Code</h6>
+                                        <small className="text-amber-sub">Afiliasi wilayah dan verifikasi keabsahan</small>
                                     </div>
                                 </div>
                                 <div className="card-body p-3.5">
                                     <div className="row g-3">
                                         
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-map me-1.5 text-muted"></i>Dewan Pengurus Wilayah (DPW)</span>
+                                            <div className="bio-field-box bio-field-amber">
+                                                <span className="bio-label text-amber-label"><i className="fa fa-map me-1.5 text-warning"></i>Dewan Pengurus Wilayah (DPW)</span>
                                                 <span className="bio-value fw-semibold">{biodata.province?.name || "-"}</span>
                                             </div>
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="bio-field-box">
-                                                <span className="bio-label"><i className="fa fa-city me-1.5 text-muted"></i>Dewan Pengurus Cabang (DPC)</span>
+                                            <div className="bio-field-box bio-field-amber">
+                                                <span className="bio-label text-amber-label"><i className="fa fa-city me-1.5 text-warning"></i>Dewan Pengurus Cabang (DPC)</span>
                                                 <span className="bio-value fw-semibold">{biodata.city?.name || "-"}</span>
                                             </div>
                                         </div>
 
                                         {/* QR Code Card Frame */}
                                         <div className="col-12">
-                                            <div className="p-3 rounded-3 border text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
-                                                <span className="d-block small fw-bold mb-2" style={{ color: '#334155' }}>QR Code E-KTA Resmi IKATWI</span>
+                                            <div className="bio-qr-box p-3.5 rounded-3 text-center">
+                                                <span className="d-block small fw-bold mb-2 text-amber-dark">
+                                                    <i className="fa fa-qrcode me-1 text-warning"></i> QR Code E-KTA Resmi IKATWI
+                                                </span>
                                                 
                                                 {canAccessEkta ? (
                                                     <div className="d-flex flex-column align-items-center">
-                                                        <div className="p-2 bg-white rounded-3 shadow-sm d-inline-block border">
+                                                        <div className="p-2.5 bg-white rounded-3 shadow-sm d-inline-block border border-warning border-opacity-25">
                                                             <QRCodeSVG
                                                                 value={`${window.location.origin}/sig/verify?user=${biodata.no_anggota || biodata.id}`}
                                                                 size={130}
@@ -362,18 +365,18 @@ export default function BiodataIndex() {
                                                                 includeMargin={false}
                                                             />
                                                         </div>
-                                                        <span className="badge bg-success bg-opacity-10 text-success fw-semibold mt-2.5 px-3 py-1.5 rounded-pill">
+                                                        <span className="badge bg-success bg-opacity-10 text-success fw-semibold mt-2.5 px-3 py-1.5 rounded-pill border border-success border-opacity-25">
                                                             <i className="fa fa-check-circle me-1"></i> Keanggotaan Terverifikasi Aktif
                                                         </span>
                                                     </div>
                                                 ) : (
-                                                    <div className="alert alert-warning border-0 mb-0 py-3 text-center rounded-3">
+                                                    <div className="alert alert-warning border-0 mb-0 py-3 text-center rounded-3" style={{ backgroundColor: '#fffbeb', border: '1px solid #fde68a' }}>
                                                         <i className="fa fa-exclamation-triangle fs-4 text-warning mb-2 d-block"></i>
-                                                        <strong className="d-block mb-1">Status Iuran Belum Lunas</strong>
+                                                        <strong className="d-block mb-1 text-dark">Status Iuran Belum Lunas</strong>
                                                         <p className="small text-muted mb-2">
                                                             Selesaikan pembayaran iuran tahunan untuk mengaktifkan E-KTA dan QR Code verifikasi.
                                                         </p>
-                                                        <Link href="/account/tagihan" className="btn btn-sm btn-success fw-bold px-3">
+                                                        <Link href="/account/tagihan" className="btn btn-sm btn-success fw-bold px-3 shadow-sm">
                                                             <i className="fa fa-credit-card me-1"></i> Bayar Iuran Sekarang
                                                         </Link>
                                                     </div>
@@ -451,23 +454,23 @@ export default function BiodataIndex() {
                 }
                 .bio-copy-btn:hover {
                     transform: scale(1.15);
-                    color: #ffffff !important;
+                    color: #059669 !important;
                 }
+                
+                /* Base Card Styling */
                 .bio-info-card {
-                    border: none;
                     border-radius: 16px;
-                    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
                     overflow: hidden;
                     background: #ffffff;
-                    transition: transform 0.2s, box-shadow 0.2s;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
                 }
                 .bio-info-card:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.08);
+                    transform: translateY(-3px);
                 }
+
                 .bio-card-icon-wrap {
-                    width: 38px;
-                    height: 38px;
+                    width: 40px;
+                    height: 40px;
                     border-radius: 10px;
                     display: flex;
                     align-items: center;
@@ -475,33 +478,136 @@ export default function BiodataIndex() {
                     font-size: 16px;
                     flex-shrink: 0;
                 }
-                .bg-emerald-light { background: #ecfdf5; }
-                .text-emerald { color: #059669; }
-                .bg-blue-light { background: #eff6ff; }
-                .bg-purple-light { background: #faf5ff; }
+
+                /* 1. Theme Emerald (Data Pribadi) */
+                .bio-card-emerald {
+                    border: 1.5px solid #a7f3d0;
+                    box-shadow: 0 4px 20px -2px rgba(5, 150, 105, 0.08);
+                }
+                .bio-card-emerald:hover {
+                    box-shadow: 0 8px 25px -2px rgba(5, 150, 105, 0.15);
+                }
+                .bio-header-emerald {
+                    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+                    border-bottom: 1.5px solid #a7f3d0;
+                }
+                .bg-emerald-main { background: #059669; }
+                .text-emerald-dark { color: #065f46; }
+                .text-emerald-sub { color: #047857; font-size: 0.78rem; }
+                .text-emerald-label { color: #047857; }
+                .bio-field-emerald {
+                    background: #f0fdf4;
+                    border: 1px solid #bbf7d0;
+                    border-left: 4px solid #059669;
+                }
+                .bio-field-emerald:hover {
+                    background: #ecfdf5;
+                    border-color: #86efac;
+                }
+
+                /* 2. Theme Blue (Pendidikan) */
+                .bio-card-blue {
+                    border: 1.5px solid #bfdbfe;
+                    box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.08);
+                }
+                .bio-card-blue:hover {
+                    box-shadow: 0 8px 25px -2px rgba(37, 99, 235, 0.15);
+                }
+                .bio-header-blue {
+                    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+                    border-bottom: 1.5px solid #bfdbfe;
+                }
+                .bg-blue-main { background: #2563eb; }
+                .text-blue-dark { color: #1e40af; }
+                .text-blue-sub { color: #1d4ed8; font-size: 0.78rem; }
+                .text-blue-label { color: #1d4ed8; }
+                .bio-field-blue {
+                    background: #f8faff;
+                    border: 1px solid #dbeafe;
+                    border-left: 4px solid #2563eb;
+                }
+                .bio-field-blue:hover {
+                    background: #eff6ff;
+                    border-color: #93c5fd;
+                }
+
+                /* 3. Theme Purple (Pekerjaan) */
+                .bio-card-purple {
+                    border: 1.5px solid #e9d5ff;
+                    box-shadow: 0 4px 20px -2px rgba(124, 58, 237, 0.08);
+                }
+                .bio-card-purple:hover {
+                    box-shadow: 0 8px 25px -2px rgba(124, 58, 237, 0.15);
+                }
+                .bio-header-purple {
+                    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+                    border-bottom: 1.5px solid #e9d5ff;
+                }
+                .bg-purple-main { background: #7c3aed; }
+                .text-purple-dark { color: #6b21a8; }
+                .text-purple-sub { color: #7e22ce; font-size: 0.78rem; }
+                .text-purple-label { color: #7e22ce; }
                 .text-purple { color: #7c3aed; }
-                .bg-amber-light { background: #fffbeb; }
-                
+                .bio-field-purple {
+                    background: #fdfaff;
+                    border: 1px solid #f3e8ff;
+                    border-left: 4px solid #7c3aed;
+                }
+                .bio-field-purple:hover {
+                    background: #faf5ff;
+                    border-color: #d8b4fe;
+                }
+
+                /* 4. Theme Amber (Organisasi & QR) */
+                .bio-card-amber {
+                    border: 1.5px solid #fde68a;
+                    box-shadow: 0 4px 20px -2px rgba(217, 119, 6, 0.08);
+                }
+                .bio-card-amber:hover {
+                    box-shadow: 0 8px 25px -2px rgba(217, 119, 6, 0.15);
+                }
+                .bio-header-amber {
+                    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+                    border-bottom: 1.5px solid #fde68a;
+                }
+                .bg-amber-main { background: #d97706; }
+                .text-amber-dark { color: #92400e; }
+                .text-amber-sub { color: #b45309; font-size: 0.78rem; }
+                .text-amber-label { color: #b45309; }
+                .bio-field-amber {
+                    background: #fffdf7;
+                    border: 1px solid #fef3c7;
+                    border-left: 4px solid #d97706;
+                }
+                .bio-field-amber:hover {
+                    background: #fffbeb;
+                    border-color: #fde68a;
+                }
+                .bio-qr-box {
+                    background: linear-gradient(135deg, #fffdf5 0%, #fffbeb 100%);
+                    border: 1.5px dashed #fde68a;
+                }
+
+                /* Common Field Box Styling */
                 .bio-field-box {
-                    padding: 10px 14px;
-                    background: #f8fafc;
-                    border: 1px solid #e2e8f0;
+                    padding: 11px 14px;
                     border-radius: 10px;
                     height: 100%;
+                    transition: all 0.15s ease;
                 }
                 .bio-label {
                     display: block;
-                    font-size: 0.74rem;
-                    font-weight: 600;
-                    color: #64748b;
+                    font-size: 0.72rem;
+                    font-weight: 700;
                     text-transform: uppercase;
-                    letter-spacing: 0.04em;
-                    margin-bottom: 3px;
+                    letter-spacing: 0.05em;
+                    margin-bottom: 4px;
                 }
                 .bio-value {
                     font-size: 0.92rem;
                     font-weight: 600;
-                    color: #1e293b;
+                    color: #0f172a;
+                    line-height: 1.4;
                 }
 
                 @media (max-width: 768px) {
