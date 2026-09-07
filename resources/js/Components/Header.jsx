@@ -2,242 +2,180 @@
 import React from "react";
 
 //import Link
-import { Link } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/inertia-react";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 
 export default function Header() {
-    let styles = {
-        marginLeft: "7px",
-    };
+    const { auth } = usePage().props;
 
     return (
-        <>
-            <nav className="navbar-expand-md navbar-dark fixed-top shadow custom-green-header">
-                <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-md-7">
-                            <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1">
-                                <Link
-                                    href="/"
-                                    className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none"
-                                >
-                                    <img
-                                        src="/assets/images/logo.png"
-                                        width="50"
-                                        alt="Logo Ikatan Terapis Wicara Indonesia"
-                                        className="header-logo"
-                                    />
-                                    <span style={styles}>
-                                        <h5 className="header-title">
-                                            <strong>Ikatan Terapis Wicara Indonesia</strong>
-                                        </h5>
-                                    </span>
-                                </Link>
-                                <div id="page-content-wrapper"></div>
-                            </header>
+        <header
+            className="fixed-top shadow-sm"
+            style={{
+                backgroundColor: 'rgba(6, 78, 59, 0.96)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+                zIndex: 1030,
+            }}
+        >
+            <div className="container" style={{ maxWidth: '820px' }}>
+                <div className="d-flex align-items-center justify-content-between py-2 px-1" style={{ minHeight: '60px' }}>
+                    
+                    {/* Brand Logo & Name */}
+                    <Link
+                        href="/"
+                        className="d-flex align-items-center gap-2.5 text-decoration-none text-white"
+                    >
+                        <div
+                            className="rounded-circle p-1 bg-white shadow-sm d-flex align-items-center justify-content-center"
+                            style={{ width: '40px', height: '40px' }}
+                        >
+                            <img
+                                src="/assets/images/logo.png"
+                                width="30"
+                                height="30"
+                                alt="Logo IKATWI"
+                                className="object-fit-contain"
+                            />
                         </div>
-                        <div className="col-md-1">
-                            <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1">
-                                <div className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none">
-                                    <DropdownButton
-                                        id="dropdown-basic-button"
-                                        title="Menu"
-                                        className="custom-dropdown mt-1"
-                                        variant="success"
-                                    >
-                                        <Link href="/history">
-                                            <Dropdown.Item href="#/action-2" className="dropdown-item-custom">
-                                                Sejarah & Pengurus
-                                            </Dropdown.Item>
-                                        </Link>
+                        <div>
+                            <div className="fw-bold text-white mb-0" style={{ fontSize: '0.98rem', letterSpacing: '-0.01em', lineHeight: 1.15 }}>
+                                IKATWI
+                            </div>
+                            <div className="text-emerald-200 small" style={{ fontSize: '0.68rem', color: '#a7f3d0', fontWeight: 500, letterSpacing: '0.02em' }}>
+                                Ikatan Terapis Wicara Indonesia
+                            </div>
+                        </div>
+                    </Link>
 
-                                        <Link href="/visimisi">
-                                            <Dropdown.Item href="#/action-2" className="dropdown-item-custom">
-                                                Visi & Misi
-                                            </Dropdown.Item>
-                                        </Link>
+                    {/* Right Action: Menu & Dashboard shortcut */}
+                    <div className="d-flex align-items-center gap-2">
+                        {auth && auth.user && (
+                            <Link
+                                href="/account/dashboard"
+                                className="btn btn-sm d-none d-sm-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill text-white"
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                                    fontSize: '0.78rem',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                <i className="fas fa-chart-pie text-warning"></i>
+                                <span>Dashboard</span>
+                            </Link>
+                        )}
 
-                                        <Link href="/kegiatan">
-                                            <Dropdown.Item href="#/action-3" className="dropdown-item-custom">
-                                                Kegiatan
-                                            </Dropdown.Item>
-                                        </Link>
+                        <Dropdown align="end">
+                            <Dropdown.Toggle
+                                id="header-menu-dropdown"
+                                className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill text-white border-0 shadow-sm custom-header-btn"
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+                                    backdropFilter: 'blur(8px)',
+                                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                                    fontSize: '0.82rem',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                <i className="fas fa-bars"></i>
+                                <span>Menu</span>
+                            </Dropdown.Toggle>
 
-                                        <Link href="/anggota">
-                                            <Dropdown.Item href="#/action-4" className="dropdown-item-custom">
-                                                Anggota
-                                            </Dropdown.Item>
-                                        </Link>
-
-                                        <Link href="/wilayah">
-                                            <Dropdown.Item href="#/action-5" className="dropdown-item-custom">
-                                                Wilayah DPW
-                                            </Dropdown.Item>
-                                        </Link>
-
-                                        <Link href="/wilayahdpc">
-                                            <Dropdown.Item href="#/action-6" className="dropdown-item-custom">
-                                                Wilayah DPC
-                                            </Dropdown.Item>
-                                        </Link>
-
-                                        <Dropdown.Item
-                                            href="https://ikatwisiporlin-ktki.kemkes.go.id/"
-                                            target="_blank"
-                                            className="dropdown-item-custom"
-                                        >
-                                            Siporlin
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                            href="https://siedunakes-ktki.kemkes.go.id/home/"
-                                            target="_blank"
-                                            className="dropdown-item-custom"
-                                        >
-                                            Siedunakes
-                                        </Dropdown.Item>
-                                    </DropdownButton>
+                            <Dropdown.Menu
+                                className="border-0 shadow-lg p-2 mt-2"
+                                style={{
+                                    borderRadius: '16px',
+                                    minWidth: '220px',
+                                    backgroundColor: '#ffffff',
+                                    border: '1px solid #e2e8f0',
+                                }}
+                            >
+                                <div className="px-3 py-1.5 mb-1 text-muted fw-bold" style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                    Navigasi Utama
                                 </div>
-                            </header>
-                        </div>
+
+                                <Dropdown.Item as={Link} href="/history" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-university text-primary" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Sejarah & Profil</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/visimisi" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-bullseye text-success" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Visi & Misi</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/kegiatan" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-calendar-alt text-purple" style={{ width: '18px', color: '#7c3aed' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Agenda Kegiatan</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/anggota" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-users text-warning" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Data Anggota</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/wilayah" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-map-marked-alt text-danger" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Pengurus Wilayah (DPW)</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} href="/wilayahdpc" className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center gap-2.5">
+                                    <i className="fas fa-building text-info" style={{ width: '18px' }}></i>
+                                    <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Pengurus Cabang (DPC)</span>
+                                </Dropdown.Item>
+
+                                <Dropdown.Divider className="my-1 border-light" />
+
+                                <div className="px-3 py-1.5 mb-1 text-muted fw-bold" style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                    Layanan Eksternal
+                                </div>
+
+                                <Dropdown.Item
+                                    href="https://ikatwisiporlin-ktki.kemkes.go.id/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center justify-content-between"
+                                >
+                                    <div className="d-flex align-items-center gap-2.5">
+                                        <i className="fas fa-laptop-medical text-primary" style={{ width: '18px' }}></i>
+                                        <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>SIPORLIN KTKI</span>
+                                    </div>
+                                    <i className="fas fa-external-link-alt text-muted" style={{ fontSize: '0.7rem' }}></i>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item
+                                    href="https://siedunakes-ktki.kemkes.go.id/home/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center justify-content-between"
+                                >
+                                    <div className="d-flex align-items-center gap-2.5">
+                                        <i className="fas fa-id-card-alt text-success" style={{ width: '18px' }}></i>
+                                        <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>SIDU Nakes</span>
+                                    </div>
+                                    <i className="fas fa-external-link-alt text-muted" style={{ fontSize: '0.7rem' }}></i>
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
+
                 </div>
-            </nav>
+            </div>
 
             <style jsx>{`
-                .custom-green-header {
-                    background: linear-gradient(135deg, #0d966d 0%, #047852 50%, #036745 100%) !important;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                    backdrop-filter: blur(10px);
-                }
-                
-                .header-logo {
-                    transition: all 0.3s ease;
-                }
-                
-                .header-logo:hover {
-                    transform: scale(1.05);
-                }
-                
-                .header-title {
-                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-                    font-weight: 500;
-                    margin: 0;
-                    color: rgba(255, 255, 255, 0.95);
-                    letter-spacing: 0.5px;
-                }
-                
-                .custom-dropdown .btn-success {
-                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    border-radius: 0.6rem;
-                    padding: 0.5rem 1rem;
-                    font-weight: 500;
-                    backdrop-filter: blur(8px);
-                    transition: all 0.3s ease;
-                    color: rgba(255, 255, 255, 0.95);
-                    font-size: 0.9rem;
-                    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-                }
-                
-                .custom-dropdown .btn-success:hover {
-                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 100%) !important;
+                .custom-header-btn:hover {
+                    background-color: rgba(255, 255, 255, 0.28) !important;
                     transform: translateY(-1px);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                    border: 1px solid rgba(255, 255, 255, 0.3);
-                    color: rgba(255, 255, 255, 0.98);
                 }
-                
-                .custom-dropdown .btn-success:active,
-                .custom-dropdown .btn-success:focus {
-                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%) !important;
-                    transform: translateY(0);
-                    color: rgba(255, 255, 255, 0.95);
+                .dropdown-item-modern:hover {
+                    background-color: #f1f5f9 !important;
                 }
-                
-                .custom-dropdown .dropdown-menu {
-                    background: linear-gradient(135deg, #0d966d 0%, #047852 100%) !important;
-                    border: 1px solid rgba(255, 255, 255, 0.15);
-                    border-radius: 0.6rem;
-                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-                    backdrop-filter: blur(10px);
-                    overflow: hidden;
-                }
-                
-                .dropdown-item-custom {
-                    color: rgba(255, 255, 255, 0.9) !important;
-                    padding: 0.7rem 1rem;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-                    transition: all 0.3s ease;
-                    text-decoration: none;
-                    display: block;
-                    position: relative;
-                    overflow: hidden;
-                    font-size: 0.9rem;
-                }
-                
-                .dropdown-item-custom::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-                    transition: left 0.5s;
-                }
-                
-                .dropdown-item-custom:hover::before {
-                    left: 100%;
-                }
-                
-                .dropdown-item-custom:hover {
-                    background-color: rgba(255, 255, 255, 0.12) !important;
-                    color: rgba(255, 255, 255, 0.95) !important;
-                    padding-left: 1.3rem;
-                }
-                
-                .dropdown-item-custom:active {
-                    background-color: rgba(255, 255, 255, 0.18) !important;
-                    color: rgba(255, 255, 255, 0.95) !important;
-                }
-                
-                /* Responsive design */
-                @media (max-width: 768px) {
-                    .header-title {
-                        font-size: 0.95rem;
-                    }
-                    
-                    .header-logo {
-                        width: 40px;
-                    }
-                    
-                    .custom-dropdown .btn-success {
-                        padding: 0.4rem 0.8rem;
-                        font-size: 0.85rem;
-                    }
-                }
-                
-                @media (max-width: 576px) {
-                    .header-title {
-                        font-size: 0.85rem;
-                        margin-left: 5px !important;
-                        line-height: 1.2;
-                    }
-                    
-                    .custom-dropdown {
-                        width: 100%;
-                        text-align: center;
-                    }
-                    
-                    .custom-dropdown .btn-success {
-                        width: 100%;
-                        margin-bottom: 0.5rem;
-                        font-size: 0.8rem;
-                    }
+                .dropdown-toggle::after {
+                    margin-left: 0.35em;
                 }
             `}</style>
-        </>
+        </header>
     );
 }
