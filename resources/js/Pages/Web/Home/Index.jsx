@@ -446,46 +446,140 @@ export default function HomeIndex() {
                             </div>
                         </div>
 
-                        {/* 4. Section: Agenda Kegiatan Terbaru */}
+                        {/* 5. Section: Jurnal Ilmiah JSLCR (Embedded Interactive Frame) */}
                         <div className="mb-4">
-                            <div className="d-flex justify-content-between align-items-center mb-3 px-1">
+                            <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3 px-1">
                                 <div>
-                                    <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.08rem' }}>
-                                        <i className="fas fa-calendar-alt text-primary me-2"></i>
-                                        Agenda Kegiatan Terbaru
-                                    </h5>
+                                    <div className="d-flex align-items-center gap-2">
+                                        <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.08rem' }}>
+                                            <i className="fas fa-book-reader text-purple me-2" style={{ color: '#7c3aed' }}></i>
+                                            Jurnal Ilmiah JSLCR
+                                        </h5>
+                                        <span className="badge rounded-pill" style={{ backgroundColor: '#f3e8ff', color: '#7e22ce', border: '1px solid #d8b4fe', fontSize: '0.68rem', fontWeight: 700 }}>
+                                            Riset & Publikasi
+                                        </span>
+                                    </div>
                                     <span className="text-muted small" style={{ fontSize: '0.76rem' }}>
-                                        Seminar, workshop, dan agenda resmi profesi
+                                        Journal of Speech, Language and Communication Research — Publikasi Ilmiah Resmi IKATWI
                                     </span>
                                 </div>
-                                <Link
-                                    href="/kegiatan"
-                                    className="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold"
-                                    style={{ fontSize: '0.75rem' }}
-                                >
-                                    Semua <i className="fas fa-arrow-right ms-1" style={{ fontSize: '0.65rem' }}></i>
-                                </Link>
+                                <div className="d-flex align-items-center gap-2">
+                                    <a
+                                        href="https://jslcr.com/index.php/jslcr/about/submissions"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1.5"
+                                        style={{ fontSize: '0.74rem' }}
+                                    >
+                                        <i className="fas fa-cloud-upload-alt"></i>
+                                        <span>Submit Paper</span>
+                                    </a>
+                                    <a
+                                        href="https://jslcr.com/index.php/jslcr"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn btn-sm text-white rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-sm"
+                                        style={{ backgroundColor: '#7c3aed', fontSize: '0.74rem' }}
+                                    >
+                                        <span>Buka Tab Baru</span>
+                                        <i className="fas fa-external-link-alt" style={{ fontSize: '0.65rem' }}></i>
+                                    </a>
+                                </div>
                             </div>
 
-                            <div className="row g-3">
-                                {Array.isArray(kegiatans) && kegiatans.length > 0 ? (
-                                    kegiatans.slice(0, 4).map((kegiatan, index) => (
-                                        <div className="col-12" key={index}>
-                                            <CardKegiatan kegiatan={kegiatan} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div className="col-12">
-                                        <div className="p-4 rounded-4 bg-white border text-center shadow-sm" style={{ borderColor: '#e2e8f0' }}>
-                                            <i className="fas fa-calendar-times text-muted mb-2" style={{ fontSize: '2rem' }}></i>
-                                            <p className="text-muted small mb-0">Belum ada agenda kegiatan terbaru yang dipublikasikan.</p>
-                                        </div>
+                            {/* 3D Browser Mockup Window */}
+                            <div
+                                className="journal-browser-card card border-0 shadow-lg overflow-hidden"
+                                style={{
+                                    borderRadius: '20px',
+                                    border: '1px solid #e2e8f0',
+                                    backgroundColor: '#ffffff',
+                                    boxShadow: '0 16px 36px -8px rgba(124, 58, 237, 0.15), 0 4px 12px rgba(0, 0, 0, 0.05)',
+                                }}
+                            >
+                                {/* Window Titlebar */}
+                                <div
+                                    className="d-flex align-items-center justify-content-between px-3 py-2.5"
+                                    style={{
+                                        backgroundColor: '#0f172a',
+                                        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                                    }}
+                                >
+                                    {/* Mac OS Window Dots */}
+                                    <div className="d-flex align-items-center gap-1.5">
+                                        <span className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: '#ef4444' }}></span>
+                                        <span className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: '#f59e0b' }}></span>
+                                        <span className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: '#10b981' }}></span>
                                     </div>
-                                )}
+
+                                    {/* Simulated URL Bar */}
+                                    <div
+                                        className="d-flex align-items-center gap-2 px-3 py-1 rounded-pill flex-grow-1 mx-3"
+                                        style={{
+                                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                            maxWidth: '480px',
+                                            fontSize: '0.74rem',
+                                            color: '#94a3b8',
+                                            border: '1px solid rgba(255, 255, 255, 0.12)',
+                                        }}
+                                    >
+                                        <i className="fas fa-lock text-success" style={{ fontSize: '0.68rem' }}></i>
+                                        <span className="text-white text-truncate font-monospace" style={{ fontSize: '0.72rem' }}>
+                                            https://jslcr.com/index.php/jslcr
+                                        </span>
+                                    </div>
+
+                                    {/* Direct Link Icon */}
+                                    <a
+                                        href="https://jslcr.com/index.php/jslcr"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-white-50 text-decoration-none hover-white"
+                                        title="Kunjungi Web Jurnal"
+                                    >
+                                        <i className="fas fa-globe" style={{ fontSize: '0.9rem' }}></i>
+                                    </a>
+                                </div>
+
+                                {/* Iframe Viewport */}
+                                <div className="position-relative" style={{ width: '100%', minHeight: '520px', height: '580px', backgroundColor: '#f8fafc' }}>
+                                    <iframe
+                                        src="https://jslcr.com/index.php/jslcr"
+                                        title="Jurnal JSLCR IKATWI"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            border: 'none',
+                                            display: 'block',
+                                        }}
+                                        loading="lazy"
+                                        allow="fullscreen"
+                                    ></iframe>
+                                </div>
+
+                                {/* Window Bottom Status Bar */}
+                                <div
+                                    className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center px-3 py-2 bg-light border-top gap-1"
+                                    style={{ fontSize: '0.72rem', color: '#64748b' }}
+                                >
+                                    <div className="d-flex align-items-center gap-2">
+                                        <i className="fas fa-check-circle text-success"></i>
+                                        <span>Peer-Reviewed & Open Access Scientific Journal</span>
+                                    </div>
+                                    <div className="d-flex align-items-center gap-3">
+                                        <a href="https://jslcr.com/index.php/jslcr/issue/archive" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted hover-purple">
+                                            Arsip Edisi
+                                        </a>
+                                        <span>•</span>
+                                        <a href="https://jslcr.com/index.php/jslcr/about/editorialTeam" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted hover-purple">
+                                            Dewan Redaksi
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        {/* 5. Footer */}
+                        {/* 6. Footer */}
                         <Footer />
 
                     </div>
