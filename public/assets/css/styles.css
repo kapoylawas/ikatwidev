@@ -781,3 +781,97 @@ h4 {
 .text-center-member {
   text-align: center;
 } */
+
+/* ==========================================================================
+   High Contrast & Crisp Table Styles (Anti-Blur, Sharp Visuals)
+   ========================================================================== */
+.table-custom {
+  --bs-table-bg: transparent !important;
+  --bs-table-accent-bg: transparent !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.table-custom thead th {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 13px 16px !important;
+  border-bottom: 2px solid #0284c7 !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+}
+
+.table-custom thead th:last-child {
+  border-right: none !important;
+}
+
+.table-custom tbody tr {
+  transition: background-color 0.15s ease-in-out !important;
+}
+
+.table-custom tbody tr:nth-child(even) td {
+  background-color: #ffffff !important;
+}
+
+.table-custom tbody tr:nth-child(odd) td {
+  background-color: #f8fafc !important;
+}
+
+.table-custom tbody tr:hover td {
+  background-color: #e0f2fe !important; /* Soft blue highlight on hover */
+}
+
+.table-custom tbody td {
+  padding: 12px 16px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: 1px solid #f1f5f9 !important;
+  color: #1e293b !important;
+  font-size: 0.88rem !important;
+  vertical-align: middle !important;
+}
+
+.table-custom tbody td:last-child {
+  border-right: none !important;
+}
+
+.table-num-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+
+.badge-no-anggota {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+}

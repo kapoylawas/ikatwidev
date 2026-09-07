@@ -82,280 +82,291 @@ export default function UserCreate() {
     }
 
     return (
-        <>
-            <Head>
-                <title>Create Users - IKATWI</title>
-            </Head>
-            <LayoutAccount>
-                <div className="row mt-4">
-                    <div className="col-12">
-                        <div className="card border-0 rounded shadow-sm border-top-admin">
-                            <div className="card-header">
-                                <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Add New User
-                                </span>
-                            </div>
-                            <div className="card-body">
-                                <form onSubmit={storeUser}>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                NIK
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    value={nik}
-                                                    onChange={(e) =>
-                                                        setNik(e.target.value)
-                                                    }
-                                                    placeholder="No Induk Kependudukan"
-                                                />
-                                            </div>
-                                            {errors.nik && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.nik}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">
-                                            Image
-                                        </label>
-                                        <input
-                                            type="file"
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setImage(e.target.files[0])
-                                            }
-                                        />
-                                    </div>
-                                    {errors.image && (
-                                        <div className="alert alert-danger">
-                                            {errors.image}
-                                        </div>
-                                    )}
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Full Name
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={name}
-                                                    onChange={(e) =>
-                                                        setName(e.target.value)
-                                                    }
-                                                    placeholder="Enter Full Name"
-                                                />
-                                            </div>
-                                            {errors.name && (
-                                                <div className="alert alert-danger">
-                                                    {errors.name}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Email Address
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={email}
-                                                    onChange={(e) =>
-                                                        setEmail(e.target.value)
-                                                    }
-                                                    placeholder="Enter Email Address"
-                                                />
-                                            </div>
-                                            {errors.email && (
-                                                <div className="alert alert-danger">
-                                                    {errors.email}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                DPW
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={provinceID}
-                                                onChange={(e) =>
-                                                    setProvinceID(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPW --
-                                                </option>
-                                                {provinces.map((province) => (
-                                                    <option
-                                                        value={province.id}
-                                                        key={province.id}
-                                                    >
-                                                        {province.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.province_id && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.province_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                DPC
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={cityID}
-                                                onChange={(e) =>
-                                                    setCityID(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPC --
-                                                </option>
-                                                {cities.map((city) => (
-                                                    <option
-                                                        value={city.id}
-                                                        key={city.id}
-                                                    >
-                                                        {city.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.city_id && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.city_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
-                                                Alamat
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={alamat}
-                                                    onChange={(e) =>
-                                                        setAlamat(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Alamat Lengkap"
-                                                />
-                                            </div>
-                                            {errors.alamat && (
-                                                <div className="alert alert-danger">
-                                                    {errors.alamat}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Password
-                                                </label>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    value={password}
-                                                    onChange={(e) =>
-                                                        setPassword(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Password"
-                                                />
-                                            </div>
-                                            {errors.password && (
-                                                <div className="alert alert-danger">
-                                                    {errors.password}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Password Confirmation
-                                                </label>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    value={passwordConfirmation}
-                                                    onChange={(e) =>
-                                                        setPasswordConfirmation(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Enter Password Confirmation"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
+        <LayoutAccount>
+            <Head title="Tambah User Baru - IKATWI" />
 
-                                    <div className="mb-3">
-                                        <label className="fw-bold">Roles</label>
-                                        <br />
-                                        {roles.map((role, index) => (
-                                            <div
-                                                className="form-check form-check-inline"
-                                                key={index}
-                                            >
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    value={role.name}
-                                                    onChange={
-                                                        handleCheckboxChange
-                                                    }
-                                                    id={`check-${role.id}`}
-                                                />
-                                                <label
-                                                    className="form-check-label"
-                                                    htmlFor={`check-${role.id}`}
-                                                >
-                                                    {role.name}
-                                                </label>
-                                            </div>
-                                        ))}
+            <div className="user-create-page">
+                {/* Header Section */}
+                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                    <div>
+                        <h1 className="h4 text-dark fw-bold mb-1 d-flex align-items-center gap-2">
+                            <i className="fa fa-user-plus text-dark"></i>
+                            <span>Tambah User Baru</span>
+                        </h1>
+                        <p className="text-muted small mb-0">
+                            Buat akun pengguna baru atau daftarkan anggota secara manual ke dalam sistem.
+                        </p>
+                    </div>
 
-                                        {errors.roles && (
-                                            <div className="alert alert-danger mt-2">
-                                                {errors.roles}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <button type="submit" className="btn btn-md btn-success me-2"><i className="fa fa-save"></i> Save</button>
-                                        <button type="reset" className="btn btn-md btn-warning"><i className="fa fa-redo"></i> Reset</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                    <div>
+                        <Link
+                            href="/account/users"
+                            className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 text-decoration-none shadow-sm"
+                            style={{
+                                backgroundColor: '#ffffff',
+                                border: '1px solid #cbd5e1',
+                                color: '#334155',
+                                borderRadius: '8px',
+                                fontWeight: 600,
+                                fontSize: '0.84rem'
+                            }}
+                        >
+                            <i className="fa fa-arrow-left"></i>
+                            <span>Kembali ke Daftar</span>
+                        </Link>
                     </div>
                 </div>
-            </LayoutAccount>
-        </>
+
+                {/* Form Card */}
+                <div className="card border-0 shadow-sm" style={{ borderRadius: '12px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}>
+                    <div className="card-header bg-white border-bottom py-3 px-4" style={{ borderColor: '#e2e8f0' }}>
+                        <span className="fw-bold text-dark">
+                            <i className="fa fa-id-badge text-dark me-2"></i> Formulir Data Pengguna
+                        </span>
+                    </div>
+
+                    <div className="card-body p-4">
+                        <form onSubmit={storeUser}>
+                            <div className="row g-3">
+                                {/* NIK */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Nomor Induk Kependudukan (NIK) <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="number"
+                                        className={`form-control form-control-sm ${errors.nik ? 'is-invalid' : ''}`}
+                                        value={nik}
+                                        onChange={(e) => setNik(e.target.value)}
+                                        placeholder="Contoh: 3201..."
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    />
+                                    {errors.nik && (
+                                        <div className="invalid-feedback small mt-1">{errors.nik}</div>
+                                    )}
+                                </div>
+
+                                {/* Full Name */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Nama Lengkap & Gelar <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className={`form-control form-control-sm ${errors.name ? 'is-invalid' : ''}`}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        placeholder="Masukkan Nama Lengkap"
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    />
+                                    {errors.name && (
+                                        <div className="invalid-feedback small mt-1">{errors.name}</div>
+                                    )}
+                                </div>
+
+                                {/* Email */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Alamat Email <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        className={`form-control form-control-sm ${errors.email ? 'is-invalid' : ''}`}
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="nama@email.com"
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    />
+                                    {errors.email && (
+                                        <div className="invalid-feedback small mt-1">{errors.email}</div>
+                                    )}
+                                </div>
+
+                                {/* Foto Profil */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Foto Profil
+                                    </label>
+                                    <input
+                                        type="file"
+                                        className={`form-control form-control-sm ${errors.image ? 'is-invalid' : ''}`}
+                                        onChange={(e) => setImage(e.target.files[0])}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem', paddingTop: '7px' }}
+                                    />
+                                    {errors.image && (
+                                        <div className="invalid-feedback small mt-1">{errors.image}</div>
+                                    )}
+                                </div>
+
+                                {/* DPW (Provinsi) */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        DPW (Provinsi)
+                                    </label>
+                                    <select
+                                        className={`form-select form-select-sm ${errors.province_id ? 'is-invalid' : ''}`}
+                                        value={provinceID}
+                                        onChange={(e) => {
+                                            setProvinceID(e.target.value);
+                                            setCityID("");
+                                        }}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    >
+                                        <option value="">-- Pilih Wilayah DPW --</option>
+                                        {(provinces || []).map((province) => (
+                                            <option value={province.id} key={province.id}>
+                                                {province.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.province_id && (
+                                        <div className="invalid-feedback small mt-1">{errors.province_id}</div>
+                                    )}
+                                </div>
+
+                                {/* DPC (Kota/Kab) */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        DPC (Kota/Kab)
+                                    </label>
+                                    <select
+                                        className={`form-select form-select-sm ${errors.city_id ? 'is-invalid' : ''}`}
+                                        value={cityID}
+                                        onChange={(e) => setCityID(e.target.value)}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    >
+                                        <option value="">-- Pilih Cabang DPC --</option>
+                                        {(cities || [])
+                                            .filter((c) => !provinceID || String(c.province_id) === String(provinceID))
+                                            .map((city) => (
+                                                <option value={city.id} key={city.id}>
+                                                    {city.name}
+                                                </option>
+                                            ))}
+                                    </select>
+                                    {errors.city_id && (
+                                        <div className="invalid-feedback small mt-1">{errors.city_id}</div>
+                                    )}
+                                </div>
+
+                                {/* Alamat Lengkap */}
+                                <div className="col-12">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Alamat Lengkap
+                                    </label>
+                                    <textarea
+                                        className={`form-control ${errors.alamat ? 'is-invalid' : ''}`}
+                                        rows={3}
+                                        value={alamat}
+                                        onChange={(e) => setAlamat(e.target.value)}
+                                        placeholder="Masukkan alamat domisili lengkap..."
+                                        style={{ borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    />
+                                    {errors.alamat && (
+                                        <div className="invalid-feedback small mt-1">{errors.alamat}</div>
+                                    )}
+                                </div>
+
+                                {/* Password */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Kata Sandi (Password) <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="password"
+                                        className={`form-control form-control-sm ${errors.password ? 'is-invalid' : ''}`}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Minimal 8 karakter"
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    />
+                                    {errors.password && (
+                                        <div className="invalid-feedback small mt-1">{errors.password}</div>
+                                    )}
+                                </div>
+
+                                {/* Password Confirmation */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Konfirmasi Password <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="password"
+                                        className="form-control form-control-sm"
+                                        value={passwordConfirmation}
+                                        onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                        placeholder="Ulangi kata sandi"
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* Roles */}
+                                <div className="col-12">
+                                    <label className="form-label small fw-bold text-dark mb-2">
+                                        Hak Akses (Role)
+                                    </label>
+                                    <div className="p-3 rounded" style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                                        <div className="d-flex flex-wrap gap-3">
+                                            {(roles || []).map((role, index) => (
+                                                <div className="form-check" key={index}>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        value={role.name}
+                                                        onChange={handleCheckboxChange}
+                                                        id={`check-${role.id}`}
+                                                    />
+                                                    <label
+                                                        className="form-check-label small fw-semibold text-dark"
+                                                        htmlFor={`check-${role.id}`}
+                                                    >
+                                                        {role.name}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    {errors.roles && (
+                                        <div className="text-danger small mt-1">{errors.roles}</div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Submit & Reset Buttons */}
+                            <div className="d-flex gap-2 mt-4 pt-3 border-top" style={{ borderColor: '#e2e8f0' }}>
+                                <button
+                                    type="submit"
+                                    className="btn btn-sm d-inline-flex align-items-center gap-2 px-4 py-2 text-white border-0 shadow-sm"
+                                    style={{
+                                        backgroundColor: '#0f172a',
+                                        borderRadius: '8px',
+                                        fontWeight: 600,
+                                        fontSize: '0.85rem'
+                                    }}
+                                >
+                                    <i className="fa fa-save"></i>
+                                    <span>Simpan Pengguna</span>
+                                </button>
+                                <button
+                                    type="reset"
+                                    className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 shadow-sm"
+                                    style={{
+                                        backgroundColor: '#ffffff',
+                                        border: '1px solid #cbd5e1',
+                                        color: '#64748b',
+                                        borderRadius: '8px',
+                                        fontWeight: 600,
+                                        fontSize: '0.85rem'
+                                    }}
+                                >
+                                    <i className="fa fa-undo"></i>
+                                    <span>Reset Form</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </LayoutAccount>
     );
 }

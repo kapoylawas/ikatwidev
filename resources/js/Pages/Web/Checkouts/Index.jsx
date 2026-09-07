@@ -1,146 +1,185 @@
-//import React
-import React, { useState } from "react";
-
-//import layout web
-import LayoutWeb from '../../../Layouts/Web';
-
-//import Head, usePage
-import { Head, usePage } from '@inertiajs/inertia-react';
-
-//import formatPrice
-import FormatPrice from '../../../Utils/FormatPrice';
-
-//import axios
-import axios from "axios";
-
-//import component storeCheckout
-import StoreCheckout from './StoreCheckout';
+import React from "react";
+import LayoutWeb from "../../../Layouts/Web";
+import { Head, usePage, Link } from "@inertiajs/inertia-react";
+import FormatPrice from "../../../Utils/FormatPrice";
+import StoreCheckout from "./StoreCheckout";
 
 export default function CheckoutIndex() {
+    const { dataCarts, biodata } = usePage().props;
 
-    //destruct props "provinces"
-    const { provinces, dataCarts, biodata } = usePage().props;
-
-    const dpw = biodata.province.id
-    const dpc = biodata.city.id
-
-    //define state
-    const [provinceID, setProvinceID] = useState('');
-    const [cityID, setCityID] = useState('');
-    const [cities, setCities] = useState([]);
-
-    // const [showCourier, setShowCourier] = useState(false);
-    // const [courierName, setCourierName] = useState('');
-    // const [isLoading, setIsLoading] = useState(false);
-    // const [showOngkir, setShowOngkir] = useState(false);
-    // const [ongkirs, setOngkirs] = useState([]);
-
-    // const [courierService, setCourierService] = useState(0);
-    // const [courierCost, setCourierCost] = useState(0);
-
-    const [grandTotal, setGrandTotal] = useState(dataCarts.price);
-    // const [address, setAddress] = useState('');
-
-    //method getCityByProvince
-    const getCityByProvince = async (province_id) => {
-
-        //set state province ID
-        setProvinceID(province_id);
-
-        //get cities by province id
-        axios.get(`/checkouts/cities?province_id=${province_id}`)
-            .then(response => {
-                setCities(response.data);
-            })
-    }
-
-    //method show courier expedition
-    const showCourierExpedition = (city_id) => {
-
-        //set state cityID
-        setCityID(city_id)
-
-        //set state showCourier
-        setShowCourier(true);
-    }
-
-    
+    const dpw = biodata?.province?.id || 1;
+    const dpc = biodata?.city?.id || 1;
+    const grandTotal = dataCarts?.price || 0;
 
     return (
         <>
-            <Head>
-                <title>Checkouts - Geek Store - Where Developer Shopping</title>
-            </Head>
+            <Head title="Konfirmasi Checkout - IKATWI" />
             <LayoutWeb>
+                <div className="container py-5 mt-5">
+                    {/* Header */}
+                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 p-4 bg-white rounded-4 shadow-sm border-0">
+                        <div className="d-flex align-items-center">
+                            <div className="bg-primary bg-gradient p-3 rounded-4 me-3 text-white shadow-sm">
+                                <i className="fa fa-cash-register fa-2x"></i>
+                            </div>
+                            <div>
+                                <h4 className="mb-1 fw-bold text-dark">Konfirmasi Checkout</h4>
+                                <p className="text-muted mb-0">
+                                    Periksa identitas keanggotaan dan rincian tagihan sebelum membuat invoice pembayaran.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="mt-3 mt-md-0">
+                            <span className="badge bg-light text-muted border px-3 py-2 rounded-pill">
+                                Langkah 3 dari 4
+                            </span>
+                        </div>
+                    </div>
 
-                <div className="container mt-80 mb-5">
-                    <div className="fade-in">
-                        <div className="row justify-content-center">
-                            <div className="col-md-8">
-                                
-                                <div className="card border-0 rounded-3 shadow-sm">
-                                    <div className="card-header">
-                                        <i className="fa fa-shopping-cart"></i> Tagihan Information
-                                    </div>
-                                    <div className="card-body">
-
-                                        <div className="mb-3">
-                                            <label className="mb-2 fw-bold">{biodata.province.name}</label>
+                    <div className="row g-4">
+                        {/* Member Information & Payment Methods */}
+                        <div className="col-lg-7">
+                            {/* Member Details */}
+                            <div className="card border-0 rounded-4 shadow-sm bg-white mb-4">
+                                <div className="card-header bg-white border-0 py-3 ps-4">
+                                    <h5 className="mb-0 fw-bold text-dark">
+                                        <i className="fa fa-user-check me-2 text-primary"></i>
+                                        Data Anggota
+                                    </h5>
+                                </div>
+                                <div className="card-body p-4 pt-0">
+                                    <div className="row g-3">
+                                        <div className="col-12 col-md-6">
+                                            <div className="p-3 rounded-3 border" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="text-secondary text-uppercase d-block mb-1">Nama Lengkap</small>
+                                                <strong className="text-dark fs-6">{biodata?.name}</strong>
+                                            </div>
                                         </div>
-
-                                        <div className="mb-3">
-                                            <label className="mb-2 fw-bold">{biodata.city.name}</label>
+                                        <div className="col-12 col-md-6">
+                                            <div className="p-3 rounded-3 border" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="text-secondary text-uppercase d-block mb-1">No. Anggota</small>
+                                                <strong className="text-dark fs-6">{biodata?.no_anggota || "-"}</strong>
+                                            </div>
                                         </div>
-
-                                        
-
+                                        <div className="col-12 col-md-6">
+                                            <div className="p-3 rounded-3 border" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="text-secondary text-uppercase d-block mb-1">DPW (Provinsi)</small>
+                                                <span className="fw-semibold text-dark">{biodata?.province?.name || "-"}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 col-md-6">
+                                            <div className="p-3 rounded-3 border" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="text-secondary text-uppercase d-block mb-1">DPC (Kota/Kab)</small>
+                                                <span className="fw-semibold text-dark">{biodata?.city?.name || "-"}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="card border-0 rounded-3 shadow-sm mt-3 mb-3">
-                                    <div className="card-body">
-                                        <div className="table-responsive">
-                                            <table className="table mb-0 mt-0">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style={{ width: '25%' }}>Total Orders</td>
-                                                        <td style={{ width: '1%' }}>:</td>
-                                                        <td><strong>Rp. {FormatPrice(dataCarts.price)}</strong></td>
-                                                    </tr>
-                                                    {/* <tr>
-                                                        <td style={{ width: '25%' }}>Shipping Cost</td>
-                                                        <td style={{ width: '1%' }}>:</td>
-                                                        <td><strong>Rp. {FormatPrice(courierCost)}</strong></td>
-                                                    </tr> */}
-                                                    <tr>
-                                                        <td style={{ width: '25%' }}>Grand Total</td>
-                                                        <td style={{ width: '1%' }}>:</td>
-                                                        <td><strong>Rp. {FormatPrice(grandTotal)}</strong></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                            {/* Payment Channel Preview */}
+                            <div className="card border-0 rounded-4 shadow-sm bg-white">
+                                <div className="card-header bg-white border-0 py-3 ps-4">
+                                    <h5 className="mb-0 fw-bold text-dark">
+                                        <i className="fa fa-wallet me-2 text-primary"></i>
+                                        Metode Pembayaran Tersedia
+                                    </h5>
+                                </div>
+                                <div className="card-body p-4 pt-0">
+                                    <p className="text-secondary small mb-3">
+                                        Setelah menekan tombol "Proses Pembayaran", Anda akan diarahkan ke pop-up / halaman <strong>Duitku Payment Gateway</strong> untuk memilih metode berikut:
+                                    </p>
+                                    <div className="row g-2">
+                                        <div className="col-6 col-md-4">
+                                            <div className="border rounded-3 p-2 text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="fw-bold d-block text-dark">Mandiri VA</small>
+                                                <small className="text-muted">Otomatis</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 col-md-4">
+                                            <div className="border rounded-3 p-2 text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="fw-bold d-block text-dark">BNI VA</small>
+                                                <small className="text-muted">Otomatis</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 col-md-4">
+                                            <div className="border rounded-3 p-2 text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="fw-bold d-block text-dark">BRI VA (BRIVA)</small>
+                                                <small className="text-muted">Otomatis</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 col-md-4">
+                                            <div className="border rounded-3 p-2 text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="fw-bold d-block text-dark">Permata VA</small>
+                                                <small className="text-muted">Otomatis</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 col-md-4">
+                                            <div className="border rounded-3 p-2 text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="fw-bold d-block text-dark">CIMB Niaga VA</small>
+                                                <small className="text-muted">Otomatis</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 col-md-4">
+                                            <div className="border rounded-3 p-2 text-center" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                                <small className="fw-bold d-block text-dark">QRIS & E-Wallet</small>
+                                                <small className="text-muted">Instant</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
 
-                                <StoreCheckout    
-                                    provinceID={dpw}
-                                    cityID={dpc}
-                                    grandTotal={grandTotal}
-                                    // courierName={courierName}
-                                    // courierService={courierService}
-                                    // courierCost={courierCost}
-                                    // weight={dataCarts.weight}
-                                    // address={address}
-                                />    
+                        {/* Order Summary & Action */}
+                        <div className="col-lg-5">
+                            <div className="card border-0 rounded-4 shadow-sm bg-white sticky-top" style={{ top: "90px" }}>
+                                <div className="card-header bg-primary bg-gradient text-white border-0 py-3 rounded-top-4">
+                                    <h5 className="mb-0 fw-bold">
+                                        <i className="fa fa-receipt me-2"></i>
+                                        Rincian Tagihan
+                                    </h5>
+                                </div>
+                                <div className="card-body p-4">
+                                    <div className="d-flex justify-content-between mb-2">
+                                        <span className="text-muted">Total Tagihan Item:</span>
+                                        <strong className="text-dark">Rp {FormatPrice(grandTotal)}</strong>
+                                    </div>
+                                    <div className="d-flex justify-content-between mb-3">
+                                        <span className="text-muted">Biaya Administrasi:</span>
+                                        <span className="text-success fw-bold">Rp 0</span>
+                                    </div>
+                                    <hr className="my-3" />
+                                    <div className="d-flex justify-content-between align-items-center mb-4">
+                                        <span className="fw-bold text-dark fs-6">Grand Total:</span>
+                                        <span className="fw-bold fs-3 text-primary">
+                                            Rp {FormatPrice(grandTotal)}
+                                        </span>
+                                    </div>
 
+                                    {/* Action button */}
+                                    <StoreCheckout
+                                        provinceID={dpw}
+                                        cityID={dpc}
+                                        grandTotal={grandTotal}
+                                    />
+
+                                    <div className="mt-3 text-center">
+                                        <Link href="/carts" className="text-muted text-decoration-none small">
+                                            <i className="fa fa-arrow-left me-1"></i> Kembali ke Keranjang
+                                        </Link>
+                                    </div>
+
+                                    <div className="alert alert-warning border-0 rounded-3 mt-4 mb-0 small">
+                                        <i className="fa fa-clock me-1 text-warning"></i>
+                                        <strong>Penting:</strong> Setelah invoice dibuat, Anda memiliki waktu <strong>24 Jam (1x24 Jam)</strong> untuk menyelesaikan pembayaran.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </LayoutWeb>
         </>
-    )
-
+    );
 }

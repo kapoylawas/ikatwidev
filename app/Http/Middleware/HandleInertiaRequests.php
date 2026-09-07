@@ -36,16 +36,20 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        $isUserAdmin = $user && ($user->can('users.index') || $user->hasRole('admin') || $user->hasRole('admin wilayah'));
+
         return array_merge(parent::share($request), [
             //user authenticated
             'auth' => [
-                'user'          => $request->user() ?   $request->user() : null,
-                'permissions'   => $request->user() ? $request->user()->getPermissionArray() : []
+                'user'          => $user ? $user : null,
+                'permissions'   => $user ? $user->getPermissionArray() : [],
+                'pendingUsersCount' => $isUserAdmin ? \App\Models\User::where('confirm', 'false')->count() : 0,
             ],
             //carts
-            'dataCarts' => $request->user() ? [
-                'total'     =>  \App\Models\Cart::where('user_id', $request->user()->id)->count() ?? 0,
-                'price'     => \App\Models\Cart::where('user_id', $request->user()->id)->sum('price') ?? 0,
+            'dataCarts' => $user ? [
+                'total'     =>  \App\Models\Cart::where('user_id', $user->id)->count() ?? 0,
+                'price'     => \App\Models\Cart::where('user_id', $user->id)->sum('price') ?? 0,
             ] : null
         ]);
     }

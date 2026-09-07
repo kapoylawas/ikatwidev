@@ -15,61 +15,111 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-
         $role = auth()->user()->getRoleNames();
+        $isAdmin = ($role[0] ?? '') == 'admin' || ($role[0] ?? '') == 'admin wilayah';
 
-        if ($role[0] == 'admin' || $role[0] == 'admin wilayah') {
+        $q = $request->q;
+        $province_id = $request->province_id;
+        $city_id = $request->city_id;
 
-            //get users
-            $users = User::when(request()->q, function ($users) {
-                $users = $users->where('name', 'like', '%' . request()->q . '%');
-            })->with('roles', 'province', 'city')
-                ->where('confirm', 'true')
-                ->orderBy('no_anggota', 'ASC')
-                ->paginate(20);
-        } else {
-            $users = User::when(request()->q, function ($users) {
-                $users = $users->where('name', 'like', '%' . request()->q . '%');
-            })->with('roles', 'province', 'city')
-                ->where('id', auth()->user()->id)
-                ->where('confirm', 'true')
-                ->latest()->paginate(10);
-        }
-
-        //append query string to pagination links
-        $users->appends(['q' => request()->q]);
-
-
-        // get user where confirm = false
-        $role2 = auth()->user()->getRoleNames();
-
-        if ($role2[0] == 'admin' || $role2[0] == 'admin wilayah') {
-            //get users
-            $users2 = User::when(request()->query, function ($users2) {
-                $users2 = $users2->where('name', 'like', '%' . request()->qr . '%');
-            })
+        if ($isAdmin) {
+            $users = User::where('confirm', 'true')
+                ->when($q, function ($query) use ($q) {
+                    $query->where(function ($sub) use ($q) {
+                        $sub->where('name', 'like', "%{$q}%")
+                            ->orWhere('email', 'like', "%{$q}%")
+                            ->orWhere('no_anggota', 'like', "%{$q}%")
+                            ->orWhere('nik', 'like', "%{$q}%")
+                            ->orWhere('phone', 'like', "%{$q}%");
+                    });
+                })
+                ->when($province_id, function ($query) use ($province_id) {
+                    $query->where('province_id', $province_id);
+                })
+                ->when($city_id, function ($query) use ($city_id) {
+                    $query->where('city_id', $city_id);
+                })
                 ->with('roles', 'province', 'city')
-                ->where('confirm', 'false')
                 ->orderBy('no_anggota', 'ASC')
-                ->paginate(50)
+                ->paginate(20)
                 ->withQueryString();
         } else {
-            $users2 = User::when(request()->qr, function ($users2) {
-                $users2 = $users2->where('name', 'like', '%' . request()->qr . '%');
-            })
+            $users = User::where('id', auth()->user()->id)
+                ->where('confirm', 'true')
                 ->with('roles', 'province', 'city')
-                ->where('id', auth()->user()->id)
-                ->where('confirm', 'false')
-                ->paginate(50)
+                ->latest()
+                ->paginate(10)
                 ->withQueryString();
         }
 
-        //return inertia
+        $pendingCount = User::where('confirm', 'false')->count();
+        $provinces = Province::orderBy('name', 'ASC')->get();
+        $cities = $province_id
+            ? City::where('province_id', $province_id)->orderBy('name', 'ASC')->get()
+            : City::orderBy('name', 'ASC')->get();
+
         return inertia('Account/Users/Index', [
             'users' => $users,
-            'users2' => $users2
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'pendingCount' => $pendingCount,
+            'filters' => [
+                'q' => $q,
+                'province_id' => $province_id,
+                'city_id' => $city_id,
+            ]
+        ]);
+    }
+
+    public function verifikasiList(Request $request)
+    {
+        $role = auth()->user()->getRoleNames();
+        $isAdmin = ($role[0] ?? '') == 'admin' || ($role[0] ?? '') == 'admin wilayah';
+
+        if (!$isAdmin) {
+            return redirect()->route('account.dashboard');
+        }
+
+        $q = $request->q;
+        $province_id = $request->province_id;
+        $city_id = $request->city_id;
+
+        $users = User::where('confirm', 'false')
+            ->when($q, function ($query) use ($q) {
+                $query->where(function ($sub) use ($q) {
+                    $sub->where('name', 'like', "%{$q}%")
+                        ->orWhere('email', 'like', "%{$q}%")
+                        ->orWhere('nik', 'like', "%{$q}%")
+                        ->orWhere('phone', 'like', "%{$q}%");
+                });
+            })
+            ->when($province_id, function ($query) use ($province_id) {
+                $query->where('province_id', $province_id);
+            })
+            ->when($city_id, function ($query) use ($city_id) {
+                $query->where('city_id', $city_id);
+            })
+            ->with('roles', 'province', 'city')
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+
+        $provinces = Province::orderBy('name', 'ASC')->get();
+        $cities = $province_id
+            ? City::where('province_id', $province_id)->orderBy('name', 'ASC')->get()
+            : City::orderBy('name', 'ASC')->get();
+
+        return inertia('Account/Users/Verifikasi', [
+            'users' => $users,
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'filters' => [
+                'q' => $q,
+                'province_id' => $province_id,
+                'city_id' => $city_id,
+            ]
         ]);
     }
 
@@ -129,24 +179,21 @@ class UserController extends Controller
         $image = $request->file('image');
         $image->storeAs('public/users', $image->hashName());
 
-        $maxuser = User::count();
-        // dd($maxuser);
-
         /**
          * Create user
          */
         //insert data user
         $user = User::create([
-            'name'      => $request->name,
-            'province_id'      => $request->province_id,
-            'city_id'      => $request->city_id,
-            'no_anggota'      => '10' . $maxuser + 1,
-            'nik'      => $request->nik,
-            'email'     => $request->email,
-            'alamat'     => $request->alamat,
-            'kelengkapan'     => 'false',
-            'password'  => bcrypt($request->password),
-            'image' => $image->hashName()
+            'name'        => $request->name,
+            'province_id' => $request->province_id,
+            'city_id'     => $request->city_id,
+            'no_anggota'  => User::generateNextNoAnggota(),
+            'nik'         => $request->nik,
+            'email'       => $request->email,
+            'alamat'      => $request->alamat,
+            'kelengkapan' => 'false',
+            'password'    => bcrypt($request->password),
+            'image'       => $image->hashName()
         ]);
 
         //assign roles to user
@@ -339,13 +386,10 @@ class UserController extends Controller
 
     public function updateVerifikasiAnggota(Request $request, User $user)
     {
-
-        $maxuser = User::whereNotNull('no_anggota')->count() + 1;
-
         $user->update([
-            'name'      => $request->name,
-            'confirm'      => 'true',
-            'no_anggota'      => '10' . $maxuser,
+            'name'       => $request->name,
+            'confirm'    => 'true',
+            'no_anggota' => $user->no_anggota ?: User::generateNextNoAnggota(),
         ]);
 
         //redirect

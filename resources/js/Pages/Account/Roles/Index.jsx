@@ -57,31 +57,19 @@ export default function RoleIndex() {
                             </div>
                             <div className="card-body">
                                 <div className="table-responsive">
-                                    <table className="table table-bordered table-striped table-hovered">
+                                    <table className="table table-custom align-middle mb-0">
                                         <thead>
                                             <tr>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "5%" }}
-                                                >
+                                                <th scope="col" style={{ width: "5%", textAlign: "center" }}>
                                                     No.
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
+                                                <th scope="col" style={{ width: "20%" }}>
                                                     Role Name
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "50%" }}
-                                                >
+                                                <th scope="col" style={{ width: "60%" }}>
                                                     Permissions
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
+                                                <th scope="col" style={{ width: "15%", textAlign: "center" }}>
                                                     Actions
                                                 </th>
                                             </tr>
@@ -90,45 +78,62 @@ export default function RoleIndex() {
                                             {roles.data.map((role, index) => (
                                                 <tr key={index}>
                                                     <td className="text-center">
-                                                        {++index +
-                                                            (roles.current_page -
-                                                                1) *
-                                                                roles.per_page}
+                                                        <span className="table-num-pill">
+                                                            {++index +
+                                                                (roles.current_page -
+                                                                    1) *
+                                                                    roles.per_page}
+                                                        </span>
                                                     </td>
-                                                    <td>{role.name}</td>
+                                                    <td className="fw-bold text-dark">{role.name}</td>
                                                     <td>
-                                                        {role.permissions.map(
-                                                            (
-                                                                permission,
-                                                                index
-                                                            ) => (
-                                                                <span
-                                                                    className="btn btn-admin btn-sm shadow-sm border-0 ms-2 mb-2"
-                                                                    key={index}
-                                                                >
-                                                                    {
-                                                                        permission.name
-                                                                    }
-                                                                </span>
-                                                            )
-                                                        )}
+                                                        <div className="d-flex flex-wrap gap-1">
+                                                            {role.permissions.map(
+                                                                (permission, pIndex) => (
+                                                                    <span
+                                                                        className="badge px-2 py-1 rounded"
+                                                                        style={{
+                                                                            backgroundColor: '#eff6ff',
+                                                                            color: '#1d4ed8',
+                                                                            border: '1px solid #bfdbfe',
+                                                                            fontSize: '0.74rem',
+                                                                            fontWeight: 600
+                                                                        }}
+                                                                        key={pIndex}
+                                                                    >
+                                                                        {permission.name}
+                                                                    </span>
+                                                                )
+                                                            )}
+                                                        </div>
                                                     </td>
                                                     <td className="text-center">
-                                                        {hasAnyPermission([
-                                                            "roles.edit",
-                                                        ]) && (
-                                                            <Link
-                                                                href={`/account/roles/${role.id}/edit`}
-                                                                className="btn btn-primary btn-sm me-2"
-                                                            >
-                                                                <i className="fa fa-pencil-alt"></i>
-                                                            </Link>
-                                                        )}
-                                                        {hasAnyPermission([
-                                                            "roles.delete",
-                                                        ]) && (
-                                                            <Delete URL={'/account/roles'} id={role.id} />
-                                                        )}
+                                                        <div className="d-flex justify-content-center gap-1">
+                                                            {hasAnyPermission([
+                                                                "roles.edit",
+                                                            ]) && (
+                                                                <Link
+                                                                    href={`/account/roles/${role.id}/edit`}
+                                                                    className="btn btn-sm d-inline-flex align-items-center justify-content-center shadow-sm"
+                                                                    style={{
+                                                                        width: '32px',
+                                                                        height: '32px',
+                                                                        borderRadius: '6px',
+                                                                        backgroundColor: '#eff6ff',
+                                                                        border: '1px solid #93c5fd',
+                                                                        color: '#1d4ed8'
+                                                                    }}
+                                                                    title="Edit Role"
+                                                                >
+                                                                    <i className="fa fa-pen" style={{ fontSize: '0.78rem' }}></i>
+                                                                </Link>
+                                                            )}
+                                                            {hasAnyPermission([
+                                                                "roles.delete",
+                                                            ]) && (
+                                                                <Delete URL={'/account/roles'} id={role.id} />
+                                                            )}
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             ))}

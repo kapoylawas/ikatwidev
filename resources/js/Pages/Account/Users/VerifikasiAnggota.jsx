@@ -59,255 +59,225 @@ export default function UserVerifikasiAnggota() {
     };
 
     return (
-        <>
-            <Head>
-                <title>Edit Users - IKATWI</title>
-            </Head>
-            <LayoutAccount>
-                <div className="row mt-5">
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-3 col-12 mb-2">
-                                <Link
-                                    href="/account/users"
-                                    className="btn btn-md btn-admin border-0 shadow w-100"
-                                    type="button"
-                                >
-                                    <i className="fa fa-arrow-left me-2"></i>
-                                    KEMBALI
-                                </Link>
-                            </div>
-                        </div>
+        <LayoutAccount>
+            <Head title={`Verifikasi Anggota: ${user.name} - IKATWI`} />
+
+            <div className="user-verifikasi-anggota-page">
+                {/* Header Section */}
+                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                    <div>
+                        <h1 className="h4 text-dark fw-bold mb-1 d-flex align-items-center gap-2">
+                            <i className="fa fa-user-check text-dark"></i>
+                            <span>Verifikasi No. Anggota</span>
+                        </h1>
+                        <p className="text-muted small mb-0">
+                            Konfirmasi pendaftaran anggota dan terbitkan Nomor Anggota resmi IKATWI.
+                        </p>
+                    </div>
+
+                    <div>
+                        <Link
+                            href="/account/verifikasi-users"
+                            className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 text-decoration-none shadow-sm"
+                            style={{
+                                backgroundColor: '#ffffff',
+                                border: '1px solid #cbd5e1',
+                                color: '#334155',
+                                borderRadius: '8px',
+                                fontWeight: 600,
+                                fontSize: '0.84rem'
+                            }}
+                        >
+                            <i className="fa fa-arrow-left"></i>
+                            <span>Kembali ke Verifikasi</span>
+                        </Link>
                     </div>
                 </div>
-                <div className="row mt-4">
-                    <div className="col-12">
-                        <div className="card border-0 rounded shadow-sm border-top-admin">
-                            <div className="card-header">
-                                <span className="font-weight-bold">
-                                    <i className="fa fa-users"></i> Verifikasi
-                                    No Anggota User
-                                </span>
+
+                {/* Form Card */}
+                <div className="card border-0 shadow-sm" style={{ borderRadius: '12px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}>
+                    <div className="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center" style={{ borderColor: '#e2e8f0' }}>
+                        <span className="fw-bold text-dark">
+                            <i className="fa fa-id-badge text-dark me-2"></i> Data Pendaftar: {user.name}
+                        </span>
+                        {confirm ? (
+                            <span className="badge rounded-pill" style={{ backgroundColor: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0', fontSize: '0.75rem', fontWeight: 600 }}>
+                                <i className="fa fa-check-circle me-1" style={{ color: '#10b981' }}></i> Terverifikasi (No: {user.no_anggota})
+                            </span>
+                        ) : (
+                            <span className="badge rounded-pill" style={{ backgroundColor: '#fef3c7', color: '#b45309', border: '1px solid #fde68a', fontSize: '0.75rem', fontWeight: 600 }}>
+                                <i className="fa fa-clock me-1"></i> Menunggu Verifikasi
+                            </span>
+                        )}
+                    </div>
+
+                    <div className="card-body p-4">
+                        <form onSubmit={updateUser}>
+                            <div className="row g-3">
+                                {/* NIK */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Nomor Induk Kependudukan (NIK)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        disabled
+                                        className="form-control form-control-sm"
+                                        value={nik || ""}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#e2e8f0', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* Full Name */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Nama Lengkap
+                                    </label>
+                                    <input
+                                        type="text"
+                                        disabled
+                                        className="form-control form-control-sm"
+                                        value={name || ""}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#e2e8f0', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* Email Address */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Alamat Email
+                                    </label>
+                                    <input
+                                        type="text"
+                                        disabled
+                                        className="form-control form-control-sm"
+                                        value={email || ""}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#e2e8f0', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* DPW */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        DPW (Provinsi)
+                                    </label>
+                                    <input
+                                        type="text"
+                                        disabled
+                                        className="form-control form-control-sm"
+                                        value={user.province?.name || "-"}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#e2e8f0', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* DPC */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        DPC (Kota/Kab)
+                                    </label>
+                                    <input
+                                        type="text"
+                                        disabled
+                                        className="form-control form-control-sm"
+                                        value={user.city?.name || "-"}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#e2e8f0', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* Status Anggota */}
+                                <div className="col-12 col-md-6">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Status Anggota
+                                    </label>
+                                    <input
+                                        type="text"
+                                        disabled
+                                        className="form-control form-control-sm"
+                                        value={statusAnggota || "Anggota Biasa"}
+                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#e2e8f0', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* Alamat */}
+                                <div className="col-12">
+                                    <label className="form-label small fw-bold text-dark mb-1">
+                                        Alamat Lengkap
+                                    </label>
+                                    <textarea
+                                        disabled
+                                        rows={2}
+                                        className="form-control"
+                                        value={alamat || "-"}
+                                        style={{ borderRadius: '8px', borderColor: '#e2e8f0', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+                                    />
+                                </div>
+
+                                {/* Pakta Integritas File */}
+                                {user.filepakta && (
+                                    <div className="col-12">
+                                        <label className="form-label small fw-bold text-dark mb-1 d-block">
+                                            Berkas Pakta Integritas
+                                        </label>
+                                        <a
+                                            href={user.filepakta}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 shadow-sm"
+                                            style={{
+                                                backgroundColor: '#fef2f2',
+                                                border: '1px solid #fecaca',
+                                                color: '#dc2626',
+                                                borderRadius: '8px',
+                                                fontWeight: 600,
+                                                fontSize: '0.84rem'
+                                            }}
+                                        >
+                                            <i className="fa fa-file-pdf"></i>
+                                            <span>Buka & Periksa Berkas Pakta Integritas (PDF)</span>
+                                            <i className="fa fa-external-link-alt ms-1" style={{ fontSize: '0.75rem' }}></i>
+                                        </a>
+                                    </div>
+                                )}
                             </div>
-                            <div className="card-body">
-                                <form onSubmit={updateUser}>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                NIK
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    value={nik}
-                                                    onChange={(e) =>
-                                                        setNik(e.target.value)
-                                                    }
-                                                    placeholder="No Induk Kependudukan"
-                                                />
-                                            </div>
-                                            {errors.nik && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.nik}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Full Name
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={name}
-                                                    onChange={(e) =>
-                                                        setName(e.target.value)
-                                                    }
-                                                    placeholder="Enter Full Name"
-                                                />
-                                            </div>
-                                            {errors.name && (
-                                                <div className="alert alert-danger">
-                                                    {errors.name}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="mb-3">
-                                                <label className="form-label fw-bold">
-                                                    Email Address
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={email}
-                                                    onChange={(e) =>
-                                                        setEmail(e.target.value)
-                                                    }
-                                                    placeholder="Enter Email Address"
-                                                />
-                                            </div>
-                                            {errors.email && (
-                                                <div className="alert alert-danger">
-                                                    {errors.email}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                DPW
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={provinceID}
-                                                onChange={(e) =>
-                                                    setProvinceID(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPW --
-                                                </option>
-                                                {provinces.map((province) => (
-                                                    <option
-                                                        value={province.id}
-                                                        key={province.id}
-                                                    >
-                                                        {province.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.province_id && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.province_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                DPC
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={cityID}
-                                                onChange={(e) =>
-                                                    setCityID(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select DPC --
-                                                </option>
-                                                {cities.map((city) => (
-                                                    <option
-                                                        value={city.id}
-                                                        key={city.id}
-                                                    >
-                                                        {city.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {errors.city_id && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.city_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="mb-1">
-                                            <label className="form-label">
-                                                Status Anggota
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                value={statusAnggota}
-                                                onChange={(e) =>
-                                                    setStatusAnggota(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    -- Select Status Keanggotaan
-                                                    --
-                                                </option>
-                                                <option value="Anggota Biasa">
-                                                    Anggota Biasa
-                                                </option>
-                                                <option value="Anggota Luar Biasa">
-                                                    Anggota Luar Biasa
-                                                </option>
-                                                <option value="Anggota Kehormatan">
-                                                    Anggota Kehormatan
-                                                </option>
-                                            </select>
-                                            {errors.status_anggota && (
-                                                <div className="alert alert-danger mt-2">
-                                                    {errors.status_anggota}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-12">
-                                            <label className="mb-1">
-                                                Alamat
-                                            </label>
-                                            <div className="input-group mb-3">
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={alamat}
-                                                    onChange={(e) =>
-                                                        setAlamat(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Alamat Lengkap"
-                                                />
-                                            </div>
-                                            {errors.alamat && (
-                                                <div className="alert alert-danger">
-                                                    {errors.alamat}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        {confirm ? (
-                                            <button
-                                                type="submit"
-                                                disabled
-                                                className="btn btn-md btn-success me-2"
-                                            >
-                                                <i className="fa fa-save"></i>{" "}
-                                                Sudah Di Verif
-                                            </button>
-                                        ) : (
-                                            <button
-                                                type="submit"
-                                                className="btn btn-md btn-success me-2"
-                                            >
-                                                <i className="fa fa-save"></i>{" "}
-                                                Verifikasi No Anggota
-                                            </button>
-                                        )}
-                                    </div>
-                                </form>
+
+                            {/* Submit Button */}
+                            <div className="d-flex gap-2 mt-4 pt-3 border-top" style={{ borderColor: '#e2e8f0' }}>
+                                {confirm ? (
+                                    <button
+                                        type="button"
+                                        disabled
+                                        className="btn btn-sm d-inline-flex align-items-center gap-2 px-4 py-2 border-0"
+                                        style={{
+                                            backgroundColor: '#e2e8f0',
+                                            color: '#64748b',
+                                            borderRadius: '8px',
+                                            fontWeight: 600,
+                                            fontSize: '0.85rem'
+                                        }}
+                                    >
+                                        <i className="fa fa-check-circle text-success"></i>
+                                        <span>Sudah Diverifikasi</span>
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="submit"
+                                        className="btn btn-sm d-inline-flex align-items-center gap-2 px-4 py-2 text-white border-0 shadow-sm"
+                                        style={{
+                                            backgroundColor: '#059669',
+                                            borderRadius: '8px',
+                                            fontWeight: 600,
+                                            fontSize: '0.85rem'
+                                        }}
+                                    >
+                                        <i className="fa fa-check-circle"></i>
+                                        <span>Setujui & Terbitkan No. Anggota</span>
+                                    </button>
+                                )}
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
-            </LayoutAccount>
-        </>
+            </div>
+        </LayoutAccount>
     );
 }

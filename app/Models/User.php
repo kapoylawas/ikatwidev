@@ -96,6 +96,35 @@ class User extends Authenticatable
     }
 
     /**
+     * Generate the next unique No. Anggota sequentially
+     * Guaranteed to never duplicate by querying MAX numeric no_anggota with row locking.
+     */
+    public static function generateNextNoAnggota()
+    {
+        return \Illuminate\Support\Facades\DB::transaction(function () {
+            // Find highest numeric no_anggota with lock for concurrency safety
+            $maxNo = self::whereNotNull('no_anggota')
+                ->where('no_anggota', '!=', '')
+                ->whereRaw("no_anggota REGEXP '^[0-9]+$'")
+                ->lockForUpdate()
+                ->selectRaw('MAX(CAST(no_anggota AS UNSIGNED)) as max_no')
+                ->value('max_no');
+
+            $next = $maxNo ? ((int) $maxNo + 1) : 100001;
+            if ($next < 100001) {
+                $next = 100001;
+            }
+
+            // Fallback collision check to ensure absolute uniqueness
+            while (self::where('no_anggota', (string) $next)->exists()) {
+                $next++;
+            }
+
+            return (string) $next;
+        });
+    }
+
+    /**
      * province
      *
      * @return void

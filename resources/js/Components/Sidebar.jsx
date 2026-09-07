@@ -1,766 +1,800 @@
-//import React
-import React, { useRef, useEffect, useState } from "react";
-
-//import permissions
+import React from "react";
 import hasAnyPermission from "../Utils/Permissions";
-
-//import Link and usePage
 import { Link, usePage } from "@inertiajs/inertia-react";
-
-//import inertia adapter
 import { Inertia } from "@inertiajs/inertia";
 
 export default function Sidebar() {
-    //destruct URL from props
-    const { url } = usePage();
-    
-    // Ref untuk sidebar container
-    const sidebarRef = useRef(null);
-    
-    // State untuk mengontrol visibilitas tombol scroll
-    const [showScrollTop, setShowScrollTop] = useState(false);
-    const [showScrollBottom, setShowScrollBottom] = useState(false);
+    const { url, auth } = usePage();
 
-    //function logout
     const logoutHandler = async (e) => {
         e.preventDefault();
         Inertia.post("/logout");
     };
 
-    // Function to determine active class
-    const getActiveClass = (path) => {
-        return url.startsWith(path)
-            ? "active list-group-item list-group-item-action p-3 fw-semibold"
-            : "list-group-item list-group-item-action p-3";
+    const isLinkActive = (path) => {
+        if (path === "/account/dashboard") {
+            return url === "/account/dashboard" || url === "/account";
+        }
+        return url.startsWith(path);
     };
 
-    // Function untuk scroll ke atas
-    const scrollToTop = () => {
-        if (sidebarRef.current) {
-            sidebarRef.current.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
+    const getLinkClass = (path) => {
+        return isLinkActive(path) ? "sidebar-item active" : "sidebar-item";
     };
 
-    // Function untuk scroll ke bawah
-    const scrollToBottom = () => {
-        if (sidebarRef.current) {
-            sidebarRef.current.scrollTo({
-                top: sidebarRef.current.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
-    };
-
-    // Effect untuk memantau posisi scroll
-    useEffect(() => {
-        const handleScroll = () => {
-            if (sidebarRef.current) {
-                const { scrollTop, scrollHeight, clientHeight } = sidebarRef.current;
-                
-                // Tampilkan tombol scroll ke atas jika tidak di posisi paling atas
-                setShowScrollTop(scrollTop > 50);
-                
-                // Tampilkan tombol scroll ke bawah jika tidak di posisi paling bawah
-                setShowScrollBottom(scrollTop + clientHeight < scrollHeight - 50);
-            }
-        };
-
-        const sidebarElement = sidebarRef.current;
-        if (sidebarElement) {
-            sidebarElement.addEventListener('scroll', handleScroll);
-            
-            // Panggil sekali untuk set status awal
-            handleScroll();
-            
-            return () => {
-                sidebarElement.removeEventListener('scroll', handleScroll);
-            };
-        }
-    }, []);
+    const user = auth?.user;
+    const userRole = user?.roles?.[0]?.name || user?.status_anggota || "Anggota";
+    const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : "A";
 
     return (
         <>
-            <div 
-                className="list-group list-group-flush sidebar-container"
-                ref={sidebarRef}
-            >
-                {/* Tombol Scroll ke Atas */}
-                {showScrollTop && (
-                    <button 
-                        className="scroll-btn scroll-top-btn"
-                        onClick={scrollToTop}
-                        aria-label="Scroll ke atas"
-                    >
-                        <i className="fa fa-chevron-up"></i>
-                    </button>
-                )}
-
-                {/* Tombol Scroll ke Bawah */}
-                {showScrollBottom && (
-                    <button 
-                        className="scroll-btn scroll-bottom-btn"
-                        onClick={scrollToBottom}
-                        aria-label="Scroll ke bawah"
-                    >
-                        <i className="fa fa-chevron-down"></i>
-                    </button>
-                )}
-
-                {/* Header KATWI */}
-                <div className="sidebar-header">
-                    <div className="katwi-logo">
-                        <div className="logo-icon">
-                            <i className="fa fa-users"></i>
+            <aside className="ikatwi-sidebar">
+                {/* Brand Header */}
+                <div className="sidebar-brand-box">
+                    <Link href="/account/dashboard" className="brand-link">
+                        <div className="brand-logo-frame">
+                            <img
+                                src="/assets/images/logo.png"
+                                alt="Logo IKATWI"
+                                className="brand-logo-img"
+                            />
                         </div>
-                        <div className="logo-text">
-                            <span className="katwi-title">KATWI</span>
-                            <span className="katwi-subtitle">Management System</span>
+                        <div className="brand-meta">
+                            <div className="brand-title-wrap">
+                                <span className="brand-name">IKATWI</span>
+                                <span className="brand-badge">PORTAL</span>
+                            </div>
+                            <span className="brand-tagline">Ikatan Terapis Wicara Indonesia</span>
+                        </div>
+                    </Link>
+                </div>
+
+                {/* Member Profile Compact Card */}
+                <div className="sidebar-user-card">
+                    <div className="user-avatar-wrap">
+                        <div className="user-avatar-circle">
+                            {userInitial}
+                        </div>
+                        <span className="user-status-dot" title="Status Online"></span>
+                    </div>
+                    <div className="user-details">
+                        <span className="user-fullname" title={user?.name || "Anggota IKATWI"}>
+                            {user?.name || "Anggota IKATWI"}
+                        </span>
+                        <div className="user-meta-row">
+                            <span className="user-role-label">{userRole}</span>
+                            {user?.no_anggota && (
+                                <span className="user-id-badge">{user.no_anggota}</span>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                {/* Dashboard - Menu Utama - TANPA PERMISSION CHECK DULU */}
-                <Link href="/account/dashboard" className={`dashboard-menu ${getActiveClass("/account/dashboard")}`}>
-                    <i className="fa fa-tachometer-alt me-3"></i> Dashboard
-                </Link>
-
-                {/* Data Master */}
-                {(hasAnyPermission(["categories.index"]) ||
-                    hasAnyPermission(["dpw.index"]) ||
-                    hasAnyPermission(["dpc.index"]) ||
-                    hasAnyPermission(["wilayah.index"])) && (
-                        <div className="sidebar-section">
-                            <div className="sidebar-section-header">
-                                <i className="fa fa-database me-2"></i> DATA MASTER
+                {/* Navigation Scrollable Body */}
+                <nav className="sidebar-nav-container">
+                    {/* SECTION: UTAMA */}
+                    <div className="nav-section">
+                        <div className="nav-heading">MENU UTAMA</div>
+                        <Link href="/account/dashboard" className={getLinkClass("/account/dashboard")}>
+                            <div className="item-icon-box">
+                                <i className="fa fa-th-large"></i>
                             </div>
+                            <span className="item-label">Dashboard</span>
+                        </Link>
+                    </div>
 
-                            <div className="menu-items">
-                                {hasAnyPermission(["categories.index"]) && (
-                                    <Link href="/account/categories" className={getActiveClass("/account/categories")}>
-                                        <i className="fa fa-folder me-3"></i> Kategori
-                                    </Link>
-                                )}
+                    {/* SECTION: DATA MASTER */}
+                    {(hasAnyPermission(["categories.index"]) ||
+                        hasAnyPermission(["dpw.index"]) ||
+                        hasAnyPermission(["dpc.index"]) ||
+                        hasAnyPermission(["wilayah.index"])) && (
+                        <div className="nav-section">
+                            <div className="nav-heading">DATA MASTER</div>
 
-                                {hasAnyPermission(["dpw.index"]) && (
-                                    <Link href="/account/dpw" className={getActiveClass("/account/dpw")}>
-                                        <i className="fa fa-university me-3"></i> Master DPW
-                                    </Link>
-                                )}
+                            {hasAnyPermission(["categories.index"]) && (
+                                <Link href="/account/categories" className={getLinkClass("/account/categories")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-folder"></i>
+                                    </div>
+                                    <span className="item-label">Kategori</span>
+                                </Link>
+                            )}
 
-                                {hasAnyPermission(["dpc.index"]) && (
-                                    <Link href="/account/dpc" className={getActiveClass("/account/dpc")}>
-                                        <i className="fa fa-building me-3"></i> Master DPC
-                                    </Link>
-                                )}
+                            {hasAnyPermission(["dpw.index"]) && (
+                                <Link href="/account/dpw" className={getLinkClass("/account/dpw")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-landmark"></i>
+                                    </div>
+                                    <span className="item-label">Master DPW</span>
+                                </Link>
+                            )}
 
-                                {hasAnyPermission(["wilayah.index"]) && (
-                                    <Link href="/account/wilayah" className={getActiveClass("/account/wilayah")}>
-                                        <i className="fa fa-map-marker me-3"></i> Wilayah DPW
-                                    </Link>
-                                )}
+                            {hasAnyPermission(["dpc.index"]) && (
+                                <Link href="/account/dpc" className={getLinkClass("/account/dpc")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-city"></i>
+                                    </div>
+                                    <span className="item-label">Master DPC</span>
+                                </Link>
+                            )}
 
-                                {hasAnyPermission(["wilayah.index"]) && (
-                                    <Link href="/account/areadpc" className={getActiveClass("/account/areadpc")}>
-                                        <i className="fa fa-map me-3"></i> Wilayah DPC
-                                    </Link>
-                                )}
-                                {hasAnyPermission(["videos.index"]) && (
-                                    <Link href="/account/videos" className={getActiveClass("/account/videos")}>
-                                        <i className="fa fa-video me-3"></i> Videos
-                                    </Link>
-                                )}
-                            </div>
+                            {hasAnyPermission(["wilayah.index"]) && (
+                                <Link href="/account/wilayah" className={getLinkClass("/account/wilayah")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-map-marked-alt"></i>
+                                    </div>
+                                    <span className="item-label">Wilayah DPW</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["wilayah.index"]) && (
+                                <Link href="/account/areadpc" className={getLinkClass("/account/areadpc")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-map-signs"></i>
+                                    </div>
+                                    <span className="item-label">Wilayah DPC</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["videos.index"]) && (
+                                <Link href="/account/videos" className={getLinkClass("/account/videos")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-play-circle"></i>
+                                    </div>
+                                    <span className="item-label">Video Manajemen</span>
+                                </Link>
+                            )}
                         </div>
                     )}
 
-                {/* Keanggotaan */}
-                {(hasAnyPermission(["biodatas.index"]) ||
-                    hasAnyPermission(["pengurus.index"]) ||
-                    hasAnyPermission(["ekta.index"])) && (
-                        <div className="sidebar-section">
-                            <div className="sidebar-section-header">
-                                <i className="fa fa-users me-2"></i> KEANGGOTAAN
-                            </div>
+                    {/* SECTION: KEANGGOTAAN */}
+                    {(hasAnyPermission(["biodatas.index"]) ||
+                        hasAnyPermission(["pengurus.index"]) ||
+                        hasAnyPermission(["ekta.index"])) && (
+                        <div className="nav-section">
+                            <div className="nav-heading">KEANGGOTAAN</div>
 
-                            <div className="menu-items">
-                                {hasAnyPermission(["biodatas.index"]) && (
-                                    <Link href="/account/biodatas" className={getActiveClass("/account/biodatas")}>
-                                        <i className="fa fa-id-card me-3"></i> Biodata
-                                    </Link>
-                                )}
+                            {hasAnyPermission(["biodatas.index"]) && (
+                                <Link href="/account/biodatas" className={getLinkClass("/account/biodatas")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-id-card"></i>
+                                    </div>
+                                    <span className="item-label">Biodata Anggota</span>
+                                </Link>
+                            )}
 
-                                {hasAnyPermission(["pengurus.index"]) && (
-                                    <Link href="/account/pengurus" className={getActiveClass("/account/pengurus")}>
-                                        <i className="fa fa-user-tie me-3"></i> Pengurus
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["ekta.index"]) && (
-                                    <Link href="/account/ekta" className={getActiveClass("/account/ekta")}>
-                                        <i className="fa fa-address-card me-3"></i> E-KTA
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["ekta.index"]) && (
-                                    <Link href="/account/sig" className={getActiveClass("/account/sig")}>
-                                        <i className="fa fa-address-card me-3"></i> SIG
-                                    </Link>
-                                )}
-                                {hasAnyPermission(["videousers.index"]) && (
-                                    <Link href="/account/materi" className={getActiveClass("/account/materi")}>
-                                        <i className="fa fa-video me-3"></i> Materi Video
-                                    </Link>
-                                )}
-                                {hasAnyPermission(["videousers.index"]) && (
-                                    <Link href="/account/donasi" className={getActiveClass("/account/donasi")}>
-                                        <i className="fa fa-donate me-3"></i> Donasi
-                                    </Link>
-                                )}
-                            </div>
-                            </div>
-                        )}
-
-                {/* Keuangan */}
-                {(hasAnyPermission(["tagihan.index"]) ||
-                    hasAnyPermission(["transactions.index"])) && (
-                        <div className="sidebar-section">
-                            <div className="sidebar-section-header">
-                                <i className="fa fa-wallet me-2"></i> KEUANGAN
-                            </div>
-
-                            <div className="menu-items">
-                                {hasAnyPermission(["tagihan.index"]) && (
-                                    <Link href="/account/tagihan" className={getActiveClass("/account/tagihan")}>
-                                        <i className="fa fa-credit-card me-3"></i> Tagihan Iuran
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["transactions.index"]) && (
-                                    <Link href="/account/transactions" className={getActiveClass("/account/transactions")}>
-                                        <i className="fa fa-exchange-alt me-3"></i> Transaksi
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["transactions.index"]) && (
-                                    <Link href="/account/transaksi-donasi" className={getActiveClass("/account/transaksi-donasi")}>
-                                        <i className="fa fa-hand-holding-heart me-3"></i> Transaksi Donasi
-                                    </Link>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                {/* Kegiatan & Agenda */}
-                {(hasAnyPermission(["products.index"]) ||
-                    hasAnyPermission(["kegiatan.index"])) && (
-                        <div className="sidebar-section">
-                            <div className="sidebar-section-header">
-                                <i className="fa fa-calendar-alt me-2"></i> KEGIATAN
-                            </div>
-
-                            <div className="menu-items">
-                                {hasAnyPermission(["products.index"]) && (
-                                    <Link href="/account/products" className={getActiveClass("/account/products")}>
-                                        <i className="fa fa-tasks me-3"></i> Kegiatan
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["kegiatan.index"]) && (
-                                    <Link href="/account/kegiatan" className={getActiveClass("/account/kegiatan")}>
-                                        <i className="fa fa-calendar-check me-3"></i> Agenda Kegiatan
-                                    </Link>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                {/* Dokumen & Mutasi */}
-                {(hasAnyPermission(["documents.index"]) ||
-                    hasAnyPermission(["ejurnal.index"]) ||
-                    hasAnyPermission(["pengajuan.index"]) ||
-                    hasAnyPermission(["verifPengajuan.index"]) ||
-                    hasAnyPermission(["verifPengajuanDpw.index"]) ||
-                    hasAnyPermission(["verifPengajuanDpc.index"]) ||
-                    hasAnyPermission(["arsips.index"])) && (
-                        <div className="sidebar-section">
-                            <div className="sidebar-section-header">
-                                <i className="fa fa-folder-open me-2"></i> DOKUMEN & MUTASI
-                            </div>
-
-                            <div className="menu-items">
-                                {hasAnyPermission(["documents.index"]) && (
-                                    <Link href="/account/documents" className={getActiveClass("/account/documents")}>
-                                        <i className="fa fa-file-pdf me-3"></i> Dokumen Kelengkapan
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["ejurnal.index"]) && (
-                                    <Link href="/account/ejurnal" className={getActiveClass("/account/ejurnal")}>
-                                        <i className="fa fa-book me-3"></i> E-Jurnal
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["pengajuan.index"]) && (
-                                    <>
-                                        <Link href="/account/pengajuan" className={getActiveClass("/account/pengajuan")}>
-                                            <i className="fa fa-paper-plane me-3"></i> Pengajuan Mutasi
-                                        </Link>
-
-                                        <Link href="/account/print" className={getActiveClass("/account/print")}>
-                                            <i className="fa fa-print me-3"></i> Pengajuan Print
-                                        </Link>
-                                    </>
-                                )}
-
-                                {/* Verifikasi Mutasi */}
-                                {(hasAnyPermission(["verifPengajuan.index"]) ||
-                                    hasAnyPermission(["verifPengajuanDpw.index"]) ||
-                                    hasAnyPermission(["verifPengajuanDpc.index"])) && (
-                                        <div className="verification-section">
-                                            <div className="sidebar-subheader">
-                                                <i className="fa fa-check-double me-2"></i> Verifikasi Mutasi
-                                            </div>
-
-                                            {hasAnyPermission(["verifPengajuan.index"]) && (
-                                                <Link href="/account/verifPengajuan" className={getActiveClass("/account/verifPengajuan")}>
-                                                    <i className="fa fa-check-circle me-3"></i> Verifikasi Utama
-                                                </Link>
-                                            )}
-
-                                            {hasAnyPermission(["verifPengajuanDpw.index"]) && (
-                                                <Link href="/account/verifPengajuanDpw" className={getActiveClass("/account/verifPengajuanDpw")}>
-                                                    <i className="fa fa-check-circle me-3"></i> Verifikasi DPW
-                                                </Link>
-                                            )}
-
-                                            {hasAnyPermission(["verifPengajuanDpc.index"]) && (
-                                                <Link href="/account/verifPengajuanDpc" className={getActiveClass("/account/verifPengajuanDpc")}>
-                                                    <i className="fa fa-check-circle me-3"></i> Verifikasi DPC
-                                                </Link>
-                                            )}
-
-                                            {hasAnyPermission(["verifPengajuan.index"]) && (
-                                                <Link href="/account/arsips" className={getActiveClass("/account/arsips")}>
-                                                    <i className="fa fa-archive me-3"></i> Arsip Pengajuan
-                                                </Link>
-                                            )}
-                                        </div>
+                            {hasAnyPermission(["users.index"]) && (
+                                <Link href="/account/verifikasi-users" className={getLinkClass("/account/verifikasi-users")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-user-check"></i>
+                                    </div>
+                                    <span className="item-label">Verifikasi Anggota Baru</span>
+                                    {auth?.pendingUsersCount > 0 && (
+                                        <span
+                                            className="badge rounded-pill"
+                                            style={{
+                                                backgroundColor: '#ef4444',
+                                                color: '#ffffff',
+                                                fontSize: '0.65rem',
+                                                fontWeight: 700,
+                                                padding: '0.15rem 0.45rem',
+                                                boxShadow: '0 1px 2px rgba(239, 68, 68, 0.4)'
+                                            }}
+                                        >
+                                            {auth.pendingUsersCount}
+                                        </span>
                                     )}
-                            </div>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["pengurus.index"]) && (
+                                <Link href="/account/pengurus" className={getLinkClass("/account/pengurus")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-users-cog"></i>
+                                    </div>
+                                    <span className="item-label">Struktur Pengurus</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["ekta.index"]) && (
+                                <Link href="/account/ekta" className={getLinkClass("/account/ekta")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-address-card"></i>
+                                    </div>
+                                    <span className="item-label">E-KTA Digital</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["ekta.index"]) && (
+                                <Link href="/account/sig" className={getLinkClass("/account/sig")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-certificate"></i>
+                                    </div>
+                                    <span className="item-label">SIG Keanggotaan</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["videousers.index"]) && (
+                                <Link href="/account/materi" className={getLinkClass("/account/materi")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-film"></i>
+                                    </div>
+                                    <span className="item-label">Materi Pembelajaran</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["videousers.index"]) && (
+                                <Link href="/account/donasi" className={getLinkClass("/account/donasi")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-hand-holding-heart"></i>
+                                    </div>
+                                    <span className="item-label">Program Donasi</span>
+                                </Link>
+                            )}
                         </div>
                     )}
 
-                {/* Sistem */}
-                {(hasAnyPermission(["sliders.index"]) ||
-                    hasAnyPermission(["roles.index"]) ||
-                    hasAnyPermission(["permissions.index"]) ||
-                    hasAnyPermission(["users.index"])) && (
-                        <div className="sidebar-section">
-                            <div className="sidebar-section-header">
-                                <i className="fa fa-cogs me-2"></i> SISTEM
-                            </div>
+                    {/* SECTION: KEUANGAN */}
+                    {(hasAnyPermission(["tagihan.index"]) ||
+                        hasAnyPermission(["transactions.index"])) && (
+                        <div className="nav-section">
+                            <div className="nav-heading">KEUANGAN & IURAN</div>
 
-                            <div className="menu-items">
-                                {hasAnyPermission(["sliders.index"]) && (
-                                    <Link href="/account/sliders" className={getActiveClass("/account/sliders")}>
-                                        <i className="fa fa-images me-3"></i> Sliders
-                                    </Link>
-                                )}
+                            {hasAnyPermission(["tagihan.index"]) && (
+                                <Link href="/account/tagihan" className={getLinkClass("/account/tagihan")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-receipt"></i>
+                                    </div>
+                                    <span className="item-label">Pusat Tagihan & Iuran</span>
+                                    <span className="item-badge-new">Iuran</span>
+                                </Link>
+                            )}
 
-                                {hasAnyPermission(["roles.index"]) && (
-                                    <Link href="/account/roles" className={getActiveClass("/account/roles")}>
-                                        <i className="fa fa-user-shield me-3"></i> Roles
-                                    </Link>
-                                )}
+                            {hasAnyPermission(["transactions.index"]) && (
+                                <Link href="/account/transactions" className={getLinkClass("/account/transactions")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-history"></i>
+                                    </div>
+                                    <span className="item-label">Riwayat Transaksi</span>
+                                </Link>
+                            )}
 
-                                {hasAnyPermission(["permissions.index"]) && (
-                                    <Link href="/account/permissions" className={getActiveClass("/account/permissions")}>
-                                        <i className="fa fa-key me-3"></i> Permissions
-                                    </Link>
-                                )}
-
-                                {hasAnyPermission(["users.index"]) && (
-                                    <Link href="/account/users" className={getActiveClass("/account/users")}>
-                                        <i className="fa fa-user-cog me-3"></i> Users
-                                    </Link>
-                                )}
-                            </div>
+                            {hasAnyPermission(["transactions.index"]) && (
+                                <Link href="/account/transaksi-donasi" className={getLinkClass("/account/transaksi-donasi")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-donate"></i>
+                                    </div>
+                                    <span className="item-label">Transaksi Donasi</span>
+                                </Link>
+                            )}
                         </div>
                     )}
 
-                {/* Navigasi Utama */}
-                <div className="sidebar-section">
-                    <div className="sidebar-section-header">
-                        <i className="fa fa-compass me-2"></i> NAVIGASI
+                    {/* SECTION: KEGIATAN */}
+                    {(hasAnyPermission(["products.index"]) ||
+                        hasAnyPermission(["kegiatan.index"])) && (
+                        <div className="nav-section">
+                            <div className="nav-heading">KEGIATAN & EVENT</div>
+
+                            {hasAnyPermission(["products.index"]) && (
+                                <Link href="/account/products" className={getLinkClass("/account/products")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-calendar-alt"></i>
+                                    </div>
+                                    <span className="item-label">Daftar Kegiatan</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["kegiatan.index"]) && (
+                                <Link href="/account/kegiatan" className={getLinkClass("/account/kegiatan")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-tasks"></i>
+                                    </div>
+                                    <span className="item-label">Agenda Kegiatan</span>
+                                </Link>
+                            )}
+                        </div>
+                    )}
+
+                    {/* SECTION: DOKUMEN & MUTASI */}
+                    {(hasAnyPermission(["documents.index"]) ||
+                        hasAnyPermission(["ejurnal.index"]) ||
+                        hasAnyPermission(["pengajuan.index"]) ||
+                        hasAnyPermission(["verifPengajuan.index"]) ||
+                        hasAnyPermission(["verifPengajuanDpw.index"]) ||
+                        hasAnyPermission(["verifPengajuanDpc.index"]) ||
+                        hasAnyPermission(["arsips.index"])) && (
+                        <div className="nav-section">
+                            <div className="nav-heading">DOKUMEN & MUTASI</div>
+
+                            {hasAnyPermission(["documents.index"]) && (
+                                <Link href="/account/documents" className={getLinkClass("/account/documents")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-file-alt"></i>
+                                    </div>
+                                    <span className="item-label">Dokumen Kelengkapan</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["ejurnal.index"]) && (
+                                <Link href="/account/ejurnal" className={getLinkClass("/account/ejurnal")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-book-open"></i>
+                                    </div>
+                                    <span className="item-label">E-Jurnal IKATWI</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["pengajuan.index"]) && (
+                                <>
+                                    <Link href="/account/pengajuan" className={getLinkClass("/account/pengajuan")}>
+                                        <div className="item-icon-box">
+                                            <i className="fa fa-paper-plane"></i>
+                                        </div>
+                                        <span className="item-label">Pengajuan Mutasi</span>
+                                    </Link>
+
+                                    <Link href="/account/print" className={getLinkClass("/account/print")}>
+                                        <div className="item-icon-box">
+                                            <i className="fa fa-print"></i>
+                                        </div>
+                                        <span className="item-label">Pengajuan Print</span>
+                                    </Link>
+                                </>
+                            )}
+
+                            {/* Verifikasi Sub-group */}
+                            {(hasAnyPermission(["verifPengajuan.index"]) ||
+                                hasAnyPermission(["verifPengajuanDpw.index"]) ||
+                                hasAnyPermission(["verifPengajuanDpc.index"])) && (
+                                <div className="sub-section-box">
+                                    <div className="sub-heading">VERIFIKASI MUTASI</div>
+
+                                    {hasAnyPermission(["verifPengajuan.index"]) && (
+                                        <Link href="/account/verifPengajuan" className={getLinkClass("/account/verifPengajuan")}>
+                                            <div className="item-icon-box">
+                                                <i className="fa fa-check-circle"></i>
+                                            </div>
+                                            <span className="item-label">Verifikasi Utama</span>
+                                        </Link>
+                                    )}
+
+                                    {hasAnyPermission(["verifPengajuanDpw.index"]) && (
+                                        <Link href="/account/verifPengajuanDpw" className={getLinkClass("/account/verifPengajuanDpw")}>
+                                            <div className="item-icon-box">
+                                                <i className="fa fa-check-double"></i>
+                                            </div>
+                                            <span className="item-label">Verifikasi DPW</span>
+                                        </Link>
+                                    )}
+
+                                    {hasAnyPermission(["verifPengajuanDpc.index"]) && (
+                                        <Link href="/account/verifPengajuanDpc" className={getLinkClass("/account/verifPengajuanDpc")}>
+                                            <div className="item-icon-box">
+                                                <i className="fa fa-clipboard-check"></i>
+                                            </div>
+                                            <span className="item-label">Verifikasi DPC</span>
+                                        </Link>
+                                    )}
+
+                                    {hasAnyPermission(["verifPengajuan.index"]) && (
+                                        <Link href="/account/arsips" className={getLinkClass("/account/arsips")}>
+                                            <div className="item-icon-box">
+                                                <i className="fa fa-archive"></i>
+                                            </div>
+                                            <span className="item-label">Arsip Pengajuan</span>
+                                        </Link>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* SECTION: PENGATURAN SISTEM */}
+                    {(hasAnyPermission(["sliders.index"]) ||
+                        hasAnyPermission(["roles.index"]) ||
+                        hasAnyPermission(["permissions.index"]) ||
+                        hasAnyPermission(["users.index"])) && (
+                        <div className="nav-section">
+                            <div className="nav-heading">PENGATURAN SISTEM</div>
+
+                            {hasAnyPermission(["sliders.index"]) && (
+                                <Link href="/account/sliders" className={getLinkClass("/account/sliders")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-images"></i>
+                                    </div>
+                                    <span className="item-label">Banner Slider</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["roles.index"]) && (
+                                <Link href="/account/roles" className={getLinkClass("/account/roles")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-shield-alt"></i>
+                                    </div>
+                                    <span className="item-label">Peran & Wewenang</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["permissions.index"]) && (
+                                <Link href="/account/permissions" className={getLinkClass("/account/permissions")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-key"></i>
+                                    </div>
+                                    <span className="item-label">Hak Akses</span>
+                                </Link>
+                            )}
+
+                            {hasAnyPermission(["users.index"]) && (
+                                <Link href="/account/users" className={getLinkClass("/account/users")}>
+                                    <div className="item-icon-box">
+                                        <i className="fa fa-user-cog"></i>
+                                    </div>
+                                    <span className="item-label">Manajemen User</span>
+                                </Link>
+                            )}
+                        </div>
+                    )}
+
+                    {/* SECTION: TAUTAN LAINNYA */}
+                    <div className="nav-section">
+                        <div className="nav-heading">PORTAL & AKUN</div>
+                        <Link href="/" className={getLinkClass("/")}>
+                            <div className="item-icon-box">
+                                <i className="fa fa-globe"></i>
+                            </div>
+                            <span className="item-label">Website Utama</span>
+                        </Link>
                     </div>
+                </nav>
 
-                    <div className="menu-items">
-                        <Link href="/" className={getActiveClass("/")}>
-                            <i className="fa fa-home me-3"></i> Beranda
-                        </Link>
-
-                        <Link onClick={logoutHandler} className={getActiveClass("/logout")}>
-                            <i className="fa fa-sign-out-alt me-3"></i> Logout
-                        </Link>
+                {/* Sidebar Footer Box */}
+                <div className="sidebar-footer-box">
+                    <button onClick={logoutHandler} className="sidebar-logout-btn">
+                        <i className="fa fa-sign-out-alt logout-icon"></i>
+                        <span className="logout-text">Keluar Sistem</span>
+                    </button>
+                    <div className="sidebar-version-tag">
+                        <span>IKATWI PORTAL</span>
+                        <span>•</span>
+                        <span>v2.5</span>
                     </div>
                 </div>
-            </div>
+            </aside>
 
-            <style jsx>{`
-                .sidebar-container {
-                    background: linear-gradient(135deg, 
-                        #ffffff 0%, 
-                        #f8fafc 25%, 
-                        #f1f5f9 50%, 
-                        #e2e8f0 75%, 
-                        #ffffff 100%);
-                    background-size: 400% 400%;
-                    animation: gentleFlow 25s ease infinite;
-                    position: relative;
-                    overflow-y: auto;
-                    overflow-x: hidden;
-                    border-right: 1px solid #e2e8f0;
-                    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.04);
-                    max-height: 100vh;
-                    height: 100%;
-                    scroll-behavior: smooth;
-                }
-
-                .sidebar-container::before {
-                    content: '';
-                    position: absolute;
+            <style>{`
+                .ikatwi-sidebar {
+                    display: flex;
+                    flex-direction: column;
+                    height: 100vh;
+                    background-color: #0c1322;
+                    color: #94a3b8;
+                    border-right: 1px solid #1e293b;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                    position: sticky;
                     top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: 
-                        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.03) 0%, transparent 50%),
-                        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.02) 0%, transparent 50%);
+                    user-select: none;
                 }
 
-                @keyframes gentleFlow {
-                    0%, 100% { background-position: 0% 50% }
-                    50% { background-position: 100% 50% }
+                /* Brand Header */
+                .sidebar-brand-box {
+                    padding: 1.1rem 1.15rem;
+                    background: linear-gradient(180deg, #0f172a 0%, #0c1322 100%);
+                    border-bottom: 1px solid #1e293b;
                 }
 
-                /* Header KATWI */
-                .sidebar-header {
-                    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-                    padding: 1.5rem 1rem;
-                    border-bottom: 1px solid #e2e8f0;
-                    margin-bottom: 0;
-                }
-
-                .katwi-logo {
+                .brand-link {
                     display: flex;
                     align-items: center;
-                    gap: 12px;
+                    gap: 0.75rem;
+                    text-decoration: none;
                 }
 
-                .logo-icon {
+                .brand-logo-frame {
                     width: 40px;
                     height: 40px;
-                    background: rgba(255, 255, 255, 0.2);
+                    background: #ffffff;
                     border-radius: 10px;
+                    padding: 3px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    backdrop-filter: blur(10px);
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+                    border: 1px solid rgba(255, 255, 255, 0.15);
+                    flex-shrink: 0;
                 }
 
-                .logo-icon i {
-                    color: white;
-                    font-size: 1.2rem;
+                .brand-logo-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
                 }
 
-                .logo-text {
+                .brand-meta {
                     display: flex;
                     flex-direction: column;
+                    min-width: 0;
                 }
 
-                .katwi-title {
-                    color: white;
-                    font-size: 1.5rem;
-                    font-weight: bold;
+                .brand-title-wrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.45rem;
+                }
+
+                .brand-name {
+                    font-size: 1.15rem;
+                    font-weight: 800;
+                    color: #ffffff;
+                    letter-spacing: 0.05em;
                     line-height: 1.2;
                 }
 
-                .katwi-subtitle {
-                    color: rgba(255, 255, 255, 0.8);
-                    font-size: 0.7rem;
-                    font-weight: 500;
-                }
-
-                /* Dashboard Menu - FIXED DAN PASTI TAMPIL */
-                .dashboard-menu {
-                    display: flex !important;
-                    align-items: center;
-                    padding: 1rem 1.5rem !important;
-                    background: linear-gradient(135deg, 
-                        rgba(99, 102, 241, 0.05) 0%, 
-                        rgba(99, 102, 241, 0.02) 100%) !important;
-                    border-bottom: 1px solid #e2e8f0 !important;
-                    margin: 0 !important;
-                    position: relative;
-                    z-index: 2;
-                    font-weight: 600;
-                    color: #475569 !important;
-                    text-decoration: none !important;
-                    transition: all 0.3s ease;
-                    border-left: 4px solid transparent;
-                    width: 100%;
-                    box-sizing: border-box;
-                }
-
-                .dashboard-menu:hover {
-                    background: linear-gradient(135deg, 
-                        rgba(99, 102, 241, 0.08) 0%, 
-                        rgba(99, 102, 241, 0.04) 100%) !important;
-                    color: #6366f1 !important;
-                    transform: translateX(5px);
-                    border-left: 4px solid #6366f1;
-                }
-
-                .dashboard-menu.active {
-                    background: linear-gradient(135deg, 
-                        rgba(99, 102, 241, 0.1) 0%, 
-                        rgba(99, 102, 241, 0.06) 100%) !important;
-                    color: #6366f1 !important;
-                    border-left: 4px solid #6366f1;
-                }
-
-                .dashboard-menu i {
-                    width: 20px;
-                    text-align: center;
-                    transition: all 0.3s ease;
-                    color: #64748b;
-                }
-
-                .dashboard-menu:hover i,
-                .dashboard-menu.active i {
-                    color: #6366f1;
-                    transform: scale(1.1);
-                }
-
-                /* Section Styling */
-                .sidebar-section {
-                    border-bottom: 1px solid #f1f5f9;
-                    position: relative;
-                    z-index: 1;
-                }
-                
-                .sidebar-section:first-of-type {
-                    margin-top: 0;
-                }
-                
-                .sidebar-section:last-child {
-                    border-bottom: none;
-                }
-                
-                .sidebar-section-header {
-                    background: linear-gradient(135deg, 
-                        #f8fafc 0%, 
-                        #f1f5f9 100%);
-                    padding: 0.75rem 1rem;
-                    color: #475569;
+                .brand-badge {
+                    font-size: 0.62rem;
                     font-weight: 700;
-                    letter-spacing: 0.5px;
-                    border-bottom: 1px solid #e2e8f0;
-                    font-size: 0.8rem;
-                    text-transform: uppercase;
+                    color: #059669;
+                    background: #d1fae5;
+                    padding: 0.1rem 0.4rem;
+                    border-radius: 4px;
+                    letter-spacing: 0.05em;
                 }
 
-                .sidebar-section-header i {
-                    color: #6366f1;
-                    width: 16px;
-                    text-align: center;
-                }
-                
-                .menu-items {
-                    padding: 0.25rem 0;
-                }
-                
-                .sidebar-subheader {
-                    background: linear-gradient(135deg, 
-                        #f8fafc 0%, 
-                        #f1f5f9 100%);
-                    font-size: 0.75rem;
-                    border-left: 3px solid #10b981;
-                    margin: 0.5rem;
-                    padding: 0.5rem 0.75rem;
+                .brand-tagline {
+                    font-size: 0.68rem;
                     color: #64748b;
-                    border-radius: 6px;
-                    border: 1px solid #e2e8f0;
-                    font-weight: 600;
-                }
-                
-                .verification-section {
-                    background: #ffffff;
-                    margin: 0.5rem;
-                    border-radius: 8px;
-                    border: 1px solid #e2e8f0;
-                    overflow: hidden;
-                }
-                
-                .list-group-item {
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    border: none;
-                    color: #475569;
-                    background: transparent;
-                    border-radius: 0;
-                    position: relative;
-                    overflow: hidden;
                     font-weight: 500;
-                    border-left: 3px solid transparent;
-                    padding: 0.75rem 1rem;
-                    display: block;
-                    text-decoration: none;
-                }
-                
-                .list-group-item::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(90deg, 
-                        transparent, 
-                        rgba(99, 102, 241, 0.05), 
-                        transparent);
-                    transition: left 0.6s ease;
-                }
-                
-                .list-group-item:hover::before {
-                    left: 100%;
-                }
-                
-                .list-group-item:hover {
-                    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-                    transform: translateX(5px);
-                    color: #6366f1;
-                    border-left: 3px solid #6366f1;
-                }
-                
-                .list-group-item.active {
-                    background: linear-gradient(135deg, 
-                        rgba(99, 102, 241, 0.08) 0%, 
-                        rgba(99, 102, 241, 0.12) 100%);
-                    color: #6366f1;
-                    border-left: 4px solid #6366f1;
-                    font-weight: 600;
-                }
-                
-                .list-group-item i {
-                    width: 20px;
-                    text-align: center;
-                    transition: all 0.3s ease;
-                    color: #64748b;
-                }
-                
-                .list-group-item:hover i {
-                    transform: scale(1.1);
-                    color: #6366f1;
-                }
-                
-                .list-group-item.active i {
-                    color: #6366f1;
-                    transform: scale(1.1);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
 
-                /* Tombol scroll styling */
-                .scroll-btn {
-                    position: absolute;
-                    right: 10px;
-                    z-index: 10;
-                    background: rgba(99, 102, 241, 0.9);
-                    color: white;
-                    border: none;
+                /* Member Profile Card in Sidebar */
+                .sidebar-user-card {
+                    margin: 0.85rem 0.85rem 0.35rem 0.85rem;
+                    padding: 0.75rem 0.85rem;
+                    background: rgba(255, 255, 255, 0.03);
+                    border: 1px solid rgba(255, 255, 255, 0.07);
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.7rem;
+                }
+
+                .user-avatar-wrap {
+                    position: relative;
+                    flex-shrink: 0;
+                }
+
+                .user-avatar-circle {
+                    width: 34px;
+                    height: 34px;
                     border-radius: 50%;
-                    width: 32px;
-                    height: 32px;
+                    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+                    color: #ffffff;
+                    font-weight: 700;
+                    font-size: 0.88rem;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                }
+
+                .user-status-dot {
+                    position: absolute;
+                    bottom: -1px;
+                    right: -1px;
+                    width: 9px;
+                    height: 9px;
+                    background-color: #10b981;
+                    border: 2px solid #0c1322;
+                    border-radius: 50%;
+                }
+
+                .user-details {
+                    min-width: 0;
+                    flex: 1;
+                }
+
+                .user-fullname {
+                    display: block;
+                    font-size: 0.82rem;
+                    font-weight: 600;
+                    color: #f1f5f9;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    line-height: 1.25;
+                }
+
+                .user-meta-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.35rem;
+                    margin-top: 0.15rem;
+                }
+
+                .user-role-label {
+                    font-size: 0.68rem;
+                    color: #10b981;
+                    font-weight: 600;
+                    text-transform: capitalize;
+                }
+
+                .user-id-badge {
+                    font-size: 0.62rem;
+                    color: #64748b;
+                    font-family: monospace;
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 0 0.25rem;
+                    border-radius: 3px;
+                }
+
+                /* Nav Container */
+                .sidebar-nav-container {
+                    flex: 1;
+                    overflow-y: auto;
+                    padding: 0.6rem 0.65rem 1.5rem 0.65rem;
+                    scrollbar-width: thin;
+                    scrollbar-color: #1e293b transparent;
+                }
+
+                .sidebar-nav-container::-webkit-scrollbar {
+                    width: 4px;
+                }
+
+                .sidebar-nav-container::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+                .sidebar-nav-container::-webkit-scrollbar-thumb {
+                    background: #1e293b;
+                    border-radius: 4px;
+                }
+
+                .sidebar-nav-container::-webkit-scrollbar-thumb:hover {
+                    background: #334155;
+                }
+
+                .nav-section {
+                    margin-bottom: 1.1rem;
+                }
+
+                .nav-heading {
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    color: #64748b;
+                    padding: 0.4rem 0.75rem 0.3rem 0.75rem;
+                    text-transform: uppercase;
+                }
+
+                /* Sub section for verifikasi */
+                .sub-section-box {
+                    margin-top: 0.35rem;
+                    padding-top: 0.35rem;
+                    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+                }
+
+                .sub-heading {
+                    font-size: 0.62rem;
+                    font-weight: 700;
+                    letter-spacing: 0.06em;
+                    color: #475569;
+                    padding: 0.3rem 0.75rem 0.25rem 0.75rem;
+                    text-transform: uppercase;
+                }
+
+                /* Sidebar Item Link */
+                .sidebar-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.65rem;
+                    padding: 0.52rem 0.75rem;
+                    border-radius: 8px;
+                    color: #94a3b8;
+                    text-decoration: none;
+                    font-size: 0.83rem;
+                    font-weight: 500;
+                    transition: all 0.15s ease-in-out;
+                    margin-bottom: 2px;
+                    position: relative;
+                }
+
+                .sidebar-item:hover {
+                    color: #f8fafc;
+                    background-color: rgba(255, 255, 255, 0.05);
+                    text-decoration: none;
+                }
+
+                .sidebar-item.active {
+                    color: #ffffff;
+                    background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.03) 100%);
+                    border-left: 3px solid #10b981;
+                    font-weight: 600;
+                }
+
+                .item-icon-box {
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.9rem;
+                    color: #64748b;
+                    flex-shrink: 0;
+                    transition: color 0.15s ease-in-out;
+                }
+
+                .sidebar-item:hover .item-icon-box {
+                    color: #cbd5e1;
+                }
+
+                .sidebar-item.active .item-icon-box {
+                    color: #10b981;
+                }
+
+                .item-label {
+                    flex: 1;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .item-badge-new {
+                    font-size: 0.62rem;
+                    font-weight: 700;
+                    padding: 0.1rem 0.35rem;
+                    border-radius: 4px;
+                    background-color: rgba(16, 185, 129, 0.2);
+                    color: #10b981;
+                    border: 1px solid rgba(16, 185, 129, 0.3);
+                }
+
+                /* Sidebar Footer Box */
+                .sidebar-footer-box {
+                    padding: 0.85rem 0.85rem;
+                    border-top: 1px solid #1e293b;
+                    background-color: #090e1a;
+                }
+
+                .sidebar-logout-btn {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    padding: 0.55rem;
+                    background: rgba(239, 68, 68, 0.08);
+                    border: 1px solid rgba(239, 68, 68, 0.2);
+                    border-radius: 8px;
+                    color: #f87171;
+                    font-size: 0.82rem;
+                    font-weight: 600;
                     cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                    transition: all 0.15s ease-in-out;
                 }
 
-                .scroll-btn:hover {
-                    background: #6366f1;
-                    transform: scale(1.1);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                .sidebar-logout-btn:hover {
+                    background: #dc2626;
+                    border-color: #dc2626;
+                    color: #ffffff;
                 }
 
-                .scroll-top-btn {
-                    top: 80px;
+                .logout-icon {
+                    font-size: 0.85rem;
                 }
 
-                .scroll-bottom-btn {
-                    bottom: 10px;
-                }
-
-                /* Scrollbar styling */
-                .sidebar-container::-webkit-scrollbar {
-                    width: 6px;
-                }
-
-                .sidebar-container::-webkit-scrollbar-track {
-                    background: #f1f5f9;
-                    border-radius: 10px;
-                }
-
-                .sidebar-container::-webkit-scrollbar-thumb {
-                    background: linear-gradient(180deg, #6366f1, #8b5cf6);
-                    border-radius: 10px;
-                }
-
-                .sidebar-container::-webkit-scrollbar-thumb:hover {
-                    background: linear-gradient(180deg, #8b5cf6, #6366f1);
-                }
-
-                /* Responsive design */
-                @media (max-width: 768px) {
-                    .sidebar-container {
-                        border-right: none;
-                        border-bottom: 1px solid #e2e8f0;
-                    }
-                    
-                    .scroll-btn {
-                        width: 28px;
-                        height: 28px;
-                        right: 8px;
-                    }
-                    
-                    .scroll-top-btn {
-                        top: 70px;
-                    }
-                    
-                    .scroll-bottom-btn {
-                        bottom: 8px;
-                    }
-
-                    .sidebar-header {
-                        padding: 1rem 0.75rem;
-                    }
-
-                    .katwi-title {
-                        font-size: 1.3rem;
-                    }
-
-                    .logo-icon {
-                        width: 35px;
-                        height: 35px;
-                    }
-
-                    .dashboard-menu {
-                        padding: 0.875rem 1.25rem !important;
-                    }
+                .sidebar-version-tag {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.4rem;
+                    margin-top: 0.55rem;
+                    font-size: 0.65rem;
+                    color: #475569;
+                    font-weight: 500;
+                    letter-spacing: 0.04em;
                 }
             `}</style>
         </>

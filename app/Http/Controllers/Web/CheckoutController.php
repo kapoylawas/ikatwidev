@@ -100,6 +100,14 @@ class CheckoutController extends Controller
             // Get tahun from first cart item, fallback to current year
             $firstCart = Cart::where('user_id', auth()->user()->id)->first();
             $tahun = $firstCart && $firstCart->tahun !== null ? $firstCart->tahun : date("Y");
+
+            // Auto-cancel previous uncompleted UNPAID transactions for this user for the same year
+            if ($tahun) {
+                Transaction::where('user_id', auth()->user()->id)
+                    ->where('tahun', $tahun)
+                    ->where('status', 'UNPAID')
+                    ->update(['status' => 'CANCELLED']);
+            }
             
             $paymentAmount      = $request->grand_total;
             $email              = $request->email;

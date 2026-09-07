@@ -92,120 +92,160 @@ export default function TransactionIndex() {
                                     Transactions
                                 </span>
                             </div>
-                            <div className="card-body">
+                            <div className="card-body p-0">
                                 <div className="table-responsive">
-                                    <table className="table table-bordered table-striped table-hovered">
+                                    <table className="table table-custom align-middle mb-0">
                                         <thead>
                                             <tr>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "5%" }}
-                                                >
+                                                <th scope="col" style={{ width: "5%", textAlign: "center" }}>
                                                     No.
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "20%" }}
-                                                >
-                                                    Full Name
+                                                <th scope="col" style={{ width: "22%" }}>
+                                                    Nama Lengkap
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    Grand Total
+                                                <th scope="col" style={{ width: "15%" }}>
+                                                    Total Pembayaran
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
+                                                <th scope="col" style={{ width: "14%", textAlign: "center" }}>
                                                     Status
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "20%" }}
-                                                >
-                                                    Created At
+                                                <th scope="col" style={{ width: "26%" }}>
+                                                    Tanggal Transaksi
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    Actions
+                                                <th scope="col" style={{ width: "12%", textAlign: "center" }}>
+                                                    Aksi
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {transactions.data.map(
                                                 (transaction, index) => (
-                                                    <tr key={index}>
+                                                    <tr key={transaction.id || index}>
                                                         <td className="text-center">
-                                                            {++index +
-                                                                (transactions.current_page -
-                                                                    1) *
-                                                                    transactions.per_page}
+                                                            <span className="table-num-pill">
+                                                                {++index +
+                                                                    (transactions.current_page -
+                                                                        1) *
+                                                                        transactions.per_page}
+                                                            </span>
                                                         </td>
                                                         <td>
-                                                            {
-                                                                transaction.user
-                                                                    .name
-                                                            }
+                                                            <div className="fw-bold text-dark" style={{ fontSize: '0.9rem' }}>
+                                                                {transaction.user?.name || "-"}
+                                                            </div>
+                                                            <div className="font-monospace text-muted" style={{ fontSize: '0.75rem' }}>
+                                                                {transaction.invoice}
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            Rp.{" "}
-                                                            {FormatPrice(
-                                                                transaction.grand_total,
-                                                            )}
+                                                            <span className="fw-bold text-dark font-monospace" style={{ fontSize: '0.88rem' }}>
+                                                                Rp. {FormatPrice(transaction.grand_total)}
+                                                            </span>
                                                         </td>
                                                         <td className="text-center">
-                                                            {transaction.status ==
-                                                                "UNPAID" && (
-                                                                <button className="btn btn-sm btn-warning">
-                                                                    <i className="fa fa-circle-notch fa-spin"></i>{" "}
-                                                                    UNPAID
-                                                                </button>
-                                                            )}
-                                                            {transaction.status ==
-                                                                "PAID" && (
-                                                                <button className="btn btn-sm btn-success">
-                                                                    <i className="fa fa-check-circle"></i>{" "}
-                                                                    PAID
-                                                                </button>
-                                                            )}
-                                                            {transaction.status ==
-                                                                "CANCELLED" && (
-                                                                <button className="btn btn-sm btn-danger">
-                                                                    <i className="fa fa-times"></i>{" "}
-                                                                    CANCELLED
-                                                                </button>
-                                                            )}
-                                                        </td>
-                                                        <td>
-                                                            {
-                                                                transaction.created_at
-                                                            }
-                                                        </td>
-                                                        <td className="text-center">
-                                                            {hasAnyPermission([
-                                                                "transactions.show",
-                                                            ]) && (
-                                                                <Link
-                                                                    href={`/account/transactions/${transaction.invoice}`}
-                                                                    className="btn btn-dark btn-sm me-2"
+                                                            {transaction.status === "UNPAID" && (
+                                                                <span
+                                                                    className="badge px-2.5 py-1 rounded-pill"
+                                                                    style={{
+                                                                        backgroundColor: '#fefce8',
+                                                                        color: '#854d0e',
+                                                                        border: '1px solid #fde047',
+                                                                        fontSize: '0.75rem',
+                                                                        fontWeight: 700
+                                                                    }}
                                                                 >
-                                                                    <i className="fa fa-list-ul"></i>
-                                                                </Link>
+                                                                    <i className="fa fa-clock me-1 text-warning"></i> UNPAID
+                                                                </span>
                                                             )}
-                                                            {hasAnyPermission([
-                                                                "transactions.index",
-                                                            ]) && (
-                                                                <button
-                                                                    onClick={() => destroy(transaction.invoice)}
-                                                                    className="btn btn-danger btn-sm"
+                                                            {transaction.status === "PAID" && (
+                                                                <span
+                                                                    className="badge px-2.5 py-1 rounded-pill"
+                                                                    style={{
+                                                                        backgroundColor: '#ecfdf5',
+                                                                        color: '#047857',
+                                                                        border: '1px solid #a7f3d0',
+                                                                        fontSize: '0.75rem',
+                                                                        fontWeight: 700
+                                                                    }}
                                                                 >
-                                                                    <i className="fa fa-trash"></i>
-                                                                </button>
+                                                                    <i className="fa fa-check-circle me-1 text-success"></i> PAID
+                                                                </span>
                                                             )}
+                                                            {transaction.status === "CANCELLED" && (
+                                                                <span
+                                                                    className="badge px-2.5 py-1 rounded-pill"
+                                                                    style={{
+                                                                        backgroundColor: '#fef2f2',
+                                                                        color: '#991b1b',
+                                                                        border: '1px solid #fecaca',
+                                                                        fontSize: '0.75rem',
+                                                                        fontWeight: 700
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-times-circle me-1 text-danger"></i> CANCELLED
+                                                                </span>
+                                                            )}
+                                                            {transaction.status === "EXPIRED" && (
+                                                                <span
+                                                                    className="badge px-2.5 py-1 rounded-pill"
+                                                                    style={{
+                                                                        backgroundColor: '#f1f5f9',
+                                                                        color: '#475569',
+                                                                        border: '1px solid #cbd5e1',
+                                                                        fontSize: '0.75rem',
+                                                                        fontWeight: 700
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-history me-1 text-muted"></i> EXPIRED
+                                                                </span>
+                                                            )}
+                                                        </td>
+                                                        <td>
+                                                            <div className="fw-semibold text-dark" style={{ fontSize: '0.82rem' }}>
+                                                                {transaction.created_at}
+                                                            </div>
+                                                        </td>
+                                                        <td className="text-center">
+                                                            <div className="d-flex justify-content-center gap-1">
+                                                                {hasAnyPermission([
+                                                                    "transactions.show",
+                                                                ]) && (
+                                                                    <Link
+                                                                        href={`/account/transactions/${transaction.invoice}`}
+                                                                        className="btn btn-sm d-inline-flex align-items-center justify-content-center shadow-sm"
+                                                                        style={{
+                                                                            width: '32px',
+                                                                            height: '32px',
+                                                                            borderRadius: '6px',
+                                                                            backgroundColor: '#0f172a',
+                                                                            border: '1px solid #0f172a',
+                                                                            color: '#ffffff'
+                                                                        }}
+                                                                        title="Lihat Detail Transaksi"
+                                                                    >
+                                                                        <i className="fa fa-list-ul" style={{ fontSize: '0.78rem' }}></i>
+                                                                    </Link>
+                                                                )}
+                                                                {hasAnyPermission([
+                                                                    "transactions.index",
+                                                                ]) && (
+                                                                    <button
+                                                                        onClick={() => destroy(transaction.invoice)}
+                                                                        className="btn btn-sm d-inline-flex align-items-center justify-content-center shadow-sm"
+                                                                        style={{
+                                                                            width: '32px',
+                                                                            height: '32px',
+                                                                            borderRadius: '6px',
+                                                                            backgroundColor: '#fef2f2',
+                                                                            border: '1px solid #fca5a5',
+                                                                            color: '#dc2626'
+                                                                        }}
+                                                                        title="Hapus Transaksi"
+                                                                    >
+                                                                        <i className="fa fa-trash" style={{ fontSize: '0.78rem' }}></i>
+                                                                    </button>
+                                                                )}
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 ),

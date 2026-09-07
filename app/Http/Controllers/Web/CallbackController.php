@@ -40,6 +40,15 @@ class CallbackController extends Controller
                 $transaction->status = 'PAID';
                 $transaction->save();
 
+                // Auto-cancel previous superseded UNPAID transactions for this user for the same year
+                if ($transaction->tahun) {
+                    Transaction::where('user_id', $transaction->user_id)
+                        ->where('tahun', $transaction->tahun)
+                        ->where('id', '!=', $transaction->id)
+                        ->where('status', 'UNPAID')
+                        ->update(['status' => 'CANCELLED']);
+                }
+
             } else if ($notif->resultCode == "01") {
                 
                 // Action Failed

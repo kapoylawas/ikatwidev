@@ -81,13 +81,13 @@ class DashboardController extends Controller
         $currentYear = Carbon::now()->year;
 
         $paidUsersCount = User::whereHas('transactions', function ($query) use ($currentYear) {
-            $query->where('status', 'paid')
+            $query->whereIn('status', ['PAID', 'paid'])
                 ->where('tahun', $currentYear);
         })->count();
 
         $unpaidUsersCount = User::whereDoesntHave('transactions', function ($query) use ($currentYear) {
-            $query->where('status', 'unpaid')
-                ->whereYear('tahun', $currentYear);
+            $query->whereIn('status', ['PAID', 'paid'])
+                ->where('tahun', $currentYear);
         })->count();
 
         $totalUserAktif = User::where('confirm', 'true')->count();
@@ -170,6 +170,52 @@ class DashboardController extends Controller
             ->groupBy('provinces.id')
             ->get();
 
+        Transaction::expireOldUnpaidTransactions(auth()->user()->id);
+
+        $currentUser = auth()->user();
+        $isAnggotaKehormatan = $currentUser->status_anggota === 'Anggota Kehormatan';
+        $currentYearDue = (int) date('Y');
+
+        $currentTx = Transaction::where('user_id', $currentUser->id)
+            ->where('tahun', $currentYearDue)
+            ->latest()
+            ->first();
+
+        $currentCart = \App\Models\Cart::where('user_id', $currentUser->id)
+            ->where('tahun', $currentYearDue)
+            ->first();
+
+        $dueStatus = 'UNPAID_NO_CART';
+        if ($isAnggotaKehormatan) {
+            $dueStatus = 'EXEMPT';
+        } elseif ($currentTx && $currentTx->status === 'PAID') {
+            $dueStatus = 'PAID';
+        } elseif ($currentTx && $currentTx->status === 'UNPAID') {
+            $dueStatus = 'UNPAID_PENDING';
+        } elseif ($currentCart) {
+            $dueStatus = 'IN_CART';
+        } elseif ($currentTx && $currentTx->status === 'EXPIRED') {
+            $dueStatus = 'EXPIRED';
+        }
+
+        $annualAmount = ($currentUser->status_anggota === 'Anggota Baru' || $currentUser->status_anggota === 'Anggota Muda') ? 100000 : 300000;
+
+        $activeDue = [
+            'tahun'               => $currentYearDue,
+            'amount'              => $annualAmount,
+            'status'              => $dueStatus,
+            'isAnggotaKehormatan' => $isAnggotaKehormatan,
+            'hasUnpaidDue'        => in_array($dueStatus, ['UNPAID_NO_CART', 'IN_CART', 'UNPAID_PENDING', 'EXPIRED']),
+            'activeInvoice'       => $dueStatus === 'UNPAID_PENDING' && $currentTx ? [
+                'invoice'           => $currentTx->invoice,
+                'reference'         => $currentTx->reference,
+                'grand_total'       => $currentTx->grand_total,
+                'raw_created_at'    => $currentTx->raw_created_at,
+                'expires_at'        => $currentTx->expires_at,
+                'seconds_remaining' => $currentTx->seconds_remaining,
+            ] : null,
+        ];
+
         return inertia('Account/Dashboard/Index', [
             'count' => [
                 'unpaid'    => $unpaid,
@@ -223,6 +269,7 @@ class DashboardController extends Controller
             'sig' => $sig, // SIG untuk tahun INI
             'allSigs' => $allSigs, // Semua riwayat SIG
             'user' => auth()->user(),
+            'activeDue' => $activeDue,
         ]);
     }
 }

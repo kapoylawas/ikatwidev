@@ -58,6 +58,7 @@ Route::prefix('account')->group(function () {
         Route::resource('/biodatas', \App\Http\Controllers\Account\BiodataController::class, ['as' => 'account'])->middleware('permission:biodatas.index');
 
         //route resource tagihan iuran   
+        Route::post('/tagihan/create-due-cart', [\App\Http\Controllers\Account\TagihanController::class, 'createDueCart'])->name('account.tagihan.create_due_cart');
         Route::resource('/tagihan', \App\Http\Controllers\Account\TagihanController::class, ['as' => 'account'])->middleware('permission:tagihan.index');
 
         //route resource tagihan upload dokumen   
@@ -101,6 +102,9 @@ Route::prefix('account')->group(function () {
 
         //route resource pengajuan dpc
         Route::resource('/verifPengajuanDpc', \App\Http\Controllers\Account\AdminDpcController::class, ['as' => 'account'])->middleware('permission:verifPengajuanDpc.index');
+
+        // verifikasi anggota baru list
+        Route::get('/verifikasi-users', [\App\Http\Controllers\Account\UserController::class, 'verifikasiList'])->name('account.users.verifikasi')->middleware('permission:users.index');
 
         // cek status anggota STR
         Route::get('/users/verifikasiAnggota/{id}', [\App\Http\Controllers\Account\UserController::class, 'verifikasiAnggota']);
@@ -190,6 +194,12 @@ Route::prefix('account')->group(function () {
         Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
             ->middleware('permission:transactions.show');
         
+        //route transactions cancel
+        Route::post('/transactions/{invoice}/cancel', [App\Http\Controllers\Account\TransactionController::class, 'cancel'])->name('account.transactions.cancel');
+        
+        //route transactions retry
+        Route::post('/transactions/{invoice}/retry', [App\Http\Controllers\Account\TransactionController::class, 'retry'])->name('account.transactions.retry');
+
         //route transactions delete
         Route::delete('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'destroy'])->name('account.transactions.destroy')
             ->middleware('permission:transactions.index');

@@ -40,66 +40,39 @@ class LoginController extends Controller
             //regenerate session
             $request->session()->regenerate();
 
-            $tahun = date('Y');
-            $status = User::where('status_anggota', auth()->user()->status_anggota);
+            // Auto-expire old unpaid transactions
+            Transaction::expireOldUnpaidTransactions(auth()->user()->id);
 
-            $cektransaction = Transaction::where('user_id', auth()->user()->id)
-                ->where('tahun', $tahun)->first();
-            $cekcart = Cart::where('user_id', auth()->user()->id)
-                ->where('tahun', $tahun)->first();
-            $cekanggota = User::where('id', auth()->user()->id)
-                ->where('status_anggota', 'Anggota Kehormatan')->first();
+            $tahun = (int) date('Y');
+            $user = auth()->user();
 
+            $isAnggotaKehormatan = $user->status_anggota === 'Anggota Kehormatan';
+            $paidTransaction = Transaction::where('user_id', $user->id)
+                ->where('tahun', $tahun)
+                ->where('status', 'PAID')
+                ->first();
+            $unpaidTransaction = Transaction::where('user_id', $user->id)
+                ->where('tahun', $tahun)
+                ->where('status', 'UNPAID')
+                ->first();
+            $cekcart = Cart::where('user_id', $user->id)
+                ->where('tahun', $tahun)
+                ->first();
 
-            // kondisi jika di tabel transcation dan cart ada user dan tahun maka tidak insert
-            if (!$cektransaction && !$cekcart && !$cekanggota) {
-                Cart::insert([
-                    'user_id'       => auth()->user()->id,
+            // If not paid, no active unpaid transaction, not in cart, and not Anggota Kehormatan:
+            if (!$paidTransaction && !$unpaidTransaction && !$cekcart && !$isAnggotaKehormatan) {
+                Cart::create([
+                    'user_id'       => $user->id,
                     'product_id'    => 1,
-                    'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
-                    'size'    => 'Iuran',
-                    'qty'    => 1,
-                    'price'         => (auth()->user()->status_anggota == 'Anggota Luar Biasa') ?  300000 : 300000,
-                    'tahun'           => $tahun,
-                    'weight'        => $request->weight
+                    'product_image' => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
+                    'size'          => 'Iuran',
+                    'qty'           => 1,
+                    'price'         => ($user->status_anggota == 'Anggota Baru' || $user->status_anggota == 'Anggota Muda') ? 100000 : 300000,
+                    'tahun'         => $tahun,
+                    'weight'        => 0,
+                    'keterangan'    => 'Iuran Anggota IKATWI Tahun ' . $tahun,
                 ]);
             }
-            // else{
-            //     if ($cektransaction->status == 'EXPIRED') {
-            //         Cart::insert([
-            //             'user_id'       => auth()->user()->id,
-            //             'product_id'    => 1,
-            //             'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
-            //             'size'    => 'Iuran',
-            //             'qty'    => 1,
-            //             'price'         => 50000,
-            //             'tahun'           => $tahun,
-            //             'weight'        => $request->weight
-            //         ]);
-    
-            //         //remove data carts
-            //         Transaction::find($cektransaction->id)->delete();
-            //     }
-            // }
-
-           
-            // else{
-            //     if ($cektransaction->status == 'EXPIRED') {
-            //         Cart::updateOrCreate([
-            //             'user_id'       => auth()->user()->id,
-            //             'tahun'           => $tahun,
-            //         ],[
-            //             'product_id'    => 1,
-            //             'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
-            //             'size'    => 'Iuran',
-            //             'qty'    => 1,
-            //             'price'         => 50000,
-            //             'weight'        => $request->weight
-            //         ]);
-            //     }
-            //     //remove data carts
-            //     Transaction::with('user')->where('user_id', auth()->user()->id)->delete();
-            // }
 
             //redirect route dashboard
             return redirect()->route('account.dashboard');
@@ -136,29 +109,36 @@ class LoginController extends Controller
             //regenerate session
             $request->session()->regenerate();
 
-            $tahun = date('Y');
-            $status = User::where('status_anggota', auth()->user()->status_anggota);
-            // dd($status);
+            // Auto-expire old unpaid transactions
+            Transaction::expireOldUnpaidTransactions(auth()->user()->id);
 
-            $cektransaction = Transaction::where('user_id', auth()->user()->id)
-                ->where('tahun', $tahun)->first();
-            $cekcart = Cart::where('user_id', auth()->user()->id)
-                ->where('tahun', $tahun)->first();
-            $cekanggota = User::where('id', auth()->user()->id)
-                ->where('status_anggota', 'Anggota Kehormatan')->first();
+            $tahun = (int) date('Y');
+            $user = auth()->user();
 
+            $isAnggotaKehormatan = $user->status_anggota === 'Anggota Kehormatan';
+            $paidTransaction = Transaction::where('user_id', $user->id)
+                ->where('tahun', $tahun)
+                ->where('status', 'PAID')
+                ->first();
+            $unpaidTransaction = Transaction::where('user_id', $user->id)
+                ->where('tahun', $tahun)
+                ->where('status', 'UNPAID')
+                ->first();
+            $cekcart = Cart::where('user_id', $user->id)
+                ->where('tahun', $tahun)
+                ->first();
 
-            // kondisi jika di tabel transcation dan cart ada user dan tahun maka tidak insert
-            if (!$cektransaction && !$cekcart && !$cekanggota) {
-                Cart::insert([
-                    'user_id'       => auth()->user()->id,
+            if (!$paidTransaction && !$unpaidTransaction && !$cekcart && !$isAnggotaKehormatan) {
+                Cart::create([
+                    'user_id'       => $user->id,
                     'product_id'    => 1,
-                    'product_image'    => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
-                    'size'    => 'Iuran',
-                    'qty'    => 1,
-                    'price'         => (auth()->user()->status_anggota == 'Anggota Luar Biasa') ?  100000 : 100000,
-                    'tahun'           => $tahun,
-                    'weight'        => $request->weight
+                    'product_image' => 'gMreGxufmxSztWIZGMmFy8wCsy9rIdxvjCH2uj2M.png',
+                    'size'          => 'Iuran',
+                    'qty'           => 1,
+                    'price'         => 100000,
+                    'tahun'         => $tahun,
+                    'weight'        => 0,
+                    'keterangan'    => 'Iuran Anggota IKATWI Tahun ' . $tahun,
                 ]);
             }
           

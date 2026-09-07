@@ -4,8 +4,10 @@ import React, { useRef, useState } from "react";
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
 
-//import component Head and usePage
-import { Head, usePage } from "@inertiajs/inertia-react";
+//import component Head, usePage, Link
+import { Head, usePage, Link } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
+import FormatPrice from "../../../Utils/FormatPrice";
 
 import hasAnyPermission from "../../../Utils/Permissions";
 
@@ -27,7 +29,40 @@ export default function Dashboard() {
         isAnggotaKehormatan = false,
         canShowSigCard = false,
         currentYear = new Date().getFullYear().toString(),
+        activeDue,
     } = usePage().props;
+
+    const todayFormatted = new Intl.DateTimeFormat("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    }).format(new Date());
+
+    const [showDueModal, setShowDueModal] = useState(() => {
+        if (activeDue?.hasUnpaidDue) {
+            const dismissed = sessionStorage.getItem("dismissed_due_modal_" + activeDue.tahun);
+            return !dismissed;
+        }
+        return false;
+    });
+
+    const handleDismissModal = () => {
+        if (activeDue?.tahun) {
+            sessionStorage.setItem("dismissed_due_modal_" + activeDue.tahun, "true");
+        }
+        setShowDueModal(false);
+    };
+
+    const handlePayDueNow = () => {
+        if (activeDue?.status === "UNPAID_PENDING" && activeDue.activeInvoice) {
+            Inertia.get(`/account/transactions/${activeDue.activeInvoice.invoice}`);
+        } else if (activeDue?.status === "IN_CART") {
+            Inertia.get("/carts");
+        } else {
+            Inertia.post("/account/tagihan/create-due-cart", { tahun: activeDue?.tahun });
+        }
+    };
 
     console.log("=== DEBUG PAYMENT STATUS ===");
     console.log("isPaid:", isPaid);
@@ -152,80 +187,110 @@ export default function Dashboard() {
             (item) => parseInt(item.sekolah_luar_biasa) || 0
         ) || [];
 
-    // Function to generate random colors
-    const getRandomColorPie = () => {
-        const letters = "0123456789ABCDEF";
-        let color = "#";
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    };
+    // Curated executive modern colors palette
+    const modernColors = [
+        "#2563EB", // Royal Blue
+        "#10B981", // Emerald Green
+        "#8B5CF6", // Violet Purple
+        "#F59E0B", // Amber Orange
+        "#EC4899", // Pink
+        "#06B6D4", // Cyan
+        "#F97316", // Deep Orange
+        "#6366F1", // Indigo
+        "#14B8A6", // Teal
+        "#84CC16", // Lime
+        "#64748B", // Slate Grey
+        "#E11D48", // Rose Red
+    ];
 
-    // Function to generate random colors
-    const generateRandomColors = (count) => {
-        return Array.from({ length: count }, () => getRandomColorPie());
-    };
+    const barChartByBekerjaHeight = Math.max(850, (provinceNames?.length || 0) * 28);
+    const barChartUserDpwHeight = Math.max(800, (categories?.length || 0) * 26);
 
-    // Data untuk grafik bar
+    // Data untuk grafik bar Pekerjaan per DPW (Stacked Bar Chart yang rapi & bersih)
     const barChartByBekerjaOptions = {
         chart: {
             type: "bar",
-            height: 550,
+            height: barChartByBekerjaHeight,
+            stacked: true,
+            stackType: "normal",
             toolbar: {
                 show: true,
                 tools: {
                     download: true,
-                    selection: true,
-                    zoom: true,
-                    zoomin: true,
-                    zoomout: true,
-                    pan: true,
-                    reset: true,
+                    selection: false,
+                    zoom: false,
+                    zoomin: false,
+                    zoomout: false,
+                    pan: false,
+                    reset: false,
                 },
             },
         },
         xaxis: {
             categories: provinceNames,
+            labels: {
+                style: {
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    colors: "#475569",
+                },
+            },
+            title: {
+                text: "Jumlah Anggota per Kategori Pekerjaan",
+                style: {
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    color: "#1e293b",
+                },
+            },
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    colors: "#1e293b",
+                },
+            },
         },
         plotOptions: {
             bar: {
                 horizontal: true,
-                columnWidth: "55%",
-                endingShape: "rounded",
-                dataLabels: {
-                    position: "center",
-                },
+                barHeight: "75%",
+                borderRadius: 2,
             },
         },
         dataLabels: {
-            enabled: true,
-            style: {
-                colors: ["#000"],
-                fontSize: "12px",
-                fontWeight: "bold",
-            },
+            enabled: false, // Matikan dataLabels di atas bar agar tidak tabrakan/tumpang tindih
         },
         legend: {
             position: "top",
-            horizontalAlign: "center",
-            fontSize: "14px",
+            horizontalAlign: "left",
+            fontSize: "12px",
             fontWeight: 600,
+            labels: {
+                colors: "#334155",
+            },
+            itemMargin: {
+                horizontal: 8,
+                vertical: 6,
+            },
         },
-        colors: [
-            "#3B82F6",
-            "#10B981",
-            "#8B5CF6",
-            "#F59E0B",
-            "#EF4444",
-            "#06B6D4",
-            "#84CC16",
-            "#F97316",
-            "#6366F1",
-            "#EC4899",
-            "#14B8A6",
-            "#78716C",
-        ],
+        tooltip: {
+            theme: "dark",
+            shared: true,
+            intersect: false,
+            y: {
+                formatter: function (val) {
+                    return val ? `${val} Orang` : "0";
+                },
+            },
+        },
+        colors: modernColors,
+        grid: {
+            borderColor: "#f1f5f9",
+            strokeDashArray: 4,
+        },
     };
 
     // Create series data for the new bar chart
@@ -284,56 +349,84 @@ export default function Dashboard() {
         },
     ];
 
-    // Data for the bar chart
+    // Data for the User per DPW bar chart
     const barChartOptions = {
         chart: {
             type: "bar",
-            height: 350,
+            height: barChartUserDpwHeight,
             toolbar: {
                 show: true,
             },
         },
         xaxis: {
+            labels: {
+                style: {
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    colors: "#475569",
+                },
+            },
+            title: {
+                text: "Jumlah User Aktif",
+                style: {
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    color: "#1e293b",
+                },
+            },
+        },
+        yaxis: {
             categories: categories,
             labels: {
                 style: {
                     fontSize: "12px",
                     fontWeight: 600,
+                    colors: "#1e293b",
                 },
             },
         },
         plotOptions: {
             bar: {
-                horizontal: false,
-                columnWidth: "55%",
-                endingShape: "rounded",
+                horizontal: true,
+                barHeight: "65%",
+                borderRadius: 4,
                 dataLabels: {
-                    position: "top",
+                    position: "right",
                 },
             },
         },
         dataLabels: {
             enabled: true,
+            textAnchor: "start",
+            offsetX: 8,
             style: {
-                fontSize: "12px",
-                colors: ["#000"],
+                fontSize: "11px",
+                fontWeight: "bold",
+                colors: ["#0f172a"],
+            },
+            formatter: function (val) {
+                return val > 0 ? val : "";
             },
         },
-        colors: [
-            "#3B82F6",
-            "#10B981",
-            "#8B5CF6",
-            "#F59E0B",
-            "#EF4444",
-            "#06B6D4",
-            "#84CC16",
-        ],
+        colors: ["#0284c7"],
+        tooltip: {
+            theme: "dark",
+            y: {
+                formatter: function (val) {
+                    return `${val} User Aktif`;
+                },
+            },
+        },
+        grid: {
+            borderColor: "#f1f5f9",
+            strokeDashArray: 4,
+        },
     };
 
-    // Common pie chart options
+    // Common Modern Donut chart options
     const pieChartOptions = (labels) => ({
         chart: {
-            type: "pie",
+            type: "donut",
             toolbar: {
                 show: true,
                 tools: {
@@ -348,17 +441,50 @@ export default function Dashboard() {
             },
         },
         labels: labels,
-        colors: generateRandomColors(labels.length),
+        colors: modernColors.slice(0, labels.length),
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: "65%",
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            color: "#334155",
+                        },
+                        value: {
+                            show: true,
+                            fontSize: "20px",
+                            fontWeight: 700,
+                            color: "#0f172a",
+                            formatter: (val) => `${val}`,
+                        },
+                        total: {
+                            show: true,
+                            label: "Total",
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            color: "#64748b",
+                            formatter: (w) => {
+                                return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                            },
+                        },
+                    },
+                },
+            },
+        },
         responsive: [
             {
                 breakpoint: 480,
                 options: {
                     chart: {
-                        width: 300,
+                        width: 320,
                     },
                     legend: {
                         position: "bottom",
-                        fontSize: "10px",
+                        fontSize: "11px",
                     },
                 },
             },
@@ -367,11 +493,18 @@ export default function Dashboard() {
             position: "bottom",
             fontSize: "12px",
             fontWeight: 600,
+            labels: {
+                colors: "#334155",
+            },
+            itemMargin: {
+                horizontal: 8,
+                vertical: 4,
+            },
         },
         dataLabels: {
             enabled: true,
             style: {
-                fontSize: "11px",
+                fontSize: "12px",
                 fontWeight: "bold",
             },
             dropShadow: {
@@ -379,9 +512,10 @@ export default function Dashboard() {
             },
         },
         tooltip: {
+            theme: "dark",
             y: {
                 formatter: function (val) {
-                    return val;
+                    return `${val} Orang`;
                 },
             },
         },
@@ -575,31 +709,193 @@ export default function Dashboard() {
                 />
             </Head>
             <LayoutAccount>
-                {/* Welcome Section */}
-                <div className="row mt-4">
-                    <div className="col-12">
-                        <div className="welcome-card bg-gradient-primary text-white border-0 shadow-lg rounded-3 p-4 mb-4">
-                            <div className="d-flex align-items-center">
-                                <div className="flex-grow-1">
-                                    <h4 className="mb-1">
-                                        Selamat Datang,{" "}
-                                        <strong>
-                                            {auth.user?.name || "Anggota"}
-                                        </strong>
-                                        !
-                                    </h4>
-                                    <p className="mb-0 opacity-75">
-                                        Sistem Informasi IKATWI - Terapi Wicara
-                                        Indonesia
-                                    </p>
+                {/* Modal Tagihan Iuran Tahun Ini (Muncul saat Login) */}
+                {showDueModal && activeDue?.hasUnpaidDue && (
+                    <div
+                        className="modal-backdrop-custom"
+                        style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: "rgba(15, 23, 42, 0.75)",
+                            backdropFilter: "blur(4px)",
+                            zIndex: 9999,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: "20px",
+                        }}
+                    >
+                        <div
+                            className="card border-0 rounded-4 shadow-lg overflow-hidden animate__animated animate__zoomIn"
+                            style={{ maxWidth: "520px", width: "100%", backgroundColor: "#ffffff" }}
+                        >
+                            <div
+                                className="p-4 text-white position-relative"
+                                style={{
+                                    background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)",
+                                }}
+                            >
+                                <button
+                                    onClick={handleDismissModal}
+                                    type="button"
+                                    className="btn-close btn-close-white position-absolute"
+                                    style={{ top: "20px", right: "20px" }}
+                                    aria-label="Close"
+                                ></button>
+                                <div className="d-flex align-items-center mb-2">
+                                    <div className="p-3 bg-white bg-opacity-20 rounded-circle me-3">
+                                        <i className="fa fa-bell fa-2x text-warning"></i>
+                                    </div>
+                                    <div>
+                                        <span className="badge bg-warning text-dark px-3 py-1 rounded-pill small fw-bold">
+                                            PEMBERITAHUAN TAGIHAN
+                                        </span>
+                                        <h4 className="fw-bold mb-0 mt-1">Iuran Anggota {activeDue.tahun}</h4>
+                                    </div>
                                 </div>
-                                <div className="welcome-icon">
-                                    <i className="fas fa-user-circle fa-3x opacity-75"></i>
+                            </div>
+
+                            <div className="card-body p-4">
+                                <p className="text-muted mb-3">
+                                    Halo <strong>{auth.user?.name}</strong>, Anda memiliki tagihan iuran anggota IKATWI untuk periode tahun berjalan yang belum diselesaikan.
+                                </p>
+
+                                <div className="p-3 rounded-3 mb-4 border" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <span className="text-muted small">Jenis Tagihan:</span>
+                                        <strong className="text-dark">Iuran Tahunan {activeDue.tahun}</strong>
+                                    </div>
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <span className="text-muted small">Status Tagihan:</span>
+                                        {activeDue.status === "UNPAID_PENDING" ? (
+                                            <span className="badge bg-warning text-dark">Menunggu Pembayaran</span>
+                                        ) : activeDue.status === "IN_CART" ? (
+                                            <span className="badge bg-info text-dark">Ada di Keranjang</span>
+                                        ) : (
+                                            <span className="badge bg-danger">Belum Dibayar</span>
+                                        )}
+                                    </div>
+                                    <hr className="my-2" />
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <span className="fw-bold text-dark">Total Biaya:</span>
+                                        <span className="fw-bold fs-4 text-primary">
+                                            Rp {FormatPrice(activeDue.amount)}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="d-grid gap-2">
+                                    <button
+                                        onClick={handlePayDueNow}
+                                        className="btn btn-primary btn-lg rounded-pill fw-bold py-3 shadow-sm d-flex align-items-center justify-content-center"
+                                    >
+                                        <i className="fa fa-credit-card me-2"></i>
+                                        {activeDue.status === "UNPAID_PENDING"
+                                            ? "Lanjutkan Pembayaran Invoice"
+                                            : activeDue.status === "IN_CART"
+                                            ? "Buka Keranjang & Bayar"
+                                            : "Bayar Tagihan Sekarang"}
+                                    </button>
+                                    <button
+                                        onClick={handleDismissModal}
+                                        className="btn btn-outline-secondary rounded-pill py-2"
+                                    >
+                                        Nanti Saja
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                )}
+
+                {/* Welcome Section */}
+                <div className="row mt-3 mb-4">
+                    <div className="col-12">
+                        <div className="welcome-hero-card p-4 p-md-5 rounded-4 shadow-sm border-0 position-relative overflow-hidden">
+                            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center position-relative" style={{ zIndex: 2 }}>
+                                <div>
+                                    <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                        <span className="badge-today-date">
+                                            <i className="fa fa-calendar-alt me-1 text-info"></i> {todayFormatted}
+                                        </span>
+                                        {auth.user?.roles && auth.user.roles.length > 0 && (
+                                            <span className="badge-role-pill">
+                                                <i className="fa fa-shield-alt me-1 text-warning"></i> {auth.user.roles[0].name}
+                                            </span>
+                                        )}
+                                        {auth.user?.no_anggota && (
+                                            <span className="badge-no-anggota-pill">
+                                                No. {auth.user.no_anggota}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <h3 className="welcome-title text-white mb-2 fw-bold">
+                                        Selamat Datang, {auth.user?.name || "Anggota"} 👋
+                                    </h3>
+                                    <p className="welcome-subtitle text-white-50 mb-0 fs-6">
+                                        Sistem Informasi & Manajemen Keanggotaan IKATWI (Ikatan Terapis Wicara Indonesia)
+                                    </p>
+                                </div>
+                                <div className="d-flex align-items-center gap-3 mt-3 mt-md-0">
+                                    <div className="welcome-user-avatar d-flex align-items-center justify-content-center">
+                                        <i className="fas fa-user-circle fa-3x text-white opacity-90"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="welcome-glow-circle"></div>
+                        </div>
+                    </div>
                 </div>
+
+                {/* Persistent Due Alert Banner on Dashboard if Unpaid */}
+                {activeDue?.hasUnpaidDue && (
+                    <div className="row mb-4">
+                        <div className="col-12">
+                            <div className="card due-alert-card border-0 shadow-sm rounded-4 overflow-hidden">
+                                <div className="card-body p-4 d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+                                    <div className="d-flex align-items-start align-items-sm-center gap-3">
+                                        <div className="due-icon-box flex-shrink-0">
+                                            <i className="fa fa-receipt fa-2x text-warning"></i>
+                                        </div>
+                                        <div>
+                                            <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                                                <span className="badge bg-warning text-dark fw-bold px-2 py-1 rounded-pill small">
+                                                    <i className="fa fa-exclamation-circle me-1"></i> TAGIHAN IURAN
+                                                </span>
+                                                <span className="badge bg-light text-secondary border px-2 py-1 rounded-pill small">
+                                                    Periode {activeDue.tahun}
+                                                </span>
+                                            </div>
+                                            <h5 className="fw-bold mb-1 text-dark">
+                                                Iuran Tahunan Anggota Tahun {activeDue.tahun}
+                                            </h5>
+                                            <p className="mb-0 text-muted small">
+                                                Status: <strong className={activeDue.status === "UNPAID_PENDING" ? "text-warning" : "text-danger"}>
+                                                    {activeDue.status === "UNPAID_PENDING" ? "Menunggu Pembayaran (1x24 Jam)" : "Belum Dibayar"}
+                                                </strong> • Total Kewajiban: <strong className="text-dark fs-6">Rp {FormatPrice(activeDue.amount)}</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex align-items-center gap-2 flex-wrap">
+                                        <button
+                                            onClick={handlePayDueNow}
+                                            className="btn btn-warning rounded-pill px-4 py-2 fw-bold text-dark shadow-sm d-flex align-items-center"
+                                        >
+                                            <i className="fa fa-bolt me-2"></i>
+                                            {activeDue.status === "UNPAID_PENDING" ? "Bayar Tagihan" : "Bayar Sekarang"}
+                                        </button>
+                                        <Link href="/account/tagihan" className="btn btn-outline-secondary rounded-pill px-3 py-2 fw-semibold">
+                                            <i className="fa fa-file-invoice me-1"></i> Detail
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* SIMPLIFIED LOGIC: Tampilkan kartu jika ada transaksi PAID */}
                 {isUserPaid && sig && (
@@ -1724,235 +2020,219 @@ export default function Dashboard() {
                 {/* Statistics Cards */}
                 {hasAnyPermission(["dashboard.statistics"]) && count && (
                     <>
-                        <div className="row mt-2">
-                            <div className="col-12 col-lg-3 mb-4">
-                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-primary">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="stat-icon me-3">
-                                                <i className="fas fa-clock fa-2x text-primary"></i>
+                        <div className="row g-3 mb-4">
+                            <div className="col-12 col-sm-6 col-xl-3">
+                                <div className="card stat-card border-0 shadow-sm rounded-4 h-100 stat-card-unpaid">
+                                    <div className="card-body p-4 d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <div className="stat-label-modern text-muted text-uppercase mb-1">
+                                                Menunggu Pembayaran
                                             </div>
-                                            <div className="flex-grow-1">
-                                                <div className="stat-value text-primary">
-                                                    {count.unpaid || 0}
-                                                </div>
-                                                <div className="stat-label text-muted text-uppercase">
-                                                    MENUNGGU PEMBAYARAN
-                                                </div>
+                                            <div className="stat-value-modern text-dark">
+                                                {count.unpaid || 0}
                                             </div>
+                                            <div className="stat-subtext text-primary small mt-1">
+                                                <i className="fa fa-clock me-1"></i> Belum lunas
+                                            </div>
+                                        </div>
+                                        <div className="stat-icon-wrapper stat-icon-unpaid">
+                                            <i className="fas fa-clock fa-2x text-primary"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-12 col-lg-3 mb-4">
-                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-success">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="stat-icon me-3">
-                                                <i className="fas fa-check-circle fa-2x text-success"></i>
+                            <div className="col-12 col-sm-6 col-xl-3">
+                                <div className="card stat-card border-0 shadow-sm rounded-4 h-100 stat-card-paid">
+                                    <div className="card-body p-4 d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <div className="stat-label-modern text-muted text-uppercase mb-1">
+                                                Sudah Bayar
                                             </div>
-                                            <div className="flex-grow-1">
-                                                <div className="stat-value text-success">
-                                                    {count.paid || 0}
-                                                </div>
-                                                <div className="stat-label text-muted text-uppercase">
-                                                    SUDAH BAYAR
-                                                </div>
+                                            <div className="stat-value-modern text-dark">
+                                                {count.paid || 0}
                                             </div>
+                                            <div className="stat-subtext text-success small mt-1">
+                                                <i className="fa fa-check-circle me-1"></i> Terverifikasi lunas
+                                            </div>
+                                        </div>
+                                        <div className="stat-icon-wrapper stat-icon-paid">
+                                            <i className="fas fa-check-circle fa-2x text-success"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-12 col-lg-3 mb-4">
-                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-warning">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="stat-icon me-3">
-                                                <i className="fas fa-exclamation-triangle fa-2x text-warning"></i>
+                            <div className="col-12 col-sm-6 col-xl-3">
+                                <div className="card stat-card border-0 shadow-sm rounded-4 h-100 stat-card-expired">
+                                    <div className="card-body p-4 d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <div className="stat-label-modern text-muted text-uppercase mb-1">
+                                                Kadaluarsa
                                             </div>
-                                            <div className="flex-grow-1">
-                                                <div className="stat-value text-warning">
-                                                    {count.expired || 0}
-                                                </div>
-                                                <div className="stat-label text-muted text-uppercase">
-                                                    KADALUARSA
-                                                </div>
+                                            <div className="stat-value-modern text-dark">
+                                                {count.expired || 0}
                                             </div>
+                                            <div className="stat-subtext text-warning small mt-1">
+                                                <i className="fa fa-exclamation-triangle me-1"></i> Batas waktu habis
+                                            </div>
+                                        </div>
+                                        <div className="stat-icon-wrapper stat-icon-expired">
+                                            <i className="fas fa-exclamation-triangle fa-2x text-warning"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-12 col-lg-3 mb-4">
-                                <div className="card stat-card border-0 shadow-sm h-100 stat-card-danger">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="stat-icon me-3">
-                                                <i className="fas fa-times-circle fa-2x text-danger"></i>
+                            <div className="col-12 col-sm-6 col-xl-3">
+                                <div className="card stat-card border-0 shadow-sm rounded-4 h-100 stat-card-cancelled">
+                                    <div className="card-body p-4 d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <div className="stat-label-modern text-muted text-uppercase mb-1">
+                                                Dibatalkan
                                             </div>
-                                            <div className="flex-grow-1">
-                                                <div className="stat-value text-danger">
-                                                    {count.cancelled || 0}
-                                                </div>
-                                                <div className="stat-label text-muted text-uppercase">
-                                                    DIBATALKAN
-                                                </div>
+                                            <div className="stat-value-modern text-dark">
+                                                {count.cancelled || 0}
                                             </div>
+                                            <div className="stat-subtext text-danger small mt-1">
+                                                <i className="fa fa-times-circle me-1"></i> Transaksi batal
+                                            </div>
+                                        </div>
+                                        <div className="stat-icon-wrapper stat-icon-cancelled">
+                                            <i className="fas fa-times-circle fa-2x text-danger"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Charts Section - hanya jika ada data count */}
+                        {/* Charts Section */}
                         {count && (
-                            <div className="container-fluid mt-4">
-                                <div className="card shadow-lg border-0">
-                                    <div className="card-header bg-white py-3">
-                                        <h5 className="mb-0 text-primary">
-                                            <i className="fas fa-chart-bar me-2"></i>
-                                            STATISTIK DAN GRAFIK
+                            <div className="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+                                <div className="card-header bg-white py-3 px-4 border-bottom d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                                    <div>
+                                        <h5 className="mb-0 fw-bold text-dark d-flex align-items-center">
+                                            <i className="fas fa-chart-pie text-primary me-2"></i>
+                                            Statistik & Analitik Anggota
                                         </h5>
+                                        <small className="text-muted">
+                                            Distribusi demografi, pekerjaan, pendidikan, dan status kelengkapan berkas anggota IKATWI
+                                        </small>
                                     </div>
-                                    <div className="card-body p-0">
-                                        <ul
-                                            className="nav nav-tabs nav-fill custom-tabs"
-                                            id="dashboardTabs"
-                                            role="tablist"
-                                        >
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
+                                </div>
+                                <div className="card-body p-4">
+                                    <ul
+                                        className="nav nav-pills dashboard-nav-pills mb-4 p-2 bg-light rounded-4"
+                                        id="dashboardTabs"
+                                        role="tablist"
+                                    >
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link active"
+                                                id="status-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#status"
+                                                type="button"
+                                                role="tab"
                                             >
-                                                <button
-                                                    className="nav-link active"
-                                                    id="status-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#status"
-                                                    type="button"
-                                                    role="tab"
-                                                >
-                                                    <i className="fas fa-briefcase me-2"></i>
-                                                    Status Pekerjaan
-                                                </button>
-                                            </li>
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
+                                                <i className="fas fa-briefcase me-2"></i>
+                                                Status Pekerjaan
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link"
+                                                id="lulusan-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#lulusan"
+                                                type="button"
+                                                role="tab"
                                             >
-                                                <button
-                                                    className="nav-link"
-                                                    id="lulusan-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#lulusan"
-                                                    type="button"
-                                                    role="tab"
+                                                <i className="fas fa-graduation-cap me-2"></i>
+                                                Lulusan
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link"
+                                                id="tempat-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#tempat"
+                                                type="button"
+                                                role="tab"
                                                 >
-                                                    <i className="fas fa-graduation-cap me-2"></i>
-                                                    Lulusan
-                                                </button>
-                                            </li>
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
+                                                <i className="fas fa-building me-2"></i>
+                                                Tempat Kerja
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link"
+                                                id="jenjang-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#jenjang"
+                                                type="button"
+                                                role="tab"
                                             >
-                                                <button
-                                                    className="nav-link"
-                                                    id="tempat-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#tempat"
-                                                    type="button"
-                                                    role="tab"
-                                                >
-                                                    <i className="fas fa-building me-2"></i>
-                                                    Tempat Kerja
-                                                </button>
-                                            </li>
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
+                                                <i className="fas fa-user-graduate me-2"></i>
+                                                Pendidikan
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link"
+                                                id="user-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#user"
+                                                type="button"
+                                                role="tab"
                                             >
-                                                <button
-                                                    className="nav-link"
-                                                    id="jenjang-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#jenjang"
-                                                    type="button"
-                                                    role="tab"
-                                                >
-                                                    <i className="fas fa-user-graduate me-2"></i>
-                                                    Pendidikan
-                                                </button>
-                                            </li>
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
+                                                <i className="fas fa-users me-2"></i>
+                                                User per DPW
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link"
+                                                id="kelengkapan-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#kelengkapan"
+                                                type="button"
+                                                role="tab"
                                             >
-                                                <button
-                                                    className="nav-link"
-                                                    id="user-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#user"
-                                                    type="button"
-                                                    role="tab"
-                                                >
-                                                    <i className="fas fa-users me-2"></i>
-                                                    User per DPW
-                                                </button>
-                                            </li>
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
+                                                <i className="fas fa-clipboard-check me-2"></i>
+                                                Kelengkapan
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link"
+                                                id="iuran-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#iuran"
+                                                type="button"
+                                                role="tab"
                                             >
-                                                <button
-                                                    className="nav-link"
-                                                    id="kelengkapan-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#kelengkapan"
-                                                    type="button"
-                                                    role="tab"
-                                                >
-                                                    <i className="fas fa-clipboard-check me-2"></i>
-                                                    Kelengkapan
-                                                </button>
-                                            </li>
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
+                                                <i className="fas fa-money-bill-wave me-2"></i>
+                                                Iuran
+                                            </button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button
+                                                className="nav-link"
+                                                id="bekerja-tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#bekerja"
+                                                type="button"
+                                                role="tab"
                                             >
-                                                <button
-                                                    className="nav-link"
-                                                    id="iuran-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#iuran"
-                                                    type="button"
-                                                    role="tab"
-                                                >
-                                                    <i className="fas fa-money-bill-wave me-2"></i>
-                                                    Iuran
-                                                </button>
-                                            </li>
-                                            <li
-                                                className="nav-item"
-                                                role="presentation"
-                                            >
-                                                <button
-                                                    className="nav-link"
-                                                    id="bekerja-tab"
-                                                    data-bs-toggle="tab"
-                                                    data-bs-target="#bekerja"
-                                                    type="button"
-                                                    role="tab"
-                                                >
-                                                    <i className="fas fa-chart-line me-2"></i>
-                                                    Pekerjaan per DPW
-                                                </button>
-                                            </li>
-                                        </ul>
+                                                <i className="fas fa-chart-line me-2"></i>
+                                                Pekerjaan per DPW
+                                            </button>
+                                        </li>
+                                    </ul>
 
-                                        <div
-                                            className="tab-content p-4"
-                                            id="dashboardTabsContent"
-                                        >
+                                    <div
+                                        className="tab-content"
+                                        id="dashboardTabsContent"
+                                    >
                                             {/* Status Pekerjaan */}
                                             <div
                                                 className="tab-pane fade show active"
@@ -1969,8 +2249,8 @@ export default function Dashboard() {
                                                                 series={
                                                                     statusPekerjaan.series
                                                                 }
-                                                                type="pie"
-                                                                height="400"
+                                                                type="donut"
+                                                                height="420"
                                                             />
                                                         </div>
                                                     </div>
@@ -1993,8 +2273,8 @@ export default function Dashboard() {
                                                                 series={
                                                                     lulusanUniv.series
                                                                 }
-                                                                type="pie"
-                                                                height="400"
+                                                                type="donut"
+                                                                height="420"
                                                             />
                                                         </div>
                                                     </div>
@@ -2017,8 +2297,8 @@ export default function Dashboard() {
                                                                 series={
                                                                     tempatBekerja.series
                                                                 }
-                                                                type="pie"
-                                                                height="400"
+                                                                type="donut"
+                                                                height="420"
                                                             />
                                                         </div>
                                                     </div>
@@ -2041,8 +2321,8 @@ export default function Dashboard() {
                                                                 series={
                                                                     jenjangPendidikan.series
                                                                 }
-                                                                type="pie"
-                                                                height="400"
+                                                                type="donut"
+                                                                height="420"
                                                             />
                                                         </div>
                                                     </div>
@@ -2074,7 +2354,7 @@ export default function Dashboard() {
                                                                     seriesData
                                                                 }
                                                                 type="bar"
-                                                                height="400"
+                                                                height={barChartUserDpwHeight}
                                                             />
                                                         </div>
                                                     </div>
@@ -2097,8 +2377,8 @@ export default function Dashboard() {
                                                                 series={
                                                                     dataKelengkapan.series
                                                                 }
-                                                                type="pie"
-                                                                height="400"
+                                                                type="donut"
+                                                                height="420"
                                                             />
                                                         </div>
                                                     </div>
@@ -2121,8 +2401,8 @@ export default function Dashboard() {
                                                                 series={
                                                                     dataIuran.series
                                                                 }
-                                                                type="pie"
-                                                                height="400"
+                                                                type="donut"
+                                                                height="420"
                                                             />
                                                         </div>
                                                     </div>
@@ -2154,72 +2434,37 @@ export default function Dashboard() {
                                                                     barChartByBekerjaSeriesData
                                                                 }
                                                                 type="bar"
-                                                                height="600"
+                                                                height={barChartByBekerjaHeight}
                                                             />
                                                         </div>
 
-                                                        <div className="card border-0 shadow-sm mt-4">
-                                                            <div className="card-header bg-white py-3">
-                                                                <h6 className="mb-0 text-primary">
-                                                                    <i className="fas fa-table me-2"></i>
-                                                                    DETAIL
-                                                                    PEKERJAAN
-                                                                    PER DPW
+                                                        <div className="card border-0 shadow-sm rounded-4 mt-4 overflow-hidden">
+                                                            <div className="card-header bg-white py-3 px-4 border-bottom d-flex align-items-center justify-content-between">
+                                                                <h6 className="mb-0 fw-bold text-dark d-flex align-items-center">
+                                                                    <i className="fas fa-table text-primary me-2"></i>
+                                                                    Detail Sebaran Pekerjaan per DPW
                                                                 </h6>
+                                                                <span className="badge bg-light text-secondary border px-3 py-1 rounded-pill small">
+                                                                    Tabel Distribusi
+                                                                </span>
                                                             </div>
                                                             <div className="card-body p-0">
                                                                 <div className="table-responsive">
-                                                                    <table className="table table-hover table-striped mb-0">
-                                                                        <thead className="bg-light">
+                                                                    <table className="table table-custom mb-0">
+                                                                        <thead>
                                                                             <tr>
-                                                                                <th>
-                                                                                    DPW
-                                                                                </th>
-                                                                                <th>
-                                                                                    Belum
-                                                                                    Bekerja
-                                                                                </th>
-                                                                                <th>
-                                                                                    Freelance
-                                                                                </th>
-                                                                                <th>
-                                                                                    Klinik
-                                                                                    Swasta
-                                                                                </th>
-                                                                                <th>
-                                                                                    Perguruan
-                                                                                    Tinggi
-                                                                                </th>
-                                                                                <th>
-                                                                                    Puskesmas
-                                                                                </th>
-                                                                                <th>
-                                                                                    RS
-                                                                                    Khusus
-                                                                                </th>
-                                                                                <th>
-                                                                                    RS
-                                                                                    Militer
-                                                                                </th>
-                                                                                <th>
-                                                                                    RS
-                                                                                    Swasta
-                                                                                </th>
-                                                                                <th>
-                                                                                    RS
-                                                                                    Umum
-                                                                                    Daerah
-                                                                                </th>
-                                                                                <th>
-                                                                                    RS
-                                                                                    Umum
-                                                                                    Pusat
-                                                                                </th>
-                                                                                <th>
-                                                                                    Sekolah
-                                                                                    Luar
-                                                                                    Biasa
-                                                                                </th>
+                                                                                <th>DPW</th>
+                                                                                <th className="text-center">Belum Bekerja</th>
+                                                                                <th className="text-center">Freelance</th>
+                                                                                <th className="text-center">Klinik Swasta</th>
+                                                                                <th className="text-center">Perguruan Tinggi</th>
+                                                                                <th className="text-center">Puskesmas</th>
+                                                                                <th className="text-center">RS Khusus</th>
+                                                                                <th className="text-center">RS Militer</th>
+                                                                                <th className="text-center">RS Swasta</th>
+                                                                                <th className="text-center">RSUD</th>
+                                                                                <th className="text-center">RSUP</th>
+                                                                                <th className="text-center">SLB</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -2233,7 +2478,7 @@ export default function Dashboard() {
                                                                                             index
                                                                                         }
                                                                                     >
-                                                                                        <td className="fw-bold text-primary">
+                                                                                        <td className="fw-bold text-dark">
                                                                                             {
                                                                                                 total.province_name
                                                                                             }
@@ -2307,13 +2552,12 @@ export default function Dashboard() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         )}
                     </>
                 )}
             </LayoutAccount>
 
-            {/* CSS Responsif untuk Kartu */}
+            {/* CSS Responsif dan Styling Dashboard */}
             <style>{`
                 @media (max-width: 768px) {
                     .sig-card-container {
@@ -2329,113 +2573,212 @@ export default function Dashboard() {
                         min-width: 100% !important;
                     }
                 }
-                
-                .welcome-card {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+                /* Welcome Hero Card */
+                .welcome-hero-card {
+                    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                    border: 1px solid #334155 !important;
+                    border-top: 4px solid #0ea5e9 !important;
                 }
-                
-                .stat-card {
-                    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+                .welcome-title {
+                    letter-spacing: -0.5px;
                 }
-                
-                .stat-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
-                }
-                
-                .stat-card-primary {
-                    border-left: 4px solid #3B82F6;
-                }
-                
-                .stat-card-success {
-                    border-left: 4px solid #10B981;
-                }
-                
-                .stat-card-warning {
-                    border-left: 4px solid #F59E0B;
-                }
-                
-                .stat-card-danger {
-                    border-left: 4px solid #EF4444;
-                }
-                
-                .stat-value {
-                    font-size: 2rem;
-                    font-weight: 700;
-                    line-height: 1;
-                }
-                
-                .stat-label {
-                    font-size: 0.8rem;
+
+                .badge-today-date {
+                    background: rgba(255, 255, 255, 0.1);
+                    color: #f8fafc;
+                    font-size: 0.78rem;
                     font-weight: 600;
-                    letter-spacing: 0.5px;
+                    padding: 4px 12px;
+                    border-radius: 9999px;
+                    backdrop-filter: blur(4px);
+                    border: 1px solid rgba(255, 255, 255, 0.15);
                 }
-                
-                .stat-icon {
-                    width: 60px;
-                    height: 60px;
+
+                .badge-role-pill {
+                    background: rgba(245, 158, 11, 0.15);
+                    color: #fef08a;
+                    font-size: 0.78rem;
+                    font-weight: 700;
+                    padding: 4px 12px;
+                    border-radius: 9999px;
+                    border: 1px solid rgba(245, 158, 11, 0.3);
+                }
+
+                .badge-no-anggota-pill {
+                    background: rgba(14, 165, 233, 0.2);
+                    color: #bae6fd;
+                    font-size: 0.78rem;
+                    font-weight: 700;
+                    padding: 4px 12px;
+                    border-radius: 9999px;
+                    border: 1px solid rgba(14, 165, 233, 0.4);
+                }
+
+                .welcome-glow-circle {
+                    position: absolute;
+                    right: -40px;
+                    top: -40px;
+                    width: 260px;
+                    height: 260px;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, transparent 70%);
+                    pointer-events: none;
+                }
+
+                /* Due Notification Alert */
+                .due-alert-card {
+                    background: #ffffff;
+                    border: 1px solid #fed7aa !important;
+                    border-left: 5px solid #f59e0b !important;
+                }
+
+                .due-icon-box {
+                    width: 54px;
+                    height: 54px;
+                    border-radius: 14px;
+                    background: #fef3c7;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    border-radius: 12px;
-                    background: rgba(59, 130, 246, 0.1);
                 }
-                
-                .stat-card-success .stat-icon {
-                    background: rgba(16, 185, 129, 0.1);
+
+                /* Modern Stat Cards */
+                .stat-card {
+                    background: #ffffff;
+                    border: 1px solid #e2e8f0 !important;
+                    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 }
-                
-                .stat-card-warning .stat-icon {
-                    background: rgba(245, 158, 11, 0.1);
+
+                .stat-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 14px 28px -6px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04) !important;
                 }
-                
-                .stat-card-danger .stat-icon {
-                    background: rgba(239, 68, 68, 0.1);
+
+                .stat-card-unpaid {
+                    border-left: 4px solid #3b82f6 !important;
+                    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
                 }
-                
-                .custom-tabs .nav-link {
-                    border: none;
-                    color: #6c757d;
-                    font-weight: 500;
-                    padding: 1rem 1.5rem;
-                    transition: all 0.3s ease;
+
+                .stat-card-paid {
+                    border-left: 4px solid #10b981 !important;
+                    background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
                 }
-                
-                .custom-tabs .nav-link.active {
-                    color: #3B82F6;
-                    background: transparent;
-                    border-bottom: 3px solid #3B82F6;
+
+                .stat-card-expired {
+                    border-left: 4px solid #f59e0b !important;
+                    background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
                 }
-                
-                .custom-tabs .nav-link:hover {
-                    color: #3B82F6;
-                    background: rgba(59, 130, 246, 0.05);
+
+                .stat-card-cancelled {
+                    border-left: 4px solid #ef4444 !important;
+                    background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
                 }
-                
-                .chart-container {
-                    background: white;
-                    border-radius: 12px;
-                    padding: 1.5rem;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+                .stat-value-modern {
+                    font-size: 2.2rem;
+                    font-weight: 800;
+                    line-height: 1.1;
+                    letter-spacing: -0.5px;
                 }
-                
-                .table th {
-                    background: #f8f9fa;
-                    border-bottom: 2px solid #dee2e6;
-                    font-weight: 600;
-                    color: #495057;
-                    font-size: 0.85rem;
-                    text-transform: uppercase;
+
+                .stat-label-modern {
+                    font-size: 0.75rem;
+                    font-weight: 700;
                     letter-spacing: 0.5px;
                 }
-                
-                .table td {
-                    vertical-align: middle;
-                    font-size: 0.9rem;
+
+                .stat-icon-wrapper {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
                 }
-                
-                .card-header {
-                    border-bottom: 1px solid rgba(0,0,0,0.05);
+
+                .stat-icon-unpaid {
+                    background: #eff6ff;
+                }
+
+                .stat-icon-paid {
+                    background: #dcfce7;
+                }
+
+                .stat-icon-expired {
+                    background: #fef3c7;
+                }
+
+                .stat-icon-cancelled {
+                    background: #fee2e2;
+                }
+
+                /* Nav Pills Navigation */
+                .dashboard-nav-pills {
+                    background: #ffffff !important;
+                    border: 1px solid #e2e8f0 !important;
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    padding: 10px !important;
+                    border-radius: 14px !important;
+                }
+
+                .dashboard-nav-pills .nav-item {
+                    margin: 0;
+                }
+
+                .dashboard-nav-pills .nav-link {
+                    background: #f1f5f9 !important;
+                    color: #1e293b !important;
+                    font-weight: 700 !important;
+                    font-size: 0.88rem !important;
+                    border-radius: 10px !important;
+                    padding: 0.65rem 1.2rem !important;
+                    transition: all 0.2s ease !important;
+                    border: 1px solid #e2e8f0 !important;
+                    display: inline-flex;
+                    align-items: center;
+                    cursor: pointer;
+                }
+
+                .dashboard-nav-pills .nav-link i {
+                    color: #475569;
+                    transition: color 0.2s;
+                }
+
+                .dashboard-nav-pills .nav-link:hover {
+                    color: #0284c7 !important;
+                    background: #eff6ff !important;
+                    border-color: #93c5fd !important;
+                }
+
+                .dashboard-nav-pills .nav-link:hover i {
+                    color: #0284c7;
+                }
+
+                .dashboard-nav-pills .nav-link.active {
+                    background: #0284c7 !important;
+                    color: #ffffff !important;
+                    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+                    font-weight: 700 !important;
+                    border-color: #0284c7 !important;
+                }
+
+                .dashboard-nav-pills .nav-link.active i {
+                    color: #ffffff !important;
+                }
+
+                /* Chart Container */
+                .chart-container {
+                    background: #ffffff;
+                    border-radius: 14px;
+                    padding: 1.5rem;
+                    border: 1px solid #f1f5f9;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
                 }
             `}</style>
         </>

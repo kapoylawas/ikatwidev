@@ -40,22 +40,24 @@ export default function PermissionIndex() {
                             <div className="card-body">
                                 
                                 <div className="table-responsive">
-                                    <table className="table table-bordered table-striped table-hovered">
+                                    <table className="table table-custom align-middle mb-0">
                                         <thead>
-                                        <tr>
-                                            <th scope="col" style={{ width: '5%' }}>No.</th>
-                                            <th scope="col">Permission Name</th>
-                                        </tr>
+                                            <tr>
+                                                <th scope="col" style={{ width: '5%', textAlign: 'center' }}>No.</th>
+                                                <th scope="col">Permission Name</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        
                                             {permissions.data.map((permission, index) => (
                                                 <tr key={index}>
-                                                    <td className="text-center">{++index + (permissions.current_page-1) * permissions.per_page}</td>
-                                                    <td>{permission.name}</td>
+                                                    <td className="text-center">
+                                                        <span className="table-num-pill">
+                                                            {++index + (permissions.current_page-1) * permissions.per_page}
+                                                        </span>
+                                                    </td>
+                                                    <td className="fw-semibold text-dark">{permission.name}</td>
                                                 </tr>
                                             ))}
-                                        
                                         </tbody>
                                     </table>
                                 </div>
