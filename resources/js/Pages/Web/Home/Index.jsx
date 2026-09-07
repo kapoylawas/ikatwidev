@@ -452,10 +452,10 @@ export default function HomeIndex() {
                                 <div>
                                     <div className="d-flex align-items-center gap-2">
                                         <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.08rem' }}>
-                                            <i className="fas fa-book-reader text-purple me-2" style={{ color: '#7c3aed' }}></i>
+                                            <i className="fas fa-book-reader text-success me-2"></i>
                                             Jurnal Ilmiah JSLCR
                                         </h5>
-                                        <span className="badge rounded-pill" style={{ backgroundColor: '#f3e8ff', color: '#7e22ce', border: '1px solid #d8b4fe', fontSize: '0.68rem', fontWeight: 700 }}>
+                                        <span className="badge rounded-pill" style={{ backgroundColor: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0', fontSize: '0.68rem', fontWeight: 700 }}>
                                             Riset & Publikasi
                                         </span>
                                     </div>
@@ -468,7 +468,7 @@ export default function HomeIndex() {
                                         href="https://jslcr.com/index.php/jslcr/about/submissions"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1.5"
+                                        className="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1.5"
                                         style={{ fontSize: '0.74rem' }}
                                     >
                                         <i className="fas fa-cloud-upload-alt"></i>
@@ -479,7 +479,7 @@ export default function HomeIndex() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn btn-sm text-white rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-sm"
-                                        style={{ backgroundColor: '#7c3aed', fontSize: '0.74rem' }}
+                                        style={{ backgroundColor: '#059669', fontSize: '0.74rem' }}
                                     >
                                         <span>Buka Tab Baru</span>
                                         <i className="fas fa-external-link-alt" style={{ fontSize: '0.65rem' }}></i>
@@ -494,15 +494,15 @@ export default function HomeIndex() {
                                     borderRadius: '20px',
                                     border: '1px solid #e2e8f0',
                                     backgroundColor: '#ffffff',
-                                    boxShadow: '0 16px 36px -8px rgba(124, 58, 237, 0.15), 0 4px 12px rgba(0, 0, 0, 0.05)',
+                                    boxShadow: '0 16px 36px -8px rgba(5, 150, 105, 0.15), 0 4px 12px rgba(0, 0, 0, 0.05)',
                                 }}
                             >
                                 {/* Window Titlebar */}
                                 <div
                                     className="d-flex align-items-center justify-content-between px-3 py-2.5"
                                     style={{
-                                        backgroundColor: '#0f172a',
-                                        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                                        backgroundColor: '#064e3b',
+                                        borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
                                     }}
                                 >
                                     {/* Mac OS Window Dots */}
@@ -516,14 +516,14 @@ export default function HomeIndex() {
                                     <div
                                         className="d-flex align-items-center gap-2 px-3 py-1 rounded-pill flex-grow-1 mx-3"
                                         style={{
-                                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                            backgroundColor: 'rgba(255, 255, 255, 0.12)',
                                             maxWidth: '480px',
                                             fontSize: '0.74rem',
-                                            color: '#94a3b8',
-                                            border: '1px solid rgba(255, 255, 255, 0.12)',
+                                            color: '#a7f3d0',
+                                            border: '1px solid rgba(255, 255, 255, 0.18)',
                                         }}
                                     >
-                                        <i className="fas fa-lock text-success" style={{ fontSize: '0.68rem' }}></i>
+                                        <i className="fas fa-lock text-warning" style={{ fontSize: '0.68rem' }}></i>
                                         <span className="text-white text-truncate font-monospace" style={{ fontSize: '0.72rem' }}>
                                             https://jslcr.com/index.php/jslcr
                                         </span>
@@ -567,11 +567,11 @@ export default function HomeIndex() {
                                         <span>Peer-Reviewed & Open Access Scientific Journal</span>
                                     </div>
                                     <div className="d-flex align-items-center gap-3">
-                                        <a href="https://jslcr.com/index.php/jslcr/issue/archive" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted hover-purple">
+                                        <a href="https://jslcr.com/index.php/jslcr/issue/archive" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted hover-emerald">
                                             Arsip Edisi
                                         </a>
                                         <span>•</span>
-                                        <a href="https://jslcr.com/index.php/jslcr/about/editorialTeam" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted hover-purple">
+                                        <a href="https://jslcr.com/index.php/jslcr/about/editorialTeam" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted hover-emerald">
                                             Dewan Redaksi
                                         </a>
                                     </div>

@@ -177,7 +177,7 @@ export default function Header() {
                                     className="dropdown-item-modern rounded-3 py-2 px-3 d-flex align-items-center justify-content-between"
                                 >
                                     <div className="d-flex align-items-center gap-2.5">
-                                        <i className="fas fa-book-open text-purple" style={{ width: '18px', color: '#7c3aed' }}></i>
+                                        <i className="fas fa-book-open text-success" style={{ width: '18px' }}></i>
                                         <span style={{ fontSize: '0.84rem', fontWeight: 600, color: '#1e293b' }}>Jurnal Ilmiah JSLCR</span>
                                     </div>
                                     <i className="fas fa-external-link-alt text-muted" style={{ fontSize: '0.7rem' }}></i>
