@@ -17,26 +17,32 @@ class ForgotPasswordController extends Controller
     {
         $request->validate([
             'no_anggota' => 'required|string',
-            'nik' => 'required|string',
+            'nik'        => 'required|string',
         ]);
 
-        // Mencari user berdasarkan no_anggota dan nik
-        $user = User::where('no_anggota', $request->no_anggota)
-                    ->where('nik', $request->nik)
-                    ->first();
+        $identifier = trim($request->no_anggota);
+        $nik = trim($request->nik);
+
+        // Mencari user berdasarkan (no_anggota atau email) dan nik
+        $user = User::where(function ($q) use ($identifier) {
+            $q->where('no_anggota', $identifier)
+              ->orWhere('email', $identifier);
+        })
+        ->where('nik', $nik)
+        ->first();
 
         if ($user) {
-            // Jika user ditemukan, update password menjadi nik
-            $user->password = bcrypt($user->nik);
+            // Update password menjadi NIK
+            $user->password = bcrypt(trim($user->nik));
             $user->save();
 
-            // Redirect ke route dashboard
-            return redirect()->route('account.dashboard')->with('success', 'Password berhasil direset.');
+            // Redirect ke route login dengan notifikasi sukses
+            return redirect()->route('login')->with('success', 'Password berhasil direset! Password baru Anda adalah NIK Anda. Silakan login.');
         }
 
         // Jika user tidak ditemukan, redirect dengan pesan error
         return back()->withErrors([
-            'meta' => 'No KTA atau NIK Anda Salah',
+            'meta' => 'Nomor Anggota / Email atau NIK tidak sesuai.',
         ]);
     }
 }

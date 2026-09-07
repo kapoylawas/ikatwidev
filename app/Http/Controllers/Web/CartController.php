@@ -30,43 +30,43 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-        //check cart
-        $cart = Cart::where('product_id', $request->product_id)->where('size', $request->size);
+        $targetYear = $request->tahun ?? date('Y');
+        $query = Cart::where('user_id', auth()->user()->id)
+            ->where('product_id', $request->product_id)
+            ->where('size', $request->size);
 
-        if($cart->count()) {
+        if ($request->size === 'Iuran') {
+            $query->where('tahun', $targetYear);
+        }
 
-            //increment / update quantity
-            $cart->increment('qty');
+        $cart = $query->first();
 
-            $cart = $cart->first();
-
-            //sum price * quantity
-            $price = $request->price * $cart->qty;
-
-            //sum weight
-            $weight = $request->weight * $cart->qty;
-
-            $cart->update([
-                'price'     => $price,
-                'weight'    => $weight
-            ]);
-
+        if ($cart) {
+            if ($request->size === 'Iuran') {
+                $cart->update([
+                    'qty'   => 1,
+                    'price' => (int) $request->price,
+                ]);
+            } else {
+                $newQty = $cart->qty + 1;
+                $cart->update([
+                    'qty'    => $newQty,
+                    'price'  => $request->price * $newQty,
+                    'weight' => $request->weight * $newQty,
+                ]);
+            }
         } else {
-
-            //insert data to carts
-            Cart::insert([
+            Cart::create([
                 'user_id'       => auth()->user()->id,
                 'product_id'    => $request->product_id,
                 'product_image' => $request->product_image,
                 'size'          => $request->size,
                 'price'         => (int) $request->price,
-                'qty'           => $request->qty,
-                'tahun'         => 2023,
-                'weight'        => $request->weight,
+                'qty'           => 1,
+                'tahun'         => $request->size === 'Iuran' ? $targetYear : null,
+                'weight'        => $request->weight ?? 0,
                 'keterangan'    => $request->keterangan ?? null,
             ]);
-
         }
 
         return redirect()->back();

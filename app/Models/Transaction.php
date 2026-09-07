@@ -132,8 +132,13 @@ class Transaction extends Model
         $unpaidYears = [];
         for ($y = $startYear; $y <= $currentYear; $y++) {
             $isPaid = self::where('user_id', $user->id)
-                ->where('tahun', $y)
                 ->where('status', 'PAID')
+                ->where(function ($q) use ($y) {
+                    $q->where('tahun', $y)
+                      ->orWhereHas('transactionDetails', function ($qd) use ($y) {
+                          $qd->where('tahun', $y);
+                      });
+                })
                 ->exists();
 
             if (!$isPaid) {

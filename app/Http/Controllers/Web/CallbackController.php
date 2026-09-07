@@ -40,12 +40,22 @@ class CallbackController extends Controller
                 $transaction->status = 'PAID';
                 $transaction->save();
 
-                // Auto-cancel previous superseded UNPAID transactions for this user for the same year
-                if ($transaction->tahun) {
+                // Auto-cancel previous superseded UNPAID transactions for this user for all covered years
+                $coveredYears = $transaction->transactionDetails()->pluck('tahun')->filter()->unique()->values()->all();
+                if ($transaction->tahun && !in_array($transaction->tahun, $coveredYears)) {
+                    $coveredYears[] = $transaction->tahun;
+                }
+
+                if (!empty($coveredYears)) {
                     Transaction::where('user_id', $transaction->user_id)
-                        ->where('tahun', $transaction->tahun)
                         ->where('id', '!=', $transaction->id)
                         ->where('status', 'UNPAID')
+                        ->where(function ($q) use ($coveredYears) {
+                            $q->whereIn('tahun', $coveredYears)
+                              ->orWhereHas('transactionDetails', function ($qd) use ($coveredYears) {
+                                  $qd->whereIn('tahun', $coveredYears);
+                              });
+                        })
                         ->update(['status' => 'CANCELLED']);
                 }
 

@@ -22,42 +22,29 @@ class DonasiController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-        //check cart
-        $cart = Cart::where('product_id', $request->product_id)->where('size', $request->size);
+        $cart = Cart::where('user_id', auth()->user()->id)
+            ->where('product_id', $request->product_id)
+            ->where('size', $request->size)
+            ->first();
 
-        if($cart->count()) {
-
-            //increment / update quantity
-            $cart->increment('qty');
-
-            $cart = $cart->first();
-
-            //sum price * quantity
-            $price = $request->price * $cart->qty;
-
-            //sum weight
-            $weight = $request->weight * $cart->qty;
-
+        if ($cart) {
+            $newQty = $cart->qty + 1;
             $cart->update([
-                'price'     => $price,
-                'weight'    => $weight
+                'qty'    => $newQty,
+                'price'  => $request->price * $newQty,
+                'weight' => $request->weight * $newQty,
             ]);
-
         } else {
-
-            //insert data to carts
-            Cart::insert([
+            Cart::create([
                 'user_id'       => auth()->user()->id,
                 'product_id'    => $request->product_id,
                 'product_image' => "mpH4YHUa976Xl4D6vptZUp3naFTp72vXeYOYC1xt.png",
                 'size'          => "Donasi",
                 'price'         => (int) $request->price,
-                'qty'           => "1",
-                'tahun'         => "",
+                'qty'           => 1,
+                'tahun'         => null,
                 'keterangan'    => $request->keterangan ?? null,
             ]);
-
         }
 
         return redirect()->route('web.carts.index')->with('success', 'Donasi berhasil ditambahkan ke keranjang');

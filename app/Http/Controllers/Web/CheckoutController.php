@@ -97,15 +97,22 @@ class CheckoutController extends Controller
 
         DB::transaction(function () use ($duitkuConfig, $request) {
 
-            // Get tahun from first cart item, fallback to current year
-            $firstCart = Cart::where('user_id', auth()->user()->id)->first();
-            $tahun = $firstCart && $firstCart->tahun !== null ? $firstCart->tahun : date("Y");
+            // Get carts for current user
+            $userCarts = Cart::with('product')->where('user_id', auth()->user()->id)->get();
+            $firstCart = $userCarts->first();
+            $cartYears = $userCarts->pluck('tahun')->filter()->unique()->values()->all();
+            $tahun = !empty($cartYears) ? max($cartYears) : date("Y");
 
-            // Auto-cancel previous uncompleted UNPAID transactions for this user for the same year
-            if ($tahun) {
+            // Auto-cancel previous uncompleted UNPAID transactions for this user for the same years
+            if (!empty($cartYears)) {
                 Transaction::where('user_id', auth()->user()->id)
-                    ->where('tahun', $tahun)
                     ->where('status', 'UNPAID')
+                    ->where(function ($q) use ($cartYears) {
+                        $q->whereIn('tahun', $cartYears)
+                          ->orWhereHas('transactionDetails', function ($qd) use ($cartYears) {
+                              $qd->whereIn('tahun', $cartYears);
+                          });
+                    })
                     ->update(['status' => 'CANCELLED']);
             }
             
@@ -141,7 +148,7 @@ class CheckoutController extends Controller
             // Item Details
             $item_details = [];
 
-            foreach (Cart::with('product')->where('user_id', auth()->user()->id)->get() as $cart) {
+            foreach ($userCarts as $cart) {
 
                 //insert product ke table transaction_details
                 $transaction->transactionDetails()->create([
