@@ -31,9 +31,9 @@ Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'index'
 
 // route lupa password
 Route::get('/reset-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'index'])->name('reset-password')->middleware('guest');
-
-// route lupa password
+Route::get('/resetPassword', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'index'])->middleware('guest');
 Route::post('/resetPassword', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'store'])->name('resetPassword')->middleware('guest');
+Route::post('/reset-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'store'])->middleware('guest');
 
 //route login store anggota lama
 Route::post('/loginAnggotaLama', [\App\Http\Controllers\Auth\LoginController::class, 'store'])->name('login.store')->middleware('guest');
