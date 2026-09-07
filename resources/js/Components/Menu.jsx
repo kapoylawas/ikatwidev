@@ -8,236 +8,224 @@ import { Link, usePage } from '@inertiajs/inertia-react';
 import axios from "axios";
 
 export default function Menu() {
-
-    //destruct props "dataCarts"
-    const { dataCarts } = usePage().props
+    //destruct props "auth" & "url"
+    const { auth, url } = usePage().props;
 
     //define state
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
-    //define method "searchhandler"
+    const isCurrent = (path) => {
+        if (path === '/' && (window.location.pathname === '/' || window.location.pathname === '')) return true;
+        if (path !== '/' && window.location.pathname.startsWith(path)) return true;
+        return false;
+    };
+
     const searchHandler = (e) => {
+        const val = e.target.value;
+        setSearchQuery(val);
+        if (!val.trim()) {
+            setProducts([]);
+            return;
+        }
 
-        //set isLoading to true
         setIsLoading(true);
-
-        //set products to null
-        setProducts([]);
-
-        axios.post(`/search`, {
-            q: e.target.value
-        })
+        axios.post(`/search`, { q: val })
             .then(response => {
-
-                //set isLoading to false
                 setIsLoading(false);
-
-                //set response to state
-                setProducts(response.data.products);
+                setProducts(response.data.products || []);
             })
-    }
+            .catch(() => {
+                setIsLoading(false);
+            });
+    };
 
     return (
         <>
-            <nav className="navbar navbar-dark shadow navbar-expand fixed-bottom p-0 custom-green-navbar">
-                <div className="container">
-                    <ul className="navbar-nav nav-justified justify-content-center justify-item-center w-100">
-                        <li className="nav-item">
-                            <Link href="/" className="nav-link text-white fw-bold d-flex flex-column align-items-center position-relative">
-                                <div className="menu-icon-wrapper">
-                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" className="bi bi-house" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fillRule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                                        <path fillRule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-                                    </svg>
-                                </div>
-                                <span className="small mt-1">Home</span>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="#" data-bs-toggle="modal" data-bs-target="#search" className="nav-link text-white fw-bold d-flex flex-column align-items-center position-relative">
-                                <div className="menu-icon-wrapper">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                    </svg>
-                                </div>
-                                <span className="small mt-1">Search</span>
-                            </Link>
-                        </li>
-                        {/* <li className="nav-item dropup">
-                            <Link href="/carts" className="nav-link text-white fw-bold d-flex flex-column align-items-center position-relative">
-                                <div className="menu-icon-wrapper position-relative">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-cart" viewBox="0 0 16 16">
-                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                    </svg>
-                                    {dataCarts
-                                        ? <span className='badge badge-warning rounded-pill shadow position-absolute top-0 start-100 translate-middle' id='count-cart'>{dataCarts.total}</span>
-                                        : <span className='badge badge-warning rounded-pill shadow position-absolute top-0 start-100 translate-middle' id='count-cart'>0</span>
-                                    }
-                                </div>
-                                <span className="small mt-1">Pembayaran</span>
-                            </Link>
-                        </li> */}
-                        <li className="nav-item dropup">
-                            <Link href="/login" className="nav-link text-white fw-bold d-flex flex-column align-items-center position-relative">
-                                <div className="menu-icon-wrapper">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
-                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                                        <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                                    </svg>
-                                </div>
-                                <span className="small mt-1">Account</span>
-                            </Link>
-                        </li>
-                    </ul>
+            {/* Floating 3D Mobile Navigation Dock */}
+            <nav
+                className="fixed-bottom mx-auto p-1"
+                style={{
+                    maxWidth: '460px',
+                    width: 'calc(100% - 24px)',
+                    bottom: '14px',
+                    zIndex: 1040,
+                }}
+            >
+                <div
+                    className="d-flex align-items-center justify-content-around py-2 px-1 shadow-lg"
+                    style={{
+                        backgroundColor: 'rgba(6, 78, 59, 0.94)',
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        borderRadius: '24px',
+                        border: '1px solid rgba(255, 255, 255, 0.18)',
+                        boxShadow: '0 16px 36px -6px rgba(6, 78, 59, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
+                    }}
+                >
+                    {/* Item: Beranda */}
+                    <Link
+                        href="/"
+                        className="text-decoration-none text-center flex-fill d-flex flex-column align-items-center position-relative py-1 nav-dock-item"
+                        style={{
+                            color: isCurrent('/') ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+                            transition: 'all 0.25s ease',
+                        }}
+                    >
+                        <div
+                            className="rounded-circle d-flex align-items-center justify-content-center mb-1"
+                            style={{
+                                width: '38px',
+                                height: '38px',
+                                backgroundColor: isCurrent('/') ? 'rgba(255, 255, 255, 0.22)' : 'transparent',
+                                transform: isCurrent('/') ? 'scale(1.1) translateY(-2px)' : 'none',
+                                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                boxShadow: isCurrent('/') ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
+                            }}
+                        >
+                            <i className="fa fa-home" style={{ fontSize: '1.15rem' }}></i>
+                        </div>
+                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/') ? 700 : 500, letterSpacing: '0.02em' }}>
+                            Beranda
+                        </span>
+                    </Link>
+
+                    {/* Item: Iuran / Tagihan */}
+                    <Link
+                        href={auth && auth.user ? "/account/tagihan" : "/login"}
+                        className="text-decoration-none text-center flex-fill d-flex flex-column align-items-center position-relative py-1 nav-dock-item"
+                        style={{
+                            color: isCurrent('/account/tagihan') ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+                            transition: 'all 0.25s ease',
+                        }}
+                    >
+                        <div
+                            className="rounded-circle d-flex align-items-center justify-content-center mb-1"
+                            style={{
+                                width: '38px',
+                                height: '38px',
+                                backgroundColor: isCurrent('/account/tagihan') ? 'rgba(255, 255, 255, 0.22)' : 'transparent',
+                                transform: isCurrent('/account/tagihan') ? 'scale(1.1) translateY(-2px)' : 'none',
+                                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                boxShadow: isCurrent('/account/tagihan') ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
+                            }}
+                        >
+                            <i className="fa fa-receipt" style={{ fontSize: '1.05rem' }}></i>
+                        </div>
+                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/account/tagihan') ? 700 : 500, letterSpacing: '0.02em' }}>
+                            Tagihan
+                        </span>
+                    </Link>
+
+                    {/* Item: e-KTA */}
+                    <Link
+                        href={auth && auth.user ? "/account/ekta" : "/login"}
+                        className="text-decoration-none text-center flex-fill d-flex flex-column align-items-center position-relative py-1 nav-dock-item"
+                        style={{
+                            color: isCurrent('/account/ekta') ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+                            transition: 'all 0.25s ease',
+                        }}
+                    >
+                        <div
+                            className="rounded-circle d-flex align-items-center justify-content-center mb-1"
+                            style={{
+                                width: '38px',
+                                height: '38px',
+                                backgroundColor: isCurrent('/account/ekta') ? 'rgba(255, 255, 255, 0.22)' : 'transparent',
+                                transform: isCurrent('/account/ekta') ? 'scale(1.1) translateY(-2px)' : 'none',
+                                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                boxShadow: isCurrent('/account/ekta') ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
+                            }}
+                        >
+                            <i className="fa fa-id-card" style={{ fontSize: '1.05rem' }}></i>
+                        </div>
+                        <span style={{ fontSize: '0.68rem', fontWeight: isCurrent('/account/ekta') ? 700 : 500, letterSpacing: '0.02em' }}>
+                            e-KTA
+                        </span>
+                    </Link>
+
+                    {/* Item: Akun / Dashboard */}
+                    <Link
+                        href={auth && auth.user ? "/account/dashboard" : "/login"}
+                        className="text-decoration-none text-center flex-fill d-flex flex-column align-items-center position-relative py-1 nav-dock-item"
+                        style={{
+                            color: isCurrent('/account/dashboard') || isCurrent('/login') ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+                            transition: 'all 0.25s ease',
+                        }}
+                    >
+                        <div
+                            className="rounded-circle d-flex align-items-center justify-content-center mb-1"
+                            style={{
+                                width: '38px',
+                                height: '38px',
+                                backgroundColor: (isCurrent('/account/dashboard') || isCurrent('/login')) ? 'rgba(255, 255, 255, 0.22)' : 'transparent',
+                                transform: (isCurrent('/account/dashboard') || isCurrent('/login')) ? 'scale(1.1) translateY(-2px)' : 'none',
+                                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                boxShadow: (isCurrent('/account/dashboard') || isCurrent('/login')) ? '0 4px 12px rgba(0, 0, 0, 0.25)' : 'none',
+                            }}
+                        >
+                            <i className="fa fa-user-circle" style={{ fontSize: '1.15rem' }}></i>
+                        </div>
+                        <span style={{ fontSize: '0.68rem', fontWeight: (isCurrent('/account/dashboard') || isCurrent('/login')) ? 700 : 500, letterSpacing: '0.02em' }}>
+                            {auth && auth.user ? "Akun" : "Masuk"}
+                        </span>
+                    </Link>
                 </div>
             </nav>
 
-            {/** modal */}
+            {/* Search Modal */}
             <div className="modal fade" id="search" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Search</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                        <div className="modal-header text-white" style={{ backgroundColor: '#064e3b' }}>
+                            <h6 className="modal-title fw-bold" id="exampleModalLabel">
+                                <i className="fa fa-search me-2"></i> Pencarian
+                            </h6>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body">
-                            <div className="input-group">
-                                <input type="text" className="form-control" onChange={((e) => searchHandler(e))} placeholder="search product here..." />
+                        <div className="modal-body p-4">
+                            <div className="position-relative mb-3">
+                                <input
+                                    type="text"
+                                    className="form-control rounded-3 py-2 ps-4"
+                                    value={searchQuery}
+                                    onChange={searchHandler}
+                                    placeholder="Cari layanan, kegiatan, produk..."
+                                    style={{ borderColor: '#cbd5e1' }}
+                                />
                             </div>
-                        </div>
-                        <div className="modal-body" style={{ height: '300px', overflow: 'auto' }}>
-                            {isLoading &&
-                                <div className="justify-content-center mb-3 text-center">
-                                    <div className="spinner-border text-success" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </div>
-                                    <h6 className="mt-2">Loading...</h6>
-                                </div>
-                            }
 
-                            {
-                                products.map((product, index) => (
-                                    <a href={`/products/${product.slug}`} className="text-decoration-none text-dark" key={index}>
-                                        <div className="card border-0 shadow-sm rounded-3 bg-light mb-3">
-                                            <div className="card-body">
-                                                {product.title}
-                                            </div>
+                            {isLoading && (
+                                <div className="text-center py-4">
+                                    <div className="spinner-border text-success spinner-border-sm" role="status"></div>
+                                    <p className="text-muted small mt-2 mb-0">Mencari data...</p>
+                                </div>
+                            )}
+
+                            <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
+                                {products.map((product, index) => (
+                                    <a href={`/products/${product.slug}`} className="text-decoration-none text-dark d-block mb-2" key={index}>
+                                        <div className="p-2.5 rounded-3 bg-light border hover-bg-emerald transition-all">
+                                            <div className="fw-semibold small">{product.title}</div>
                                         </div>
                                     </a>
-                                ))
-                            }
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <style jsx>{`
-                .custom-green-navbar {
-                    background: linear-gradient(135deg, #0d9669 0%, #0a7a5c 50%, #065f46 100%) !important;
-                    border-top: 1px solid rgba(255, 255, 255, 0.1);
+                .nav-dock-item:active {
+                    transform: scale(0.92);
                 }
-                
-                .nav-link {
-                    transition: all 0.3s ease;
-                    padding: 0.6rem 0.75rem !important;
-                    border-radius: 0.75rem;
-                    margin: 0.25rem;
-                    position: relative;
-                    overflow: hidden;
-                }
-                
-                .nav-link::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-                    transition: left 0.5s;
-                }
-                
-                .nav-link:hover::before {
-                    left: 100%;
-                }
-                
-                .nav-link:hover {
-                    background-color: rgba(255, 255, 255, 0.15) !important;
-                    transform: translateY(-3px);
-                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-                }
-                
-                .nav-link:active {
-                    background-color: rgba(255, 255, 255, 0.25) !important;
-                    transform: translateY(-1px);
-                }
-                
-                .menu-icon-wrapper {
-                    transition: all 0.3s ease;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 2.8rem;
-                    height: 2.8rem;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.1);
-                    backdrop-filter: blur(10px);
-                }
-                
-                .nav-link:hover .menu-icon-wrapper {
-                    background: rgba(255, 255, 255, 0.2);
-                    transform: scale(1.15);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                }
-                
-                .nav-item {
-                    flex: 1;
-                    text-align: center;
-                }
-                
-                .navbar-nav {
-                    display: flex;
-                    width: 100%;
-                    gap: 0.25rem;
-                }
-                
-                .small {
-                    font-size: 0.7rem;
-                    line-height: 1.2;
-                    font-weight: 500;
-                    margin-top: 0.3rem;
-                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-                }
-                
-                /* Memastikan posisi badge tetap */
-                .position-relative {
-                    position: relative;
-                }
-                
-                /* Untuk badge di cart */
-                .badge {
-                    font-size: 0.6rem;
-                    min-width: 1.2rem;
-                    height: 1.2rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 0 0.25rem;
-                    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
-                    border: 2px solid white;
-                }
-                
-                /* Active state untuk menu yang sedang aktif */
-                .nav-link.active {
-                    background-color: rgba(255, 255, 255, 0.2) !important;
-                }
-                
-                .nav-link.active .menu-icon-wrapper {
-                    background: rgba(255, 255, 255, 0.3);
-                    transform: scale(1.1);
+                .hover-bg-emerald:hover {
+                    background-color: #ecfdf5 !important;
+                    border-color: #a7f3d0 !important;
                 }
             `}</style>
         </>
-    )
+    );
 }
