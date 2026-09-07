@@ -797,17 +797,17 @@ h4 {
 }
 
 .table-custom thead th {
-  background-color: #0f172a !important;
+  background-color: #064e3b !important;
   color: #ffffff !important;
   font-size: 0.76rem !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   padding: 13px 16px !important;
-  border-bottom: 2px solid #0284c7 !important;
+  border-bottom: 3px solid #10b981 !important;
   border-top: none !important;
   border-left: none !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
   white-space: nowrap !important;
   vertical-align: middle !important;
 }

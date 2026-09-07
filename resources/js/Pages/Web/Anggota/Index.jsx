@@ -330,8 +330,16 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                 }}
                             >
                                 <div className="d-flex align-items-center gap-2.5">
-                                    <div className="rounded-circle p-1.5 bg-white bg-opacity-20 d-flex align-items-center justify-content-center">
-                                        <i className="fas fa-users text-white" style={{ fontSize: '0.95rem' }}></i>
+                                    <div
+                                        className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                                        style={{
+                                            width: '38px',
+                                            height: '38px',
+                                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                            border: '1px solid rgba(255, 255, 255, 0.35)',
+                                        }}
+                                    >
+                                        <i className="fas fa-users text-white" style={{ fontSize: '1rem', lineHeight: 1 }}></i>
                                     </div>
                                     <div>
                                         <div className="fw-bold text-white mb-0" style={{ fontSize: '0.98rem', letterSpacing: '-0.01em' }}>
@@ -369,11 +377,11 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                 <tr>
                                                     <th scope="col" style={{ width: "55px", textAlign: "center" }}>No</th>
                                                     <th scope="col" style={{ width: "70px", textAlign: "center" }}>Foto</th>
-                                                    <th scope="col" style={{ width: "140px" }}>No. Anggota</th>
-                                                    <th scope="col">Nama Lengkap</th>
-                                                    <th scope="col">Wilayah (DPW)</th>
-                                                    <th scope="col">Cabang (DPC)</th>
-                                                    <th scope="col" style={{ width: "140px", textAlign: "center" }}>Status SIP</th>
+                                                    <th scope="col" style={{ width: "135px" }}>No. Anggota</th>
+                                                    <th scope="col" style={{ minWidth: "200px" }}>Nama Lengkap</th>
+                                                    <th scope="col" style={{ minWidth: "160px" }}>Wilayah (DPW)</th>
+                                                    <th scope="col" style={{ minWidth: "170px" }}>Cabang (DPC)</th>
+                                                    <th scope="col" style={{ width: "135px", textAlign: "center" }}>Status SIP</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -423,14 +431,14 @@ export default function AnggotaIndex({ provinces, cities: allCities }) {
                                                                 )}
                                                             </td>
                                                             <td>
-                                                                <div className="d-flex align-items-center gap-1.5" style={{ fontSize: '0.84rem' }}>
-                                                                    <i className="fas fa-map-marked-alt text-danger opacity-75" style={{ fontSize: '0.8rem' }}></i>
+                                                                <div className="d-flex align-items-center gap-2" style={{ fontSize: '0.84rem' }}>
+                                                                    <i className="fas fa-map-marker-alt text-danger flex-shrink-0" style={{ fontSize: '0.9rem', width: '16px', textAlign: 'center' }}></i>
                                                                     <span className="fw-semibold text-dark">{anggota.province?.name || "-"}</span>
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <div className="d-flex align-items-center gap-1.5" style={{ fontSize: '0.84rem' }}>
-                                                                    <i className="fas fa-building text-info opacity-75" style={{ fontSize: '0.8rem' }}></i>
+                                                                <div className="d-flex align-items-center gap-2" style={{ fontSize: '0.84rem' }}>
+                                                                    <i className="fas fa-building text-info flex-shrink-0" style={{ fontSize: '0.9rem', width: '16px', textAlign: 'center' }}></i>
                                                                     <span className="text-dark">
                                                                         {!anggota.city || anggota.city === 0
                                                                             ? "-"
