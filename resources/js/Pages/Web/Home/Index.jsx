@@ -107,7 +107,7 @@ export default function HomeIndex() {
                 <title>IKATWI - Ikatan Terapis Wicara Indonesia</title>
             </Head>
             <LayoutWeb>
-                <div className="home-wrapper" style={{ paddingTop: '82px', paddingBottom: '70px', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+                <div className="home-wrapper" style={{ paddingTop: '82px', paddingBottom: '70px', minHeight: '100vh', backgroundColor: '#f1f5f9' }}>
                     <div className="container" style={{ maxWidth: '960px' }}>
                         
                         {/* 1. Slider / Hero Banner */}
@@ -270,54 +270,54 @@ export default function HomeIndex() {
                                 <div className="row g-2 mt-2">
                                     <div className="col-6 col-md-3">
                                         <div
-                                            className="p-2.5 rounded-3 bg-white border shadow-sm text-center d-flex flex-column align-items-center justify-content-center"
-                                            style={{ borderColor: '#e2e8f0', minHeight: '68px' }}
+                                            className="p-2.5 rounded-3 bg-white text-center d-flex flex-column align-items-center justify-content-center"
+                                            style={{ border: '1.5px solid #cbd5e1', boxShadow: '0 4px 12px -2px rgba(0,0,0,0.05)', minHeight: '70px' }}
                                         >
                                             <div className="d-flex align-items-center gap-1.5 mb-0.5">
-                                                <i className="fas fa-user-md text-primary" style={{ fontSize: '0.9rem' }}></i>
-                                                <span className="fw-bold" style={{ fontSize: '0.82rem', color: '#1e293b' }}>Terapis</span>
+                                                <i className="fas fa-user-md text-primary" style={{ fontSize: '0.95rem' }}></i>
+                                                <span className="fw-bold" style={{ fontSize: '0.84rem', color: '#0f172a' }}>Terapis</span>
                                             </div>
-                                            <span className="text-muted" style={{ fontSize: '0.7rem' }}>Profesi Resmi</span>
+                                            <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 500 }}>Profesi Resmi</span>
                                         </div>
                                     </div>
                                     <div className="col-6 col-md-3">
                                         <div
-                                            className="p-2.5 rounded-3 bg-white border shadow-sm text-center d-flex flex-column align-items-center justify-content-center"
-                                            style={{ borderColor: '#e2e8f0', minHeight: '68px' }}
+                                            className="p-2.5 rounded-3 bg-white text-center d-flex flex-column align-items-center justify-content-center"
+                                            style={{ border: '1.5px solid #cbd5e1', boxShadow: '0 4px 12px -2px rgba(0,0,0,0.05)', minHeight: '70px' }}
                                         >
                                             <div className="d-flex align-items-center gap-1.5 mb-0.5">
-                                                <i className="fas fa-check-circle text-success" style={{ fontSize: '0.9rem' }}></i>
-                                                <span className="fw-bold" style={{ fontSize: '0.82rem', color: '#1e293b' }}>
+                                                <i className="fas fa-check-circle text-success" style={{ fontSize: '0.95rem' }}></i>
+                                                <span className="fw-bold" style={{ fontSize: '0.84rem', color: '#0f172a' }}>
                                                     {auth.user.confirm === 'true' ? 'Terverifikasi' : 'Proses'}
                                                 </span>
                                             </div>
-                                            <span className="text-muted" style={{ fontSize: '0.7rem' }}>Status Berkas</span>
+                                            <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 500 }}>Status Berkas</span>
                                         </div>
                                     </div>
                                     <div className="col-6 col-md-3">
                                         <Link
                                             href="/account/tagihan"
-                                            className="p-2.5 rounded-3 bg-white border shadow-sm text-center d-flex flex-column align-items-center justify-content-center text-decoration-none"
-                                            style={{ borderColor: '#e2e8f0', minHeight: '68px', transition: 'all 0.2s' }}
+                                            className="p-2.5 rounded-3 bg-white text-center d-flex flex-column align-items-center justify-content-center text-decoration-none quick-stat-btn"
+                                            style={{ border: '1.5px solid #cbd5e1', boxShadow: '0 4px 12px -2px rgba(0,0,0,0.05)', minHeight: '70px', transition: 'all 0.2s ease' }}
                                         >
                                             <div className="d-flex align-items-center gap-1.5 mb-0.5">
-                                                <i className="fas fa-file-invoice-dollar text-warning" style={{ fontSize: '0.9rem' }}></i>
-                                                <span className="fw-bold text-dark" style={{ fontSize: '0.82rem' }}>Iuran 2026</span>
+                                                <i className="fas fa-file-invoice-dollar text-warning" style={{ fontSize: '0.95rem' }}></i>
+                                                <span className="fw-bold" style={{ fontSize: '0.84rem', color: '#0f172a' }}>Iuran 2026</span>
                                             </div>
-                                            <span className="text-primary fw-semibold" style={{ fontSize: '0.7rem' }}>Cek Tagihan →</span>
+                                            <span className="fw-semibold" style={{ fontSize: '0.72rem', color: '#059669' }}>Cek Tagihan →</span>
                                         </Link>
                                     </div>
                                     <div className="col-6 col-md-3">
                                         <Link
                                             href="/account/dashboard"
-                                            className="p-2.5 rounded-3 bg-white border shadow-sm text-center d-flex flex-column align-items-center justify-content-center text-decoration-none"
-                                            style={{ borderColor: '#e2e8f0', minHeight: '68px', transition: 'all 0.2s' }}
+                                            className="p-2.5 rounded-3 bg-white text-center d-flex flex-column align-items-center justify-content-center text-decoration-none quick-stat-btn"
+                                            style={{ border: '1.5px solid #cbd5e1', boxShadow: '0 4px 12px -2px rgba(0,0,0,0.05)', minHeight: '70px', transition: 'all 0.2s ease' }}
                                         >
                                             <div className="d-flex align-items-center gap-1.5 mb-0.5">
-                                                <i className="fas fa-chart-pie text-info" style={{ fontSize: '0.9rem' }}></i>
-                                                <span className="fw-bold text-dark" style={{ fontSize: '0.82rem' }}>Dashboard</span>
+                                                <i className="fas fa-chart-pie text-info" style={{ fontSize: '0.95rem' }}></i>
+                                                <span className="fw-bold" style={{ fontSize: '0.84rem', color: '#0f172a' }}>Dashboard</span>
                                             </div>
-                                            <span className="text-primary fw-semibold" style={{ fontSize: '0.7rem' }}>Buka Panel →</span>
+                                            <span className="fw-semibold" style={{ fontSize: '0.72rem', color: '#059669' }}>Buka Panel →</span>
                                         </Link>
                                     </div>
                                 </div>
@@ -353,15 +353,15 @@ export default function HomeIndex() {
                         <div className="mb-4">
                             <div className="d-flex justify-content-between align-items-center mb-3 px-1">
                                 <div>
-                                    <h5 className="fw-bold mb-0 text-dark" style={{ letterSpacing: '-0.02em', fontSize: '1.08rem' }}>
+                                    <h5 className="fw-bold mb-0" style={{ color: '#0f172a', letterSpacing: '-0.02em', fontSize: '1.12rem' }}>
                                         <i className="fas fa-th-large text-success me-2"></i>
                                         Menu Utama
                                     </h5>
-                                    <span className="text-muted small" style={{ fontSize: '0.76rem' }}>
+                                    <span style={{ color: '#475569', fontSize: '0.8rem', fontWeight: 500 }}>
                                         Akses cepat layanan & informasi resmi organisasi
                                     </span>
                                 </div>
-                                <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0', fontSize: '0.74rem', fontWeight: 600 }}>
+                                <span className="badge px-3 py-1.5 rounded-pill shadow-sm" style={{ backgroundColor: '#ecfdf5', color: '#047857', border: '1.5px solid #a7f3d0', fontSize: '0.78rem', fontWeight: 700 }}>
                                     <i className="fas fa-bolt me-1 text-warning"></i> 8 Layanan
                                 </span>
                             </div>
@@ -371,26 +371,29 @@ export default function HomeIndex() {
                                 {menuItems.map((item, index) => {
                                     const CardContent = (
                                         <div
-                                            className="app-3d-card card border-0 p-2.5 p-sm-3 text-center h-100 position-relative overflow-hidden d-flex flex-column align-items-center justify-content-center"
+                                            className="app-3d-card card text-center h-100 position-relative overflow-hidden d-flex flex-column align-items-center justify-content-center"
                                             style={{
-                                                borderRadius: '18px',
+                                                borderRadius: '20px',
                                                 backgroundColor: '#ffffff',
-                                                border: '1px solid #e2e8f0',
-                                                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)',
+                                                border: '1.5px solid #cbd5e1',
+                                                boxShadow: '0 6px 18px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04)',
                                                 transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                                minHeight: '112px',
+                                                minHeight: '124px',
+                                                padding: '14px 10px',
                                             }}
                                         >
                                             {/* Top Badge */}
                                             {item.badge && (
                                                 <div
-                                                    className="position-absolute top-0 end-0 m-1.5 badge rounded-pill"
+                                                    className="position-absolute top-0 end-0 m-2 badge rounded-pill shadow-sm"
                                                     style={{
-                                                        backgroundColor: item.badge === 'Agenda' ? '#f59e0b' : '#0284c7',
+                                                        backgroundColor: item.badge === 'Agenda' ? '#f59e0b' : item.badge === 'Kemkes' ? '#059669' : '#0284c7',
                                                         color: '#ffffff',
-                                                        fontSize: '0.58rem',
-                                                        fontWeight: 700,
-                                                        padding: '2px 6px',
+                                                        fontSize: '0.62rem',
+                                                        fontWeight: 800,
+                                                        letterSpacing: '0.03em',
+                                                        padding: '3px 7px',
+                                                        border: '1px solid rgba(255,255,255,0.4)',
                                                     }}
                                                 >
                                                     {item.badge}
@@ -399,26 +402,26 @@ export default function HomeIndex() {
 
                                             {/* 3D Squircle Icon Container */}
                                             <div
-                                                className="app-3d-icon d-flex align-items-center justify-content-center mb-2"
+                                                className="app-3d-icon d-flex align-items-center justify-content-center mb-2.5"
                                                 style={{
-                                                    width: '48px',
-                                                    height: '48px',
-                                                    borderRadius: '14px',
+                                                    width: '54px',
+                                                    height: '54px',
+                                                    borderRadius: '16px',
                                                     background: item.gradient,
-                                                    boxShadow: `0 8px 18px -4px ${item.shadowColor}, inset 0 1px 1px rgba(255,255,255,0.4)`,
+                                                    boxShadow: `0 8px 20px -3px ${item.shadowColor}, inset 0 1px 1px rgba(255,255,255,0.5)`,
                                                     color: '#ffffff',
-                                                    fontSize: '1.25rem',
-                                                    transition: 'all 0.25s ease',
+                                                    fontSize: '1.35rem',
+                                                    transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
                                                 }}
                                             >
                                                 <i className={item.icon}></i>
                                             </div>
 
                                             {/* Label */}
-                                            <div className="fw-bold text-dark text-truncate w-100" style={{ fontSize: '0.82rem', lineHeight: 1.2 }}>
+                                            <div className="card-item-title fw-bold text-truncate w-100" style={{ fontSize: '0.88rem', color: '#0f172a', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
                                                 {item.name}
                                             </div>
-                                            <div className="text-muted small text-truncate w-100 mt-0.5" style={{ fontSize: '0.67rem' }}>
+                                            <div className="card-item-subtitle text-truncate w-100 mt-0.5" style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 500 }}>
                                                 {item.subtitle}
                                             </div>
                                         </div>
@@ -592,18 +595,28 @@ export default function HomeIndex() {
                     box-shadow: 0 20px 44px -10px rgba(5, 150, 105, 0.45) !important;
                 }
 
+                .quick-stat-btn:hover {
+                    transform: translateY(-2px);
+                    border-color: #059669 !important;
+                    box-shadow: 0 8px 18px -2px rgba(5, 150, 105, 0.15) !important;
+                }
+
                 .app-3d-card:hover {
-                    transform: translateY(-4px);
-                    box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08) !important;
-                    border-color: #cbd5e1 !important;
+                    transform: translateY(-5px) scale(1.02);
+                    box-shadow: 0 16px 30px -6px rgba(5, 150, 105, 0.22), 0 4px 10px -2px rgba(0, 0, 0, 0.05) !important;
+                    border-color: #059669 !important;
+                }
+
+                .app-3d-card:hover .card-item-title {
+                    color: #047857 !important;
                 }
 
                 .app-3d-card:hover .app-3d-icon {
-                    transform: scale(1.08) rotate(3deg);
+                    transform: scale(1.1) translateY(-2px) rotate(3deg);
                 }
 
                 .app-3d-card:active {
-                    transform: scale(0.95);
+                    transform: scale(0.96);
                 }
             `}</style>
         </>
