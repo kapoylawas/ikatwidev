@@ -350,7 +350,7 @@ export default function HomeIndex() {
                         )}
 
                         {/* 3. Section: 3D App Menu Utama (Squircle App Grid) */}
-                        <div className="mb-4">
+                        <div className="mb-4 mt-3 mt-sm-4 pt-1">
                             <div className="d-flex justify-content-between align-items-center mb-3 px-1">
                                 <div>
                                     <h5 className="fw-bold mb-0" style={{ color: '#0f172a', letterSpacing: '-0.02em', fontSize: '1.12rem' }}>
@@ -366,8 +366,8 @@ export default function HomeIndex() {
                                 </span>
                             </div>
 
-                            {/* 3D App Grid: 2 columns on mobile, 4 columns on desktop */}
-                            <div className="row g-2.5 g-sm-3">
+                            {/* 3D App Grid: 2 columns on mobile, 4 columns on desktop with generous spacing */}
+                            <div className="row gx-2.5 gy-3 gx-sm-3 gy-sm-3.5">
                                 {menuItems.map((item, index) => {
                                     const CardContent = (
                                         <div
@@ -378,8 +378,8 @@ export default function HomeIndex() {
                                                 border: '1.5px solid #cbd5e1',
                                                 boxShadow: '0 6px 18px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04)',
                                                 transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                                minHeight: '124px',
-                                                padding: '16px 12px',
+                                                minHeight: '136px',
+                                                padding: '24px 14px 18px 14px',
                                             }}
                                         >
                                             {/* Top Badge */}
@@ -402,7 +402,7 @@ export default function HomeIndex() {
 
                                             {/* 3D Squircle Icon Container */}
                                             <div
-                                                className="app-3d-icon d-flex align-items-center justify-content-center mb-2.5"
+                                                className="app-3d-icon d-flex align-items-center justify-content-center mb-2.5 mt-1"
                                                 style={{
                                                     width: '52px',
                                                     height: '52px',
