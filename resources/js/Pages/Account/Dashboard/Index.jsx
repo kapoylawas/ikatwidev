@@ -753,12 +753,14 @@ export default function Dashboard() {
                                     </div>
                                     <div>
                                         <span className="badge bg-warning text-dark px-3 py-1 rounded-pill small fw-bold">
-                                            {activeDue?.hasMultipleDues ? "PEMBERITAHUAN TUNGGAKAN IURAN" : "PEMBERITAHUAN TAGIHAN"}
+                                            {activeDue?.hasMultipleDues || (activeDue?.tahun && parseInt(activeDue.tahun) < parseInt(currentYear)) ? "PEMBERITAHUAN TUNGGAKAN IURAN" : "PEMBERITAHUAN TAGIHAN"}
                                         </span>
                                         <h4 className="fw-bold mb-0 mt-1">
                                             {activeDue?.hasMultipleDues
                                                 ? `Tunggakan Iuran (${activeDue.unpaidYears?.length} Tahun: ${activeDue.unpaidYears?.join(", ")})`
-                                                : `Iuran Anggota ${activeDue.tahun}`}
+                                                : parseInt(activeDue?.tahun) < parseInt(currentYear)
+                                                    ? `Tunggakan Iuran Anggota Tahun ${activeDue.tahun}`
+                                                    : `Iuran Anggota ${activeDue.tahun}`}
                                         </h4>
                                     </div>
                                 </div>
@@ -768,7 +770,9 @@ export default function Dashboard() {
                                 <p className="text-muted mb-3">
                                     Halo <strong>{auth.user?.name}</strong>, {activeDue?.hasMultipleDues
                                         ? `Anda memiliki akumulasi tunggakan iuran anggota IKATWI untuk Tahun ${activeDue.unpaidYears?.join(", ")} yang belum diselesaikan.`
-                                        : `Anda memiliki tagihan iuran anggota IKATWI untuk periode tahun berjalan (${activeDue.tahun}) yang belum diselesaikan.`}
+                                        : parseInt(activeDue?.tahun) < parseInt(currentYear)
+                                            ? `Anda memiliki tunggakan iuran anggota IKATWI untuk Tahun ${activeDue.tahun} yang belum diselesaikan.`
+                                            : `Anda memiliki tagihan iuran anggota IKATWI untuk periode tahun berjalan (${activeDue.tahun}) yang belum diselesaikan.`}
                                 </p>
 
                                 <div className="p-3 rounded-3 mb-4 border" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
@@ -777,7 +781,9 @@ export default function Dashboard() {
                                         <strong className="text-dark">
                                             {activeDue?.hasMultipleDues
                                                 ? `Tunggakan Iuran (${activeDue.unpaidYears?.length} Tahun)`
-                                                : `Iuran Tahunan ${activeDue.tahun}`}
+                                                : parseInt(activeDue?.tahun) < parseInt(currentYear)
+                                                    ? `Tunggakan Iuran ${activeDue.tahun}`
+                                                    : `Iuran Tahunan ${activeDue.tahun}`}
                                         </strong>
                                     </div>
                                     <div className="d-flex justify-content-between align-items-center mb-2">
@@ -877,16 +883,18 @@ export default function Dashboard() {
                                         <div>
                                             <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
                                                 <span className="badge bg-warning text-dark fw-bold px-2 py-1 rounded-pill small">
-                                                    <i className="fa fa-exclamation-circle me-1"></i> {activeDue?.hasMultipleDues ? "TUNGGAKAN IURAN" : "TAGIHAN IURAN"}
+                                                    <i className="fa fa-exclamation-circle me-1"></i> {activeDue?.hasMultipleDues || (activeDue?.tahun && parseInt(activeDue.tahun) < parseInt(currentYear)) ? "TUNGGAKAN IURAN" : "TAGIHAN IURAN"}
                                                 </span>
                                                 <span className="badge bg-light text-secondary border px-2 py-1 rounded-pill small">
-                                                    {activeDue?.hasMultipleDues ? `Tahun ${activeDue.unpaidYears?.join(", ")}` : `Periode ${activeDue.tahun}`}
+                                                    {activeDue?.hasMultipleDues ? `Tahun ${activeDue.unpaidYears?.join(", ")}` : `Periode ${activeDue?.tahun}`}
                                                 </span>
                                             </div>
                                             <h5 className="fw-bold mb-1 text-dark">
                                                 {activeDue?.hasMultipleDues
                                                     ? `Akumulasi Tunggakan Iuran (${activeDue.unpaidYears?.length} Tahun: ${activeDue.unpaidYears?.join(", ")})`
-                                                    : `Iuran Tahunan Anggota Tahun ${activeDue.tahun}`}
+                                                    : parseInt(activeDue?.tahun) < parseInt(currentYear)
+                                                        ? `Tunggakan Iuran Anggota Tahun ${activeDue.tahun}`
+                                                        : `Iuran Tahunan Anggota Tahun ${activeDue.tahun}`}
                                             </h5>
                                             <p className="mb-0 text-muted small">
                                                 Status: <strong className={activeDue.status === "UNPAID_PENDING" ? "text-warning" : "text-danger"}>

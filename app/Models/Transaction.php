@@ -125,9 +125,19 @@ class Transaction extends Model
             return [];
         }
 
-        // Determine registration start year (default minimal from 2024 up to currentYear)
-        $registeredYear = $user->created_at ? (int) \Carbon\Carbon::parse($user->created_at)->format('Y') : $currentYear;
-        $startYear = max(2024, min($registeredYear, $currentYear));
+        // Tentukan tahun awal kewajiban iuran:
+        // Jika anggota sudah pernah membayar iuran, kewajibannya dimulai dari tahun transaksi pertamanya (mencegah penagihan tahun sebelum resmi aktif)
+        $firstPaidYear = self::where('user_id', $user->id)
+            ->where('status', 'PAID')
+            ->whereNotNull('tahun')
+            ->min('tahun');
+
+        if ($firstPaidYear) {
+            $startYear = (int) $firstPaidYear;
+        } else {
+            $registeredYear = $user->created_at ? (int) \Carbon\Carbon::parse($user->created_at)->format('Y') : $currentYear;
+            $startYear = max(2024, min($registeredYear, $currentYear));
+        }
 
         $unpaidYears = [];
         for ($y = $startYear; $y <= $currentYear; $y++) {

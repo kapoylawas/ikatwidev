@@ -176,18 +176,30 @@ class DashboardController extends Controller
         $isAnggotaKehormatan = $currentUser->status_anggota === 'Anggota Kehormatan';
         $currentYearDue = (int) date('Y');
 
+        $annualAmount = ($currentUser->status_anggota === 'Anggota Baru' || $currentUser->status_anggota === 'Anggota Muda') ? 100000 : 300000;
+
+        // Multi-year unpaid dues calculation (tunggakan masa lalu + tahun berjalan)
+        $unpaidYears = Transaction::getUnpaidYears($currentUser);
+        $hasUnpaidDue = count($unpaidYears) > 0;
+        $totalArrears = count($unpaidYears) * $annualAmount;
+
+        // Tentukan tahun tagihan utama (jika ada tunggakan masa lalu, fokuskan ke tahun yang belum dibayar)
+        $targetYear = $hasUnpaidDue ? $unpaidYears[0] : $currentYearDue;
+
         $currentTx = Transaction::where('user_id', $currentUser->id)
-            ->where('tahun', $currentYearDue)
+            ->where('tahun', $targetYear)
             ->latest()
             ->first();
 
         $currentCart = \App\Models\Cart::where('user_id', $currentUser->id)
-            ->where('tahun', $currentYearDue)
+            ->where('tahun', $targetYear)
             ->first();
 
         $dueStatus = 'UNPAID_NO_CART';
         if ($isAnggotaKehormatan) {
             $dueStatus = 'EXEMPT';
+        } elseif (!$hasUnpaidDue) {
+            $dueStatus = 'PAID';
         } elseif ($currentTx && $currentTx->status === 'PAID') {
             $dueStatus = 'PAID';
         } elseif ($currentTx && $currentTx->status === 'UNPAID') {
@@ -198,15 +210,8 @@ class DashboardController extends Controller
             $dueStatus = 'EXPIRED';
         }
 
-        $annualAmount = ($currentUser->status_anggota === 'Anggota Baru' || $currentUser->status_anggota === 'Anggota Muda') ? 100000 : 300000;
-
-        // Multi-year unpaid dues calculation (tunggakan masa lalu + tahun berjalan)
-        $unpaidYears = Transaction::getUnpaidYears($currentUser);
-        $hasUnpaidDue = count($unpaidYears) > 0;
-        $totalArrears = count($unpaidYears) * $annualAmount;
-
         $activeDue = [
-            'tahun'               => $currentYearDue,
+            'tahun'               => $targetYear,
             'amount'              => $hasUnpaidDue && count($unpaidYears) > 1 ? $totalArrears : $annualAmount,
             'annualAmount'        => $annualAmount,
             'totalArrears'        => $totalArrears,
