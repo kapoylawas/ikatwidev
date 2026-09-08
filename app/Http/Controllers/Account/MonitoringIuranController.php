@@ -144,6 +144,16 @@ class MonitoringIuranController extends Controller
             $unpaidYears = [];
             $paidYears = [];
 
+            // Tentukan tahun awal kewajiban iuran:
+            // Jika sudah pernah bayar iuran, mulai dari tahun transaksi PAID pertamanya
+            $firstPaidYear = $user->transactions->where('status', 'PAID')->pluck('tahun')->filter()->min();
+            if ($firstPaidYear) {
+                $startYear = (int) $firstPaidYear;
+            } else {
+                $registeredYear = $user->created_at ? (int) \Carbon\Carbon::parse($user->created_at)->format('Y') : $currentYear;
+                $startYear = max(2024, min($registeredYear, $currentYear));
+            }
+
             foreach ($availableYears as $yr) {
                 $tx = $user->transactions->first(function ($t) use ($yr) {
                     return (int) $t->tahun === (int) $yr ||
@@ -163,6 +173,9 @@ class MonitoringIuranController extends Controller
                     $yrPaidAt = $tx->getRawOriginal('created_at') ? \Carbon\Carbon::parse($tx->getRawOriginal('created_at'))->format('d/m/Y') : ($tx->created_at ?: null);
                     $yrAmount = $tx->grand_total;
                     $paidYears[] = $yr;
+                } elseif ($yr < $startYear) {
+                    // Belum menjadi anggota aktif pembayar iuran pada tahun tersebut
+                    $yrStatus = 'NOT_MEMBER';
                 } elseif ($tx && $tx->status === 'UNPAID') {
                     $yrStatus = 'UNPAID_PENDING';
                     $yrInvoice = $tx->invoice;
@@ -174,6 +187,7 @@ class MonitoringIuranController extends Controller
                 $yearlyStatus[] = [
                     'tahun'          => $yr,
                     'is_paid'        => $isYrPaid,
+                    'is_exempt'      => ($yr < $startYear),
                     'payment_status' => $yrStatus,
                     'invoice'        => $yrInvoice,
                     'paid_at'        => $yrPaidAt,

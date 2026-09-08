@@ -138,6 +138,14 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $unpaidList = [];
         $yearlyValues = [];
 
+        $firstPaidYear = $user->transactions->where('status', 'PAID')->pluck('tahun')->filter()->min();
+        if ($firstPaidYear) {
+            $startYear = (int) $firstPaidYear;
+        } else {
+            $registeredYear = $user->created_at ? (int) \Carbon\Carbon::parse($user->created_at)->format('Y') : date('Y');
+            $startYear = max(2024, min($registeredYear, (int) date('Y')));
+        }
+
         foreach ($this->years as $yr) {
             $tx = $user->transactions->first(function ($t) use ($yr) {
                 return (int) $t->tahun === (int) $yr ||
@@ -146,6 +154,8 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
 
             if ($tx && $tx->status === 'PAID') {
                 $yearlyValues[] = "LUNAS (Rp " . number_format($tx->grand_total, 0, ',', '.') . ")";
+            } elseif ($yr < $startYear) {
+                $yearlyValues[] = "-"; // Belum Menjadi Anggota
             } elseif ($tx && $tx->status === 'UNPAID') {
                 $yearlyValues[] = "PENDING ({$tx->invoice})";
                 $unpaidList[] = $yr;

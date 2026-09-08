@@ -563,12 +563,15 @@ export default function MonitoringIuranIndex() {
                                                         <div className="yearly-badges-wrapper d-flex flex-wrap align-items-center" style={{ gap: '8px 10px' }}>
                                                             {item.yearly_status && item.yearly_status.map((yrData) => {
                                                                 const isFocus = String(tahun) === String(yrData.tahun);
+                                                                const isExempt = yrData.payment_status === "NOT_MEMBER" || yrData.is_exempt;
                                                                 return (
                                                                     <span
                                                                         key={yrData.tahun}
                                                                         className={`yearly-badge ${
                                                                             yrData.is_paid
                                                                                 ? "yearly-paid"
+                                                                                : isExempt
+                                                                                ? "yearly-exempt"
                                                                                 : yrData.payment_status === "UNPAID_PENDING"
                                                                                 ? "yearly-pending"
                                                                                 : "yearly-unpaid"
@@ -577,6 +580,8 @@ export default function MonitoringIuranIndex() {
                                                                         title={
                                                                             yrData.is_paid
                                                                                 ? `Tahun ${yrData.tahun}: Lunas (${FormatPrice(yrData.amount)})`
+                                                                                : isExempt
+                                                                                ? `Tahun ${yrData.tahun}: Belum menjadi anggota`
                                                                                 : `Tahun ${yrData.tahun}: Belum Bayar`
                                                                         }
                                                                     >
@@ -584,6 +589,10 @@ export default function MonitoringIuranIndex() {
                                                                         {yrData.is_paid ? (
                                                                             <span className="d-inline-flex align-items-center">
                                                                                 <i className="fa fa-check-circle me-1 text-success"></i> Lunas
+                                                                            </span>
+                                                                        ) : isExempt ? (
+                                                                            <span className="d-inline-flex align-items-center text-muted">
+                                                                                <i className="fa fa-minus me-1 text-secondary"></i> -
                                                                             </span>
                                                                         ) : yrData.payment_status === "UNPAID_PENDING" ? (
                                                                             <span className="d-inline-flex align-items-center">
@@ -764,87 +773,112 @@ export default function MonitoringIuranIndex() {
                                 </div>
 
                                 <div className="row g-3">
-                                    {activeUserDetail.yearly_status && activeUserDetail.yearly_status.map((yr) => (
-                                        <div key={yr.tahun} className="col-12 col-md-4">
-                                            <div
-                                                className="p-3 rounded-3 h-100 d-flex flex-column justify-content-between"
-                                                style={{
-                                                    backgroundColor: yr.is_paid ? '#f0fdf4' : yr.payment_status === 'UNPAID_PENDING' ? '#eff6ff' : '#fef2f2',
-                                                    border: `1.5px solid ${yr.is_paid ? '#86efac' : yr.payment_status === 'UNPAID_PENDING' ? '#93c5fd' : '#fca5a5'}`
-                                                }}
-                                            >
-                                                <div>
-                                                    <div className="d-flex justify-content-between align-items-center mb-2.5">
-                                                        <span className="fw-bold text-dark" style={{ fontSize: '0.92rem' }}>
-                                                            Tahun {yr.tahun}
-                                                        </span>
-                                                        {yr.is_paid ? (
-                                                            <span
-                                                                className="badge"
-                                                                style={{
-                                                                    backgroundColor: '#059669',
-                                                                    color: '#ffffff',
-                                                                    fontSize: '0.72rem',
-                                                                    fontWeight: 700,
-                                                                    padding: '4px 8px',
-                                                                    borderRadius: '6px'
-                                                                }}
-                                                            >
-                                                                <i className="fa fa-check-circle me-1"></i> LUNAS
+                                    {activeUserDetail.yearly_status && activeUserDetail.yearly_status.map((yr) => {
+                                        const isExempt = yr.payment_status === 'NOT_MEMBER' || yr.is_exempt;
+                                        return (
+                                            <div key={yr.tahun} className="col-12 col-md-4">
+                                                <div
+                                                    className="p-3 rounded-3 h-100 d-flex flex-column justify-content-between"
+                                                    style={{
+                                                        backgroundColor: yr.is_paid ? '#f0fdf4' : isExempt ? '#f8fafc' : yr.payment_status === 'UNPAID_PENDING' ? '#eff6ff' : '#fef2f2',
+                                                        border: `1.5px solid ${yr.is_paid ? '#86efac' : isExempt ? '#e2e8f0' : yr.payment_status === 'UNPAID_PENDING' ? '#93c5fd' : '#fca5a5'}`
+                                                    }}
+                                                >
+                                                    <div>
+                                                        <div className="d-flex justify-content-between align-items-center mb-2.5">
+                                                            <span className="fw-bold text-dark" style={{ fontSize: '0.92rem' }}>
+                                                                Tahun {yr.tahun}
                                                             </span>
-                                                        ) : yr.payment_status === 'UNPAID_PENDING' ? (
-                                                            <span
-                                                                className="badge"
-                                                                style={{
-                                                                    backgroundColor: '#2563eb',
-                                                                    color: '#ffffff',
-                                                                    fontSize: '0.72rem',
-                                                                    fontWeight: 700,
-                                                                    padding: '4px 8px',
-                                                                    borderRadius: '6px'
-                                                                }}
-                                                            >
-                                                                <i className="fa fa-hourglass-half me-1"></i> PENDING
-                                                            </span>
-                                                        ) : (
-                                                            <span
-                                                                className="badge"
-                                                                style={{
-                                                                    backgroundColor: '#dc2626',
-                                                                    color: '#ffffff',
-                                                                    fontSize: '0.72rem',
-                                                                    fontWeight: 700,
-                                                                    padding: '4px 8px',
-                                                                    borderRadius: '6px'
-                                                                }}
-                                                            >
-                                                                <i className="fa fa-times-circle me-1"></i> BELUM BAYAR
-                                                            </span>
-                                                        )}
-                                                    </div>
+                                                            {yr.is_paid ? (
+                                                                <span
+                                                                    className="badge"
+                                                                    style={{
+                                                                        backgroundColor: '#059669',
+                                                                        color: '#ffffff',
+                                                                        fontSize: '0.72rem',
+                                                                        fontWeight: 700,
+                                                                        padding: '4px 8px',
+                                                                        borderRadius: '6px'
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-check-circle me-1"></i> LUNAS
+                                                                </span>
+                                                            ) : isExempt ? (
+                                                                <span
+                                                                    className="badge"
+                                                                    style={{
+                                                                        backgroundColor: '#64748b',
+                                                                        color: '#ffffff',
+                                                                        fontSize: '0.72rem',
+                                                                        fontWeight: 700,
+                                                                        padding: '4px 8px',
+                                                                        borderRadius: '6px'
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-minus me-1"></i> BELUM ANGGOTA
+                                                                </span>
+                                                            ) : yr.payment_status === 'UNPAID_PENDING' ? (
+                                                                <span
+                                                                    className="badge"
+                                                                    style={{
+                                                                        backgroundColor: '#2563eb',
+                                                                        color: '#ffffff',
+                                                                        fontSize: '0.72rem',
+                                                                        fontWeight: 700,
+                                                                        padding: '4px 8px',
+                                                                        borderRadius: '6px'
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-hourglass-half me-1"></i> PENDING
+                                                                </span>
+                                                            ) : (
+                                                                <span
+                                                                    className="badge"
+                                                                    style={{
+                                                                        backgroundColor: '#dc2626',
+                                                                        color: '#ffffff',
+                                                                        fontSize: '0.72rem',
+                                                                        fontWeight: 700,
+                                                                        padding: '4px 8px',
+                                                                        borderRadius: '6px'
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-times-circle me-1"></i> BELUM BAYAR
+                                                                </span>
+                                                            )}
+                                                        </div>
 
-                                                    <div className="small mb-2" style={{ fontSize: '0.8rem' }}>
-                                                        {yr.is_paid ? (
-                                                            <>
-                                                                <div className="text-secondary mb-1">
-                                                                    Nominal: <strong className="text-dark">{FormatPrice(yr.amount)}</strong>
-                                                                </div>
-                                                                <div className="text-secondary">
-                                                                    Tgl Bayar: <strong className="text-dark">{yr.paid_at || "-"}</strong>
-                                                                </div>
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <div className="text-secondary mb-1">
-                                                                    Tagihan: <strong className="text-danger">{FormatPrice(yr.amount)}</strong>
-                                                                </div>
-                                                                <div className="text-danger" style={{ fontSize: '0.74rem' }}>
-                                                                    <i className="fa fa-exclamation-circle me-1"></i>Belum ada pembayaran
-                                                                </div>
-                                                            </>
-                                                        )}
+                                                        <div className="small mb-2" style={{ fontSize: '0.8rem' }}>
+                                                            {yr.is_paid ? (
+                                                                <>
+                                                                    <div className="text-secondary mb-1">
+                                                                        Nominal: <strong className="text-dark">{FormatPrice(yr.amount)}</strong>
+                                                                    </div>
+                                                                    <div className="text-secondary">
+                                                                        Tgl Bayar: <strong className="text-dark">{yr.paid_at || "-"}</strong>
+                                                                    </div>
+                                                                </>
+                                                            ) : isExempt ? (
+                                                                <>
+                                                                    <div className="text-muted mb-1" style={{ fontSize: '0.78rem' }}>
+                                                                        Keterangan: <strong className="text-secondary">Bebas Iuran</strong>
+                                                                    </div>
+                                                                    <div className="text-muted" style={{ fontSize: '0.74rem' }}>
+                                                                        <i className="fa fa-info-circle me-1"></i>Tahun sebelum resmi terdaftar
+                                                                    </div>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <div className="text-secondary mb-1">
+                                                                        Tagihan: <strong className="text-danger">{FormatPrice(yr.amount)}</strong>
+                                                                    </div>
+                                                                    <div className="text-danger" style={{ fontSize: '0.74rem' }}>
+                                                                        <i className="fa fa-exclamation-circle me-1"></i>Belum ada pembayaran
+                                                                    </div>
+                                                                </>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                </div>
 
                                                 {yr.invoice && (
                                                     <Link
@@ -867,7 +901,8 @@ export default function MonitoringIuranIndex() {
                                                 )}
                                             </div>
                                         </div>
-                                    ))}
+                                    );
+                                })}
                                 </div>
                             </div>
 
@@ -1422,6 +1457,11 @@ export default function MonitoringIuranIndex() {
                     background-color: #eff6ff !important;
                     color: #1d4ed8 !important;
                     border: 1.5px solid #93c5fd !important;
+                }
+                .yearly-exempt {
+                    background-color: #f8fafc !important;
+                    color: #64748b !important;
+                    border: 1.5px solid #cbd5e1 !important;
                 }
                 .yearly-focus {
                     box-shadow: 0 0 0 2px #059669 !important;
