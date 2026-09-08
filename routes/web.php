@@ -212,6 +212,12 @@ Route::prefix('account')->group(function () {
         Route::resource('/sliders', App\Http\Controllers\Account\SliderController::class, ['except' => ['create', 'show', 'edit', 'update'], 'as' => 'account'])
             ->middleware('permission:sliders.index|sliders.create|sliders.delete');
 
+        //route monitoring iuran anggota
+        Route::get('/monitoring-iuran', [\App\Http\Controllers\Account\MonitoringIuranController::class, 'index'])->name('account.monitoring-iuran.index')
+            ->middleware('permission:transactions.index|tagihan.index|users.index');
+        Route::get('/monitoring-iuran/export', [\App\Http\Controllers\Account\MonitoringIuranController::class, 'export'])->name('account.monitoring-iuran.export')
+            ->middleware('permission:transactions.index|tagihan.index|users.index');
+
         Route::get('/reports/transaction', [\App\Http\Controllers\Account\TransactionController::class, 'export'])->name('account.reports.transaction');
 
         Route::get('/cetak/ekta', [\App\Http\Controllers\Account\EktaController::class, 'cetakekta'])->name('account.cetak.ekta');

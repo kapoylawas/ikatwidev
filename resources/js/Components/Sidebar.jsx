@@ -259,12 +259,17 @@ export default function Sidebar() {
                                 </Link>
                             )}
 
-                            {hasAnyPermission(["transactions.index"]) && (
-                                <Link href="/account/transaksi-donasi" className={getLinkClass("/account/transaksi-donasi")}>
+                            {(hasAnyPermission(["transactions.index"]) ||
+                                hasAnyPermission(["users.index"]) ||
+                                hasAnyPermission(["tagihan.index"])) && (
+                                <Link href="/account/monitoring-iuran" className={getLinkClass("/account/monitoring-iuran")}>
                                     <div className="item-icon-box">
-                                        <i className="fa fa-donate"></i>
+                                        <i className="fa fa-chart-line"></i>
                                     </div>
-                                    <span className="item-label">Transaksi Donasi</span>
+                                    <span className="item-label">Monitoring Iuran Anggota</span>
+                                    <span className="badge rounded-pill" style={{ backgroundColor: '#ecfdf5', color: '#059669', fontSize: '0.65rem', fontWeight: 700, border: '1px solid #a7f3d0' }}>
+                                        Tahunan
+                                    </span>
                                 </Link>
                             )}
                         </div>
