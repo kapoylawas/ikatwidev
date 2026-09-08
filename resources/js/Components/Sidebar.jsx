@@ -4,7 +4,8 @@ import { Link, usePage } from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
 
 export default function Sidebar() {
-    const { url, auth } = usePage();
+    const { url, props } = usePage();
+    const auth = props?.auth;
 
     const logoutHandler = async (e) => {
         e.preventDefault();
@@ -49,11 +50,8 @@ export default function Sidebar() {
         ]);
 
     // Ambil nama peran kepengurusan (utamakan non-member) untuk badge sidebar
-    const managementRole = user?.roles?.find((r) => {
-        const name = typeof r === "string" ? r : r.name;
-        return name && name !== "member";
-    });
-    const userRole = (typeof managementRole === "string" ? managementRole : managementRole?.name) || user?.roles?.[0]?.name || user?.status_anggota || "Anggota";
+    const managementRole = userRoleNames.find((r) => r !== "member");
+    const userRole = managementRole || user?.roles?.[0]?.name || user?.status_anggota || "Anggota";
     const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : "A";
 
     return (
