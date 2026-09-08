@@ -315,6 +315,22 @@ export default function MonitoringIuranIndex() {
                     </div>
                 </div>
 
+                {/* Info Alert: Logika Perhitungan Iuran Berdasarkan Tahun Pendaftaran */}
+                <div className="alert border-0 shadow-sm mb-4 d-flex align-items-center gap-3 p-3" style={{ backgroundColor: '#f0fdf4', borderLeft: '4px solid #10b981', borderRadius: '10px' }}>
+                    <div className="d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '38px', height: '38px', borderRadius: '10px', backgroundColor: '#d1fae5', color: '#059669', fontSize: '18px' }}>
+                        <i className="fa fa-info-circle"></i>
+                    </div>
+                    <div className="flex-grow-1">
+                        <div className="fw-bold text-dark d-flex align-items-center gap-2" style={{ fontSize: '0.86rem' }}>
+                            <span>Ketentuan Kewajiban Iuran Tahunan Anggota:</span>
+                            <span className="badge rounded-pill" style={{ backgroundColor: '#dcfce7', color: '#15803d', fontSize: '0.68rem', border: '1px solid #86efac' }}>Otomatis Sistem</span>
+                        </div>
+                        <p className="text-secondary small mb-0 mt-0.5" style={{ fontSize: '0.78rem', lineHeight: '1.45' }}>
+                            Kewajiban pembayaran iuran tahunan dihitung otomatis berdasarkan <strong>tahun pendaftaran akun</strong> atau <strong>tahun awal pembayaran pertama</strong> anggota. Tahun sebelum resmi terdaftar otomatis berstatus <strong>Bebas Iuran (-)</strong>.
+                        </p>
+                    </div>
+                </div>
+
                 {/* Filter & Search Bar Card */}
                 <div className="card border-0 shadow-sm mb-4 filter-control-card">
                     <div className="card-header filter-card-header py-2.5 px-4 d-flex justify-content-between align-items-center">
@@ -519,6 +535,16 @@ export default function MonitoringIuranIndex() {
                                                             <i className="fa fa-id-card me-1 text-primary"></i>
                                                             {item.no_anggota || "-"}
                                                         </span>
+                                                        <div className="mt-1 d-flex flex-column gap-0.5" style={{ fontSize: '0.72rem' }}>
+                                                            <span className="text-muted d-inline-flex align-items-center gap-1" title={`Tanggal Akun Dibuat: ${item.registered_date || '-'}`}>
+                                                                <i className="fa fa-user-plus text-secondary" style={{ fontSize: '10px' }}></i>
+                                                                <span>Daftar: <strong className="text-dark">{item.registered_date || item.registered_year}</strong></span>
+                                                            </span>
+                                                            <span className="text-secondary d-inline-flex align-items-center gap-1" title={`Mulai Kewajiban Iuran: Tahun ${item.start_year}`}>
+                                                                <i className="fa fa-flag text-success" style={{ fontSize: '10px' }}></i>
+                                                                <span>Mulai: <strong className="text-success">Thn {item.start_year}</strong></span>
+                                                            </span>
+                                                        </div>
                                                     </td>
 
                                                     {/* Nama Lengkap & Kontak */}
@@ -757,6 +783,32 @@ export default function MonitoringIuranIndex() {
                                                     </span>
                                                 </span>
                                             )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Info Pendaftaran & Mulai Iuran */}
+                                <div className="row g-2 mb-4">
+                                    <div className="col-12 col-md-6">
+                                        <div className="p-2.5 rounded-3 d-flex align-items-center gap-2.5" style={{ backgroundColor: '#f8fafc', border: '1.5px solid #e2e8f0' }}>
+                                            <div className="d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '34px', height: '34px', borderRadius: '8px', backgroundColor: '#e2e8f0', color: '#475569', fontSize: '14px' }}>
+                                                <i className="fa fa-calendar-plus"></i>
+                                            </div>
+                                            <div>
+                                                <small className="text-muted d-block" style={{ fontSize: '0.72rem' }}>Tanggal Daftar Akun</small>
+                                                <strong className="text-dark" style={{ fontSize: '0.84rem' }}>{activeUserDetail.registered_date || '-'} (Tahun {activeUserDetail.registered_year})</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-md-6">
+                                        <div className="p-2.5 rounded-3 d-flex align-items-center gap-2.5" style={{ backgroundColor: '#ecfdf5', border: '1.5px solid #a7f3d0' }}>
+                                            <div className="d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '34px', height: '34px', borderRadius: '8px', backgroundColor: '#d1fae5', color: '#059669', fontSize: '14px' }}>
+                                                <i className="fa fa-shield-alt"></i>
+                                            </div>
+                                            <div>
+                                                <small className="text-muted d-block" style={{ fontSize: '0.72rem' }}>Awal Kewajiban Iuran</small>
+                                                <strong className="text-success" style={{ fontSize: '0.84rem' }}>Mulai Tahun {activeUserDetail.start_year}</strong>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

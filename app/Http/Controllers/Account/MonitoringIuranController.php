@@ -144,13 +144,17 @@ class MonitoringIuranController extends Controller
             $unpaidYears = [];
             $paidYears = [];
 
+            // Tentukan tahun pendaftaran akun
+            $rawCreatedAt = $user->getRawOriginal('created_at') ?: $user->created_at;
+            $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : $currentYear;
+            $registeredDate = $rawCreatedAt ? \Carbon\Carbon::parse($rawCreatedAt)->format('d/m/Y') : '-';
+
             // Tentukan tahun awal kewajiban iuran:
             // Jika sudah pernah bayar iuran, mulai dari tahun transaksi PAID pertamanya
             $firstPaidYear = $user->transactions->where('status', 'PAID')->pluck('tahun')->filter()->min();
             if ($firstPaidYear) {
                 $startYear = (int) $firstPaidYear;
             } else {
-                $registeredYear = $user->created_at ? (int) \Carbon\Carbon::parse($user->created_at)->format('Y') : $currentYear;
                 $startYear = max(2024, min($registeredYear, $currentYear));
             }
 
@@ -213,6 +217,9 @@ class MonitoringIuranController extends Controller
                 'nik'                => $user->nik,
                 'email'              => $user->email,
                 'phone'              => $user->phone,
+                'registered_year'    => $registeredYear,
+                'registered_date'    => $registeredDate,
+                'start_year'         => $startYear,
                 'province'           => $user->province ? ['id' => $user->province->id, 'name' => $user->province->name] : null,
                 'city'               => $user->city ? ['id' => $user->city->id, 'name' => $user->city->name] : null,
                 'image'              => $user->image,

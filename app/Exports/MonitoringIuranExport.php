@@ -119,6 +119,8 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             'No. Telepon / WA',
             'DPW (Provinsi)',
             'DPC (Kota/Kab)',
+            'Tahun Daftar Akun',
+            'Mulai Kewajiban Iuran',
         ];
 
         foreach ($this->years as $yr) {
@@ -138,11 +140,14 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $unpaidList = [];
         $yearlyValues = [];
 
+        $rawCreatedAt = $user->getRawOriginal('created_at') ?: $user->created_at;
+        $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : (int) date('Y');
+        $registeredDate = $rawCreatedAt ? \Carbon\Carbon::parse($rawCreatedAt)->format('d/m/Y') : '-';
+
         $firstPaidYear = $user->transactions->where('status', 'PAID')->pluck('tahun')->filter()->min();
         if ($firstPaidYear) {
             $startYear = (int) $firstPaidYear;
         } else {
-            $registeredYear = $user->created_at ? (int) \Carbon\Carbon::parse($user->created_at)->format('Y') : date('Y');
             $startYear = max(2024, min($registeredYear, (int) date('Y')));
         }
 
@@ -174,6 +179,8 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             $user->phone ? "'" . $user->phone : '-',
             $user->province->name ?? '-',
             $user->city->name ?? '-',
+            "{$registeredYear} ({$registeredDate})",
+            "Tahun {$startYear}",
         ];
 
         foreach ($yearlyValues as $val) {
