@@ -26,7 +26,6 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
     {
         $tahun = (int) ($this->request->tahun ?: date('Y'));
         $statusBayar = $this->request->status_bayar ?: 'all';
-        $statusAnggota = $this->request->status_anggota ?: 'all';
         $q = $this->request->q;
 
         $authUser = auth()->user();
@@ -56,7 +55,6 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $query = User::where('confirm', 'true')
             ->when($provinceId, fn($q) => $q->where('province_id', $provinceId))
             ->when($cityId, fn($q) => $q->where('city_id', $cityId))
-            ->when($statusAnggota !== 'all', fn($q) => $q->where('status_anggota', $statusAnggota))
             ->when($q, function ($query) use ($q) {
                 $query->where(function ($sub) use ($q) {
                     $sub->where('name', 'like', "%{$q}%")
@@ -70,10 +68,7 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         if ($statusBayar === 'paid') {
             $query->whereHas('transactions', $isPaidQuery);
         } elseif ($statusBayar === 'unpaid') {
-            $query->where('status_anggota', '!=', 'Anggota Kehormatan')
-                ->whereDoesntHave('transactions', $isPaidQuery);
-        } elseif ($statusBayar === 'exempt') {
-            $query->where('status_anggota', 'Anggota Kehormatan');
+            $query->whereDoesntHave('transactions', $isPaidQuery);
         }
 
         return $query->with([
@@ -104,7 +99,6 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             'No. Telepon / WA',
             'DPW (Provinsi)',
             'DPC (Kota/Kab)',
-            'Status Keanggotaan',
             "Tahun Iuran",
             "Status Pembayaran",
             'Nominal Dibayar (Rp)',
@@ -117,7 +111,6 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
     {
         $this->rowNumber++;
         $tahun = (int) ($this->request->tahun ?: date('Y'));
-        $isExempt = $user->status_anggota === 'Anggota Kehormatan';
         $tx = $user->transactions->first();
 
         $statusText = 'Belum Bayar';
@@ -125,9 +118,7 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $invoice = '-';
         $tglBayar = '-';
 
-        if ($isExempt) {
-            $statusText = 'Bebas Iuran (Kehormatan)';
-        } elseif ($tx && $tx->status === 'PAID') {
+        if ($tx && $tx->status === 'PAID') {
             $statusText = 'LUNAS (Sudah Bayar)';
             $nominal = $tx->grand_total;
             $invoice = $tx->invoice;
@@ -146,7 +137,6 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             $user->phone ? "'" . $user->phone : '-',
             $user->province->name ?? '-',
             $user->city->name ?? '-',
-            $user->status_anggota ?: 'Anggota Biasa',
             $tahun,
             $statusText,
             $nominal,

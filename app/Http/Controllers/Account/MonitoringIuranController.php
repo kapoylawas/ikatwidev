@@ -21,12 +21,11 @@ class MonitoringIuranController extends Controller
         $currentYear = (int) date('Y');
         $tahun = (int) ($request->tahun ?: $currentYear);
         $statusBayar = $request->status_bayar ?: 'all';
-        $statusAnggota = $request->status_anggota ?: 'all';
         $q = $request->q;
 
         // Scoping by user role
         $authUser = auth()->user();
-        $roleNames = $authUser->getRoleNames();
+        $roleNames = $authUser ? $authUser->getRoleNames() : [];
         $primaryRole = $roleNames[0] ?? '';
 
         $isSuperAdmin = in_array($primaryRole, ['admin', 'bendahara']);
@@ -43,7 +42,7 @@ class MonitoringIuranController extends Controller
             $cityId = $authUser->city_id;
         }
 
-        // Available years for dropdown/chips
+        // Available years for selection
         $distinctTxYears = Transaction::whereNotNull('tahun')
             ->where('tahun', '!=', '')
             ->distinct()
@@ -68,14 +67,12 @@ class MonitoringIuranController extends Controller
         // Base user query (only confirmed/verified members)
         $baseQuery = User::where('confirm', 'true')
             ->when($provinceId, fn($query) => $query->where('province_id', $provinceId))
-            ->when($cityId, fn($query) => $query->where('city_id', $cityId))
-            ->when($statusAnggota !== 'all', fn($query) => $query->where('status_anggota', $statusAnggota));
+            ->when($cityId, fn($query) => $query->where('city_id', $cityId));
 
         // Global KPI Stats (within the active regional scope)
         $totalAnggota = (clone $baseQuery)->count();
         $totalLunas = (clone $baseQuery)->whereHas('transactions', $isPaidQuery)->count();
-        $totalBebasIuran = (clone $baseQuery)->where('status_anggota', 'Anggota Kehormatan')->count();
-        $totalBelumBayar = max(0, $totalAnggota - $totalLunas - $totalBebasIuran);
+        $totalBelumBayar = max(0, $totalAnggota - $totalLunas);
         $persentaseLunas = $totalAnggota > 0 ? round(($totalLunas / $totalAnggota) * 100, 1) : 0;
 
         // Total collected funds in the specified year
@@ -105,10 +102,7 @@ class MonitoringIuranController extends Controller
         if ($statusBayar === 'paid') {
             $listQuery->whereHas('transactions', $isPaidQuery);
         } elseif ($statusBayar === 'unpaid') {
-            $listQuery->where('status_anggota', '!=', 'Anggota Kehormatan')
-                ->whereDoesntHave('transactions', $isPaidQuery);
-        } elseif ($statusBayar === 'exempt') {
-            $listQuery->where('status_anggota', 'Anggota Kehormatan');
+            $listQuery->whereDoesntHave('transactions', $isPaidQuery);
         }
 
         // Retrieve paginated records with relationships
@@ -130,7 +124,6 @@ class MonitoringIuranController extends Controller
 
         // Transform paginated items to include clear payment metadata
         $users->getCollection()->transform(function ($user) use ($tahun) {
-            $isExempt = $user->status_anggota === 'Anggota Kehormatan';
             $tx = $user->transactions->first();
 
             $isPaid = false;
@@ -139,9 +132,7 @@ class MonitoringIuranController extends Controller
             $invoice = null;
             $paidAmount = null;
 
-            if ($isExempt) {
-                $paymentStatus = 'EXEMPT';
-            } elseif ($tx && $tx->status === 'PAID') {
+            if ($tx && $tx->status === 'PAID') {
                 $isPaid = true;
                 $paymentStatus = 'PAID';
                 $paidAt = $tx->created_at;
@@ -152,14 +143,6 @@ class MonitoringIuranController extends Controller
                 $invoice = $tx->invoice;
             }
 
-            // Expected due amount
-            $expectedAmount = 300000;
-            if (in_array($user->status_anggota, ['Anggota Baru', 'Anggota Muda'])) {
-                $expectedAmount = 100000;
-            } elseif ($isExempt) {
-                $expectedAmount = 0;
-            }
-
             return [
                 'id'              => $user->id,
                 'name'            => $user->name,
@@ -167,17 +150,15 @@ class MonitoringIuranController extends Controller
                 'nik'             => $user->nik,
                 'email'           => $user->email,
                 'phone'           => $user->phone,
-                'status_anggota'  => $user->status_anggota ?: 'Anggota Biasa',
                 'province'        => $user->province ? ['id' => $user->province->id, 'name' => $user->province->name] : null,
                 'city'            => $user->city ? ['id' => $user->city->id, 'name' => $user->city->name] : null,
                 'image'           => $user->image,
                 'is_paid'         => $isPaid,
-                'is_exempt'       => $isExempt,
                 'payment_status'  => $paymentStatus,
                 'paid_at'         => $paidAt,
                 'invoice'         => $invoice,
                 'paid_amount'     => $paidAmount,
-                'expected_amount' => $expectedAmount,
+                'expected_amount' => 300000,
             ];
         });
 
@@ -190,23 +171,21 @@ class MonitoringIuranController extends Controller
         return inertia('Account/MonitoringIuran/Index', [
             'users' => $users,
             'stats' => [
-                'total_anggota'          => $totalAnggota,
-                'total_lunas'            => $totalLunas,
-                'total_belum_bayar'      => $totalBelumBayar,
-                'total_bebas_iuran'      => $totalBebasIuran,
-                'total_nominal'          => $totalNominal,
-                'persentase_lunas'       => $persentaseLunas,
+                'total_anggota'     => $totalAnggota,
+                'total_lunas'       => $totalLunas,
+                'total_belum_bayar' => $totalBelumBayar,
+                'total_nominal'     => $totalNominal,
+                'persentase_lunas'  => $persentaseLunas,
             ],
             'availableYears' => $availableYears,
             'provinces'      => $provinces,
             'cities'         => $cities,
             'filters'        => [
-                'tahun'          => $tahun,
-                'status_bayar'   => $statusBayar,
-                'status_anggota' => $statusAnggota,
-                'q'              => $q,
-                'province_id'    => $provinceId,
-                'city_id'        => $cityId,
+                'tahun'        => $tahun,
+                'status_bayar' => $statusBayar,
+                'q'            => $q,
+                'province_id'  => $provinceId,
+                'city_id'      => $cityId,
             ],
             'roleScope' => [
                 'isSuperAdmin'   => $isSuperAdmin,
