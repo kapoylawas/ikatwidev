@@ -125,18 +125,21 @@ class Transaction extends Model
             return [];
         }
 
-        // Tentukan tahun awal kewajiban iuran:
-        // Jika anggota sudah pernah membayar iuran, kewajibannya dimulai dari tahun transaksi pertamanya (mencegah penagihan tahun sebelum resmi aktif)
+        // Tentukan tahun awal kewajiban iuran mengikuti tahun registrasi akun pengguna:
+        $rawCreatedAt = $user->getRawOriginal('created_at') ?: $user->created_at;
+        $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : $currentYear;
+        
+        // Minimal tahun 2024 sebagai awal mula sistem iuran daring IKATWI
+        $startYear = max(2024, min($registeredYear, $currentYear));
+
+        // Jika anggota memiliki histori transaksi PAID pada tahun yang lebih awal (misal migrasi data lama)
         $firstPaidYear = self::where('user_id', $user->id)
             ->where('status', 'PAID')
             ->whereNotNull('tahun')
             ->min('tahun');
 
-        if ($firstPaidYear) {
+        if ($firstPaidYear && (int) $firstPaidYear < $startYear) {
             $startYear = (int) $firstPaidYear;
-        } else {
-            $registeredYear = $user->created_at ? (int) \Carbon\Carbon::parse($user->created_at)->format('Y') : $currentYear;
-            $startYear = max(2024, min($registeredYear, $currentYear));
         }
 
         $unpaidYears = [];

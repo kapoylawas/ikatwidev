@@ -91,12 +91,27 @@ class MonitoringIuranController extends Controller
             ->when($cityId, fn($query) => $query->where('city_id', $cityId));
 
         // Effective calculation year for KPI (if 'all', calculate against current active year)
-        $calcYear = ($tahun === 'all') ? $currentYear : $tahun;
+        $calcYear = ($tahun === 'all') ? $currentYear : (int) $tahun;
         $isPaidCalcQuery = $makePaidQuery($calcYear);
 
+        // Hanya anggota yang sudah terdaftar pada tahun calcYear (atau sudah punya transaksi di tahun tersebut) yang dihitung kewajibannya
+        $yearEligibility = function ($query) use ($calcYear) {
+            $query->where(function ($q) use ($calcYear) {
+                $q->whereYear('created_at', '<=', $calcYear)
+                  ->orWhereHas('transactions', function ($tq) use ($calcYear) {
+                      $tq->where('status', 'PAID')->where('tahun', '<=', $calcYear);
+                  });
+            });
+        };
+
+        $baseEligibleQuery = (clone $baseQuery);
+        if ($tahun !== 'all') {
+            $baseEligibleQuery->where($yearEligibility);
+        }
+
         // Global KPI Stats
-        $totalAnggota = (clone $baseQuery)->count();
-        $totalLunas = (clone $baseQuery)->whereHas('transactions', $isPaidCalcQuery)->count();
+        $totalAnggota = (clone $baseEligibleQuery)->count();
+        $totalLunas = (clone $baseEligibleQuery)->whereHas('transactions', $isPaidCalcQuery)->count();
         $totalBelumBayar = max(0, $totalAnggota - $totalLunas);
         $persentaseLunas = $totalAnggota > 0 ? round(($totalLunas / $totalAnggota) * 100, 1) : 0;
 
@@ -137,7 +152,7 @@ class MonitoringIuranController extends Controller
             if ($tahun === 'all') {
                 $listQuery->whereDoesntHave('transactions', $makePaidQuery($currentYear));
             } else {
-                $listQuery->whereDoesntHave('transactions', $makePaidQuery($tahun));
+                $listQuery->where($yearEligibility)->whereDoesntHave('transactions', $makePaidQuery($tahun));
             }
         }
 
@@ -166,13 +181,11 @@ class MonitoringIuranController extends Controller
             $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : $currentYear;
             $registeredDate = $rawCreatedAt ? \Carbon\Carbon::parse($rawCreatedAt)->format('d/m/Y') : '-';
 
-            // Tentukan tahun awal kewajiban iuran:
-            // Jika sudah pernah bayar iuran, mulai dari tahun transaksi PAID pertamanya
+            // Tentukan tahun awal kewajiban iuran mengikuti tahun registrasi (minimal 2024)
+            $startYear = max(2024, min($registeredYear, $currentYear));
             $firstPaidYear = $user->transactions->where('status', 'PAID')->pluck('tahun')->filter()->min();
-            if ($firstPaidYear) {
+            if ($firstPaidYear && (int) $firstPaidYear < $startYear) {
                 $startYear = (int) $firstPaidYear;
-            } else {
-                $startYear = max(2024, min($registeredYear, $currentYear));
             }
 
             foreach ($availableYears as $yr) {

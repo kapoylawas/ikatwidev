@@ -83,6 +83,16 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             };
         };
 
+        $calcYear = ($tahun === 'all') ? (int) date('Y') : (int) $tahun;
+        $yearEligibility = function ($query) use ($calcYear) {
+            $query->where(function ($q) use ($calcYear) {
+                $q->whereYear('created_at', '<=', $calcYear)
+                  ->orWhereHas('transactions', function ($tq) use ($calcYear) {
+                      $tq->where('status', 'PAID')->where('tahun', '<=', $calcYear);
+                  });
+            });
+        };
+
         if ($statusBayar === 'paid') {
             if ($tahun === 'all') {
                 $query->whereHas('transactions', fn($q) => $q->where('status', 'PAID'));
@@ -93,7 +103,7 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             if ($tahun === 'all') {
                 $query->whereDoesntHave('transactions', $makePaidQuery(date('Y')));
             } else {
-                $query->whereDoesntHave('transactions', $makePaidQuery($tahun));
+                $query->where($yearEligibility)->whereDoesntHave('transactions', $makePaidQuery($tahun));
             }
         }
 
@@ -146,11 +156,10 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : (int) date('Y');
         $registeredDate = $rawCreatedAt ? \Carbon\Carbon::parse($rawCreatedAt)->format('d/m/Y') : '-';
 
+        $startYear = max(2024, min($registeredYear, (int) date('Y')));
         $firstPaidYear = $user->transactions->where('status', 'PAID')->pluck('tahun')->filter()->min();
-        if ($firstPaidYear) {
+        if ($firstPaidYear && (int) $firstPaidYear < $startYear) {
             $startYear = (int) $firstPaidYear;
-        } else {
-            $startYear = max(2024, min($registeredYear, (int) date('Y')));
         }
 
         foreach ($this->years as $yr) {
