@@ -43,15 +43,16 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $q = $this->request->q;
 
         $authUser = auth()->user();
-        $roleNames = $authUser ? $authUser->getRoleNames() : [];
-        $primaryRole = $roleNames[0] ?? '';
+        $isSuperAdmin = $authUser ? $authUser->hasRole(['admin', 'bendahara']) : false;
+        $isAdminWilayah = $authUser ? $authUser->hasRole(['admin wilayah', 'timver dpw']) : false;
+        $isAdminCabang = $authUser ? $authUser->hasRole('timver dpc') : false;
 
         $provinceId = $this->request->province_id;
         $cityId = $this->request->city_id;
 
-        if (in_array($primaryRole, ['admin wilayah', 'timver dpw'])) {
+        if ($isAdminWilayah) {
             $provinceId = $authUser->province_id;
-        } elseif (in_array($primaryRole, ['timver dpc'])) {
+        } elseif ($isAdminCabang) {
             $provinceId = $authUser->province_id;
             $cityId = $authUser->city_id;
         }

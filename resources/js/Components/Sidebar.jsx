@@ -23,6 +23,14 @@ export default function Sidebar() {
     };
 
     const user = auth?.user;
+    const userRoleNames = (auth?.roles && Array.isArray(auth.roles))
+        ? auth.roles
+        : (user?.roles ? user.roles.map((r) => (typeof r === "string" ? r : r.name)) : []);
+
+    const hasAnyRole = (roles) => {
+        return roles.some((role) => userRoleNames.includes(role));
+    };
+
     const userRole = user?.roles?.[0]?.name || user?.status_anggota || "Anggota";
     const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : "A";
 
@@ -236,7 +244,8 @@ export default function Sidebar() {
 
                     {/* SECTION: KEUANGAN */}
                     {(hasAnyPermission(["tagihan.index"]) ||
-                        hasAnyPermission(["transactions.index"])) && (
+                        hasAnyPermission(["transactions.index"]) ||
+                        hasAnyRole(["admin", "bendahara", "admin wilayah", "timver dpw", "timver dpc"])) && (
                         <div className="nav-section">
                             <div className="nav-heading">KEUANGAN & IURAN</div>
 
@@ -259,9 +268,7 @@ export default function Sidebar() {
                                 </Link>
                             )}
 
-                            {(hasAnyPermission(["transactions.index"]) ||
-                                hasAnyPermission(["users.index"]) ||
-                                hasAnyPermission(["tagihan.index"])) && (
+                            {hasAnyRole(["admin", "bendahara", "admin wilayah", "timver dpw", "timver dpc"]) && (
                                 <Link href="/account/monitoring-iuran" className={getLinkClass("/account/monitoring-iuran")}>
                                     <div className="item-icon-box">
                                         <i className="fa fa-chart-line"></i>

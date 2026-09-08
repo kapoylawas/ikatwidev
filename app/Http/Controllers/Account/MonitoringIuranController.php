@@ -24,14 +24,19 @@ class MonitoringIuranController extends Controller
         $statusBayar = $request->status_bayar ?: 'all';
         $q = $request->q;
 
-        // Scoping by user role
         $authUser = auth()->user();
-        $roleNames = $authUser ? $authUser->getRoleNames() : [];
-        $primaryRole = $roleNames[0] ?? '';
+        if (!$authUser) {
+            abort(401);
+        }
 
-        $isSuperAdmin = in_array($primaryRole, ['admin', 'bendahara']);
-        $isAdminWilayah = in_array($primaryRole, ['admin wilayah', 'timver dpw']);
-        $isAdminCabang = in_array($primaryRole, ['timver dpc']);
+        // Scoping by user role: Only allowed for admin, bendahara, admin wilayah / timver dpw, timver dpc
+        $isSuperAdmin = $authUser->hasRole(['admin', 'bendahara']);
+        $isAdminWilayah = $authUser->hasRole(['admin wilayah', 'timver dpw']);
+        $isAdminCabang = $authUser->hasRole('timver dpc');
+
+        if (!$isSuperAdmin && !$isAdminWilayah && !$isAdminCabang) {
+            abort(403, 'Akses Monitoring Iuran hanya dapat diakses oleh Admin, Bendahara, Admin Wilayah/DPW, dan Timver DPC.');
+        }
 
         $provinceId = $request->province_id;
         $cityId = $request->city_id;
@@ -274,6 +279,19 @@ class MonitoringIuranController extends Controller
      */
     public function export(Request $request)
     {
+        $authUser = auth()->user();
+        if (!$authUser) {
+            abort(401);
+        }
+
+        $isSuperAdmin = $authUser->hasRole(['admin', 'bendahara']);
+        $isAdminWilayah = $authUser->hasRole(['admin wilayah', 'timver dpw']);
+        $isAdminCabang = $authUser->hasRole('timver dpc');
+
+        if (!$isSuperAdmin && !$isAdminWilayah && !$isAdminCabang) {
+            abort(403, 'Akses Export Monitoring Iuran hanya dapat diakses oleh Admin, Bendahara, Admin Wilayah/DPW, dan Timver DPC.');
+        }
+
         $tahun = $request->tahun ?: 'all';
         return Excel::download(
             new MonitoringIuranExport($request),
