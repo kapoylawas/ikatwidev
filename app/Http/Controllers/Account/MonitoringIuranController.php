@@ -29,14 +29,26 @@ class MonitoringIuranController extends Controller
             abort(401);
         }
 
-        // Scoping by user role: Only allowed for admin, bendahara, admin wilayah / timver dpw, timver dpc
-        $isSuperAdmin = $authUser->hasRole(['admin', 'bendahara']);
-        $isAdminWilayah = $authUser->hasRole(['admin wilayah', 'timver dpw']);
-        $isAdminCabang = $authUser->hasRole('timver dpc');
+        // Scoping by user role: Hanya role murni 'member' tanpa hak akses pengurus/admin yang dilarang akses
+        $userRoles = $authUser->getRoleNames()->toArray();
+        $isOnlyMember = empty($userRoles) || (count($userRoles) === 1 && $userRoles[0] === 'member');
+        $hasAnyManagementPermission = $authUser->can('users.index') || 
+            $authUser->can('verifPengajuan.index') || 
+            $authUser->can('roles.index') ||
+            $authUser->can('dpw.index') ||
+            $authUser->can('dpc.index') ||
+            $authUser->can('wilayah.index') ||
+            $authUser->can('pengurus.index');
 
-        if (!$isSuperAdmin && !$isAdminWilayah && !$isAdminCabang) {
-            abort(403, 'Akses Monitoring Iuran hanya dapat diakses oleh Admin, Bendahara, Admin Wilayah/DPW, dan Timver DPC.');
+        if ($isOnlyMember && !$hasAnyManagementPermission) {
+            abort(403, 'Akses Monitoring Iuran hanya dapat diakses oleh Administrator dan Pengurus.');
         }
+
+        $isAdminWilayah = $authUser->hasRole(['admin wilayah', 'timver dpw']) || 
+            (str_contains(strtolower(implode(' ', $userRoles)), 'dpw') || str_contains(strtolower(implode(' ', $userRoles)), 'wilayah'));
+        $isAdminCabang = $authUser->hasRole(['timver dpc', 'admin cabang', 'dpc']) || 
+            (str_contains(strtolower(implode(' ', $userRoles)), 'dpc') || str_contains(strtolower(implode(' ', $userRoles)), 'cabang'));
+        $isSuperAdmin = !$isAdminWilayah && !$isAdminCabang;
 
         $provinceId = $request->province_id;
         $cityId = $request->city_id;
@@ -284,12 +296,18 @@ class MonitoringIuranController extends Controller
             abort(401);
         }
 
-        $isSuperAdmin = $authUser->hasRole(['admin', 'bendahara']);
-        $isAdminWilayah = $authUser->hasRole(['admin wilayah', 'timver dpw']);
-        $isAdminCabang = $authUser->hasRole('timver dpc');
+        $userRoles = $authUser->getRoleNames()->toArray();
+        $isOnlyMember = empty($userRoles) || (count($userRoles) === 1 && $userRoles[0] === 'member');
+        $hasAnyManagementPermission = $authUser->can('users.index') || 
+            $authUser->can('verifPengajuan.index') || 
+            $authUser->can('roles.index') ||
+            $authUser->can('dpw.index') ||
+            $authUser->can('dpc.index') ||
+            $authUser->can('wilayah.index') ||
+            $authUser->can('pengurus.index');
 
-        if (!$isSuperAdmin && !$isAdminWilayah && !$isAdminCabang) {
-            abort(403, 'Akses Export Monitoring Iuran hanya dapat diakses oleh Admin, Bendahara, Admin Wilayah/DPW, dan Timver DPC.');
+        if ($isOnlyMember && !$hasAnyManagementPermission) {
+            abort(403, 'Akses Export Monitoring Iuran hanya dapat diakses oleh Administrator dan Pengurus.');
         }
 
         $tahun = $request->tahun ?: 'all';

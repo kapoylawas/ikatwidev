@@ -32,22 +32,24 @@ export default function Sidebar() {
         return roles.some((role) => userRoleNames.includes(role));
     };
 
-    // Hak akses Monitoring Iuran untuk 4 level kepengurusan (Admin, Bendahara, Admin Wilayah/DPW, Timver DPC)
-    // Regular member (hanya memiliki permission member biasa) tidak akan mendapatkan akses ini.
-    const canAccessMonitoring =
-        hasAnyRole(["admin", "bendahara", "admin wilayah", "timver dpw", "timver dpc"]) ||
-        hasAnyPermission([
-            "roles.index",
-            "permissions.index",
-            "users.index",
-            "verifPengajuan.index",
-            "verifPengajuanDpw.index",
-            "verifPengajuanDpc.index",
-            "dpw.index",
-            "dpc.index",
-            "wilayah.index",
-            "pengurus.index",
-        ]);
+    // Hak akses Monitoring Iuran: Yang TIDAK boleh muncul dan TIDAK boleh akses HANYA role 'member' biasa.
+    // Semua peran non-member (Admin, Bendahara, Pengurus, Tim Verifikasi, dll) atau yang memiliki permission manajerial berhak melihat menu ini.
+    const hasNonMemberRole = userRoleNames.some((role) => role !== "member");
+    const hasManagementPermission = hasAnyPermission([
+        "roles.index",
+        "permissions.index",
+        "users.index",
+        "verifPengajuan.index",
+        "verifPengajuanDpw.index",
+        "verifPengajuanDpc.index",
+        "dpw.index",
+        "dpc.index",
+        "wilayah.index",
+        "pengurus.index",
+        "categories.index",
+        "sliders.index",
+    ]);
+    const canAccessMonitoring = hasNonMemberRole || hasManagementPermission;
 
     // Ambil nama peran kepengurusan (utamakan non-member) untuk badge sidebar
     const managementRole = userRoleNames.find((r) => r !== "member");
