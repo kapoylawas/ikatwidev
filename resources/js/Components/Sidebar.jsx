@@ -31,7 +31,29 @@ export default function Sidebar() {
         return roles.some((role) => userRoleNames.includes(role));
     };
 
-    const userRole = user?.roles?.[0]?.name || user?.status_anggota || "Anggota";
+    // Hak akses Monitoring Iuran untuk 4 level kepengurusan (Admin, Bendahara, Admin Wilayah/DPW, Timver DPC)
+    // Regular member (hanya memiliki permission member biasa) tidak akan mendapatkan akses ini.
+    const canAccessMonitoring =
+        hasAnyRole(["admin", "bendahara", "admin wilayah", "timver dpw", "timver dpc"]) ||
+        hasAnyPermission([
+            "roles.index",
+            "permissions.index",
+            "users.index",
+            "verifPengajuan.index",
+            "verifPengajuanDpw.index",
+            "verifPengajuanDpc.index",
+            "dpw.index",
+            "dpc.index",
+            "wilayah.index",
+            "pengurus.index",
+        ]);
+
+    // Ambil nama peran kepengurusan (utamakan non-member) untuk badge sidebar
+    const managementRole = user?.roles?.find((r) => {
+        const name = typeof r === "string" ? r : r.name;
+        return name && name !== "member";
+    });
+    const userRole = (typeof managementRole === "string" ? managementRole : managementRole?.name) || user?.roles?.[0]?.name || user?.status_anggota || "Anggota";
     const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : "A";
 
     return (
@@ -245,7 +267,7 @@ export default function Sidebar() {
                     {/* SECTION: KEUANGAN */}
                     {(hasAnyPermission(["tagihan.index"]) ||
                         hasAnyPermission(["transactions.index"]) ||
-                        hasAnyRole(["admin", "bendahara", "admin wilayah", "timver dpw", "timver dpc"])) && (
+                        canAccessMonitoring) && (
                         <div className="nav-section">
                             <div className="nav-heading">KEUANGAN & IURAN</div>
 
@@ -268,7 +290,7 @@ export default function Sidebar() {
                                 </Link>
                             )}
 
-                            {hasAnyRole(["admin", "bendahara", "admin wilayah", "timver dpw", "timver dpc"]) && (
+                            {canAccessMonitoring && (
                                 <Link href="/account/monitoring-iuran" className={getLinkClass("/account/monitoring-iuran")}>
                                     <div className="item-icon-box">
                                         <i className="fa fa-chart-line"></i>
