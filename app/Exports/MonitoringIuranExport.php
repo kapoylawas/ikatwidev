@@ -16,15 +16,29 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $request;
     protected $rowNumber = 0;
+    protected $years = [2024, 2025, 2026];
 
     public function __construct(Request $request)
     {
         $this->request = $request;
+
+        $currentYear = (int) date('Y');
+        $distinctTxYears = Transaction::whereNotNull('tahun')
+            ->where('tahun', '!=', '')
+            ->distinct()
+            ->pluck('tahun')
+            ->map(fn($y) => (int) $y)
+            ->filter(fn($y) => $y >= 2020 && $y <= $currentYear)
+            ->toArray();
+
+        $this->years = array_unique(array_merge([2024, 2025, $currentYear], $distinctTxYears));
+        sort($this->years);
     }
 
     public function collection()
     {
-        $tahun = (int) ($this->request->tahun ?: date('Y'));
+        $rawTahun = $this->request->tahun;
+        $tahun = ($rawTahun === 'all') ? 'all' : (int) ($rawTahun ?: date('Y'));
         $statusBayar = $this->request->status_bayar ?: 'all';
         $q = $this->request->q;
 
@@ -42,16 +56,6 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             $cityId = $authUser->city_id;
         }
 
-        $isPaidQuery = function ($query) use ($tahun) {
-            $query->where('status', 'PAID')
-                ->where(function ($sq) use ($tahun) {
-                    $sq->where('tahun', $tahun)
-                        ->orWhereHas('transactionDetails', function ($dq) use ($tahun) {
-                            $dq->where('tahun', $tahun);
-                        });
-                });
-        };
-
         $query = User::where('confirm', 'true')
             ->when($provinceId, fn($q) => $q->where('province_id', $provinceId))
             ->when($cityId, fn($q) => $q->where('city_id', $cityId))
@@ -65,22 +69,39 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
                 });
             });
 
+        $makePaidQuery = function ($yr) {
+            return function ($query) use ($yr) {
+                $query->where('status', 'PAID')
+                    ->where(function ($sq) use ($yr) {
+                        $sq->where('tahun', $yr)
+                            ->orWhereHas('transactionDetails', function ($dq) use ($yr) {
+                                $dq->where('tahun', $yr);
+                            });
+                    });
+            };
+        };
+
         if ($statusBayar === 'paid') {
-            $query->whereHas('transactions', $isPaidQuery);
+            if ($tahun === 'all') {
+                $query->whereHas('transactions', fn($q) => $q->where('status', 'PAID'));
+            } else {
+                $query->whereHas('transactions', $makePaidQuery($tahun));
+            }
         } elseif ($statusBayar === 'unpaid') {
-            $query->whereDoesntHave('transactions', $isPaidQuery);
+            if ($tahun === 'all') {
+                $query->whereDoesntHave('transactions', $makePaidQuery(date('Y')));
+            } else {
+                $query->whereDoesntHave('transactions', $makePaidQuery($tahun));
+            }
         }
 
         return $query->with([
             'province',
             'city',
-            'transactions' => function ($q) use ($tahun) {
-                $q->where(function ($sq) use ($tahun) {
-                    $sq->where('tahun', $tahun)
-                        ->orWhereHas('transactionDetails', function ($dq) use ($tahun) {
-                            $dq->where('tahun', $tahun);
-                        });
-                })->latest();
+            'transactions' => function ($q) {
+                $q->whereIn('status', ['PAID', 'UNPAID'])
+                    ->with('transactionDetails')
+                    ->latest();
             }
         ])
         ->orderBy('name', 'ASC')
@@ -89,8 +110,7 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
 
     public function headings(): array
     {
-        $tahun = (int) ($this->request->tahun ?: date('Y'));
-        return [
+        $headers = [
             'No',
             'Nama Anggota',
             'No. KTA (Anggota)',
@@ -99,36 +119,43 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             'No. Telepon / WA',
             'DPW (Provinsi)',
             'DPC (Kota/Kab)',
-            "Tahun Iuran",
-            "Status Pembayaran",
-            'Nominal Dibayar (Rp)',
-            'Nomor Invoice',
-            'Tanggal Pembayaran',
         ];
+
+        foreach ($this->years as $yr) {
+            $headers[] = "Status {$yr}";
+        }
+
+        $headers[] = 'Tahun Belum Lunas';
+        $headers[] = 'Total Tahun Belum Lunas';
+
+        return $headers;
     }
 
     public function map($user): array
     {
         $this->rowNumber++;
-        $tahun = (int) ($this->request->tahun ?: date('Y'));
-        $tx = $user->transactions->first();
 
-        $statusText = 'Belum Bayar';
-        $nominal = 0;
-        $invoice = '-';
-        $tglBayar = '-';
+        $unpaidList = [];
+        $yearlyValues = [];
 
-        if ($tx && $tx->status === 'PAID') {
-            $statusText = 'LUNAS (Sudah Bayar)';
-            $nominal = $tx->grand_total;
-            $invoice = $tx->invoice;
-            $tglBayar = $tx->getRawOriginal('created_at') ? \Carbon\Carbon::parse($tx->getRawOriginal('created_at'))->format('d/m/Y H:i') : ($tx->created_at ?: '-');
-        } elseif ($tx && $tx->status === 'UNPAID') {
-            $statusText = 'Menunggu Pembayaran';
-            $invoice = $tx->invoice;
+        foreach ($this->years as $yr) {
+            $tx = $user->transactions->first(function ($t) use ($yr) {
+                return (int) $t->tahun === (int) $yr ||
+                    $t->transactionDetails->contains(fn($d) => (int) $d->tahun === (int) $yr);
+            });
+
+            if ($tx && $tx->status === 'PAID') {
+                $yearlyValues[] = "LUNAS (Rp " . number_format($tx->grand_total, 0, ',', '.') . ")";
+            } elseif ($tx && $tx->status === 'UNPAID') {
+                $yearlyValues[] = "PENDING ({$tx->invoice})";
+                $unpaidList[] = $yr;
+            } else {
+                $yearlyValues[] = "BELUM BAYAR";
+                $unpaidList[] = $yr;
+            }
         }
 
-        return [
+        $row = [
             $this->rowNumber,
             $user->name,
             $user->no_anggota ? "'" . $user->no_anggota : '-',
@@ -137,12 +164,16 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
             $user->phone ? "'" . $user->phone : '-',
             $user->province->name ?? '-',
             $user->city->name ?? '-',
-            $tahun,
-            $statusText,
-            $nominal,
-            $invoice,
-            $tglBayar,
         ];
+
+        foreach ($yearlyValues as $val) {
+            $row[] = $val;
+        }
+
+        $row[] = count($unpaidList) > 0 ? implode(', ', $unpaidList) : 'Semua Lunas';
+        $row[] = count($unpaidList);
+
+        return $row;
     }
 
     public function styles(Worksheet $sheet)

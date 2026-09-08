@@ -19,7 +19,8 @@ class MonitoringIuranController extends Controller
     public function index(Request $request)
     {
         $currentYear = (int) date('Y');
-        $tahun = (int) ($request->tahun ?: $currentYear);
+        $rawTahun = $request->tahun;
+        $tahun = ($rawTahun === 'all') ? 'all' : (int) ($rawTahun ?: $currentYear);
         $statusBayar = $request->status_bayar ?: 'all';
         $q = $request->q;
 
@@ -42,26 +43,29 @@ class MonitoringIuranController extends Controller
             $cityId = $authUser->city_id;
         }
 
-        // Available years for selection
+        // Available active years with dues (only up to current year: 2024, 2025, 2026)
         $distinctTxYears = Transaction::whereNotNull('tahun')
             ->where('tahun', '!=', '')
             ->distinct()
             ->pluck('tahun')
             ->map(fn($y) => (int) $y)
+            ->filter(fn($y) => $y >= 2020 && $y <= $currentYear)
             ->toArray();
 
-        $availableYears = array_unique(array_merge([$currentYear + 1, $currentYear, 2025, 2024], $distinctTxYears));
-        rsort($availableYears);
+        $availableYears = array_unique(array_merge([2024, 2025, $currentYear], $distinctTxYears));
+        sort($availableYears); // [2024, 2025, 2026]
 
-        // Closure for checking PAID transaction in the specified year
-        $isPaidQuery = function ($query) use ($tahun) {
-            $query->where('status', 'PAID')
-                ->where(function ($sq) use ($tahun) {
-                    $sq->where('tahun', $tahun)
-                        ->orWhereHas('transactionDetails', function ($dq) use ($tahun) {
-                            $dq->where('tahun', $tahun);
-                        });
-                });
+        // Closure for checking PAID transaction in a specific year
+        $makePaidQuery = function ($yr) {
+            return function ($query) use ($yr) {
+                $query->where('status', 'PAID')
+                    ->where(function ($sq) use ($yr) {
+                        $sq->where('tahun', $yr)
+                            ->orWhereHas('transactionDetails', function ($dq) use ($yr) {
+                                $dq->where('tahun', $yr);
+                            });
+                    });
+            };
         };
 
         // Base user query (only confirmed/verified members)
@@ -69,23 +73,30 @@ class MonitoringIuranController extends Controller
             ->when($provinceId, fn($query) => $query->where('province_id', $provinceId))
             ->when($cityId, fn($query) => $query->where('city_id', $cityId));
 
-        // Global KPI Stats (within the active regional scope)
+        // Effective calculation year for KPI (if 'all', calculate against current active year)
+        $calcYear = ($tahun === 'all') ? $currentYear : $tahun;
+        $isPaidCalcQuery = $makePaidQuery($calcYear);
+
+        // Global KPI Stats
         $totalAnggota = (clone $baseQuery)->count();
-        $totalLunas = (clone $baseQuery)->whereHas('transactions', $isPaidQuery)->count();
+        $totalLunas = (clone $baseQuery)->whereHas('transactions', $isPaidCalcQuery)->count();
         $totalBelumBayar = max(0, $totalAnggota - $totalLunas);
         $persentaseLunas = $totalAnggota > 0 ? round(($totalLunas / $totalAnggota) * 100, 1) : 0;
 
-        // Total collected funds in the specified year
-        $totalNominal = Transaction::where('status', 'PAID')
-            ->where(function ($sq) use ($tahun) {
-                $sq->where('tahun', $tahun)
-                    ->orWhereHas('transactionDetails', function ($dq) use ($tahun) {
-                        $dq->where('tahun', $tahun);
-                    });
+        // Total collected funds in the specified year (or all years)
+        $totalNominalQuery = Transaction::where('status', 'PAID')
+            ->when($tahun !== 'all', function ($query) use ($tahun) {
+                $query->where(function ($sq) use ($tahun) {
+                    $sq->where('tahun', $tahun)
+                        ->orWhereHas('transactionDetails', function ($dq) use ($tahun) {
+                            $dq->where('tahun', $tahun);
+                        });
+                });
             })
             ->when($provinceId, fn($q) => $q->where('province_id', $provinceId))
-            ->when($cityId, fn($q) => $q->where('city_id', $cityId))
-            ->sum('grand_total');
+            ->when($cityId, fn($q) => $q->where('city_id', $cityId));
+
+        $totalNominal = $totalNominalQuery->sum('grand_total');
 
         // Apply filters to main paginated list
         $listQuery = (clone $baseQuery)
@@ -100,65 +111,107 @@ class MonitoringIuranController extends Controller
             });
 
         if ($statusBayar === 'paid') {
-            $listQuery->whereHas('transactions', $isPaidQuery);
+            if ($tahun === 'all') {
+                $listQuery->whereHas('transactions', fn($q) => $q->where('status', 'PAID'));
+            } else {
+                $listQuery->whereHas('transactions', $makePaidQuery($tahun));
+            }
         } elseif ($statusBayar === 'unpaid') {
-            $listQuery->whereDoesntHave('transactions', $isPaidQuery);
+            if ($tahun === 'all') {
+                $listQuery->whereDoesntHave('transactions', $makePaidQuery($currentYear));
+            } else {
+                $listQuery->whereDoesntHave('transactions', $makePaidQuery($tahun));
+            }
         }
 
         // Retrieve paginated records with relationships
         $users = $listQuery->with([
             'province',
             'city',
-            'transactions' => function ($q) use ($tahun) {
-                $q->where(function ($sq) use ($tahun) {
-                    $sq->where('tahun', $tahun)
-                        ->orWhereHas('transactionDetails', function ($dq) use ($tahun) {
-                            $dq->where('tahun', $tahun);
-                        });
-                })->latest();
+            'transactions' => function ($q) {
+                $q->whereIn('status', ['PAID', 'UNPAID'])
+                    ->with('transactionDetails')
+                    ->latest();
             }
         ])
         ->orderBy('name', 'ASC')
         ->paginate(20)
         ->withQueryString();
 
-        // Transform paginated items to include clear payment metadata
-        $users->getCollection()->transform(function ($user) use ($tahun) {
-            $tx = $user->transactions->first();
+        // Transform paginated items to include multi-year breakdown
+        $users->getCollection()->transform(function ($user) use ($tahun, $availableYears, $currentYear) {
+            $yearlyStatus = [];
+            $unpaidYears = [];
+            $paidYears = [];
 
-            $isPaid = false;
-            $paymentStatus = 'UNPAID';
-            $paidAt = null;
-            $invoice = null;
-            $paidAmount = null;
+            foreach ($availableYears as $yr) {
+                $tx = $user->transactions->first(function ($t) use ($yr) {
+                    return (int) $t->tahun === (int) $yr ||
+                        $t->transactionDetails->contains(fn($d) => (int) $d->tahun === (int) $yr);
+                });
 
-            if ($tx && $tx->status === 'PAID') {
-                $isPaid = true;
-                $paymentStatus = 'PAID';
-                $paidAt = $tx->created_at;
-                $invoice = $tx->invoice;
-                $paidAmount = $tx->grand_total;
-            } elseif ($tx && $tx->status === 'UNPAID') {
-                $paymentStatus = 'UNPAID_PENDING';
-                $invoice = $tx->invoice;
+                $isYrPaid = false;
+                $yrStatus = 'UNPAID';
+                $yrInvoice = null;
+                $yrPaidAt = null;
+                $yrAmount = 300000;
+
+                if ($tx && $tx->status === 'PAID') {
+                    $isYrPaid = true;
+                    $yrStatus = 'PAID';
+                    $yrInvoice = $tx->invoice;
+                    $yrPaidAt = $tx->getRawOriginal('created_at') ? \Carbon\Carbon::parse($tx->getRawOriginal('created_at'))->format('d/m/Y') : ($tx->created_at ?: null);
+                    $yrAmount = $tx->grand_total;
+                    $paidYears[] = $yr;
+                } elseif ($tx && $tx->status === 'UNPAID') {
+                    $yrStatus = 'UNPAID_PENDING';
+                    $yrInvoice = $tx->invoice;
+                    $unpaidYears[] = $yr;
+                } else {
+                    $unpaidYears[] = $yr;
+                }
+
+                $yearlyStatus[] = [
+                    'tahun'          => $yr,
+                    'is_paid'        => $isYrPaid,
+                    'payment_status' => $yrStatus,
+                    'invoice'        => $yrInvoice,
+                    'paid_at'        => $yrPaidAt,
+                    'amount'         => $yrAmount,
+                ];
             }
 
+            // Target year status for primary display (if specific year chosen, use that, else use current year)
+            $focusYear = ($tahun === 'all') ? $currentYear : (int) $tahun;
+            $focusStatus = collect($yearlyStatus)->firstWhere('tahun', $focusYear) ?: [
+                'tahun'          => $focusYear,
+                'is_paid'        => false,
+                'payment_status' => 'UNPAID',
+                'invoice'        => null,
+                'paid_at'        => null,
+                'amount'         => 300000,
+            ];
+
             return [
-                'id'              => $user->id,
-                'name'            => $user->name,
-                'no_anggota'      => $user->no_anggota,
-                'nik'             => $user->nik,
-                'email'           => $user->email,
-                'phone'           => $user->phone,
-                'province'        => $user->province ? ['id' => $user->province->id, 'name' => $user->province->name] : null,
-                'city'            => $user->city ? ['id' => $user->city->id, 'name' => $user->city->name] : null,
-                'image'           => $user->image,
-                'is_paid'         => $isPaid,
-                'payment_status'  => $paymentStatus,
-                'paid_at'         => $paidAt,
-                'invoice'         => $invoice,
-                'paid_amount'     => $paidAmount,
-                'expected_amount' => 300000,
+                'id'                 => $user->id,
+                'name'               => $user->name,
+                'no_anggota'         => $user->no_anggota,
+                'nik'                => $user->nik,
+                'email'              => $user->email,
+                'phone'              => $user->phone,
+                'province'           => $user->province ? ['id' => $user->province->id, 'name' => $user->province->name] : null,
+                'city'               => $user->city ? ['id' => $user->city->id, 'name' => $user->city->name] : null,
+                'image'              => $user->image,
+                'is_paid'            => $focusStatus['is_paid'],
+                'payment_status'     => $focusStatus['payment_status'],
+                'paid_at'            => $focusStatus['paid_at'],
+                'invoice'            => $focusStatus['invoice'],
+                'paid_amount'        => $focusStatus['amount'],
+                'expected_amount'    => 300000,
+                'yearly_status'      => $yearlyStatus,
+                'unpaid_years'       => $unpaidYears,
+                'paid_years'         => $paidYears,
+                'has_arrears'        => count($unpaidYears) > 0,
             ];
         });
 
@@ -200,7 +253,7 @@ class MonitoringIuranController extends Controller
      */
     public function export(Request $request)
     {
-        $tahun = (int) ($request->tahun ?: date('Y'));
+        $tahun = $request->tahun ?: 'all';
         return Excel::download(
             new MonitoringIuranExport($request),
             "monitoring_iuran_ikatwi_{$tahun}_" . date('Ymd_His') . ".xlsx"
