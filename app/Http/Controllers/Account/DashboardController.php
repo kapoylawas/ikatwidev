@@ -200,12 +200,21 @@ class DashboardController extends Controller
 
         $annualAmount = ($currentUser->status_anggota === 'Anggota Baru' || $currentUser->status_anggota === 'Anggota Muda') ? 100000 : 300000;
 
+        // Multi-year unpaid dues calculation (tunggakan masa lalu + tahun berjalan)
+        $unpaidYears = Transaction::getUnpaidYears($currentUser);
+        $hasUnpaidDue = count($unpaidYears) > 0;
+        $totalArrears = count($unpaidYears) * $annualAmount;
+
         $activeDue = [
             'tahun'               => $currentYearDue,
-            'amount'              => $annualAmount,
+            'amount'              => $hasUnpaidDue && count($unpaidYears) > 1 ? $totalArrears : $annualAmount,
+            'annualAmount'        => $annualAmount,
+            'totalArrears'        => $totalArrears,
             'status'              => $dueStatus,
             'isAnggotaKehormatan' => $isAnggotaKehormatan,
-            'hasUnpaidDue'        => in_array($dueStatus, ['UNPAID_NO_CART', 'IN_CART', 'UNPAID_PENDING', 'EXPIRED']),
+            'hasUnpaidDue'        => $hasUnpaidDue,
+            'unpaidYears'         => $unpaidYears,
+            'hasMultipleDues'     => count($unpaidYears) > 1,
             'activeInvoice'       => $dueStatus === 'UNPAID_PENDING' && $currentTx ? [
                 'invoice'           => $currentTx->invoice,
                 'reference'         => $currentTx->reference,

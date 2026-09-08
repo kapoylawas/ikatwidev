@@ -59,6 +59,8 @@ export default function Dashboard() {
             Inertia.get(`/account/transactions/${activeDue.activeInvoice.invoice}`);
         } else if (activeDue?.status === "IN_CART") {
             Inertia.get("/carts");
+        } else if (activeDue?.hasMultipleDues) {
+            Inertia.get("/account/tagihan");
         } else {
             Inertia.post("/account/tagihan/create-due-cart", { tahun: activeDue?.tahun });
         }
@@ -751,22 +753,32 @@ export default function Dashboard() {
                                     </div>
                                     <div>
                                         <span className="badge bg-warning text-dark px-3 py-1 rounded-pill small fw-bold">
-                                            PEMBERITAHUAN TAGIHAN
+                                            {activeDue?.hasMultipleDues ? "PEMBERITAHUAN TUNGGAKAN IURAN" : "PEMBERITAHUAN TAGIHAN"}
                                         </span>
-                                        <h4 className="fw-bold mb-0 mt-1">Iuran Anggota {activeDue.tahun}</h4>
+                                        <h4 className="fw-bold mb-0 mt-1">
+                                            {activeDue?.hasMultipleDues
+                                                ? `Tunggakan Iuran (${activeDue.unpaidYears?.length} Tahun: ${activeDue.unpaidYears?.join(", ")})`
+                                                : `Iuran Anggota ${activeDue.tahun}`}
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="card-body p-4">
                                 <p className="text-muted mb-3">
-                                    Halo <strong>{auth.user?.name}</strong>, Anda memiliki tagihan iuran anggota IKATWI untuk periode tahun berjalan yang belum diselesaikan.
+                                    Halo <strong>{auth.user?.name}</strong>, {activeDue?.hasMultipleDues
+                                        ? `Anda memiliki akumulasi tunggakan iuran anggota IKATWI untuk Tahun ${activeDue.unpaidYears?.join(", ")} yang belum diselesaikan.`
+                                        : `Anda memiliki tagihan iuran anggota IKATWI untuk periode tahun berjalan (${activeDue.tahun}) yang belum diselesaikan.`}
                                 </p>
 
                                 <div className="p-3 rounded-3 mb-4 border" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
                                     <div className="d-flex justify-content-between align-items-center mb-2">
                                         <span className="text-muted small">Jenis Tagihan:</span>
-                                        <strong className="text-dark">Iuran Tahunan {activeDue.tahun}</strong>
+                                        <strong className="text-dark">
+                                            {activeDue?.hasMultipleDues
+                                                ? `Tunggakan Iuran (${activeDue.unpaidYears?.length} Tahun)`
+                                                : `Iuran Tahunan ${activeDue.tahun}`}
+                                        </strong>
                                     </div>
                                     <div className="d-flex justify-content-between align-items-center mb-2">
                                         <span className="text-muted small">Status Tagihan:</span>
@@ -797,6 +809,8 @@ export default function Dashboard() {
                                             ? "Lanjutkan Pembayaran Invoice"
                                             : activeDue.status === "IN_CART"
                                             ? "Buka Keranjang & Bayar"
+                                            : activeDue.hasMultipleDues
+                                            ? "Bayar Semua / Cek Tagihan"
                                             : "Bayar Tagihan Sekarang"}
                                     </button>
                                     <button
@@ -863,14 +877,16 @@ export default function Dashboard() {
                                         <div>
                                             <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
                                                 <span className="badge bg-warning text-dark fw-bold px-2 py-1 rounded-pill small">
-                                                    <i className="fa fa-exclamation-circle me-1"></i> TAGIHAN IURAN
+                                                    <i className="fa fa-exclamation-circle me-1"></i> {activeDue?.hasMultipleDues ? "TUNGGAKAN IURAN" : "TAGIHAN IURAN"}
                                                 </span>
                                                 <span className="badge bg-light text-secondary border px-2 py-1 rounded-pill small">
-                                                    Periode {activeDue.tahun}
+                                                    {activeDue?.hasMultipleDues ? `Tahun ${activeDue.unpaidYears?.join(", ")}` : `Periode ${activeDue.tahun}`}
                                                 </span>
                                             </div>
                                             <h5 className="fw-bold mb-1 text-dark">
-                                                Iuran Tahunan Anggota Tahun {activeDue.tahun}
+                                                {activeDue?.hasMultipleDues
+                                                    ? `Akumulasi Tunggakan Iuran (${activeDue.unpaidYears?.length} Tahun: ${activeDue.unpaidYears?.join(", ")})`
+                                                    : `Iuran Tahunan Anggota Tahun ${activeDue.tahun}`}
                                             </h5>
                                             <p className="mb-0 text-muted small">
                                                 Status: <strong className={activeDue.status === "UNPAID_PENDING" ? "text-warning" : "text-danger"}>
@@ -885,7 +901,7 @@ export default function Dashboard() {
                                             className="btn btn-warning rounded-pill px-4 py-2 fw-bold text-dark shadow-sm d-flex align-items-center"
                                         >
                                             <i className="fa fa-bolt me-2"></i>
-                                            {activeDue.status === "UNPAID_PENDING" ? "Bayar Tagihan" : "Bayar Sekarang"}
+                                            {activeDue.status === "UNPAID_PENDING" ? "Bayar Tagihan" : activeDue.hasMultipleDues ? "Bayar Tunggakan" : "Bayar Sekarang"}
                                         </button>
                                         <Link href="/account/tagihan" className="btn btn-outline-secondary rounded-pill px-3 py-2 fw-semibold">
                                             <i className="fa fa-file-invoice me-1"></i> Detail
