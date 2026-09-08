@@ -460,7 +460,10 @@ export default function MonitoringIuranIndex() {
                             <span className="fw-bold text-dark">
                                 Daftar Pembayaran Iuran Anggota — Tahun {tahun}
                             </span>
-                            <span className="badge bg-light text-muted border ms-1" style={{ fontSize: '0.75rem' }}>
+                            <span
+                                className="px-2.5 py-0.5 rounded-pill fw-semibold ms-1"
+                                style={{ backgroundColor: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0', fontSize: '0.75rem' }}
+                            >
                                 {users.total} Data Ditemukan
                             </span>
                         </div>
@@ -505,25 +508,66 @@ export default function MonitoringIuranIndex() {
                                                         <div className="fw-bold text-dark" style={{ fontSize: '0.88rem' }}>
                                                             {item.name}
                                                         </div>
-                                                        <div className="d-flex align-items-center gap-2 mt-0.5 flex-wrap">
+                                                        <div className="d-flex align-items-center gap-2 mt-1 flex-wrap">
                                                             {item.no_anggota ? (
-                                                                <span className="badge bg-light text-dark border d-inline-flex align-items-center gap-1" style={{ fontSize: '0.72rem' }}>
+                                                                <span
+                                                                    className="d-inline-flex align-items-center gap-1 px-2.5 py-0.5 rounded-pill shadow-2xs"
+                                                                    style={{
+                                                                        backgroundColor: '#f8fafc',
+                                                                        border: '1px solid #cbd5e1',
+                                                                        color: '#1e293b',
+                                                                        fontSize: '0.73rem',
+                                                                        fontWeight: 600
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-id-badge" style={{ color: '#059669', fontSize: '0.72rem' }}></i>
                                                                     <span>KTA: {item.no_anggota}</span>
                                                                     <button
                                                                         type="button"
-                                                                        className="btn btn-link p-0 text-muted"
+                                                                        className="btn btn-link p-0 ms-0.5"
+                                                                        style={{ color: '#64748b' }}
                                                                         onClick={() => handleCopy(item.no_anggota, `kta-${item.id}`)}
                                                                         title="Salin No KTA"
                                                                     >
-                                                                        <i className={`fa ${copiedText === `kta-${item.id}` ? 'fa-check text-success' : 'fa-copy'}`} style={{ fontSize: '0.68rem' }}></i>
+                                                                        <i className={`fa ${copiedText === `kta-${item.id}` ? 'fa-check text-success' : 'fa-copy'}`} style={{ fontSize: '0.7rem' }}></i>
                                                                     </button>
                                                                 </span>
                                                             ) : (
-                                                                <span className="badge bg-light text-muted border" style={{ fontSize: '0.72rem' }}>
+                                                                <span
+                                                                    className="d-inline-flex align-items-center px-2 py-0.5 rounded-pill"
+                                                                    style={{
+                                                                        backgroundColor: '#f1f5f9',
+                                                                        border: '1px solid #e2e8f0',
+                                                                        color: '#64748b',
+                                                                        fontSize: '0.72rem',
+                                                                        fontWeight: 500
+                                                                    }}
+                                                                >
                                                                     KTA: -
                                                                 </span>
                                                             )}
-                                                            <span className="badge bg-secondary bg-opacity-10 text-secondary" style={{ fontSize: '0.7rem' }}>
+
+                                                            <span
+                                                                className="d-inline-flex align-items-center px-2.5 py-0.5 rounded-pill fw-semibold"
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        item.status_anggota === "Anggota Baru" ? "#eff6ff" :
+                                                                        item.status_anggota === "Anggota Muda" ? "#faf5ff" :
+                                                                        item.status_anggota === "Anggota Kehormatan" ? "#fffbeb" :
+                                                                        "#f0fdf4",
+                                                                    color:
+                                                                        item.status_anggota === "Anggota Baru" ? "#1d4ed8" :
+                                                                        item.status_anggota === "Anggota Muda" ? "#7e22ce" :
+                                                                        item.status_anggota === "Anggota Kehormatan" ? "#b45309" :
+                                                                        "#15803d",
+                                                                    border:
+                                                                        item.status_anggota === "Anggota Baru" ? "1px solid #bfdbfe" :
+                                                                        item.status_anggota === "Anggota Muda" ? "1px solid #e9d5ff" :
+                                                                        item.status_anggota === "Anggota Kehormatan" ? "1px solid #fde68a" :
+                                                                        "1px solid #bbf7d0",
+                                                                    fontSize: '0.71rem'
+                                                                }}
+                                                            >
                                                                 {item.status_anggota}
                                                             </span>
                                                         </div>
