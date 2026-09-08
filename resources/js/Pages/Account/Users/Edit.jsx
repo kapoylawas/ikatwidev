@@ -32,33 +32,30 @@ export default function UserEdit() {
     const [image, setImage] = useState("");
     const [nostr, setNostr] = useState(user.no_str);
     const [dateexprd, setDateExprd] = useState(user.date_exprd);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     //define method "handleCheckboxChange"
-    const handleCheckboxChange = (e) => {
-        //define data
-        let data = rolesData;
-
-        //check item already exists, if so, remove with filter
-        if (data.some((name) => name === e.target.value)) {
-            data = data.filter((name) => name !== e.target.value);
+    const handleCheckboxChange = (roleName) => {
+        let data = [...rolesData];
+        if (data.includes(roleName)) {
+            data = data.filter((name) => name !== roleName);
         } else {
-            //push new item to array
-            data.push(e.target.value);
+            data.push(roleName);
         }
-
-        //set data to state
         setRolesData(data);
     };
 
     //method "updateUser"
     const updateUser = async (e) => {
         e.preventDefault();
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
 
         //sending data
         Inertia.post(
             `/account/users/${user.id}`,
             {
-                //data
                 name: name,
                 email: email,
                 nik: nik,
@@ -75,16 +72,23 @@ export default function UserEdit() {
                 _method: "PUT",
             },
             {
+                onFinish: () => setIsSubmitting(false),
                 onSuccess: () => {
-                    //show alert
                     Swal.fire({
-                        title: "Success!",
-                        text: "Data updated successfully!",
+                        title: "Berhasil!",
+                        text: "Data pengguna berhasil diperbarui.",
                         icon: "success",
                         showConfirmButton: false,
                         timer: 1500,
                     });
                 },
+                onError: () => {
+                    Swal.fire({
+                        title: "Gagal!",
+                        text: "Periksa kembali isian formulir Anda.",
+                        icon: "error",
+                    });
+                }
             }
         );
     };
@@ -93,66 +97,82 @@ export default function UserEdit() {
         <LayoutAccount>
             <Head title={`Edit User: ${user.name} - IKATWI`} />
 
-            <div className="user-edit-page">
-                {/* Header Section */}
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-                    <div>
-                        <h1 className="h4 text-dark fw-bold mb-1 d-flex align-items-center gap-2">
-                            <i className="fa fa-user-edit text-dark"></i>
-                            <span>Edit Data Pengguna</span>
-                        </h1>
-                        <p className="text-muted small mb-0">
-                            Perbarui informasi akun, data STR, hak akses, dan wilayah keanggotaan pengguna.
-                        </p>
-                    </div>
+            <div className="container-fluid py-4 user-edit-container">
+                {/* Header Banner */}
+                <div className="header-banner-box p-4 rounded-4 mb-4 shadow-sm">
+                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div className="d-flex align-items-center">
+                            <div className="header-icon-wrap me-3 shadow">
+                                <i className="fa fa-user-edit fa-2x text-white"></i>
+                            </div>
+                            <div>
+                                <h4 className="mb-0 fw-bold header-main-title">
+                                    Edit Data Pengguna
+                                </h4>
+                                <p className="header-subtitle mb-0 mt-1">
+                                    Perbarui informasi profil akun, data STR, penempatan wilayah (DPW/DPC), dan hak akses sistem.
+                                </p>
+                            </div>
+                        </div>
 
-                    <div>
-                        <Link
-                            href="/account/users"
-                            className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 text-decoration-none shadow-sm"
-                            style={{
-                                backgroundColor: '#ffffff',
-                                border: '1px solid #cbd5e1',
-                                color: '#334155',
-                                borderRadius: '8px',
-                                fontWeight: 600,
-                                fontSize: '0.84rem'
-                            }}
-                        >
-                            <i className="fa fa-arrow-left"></i>
-                            <span>Kembali ke Daftar</span>
-                        </Link>
+                        <div>
+                            <Link
+                                href="/account/users"
+                                className="btn btn-back-users rounded-pill px-4 py-2 fw-bold shadow-sm"
+                            >
+                                <i className="fa fa-arrow-left me-1.5 text-primary"></i>
+                                <span>Kembali ke Daftar</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
-                {/* Form Card */}
-                <div className="card border-0 shadow-sm" style={{ borderRadius: '12px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}>
-                    <div className="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center" style={{ borderColor: '#e2e8f0' }}>
-                        <span className="fw-bold text-dark">
-                            <i className="fa fa-id-badge text-dark me-2"></i> Formulir Perubahan Data: {user.name}
-                        </span>
+                {/* Main Form Card */}
+                <div className="card edit-form-card rounded-4 shadow-sm overflow-hidden mb-4">
+                    <div className="card-header form-card-header py-3 px-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div className="d-flex align-items-center gap-3">
+                            <span className="card-icon-pill bg-blue-icon-pill shadow-sm">
+                                <i className="fa fa-id-card text-white"></i>
+                            </span>
+                            <div>
+                                <h5 className="mb-0 fw-bold form-header-title">
+                                    Formulir Perubahan Data Pengguna
+                                </h5>
+                                <span className="form-header-sub">
+                                    {user.name}
+                                </span>
+                            </div>
+                        </div>
                         {user.no_anggota && (
-                            <span className="badge font-monospace px-2 py-1" style={{ backgroundColor: '#f1f5f9', color: '#0f172a', border: '1px solid #e2e8f0', fontSize: '0.8rem', fontWeight: 700 }}>
-                                No. Anggota: {user.no_anggota}
+                            <span className="badge-no-anggota-pill shadow-sm">
+                                <i className="fa fa-award me-1 text-emerald-600"></i>
+                                No. Anggota: <strong>{user.no_anggota}</strong>
                             </span>
                         )}
                     </div>
 
-                    <div className="card-body p-4">
+                    <div className="card-body p-4 p-lg-5">
                         <form onSubmit={updateUser}>
-                            <div className="row g-3">
+                            {/* SECTION 1: Identitas & STR */}
+                            <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                                <span className="section-dot bg-primary"></span>
+                                <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
+                                    1. Data Identitas &amp; STR
+                                </h6>
+                            </div>
+
+                            <div className="row g-3 mb-4">
                                 {/* NIK */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Nomor Induk Kependudukan (NIK)
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-fingerprint me-1.5 text-primary"></i> Nomor Induk Kependudukan (NIK)
                                     </label>
                                     <input
                                         type="number"
-                                        className={`form-control form-control-sm ${errors.nik ? 'is-invalid' : ''}`}
-                                        value={nik}
+                                        className={`form-control form-control-custom ${errors.nik ? 'is-invalid' : ''}`}
+                                        value={nik || ""}
                                         onChange={(e) => setNik(e.target.value)}
-                                        placeholder="No Induk Kependudukan"
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                        placeholder="Ketik 16 digit NIK..."
                                     />
                                     {errors.nik && (
                                         <div className="invalid-feedback small mt-1">{errors.nik}</div>
@@ -161,30 +181,31 @@ export default function UserEdit() {
 
                                 {/* No STR */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Nomor STR
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-certificate me-1.5 text-emerald-600"></i> Nomor STR
                                     </label>
                                     <input
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.no_str ? 'is-invalid' : ''}`}
+                                        className={`form-control form-control-custom ${errors.no_str ? 'is-invalid' : ''}`}
                                         value={nostr || ""}
                                         onChange={(e) => setNostr(e.target.value)}
-                                        placeholder="Nomor Surat Tanda Registrasi"
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                        placeholder="Nomor Surat Tanda Registrasi..."
                                     />
+                                    {errors.no_str && (
+                                        <div className="invalid-feedback small mt-1">{errors.no_str}</div>
+                                    )}
                                 </div>
 
                                 {/* Tanggal Expired STR */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Tanggal Kedaluwarsa STR
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-calendar-alt me-1.5 text-amber-600"></i> Tanggal Kedaluwarsa STR
                                     </label>
                                     <input
                                         type="date"
-                                        className={`form-control form-control-sm ${errors.date_exprd ? 'is-invalid' : ''}`}
+                                        className={`form-control form-control-custom ${errors.date_exprd ? 'is-invalid' : ''}`}
                                         value={dateexprd || ""}
                                         onChange={(e) => setDateExprd(e.target.value)}
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
                                     />
                                     {errors.date_exprd && (
                                         <div className="invalid-feedback small mt-1">{errors.date_exprd}</div>
@@ -193,32 +214,40 @@ export default function UserEdit() {
 
                                 {/* Foto Profil */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Foto Profil Baru (Opsional)
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-image me-1.5 text-indigo-600"></i> Foto Profil Baru <span className="text-slate-500 fw-normal text-lowercase">(opsional)</span>
                                     </label>
                                     <input
                                         type="file"
-                                        className={`form-control form-control-sm ${errors.image ? 'is-invalid' : ''}`}
+                                        className={`form-control form-control-custom ${errors.image ? 'is-invalid' : ''}`}
                                         onChange={(e) => setImage(e.target.files[0])}
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem', paddingTop: '7px' }}
                                     />
                                     {errors.image && (
                                         <div className="invalid-feedback small mt-1">{errors.image}</div>
                                     )}
                                 </div>
+                            </div>
 
+                            {/* SECTION 2: Data Profil & Kontak */}
+                            <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                                <span className="section-dot bg-emerald-500"></span>
+                                <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
+                                    2. Profil Pengguna &amp; Kontak
+                                </h6>
+                            </div>
+
+                            <div className="row g-3 mb-4">
                                 {/* Full Name */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Nama Lengkap & Gelar <span className="text-danger">*</span>
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-user me-1.5 text-primary"></i> Nama Lengkap &amp; Gelar <span className="text-danger">*</span>
                                     </label>
                                     <input
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.name ? 'is-invalid' : ''}`}
-                                        value={name}
+                                        className={`form-control form-control-custom ${errors.name ? 'is-invalid' : ''}`}
+                                        value={name || ""}
                                         onChange={(e) => setName(e.target.value)}
-                                        placeholder="Masukkan Nama Lengkap"
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                        placeholder="Nama lengkap beserta gelar..."
                                     />
                                     {errors.name && (
                                         <div className="invalid-feedback small mt-1">{errors.name}</div>
@@ -227,41 +256,49 @@ export default function UserEdit() {
 
                                 {/* Email Address */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Alamat Email <span className="text-danger">*</span>
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-envelope me-1.5 text-primary"></i> Alamat Email <span className="text-danger">*</span>
                                     </label>
                                     <input
                                         type="email"
-                                        className={`form-control form-control-sm ${errors.email ? 'is-invalid' : ''}`}
-                                        value={email}
+                                        className={`form-control form-control-custom ${errors.email ? 'is-invalid' : ''}`}
+                                        value={email || ""}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="nama@email.com"
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                        placeholder="contoh@email.com"
                                     />
                                     {errors.email && (
                                         <div className="invalid-feedback small mt-1">{errors.email}</div>
                                     )}
                                 </div>
+                            </div>
 
+                            {/* SECTION 3: Wilayah & Status Keanggotaan */}
+                            <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                                <span className="section-dot bg-indigo-500"></span>
+                                <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
+                                    3. Wilayah Organisasi &amp; Status
+                                </h6>
+                            </div>
+
+                            <div className="row g-3 mb-4">
                                 {/* DPW (Provinsi) */}
-                                <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        DPW (Provinsi)
+                                <div className="col-12 col-md-4">
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-landmark me-1.5 text-emerald-600"></i> DPW (Provinsi)
                                     </label>
                                     <select
-                                        className={`form-select form-select-sm ${errors.province_id ? 'is-invalid' : ''}`}
-                                        value={provinceID}
+                                        className={`form-select form-control-custom ${errors.province_id ? 'is-invalid' : ''}`}
+                                        value={provinceID || ""}
                                         onChange={(e) => {
                                             setProvinceID(e.target.value);
                                             setCityID("");
                                         }}
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
                                     >
                                         <option value="">-- Pilih Wilayah DPW --</option>
                                         {(provinces || []).map((province) => (
-                                            <option value={province.id} key={province.id}>
-                                                {province.name}
-                                            </option>
+                                             <option value={province.id} key={province.id}>
+                                                 {province.name}
+                                             </option>
                                         ))}
                                     </select>
                                     {errors.province_id && (
@@ -270,15 +307,14 @@ export default function UserEdit() {
                                 </div>
 
                                 {/* DPC (Kota/Kab) */}
-                                <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        DPC (Kota/Kab)
+                                <div className="col-12 col-md-4">
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-city me-1.5 text-indigo-600"></i> DPC (Kota/Kab)
                                     </label>
                                     <select
-                                        className={`form-select form-select-sm ${errors.city_id ? 'is-invalid' : ''}`}
-                                        value={cityID}
+                                        className={`form-select form-control-custom ${errors.city_id ? 'is-invalid' : ''}`}
+                                        value={cityID || ""}
                                         onChange={(e) => setCityID(e.target.value)}
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
                                     >
                                         <option value="">-- Pilih Cabang DPC --</option>
                                         {(cities || [])
@@ -295,17 +331,16 @@ export default function UserEdit() {
                                 </div>
 
                                 {/* Status Anggota */}
-                                <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Status Keanggotaan
+                                <div className="col-12 col-md-4">
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-user-tag me-1.5 text-primary"></i> Status Keanggotaan
                                     </label>
                                     <select
-                                        className={`form-select form-select-sm ${errors.status_anggota ? 'is-invalid' : ''}`}
+                                        className={`form-select form-control-custom ${errors.status_anggota ? 'is-invalid' : ''}`}
                                         value={statusAnggota || ""}
                                         onChange={(e) => setStatusAnggota(e.target.value)}
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
                                     >
-                                        <option value="">-- Pilih Status Keanggotaan --</option>
+                                        <option value="">-- Pilih Status --</option>
                                         <option value="Anggota Biasa">Anggota Biasa</option>
                                         <option value="Anggota Luar Biasa">Anggota Luar Biasa</option>
                                         <option value="Anggota Kehormatan">Anggota Kehormatan</option>
@@ -317,34 +352,42 @@ export default function UserEdit() {
 
                                 {/* Alamat Lengkap */}
                                 <div className="col-12">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Alamat Lengkap
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-map-marker-alt me-1.5 text-danger"></i> Alamat Lengkap
                                     </label>
                                     <textarea
-                                        className={`form-control ${errors.alamat ? 'is-invalid' : ''}`}
+                                        className={`form-control form-control-custom-textarea ${errors.alamat ? 'is-invalid' : ''}`}
                                         rows={3}
                                         value={alamat || ""}
                                         onChange={(e) => setAlamat(e.target.value)}
-                                        placeholder="Alamat Lengkap"
-                                        style={{ borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                        placeholder="Ketik alamat lengkap domisili / tempat tinggal..."
                                     />
                                     {errors.alamat && (
                                         <div className="invalid-feedback small mt-1">{errors.alamat}</div>
                                     )}
                                 </div>
+                            </div>
 
+                            {/* SECTION 4: Keamanan Password */}
+                            <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                                <span className="section-dot bg-amber-500"></span>
+                                <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
+                                    4. Keamanan Akun &amp; Kata Sandi <span className="text-slate-500 fw-normal text-lowercase">(opsional)</span>
+                                </h6>
+                            </div>
+
+                            <div className="row g-3 mb-4">
                                 {/* Password Baru (Opsional) */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Ganti Password <span className="text-muted fw-normal">(Kosongkan jika tidak diubah)</span>
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-key me-1.5 text-amber-600"></i> Ganti Password <span className="text-slate-500 fw-normal text-lowercase">(kosongkan jika tidak diubah)</span>
                                     </label>
                                     <input
                                         type="password"
-                                        className={`form-control form-control-sm ${errors.password ? 'is-invalid' : ''}`}
+                                        className={`form-control form-control-custom ${errors.password ? 'is-invalid' : ''}`}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="Masukkan password baru"
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                        placeholder="Ketik password baru jika ingin mengubah..."
                                     />
                                     {errors.password && (
                                         <div className="invalid-feedback small mt-1">{errors.password}</div>
@@ -353,87 +396,329 @@ export default function UserEdit() {
 
                                 {/* Password Confirmation */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-dark mb-1">
-                                        Konfirmasi Password Baru
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fa fa-lock me-1.5 text-amber-600"></i> Konfirmasi Password Baru
                                     </label>
                                     <input
                                         type="password"
-                                        className="form-control form-control-sm"
+                                        className="form-control form-control-custom"
                                         value={passwordConfirmation}
                                         onChange={(e) => setPasswordConfirmation(e.target.value)}
-                                        placeholder="Ulangi password baru"
-                                        style={{ height: '40px', borderRadius: '8px', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontSize: '0.85rem' }}
+                                        placeholder="Ketik ulang password baru..."
                                     />
-                                </div>
-
-                                {/* Roles */}
-                                <div className="col-12">
-                                    <label className="form-label small fw-bold text-dark mb-2">
-                                        Hak Akses (Role)
-                                    </label>
-                                    <div className="p-3 rounded" style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                                        <div className="d-flex flex-wrap gap-3">
-                                            {(roles || []).map((role, index) => (
-                                                <div className="form-check" key={index}>
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value={role.name}
-                                                        defaultChecked={rolesData.some((name) => name === role.name)}
-                                                        onChange={handleCheckboxChange}
-                                                        id={`check-${role.id}`}
-                                                    />
-                                                    <label
-                                                        className="form-check-label small fw-semibold text-dark"
-                                                        htmlFor={`check-${role.id}`}
-                                                    >
-                                                        {role.name}
-                                                    </label>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    {errors.roles && (
-                                        <div className="text-danger small mt-1">{errors.roles}</div>
-                                    )}
                                 </div>
                             </div>
 
+                            {/* SECTION 5: Hak Akses (Role) */}
+                            <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                                <span className="section-dot bg-violet-600"></span>
+                                <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
+                                    5. Hak Akses &amp; Peran Sistem (Roles)
+                                </h6>
+                            </div>
+
+                            <div className="mb-4">
+                                <div className="p-3.5 rounded-4 role-selection-box">
+                                    <div className="row g-2.5">
+                                        {(roles || []).map((role) => {
+                                            const isChecked = rolesData.includes(role.name);
+                                            return (
+                                                <div className="col-6 col-sm-4 col-md-3 col-lg-2" key={role.id}>
+                                                    <div
+                                                        onClick={() => handleCheckboxChange(role.name)}
+                                                        className={`role-chip-card ${isChecked ? 'role-chip-active' : ''} shadow-sm`}
+                                                    >
+                                                        <div className="d-flex align-items-center gap-2">
+                                                            <div className={`role-checkbox-circle ${isChecked ? 'circle-active' : ''}`}>
+                                                                {isChecked && <i className="fa fa-check text-white"></i>}
+                                                            </div>
+                                                            <span className="role-chip-label text-truncate">
+                                                                {role.name}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                                {errors.roles && (
+                                    <div className="text-danger small mt-2 fw-semibold">
+                                        <i className="fa fa-exclamation-circle me-1"></i>
+                                        {errors.roles}
+                                    </div>
+                                )}
+                            </div>
+
                             {/* Submit & Reset Buttons */}
-                            <div className="d-flex gap-2 mt-4 pt-3 border-top" style={{ borderColor: '#e2e8f0' }}>
+                            <div className="d-flex align-items-center gap-2.5 pt-4 border-top">
                                 <button
                                     type="submit"
-                                    className="btn btn-sm d-inline-flex align-items-center gap-2 px-4 py-2 text-white border-0 shadow-sm"
-                                    style={{
-                                        backgroundColor: '#0f172a',
-                                        borderRadius: '8px',
-                                        fontWeight: 600,
-                                        fontSize: '0.85rem'
-                                    }}
+                                    disabled={isSubmitting}
+                                    className="btn btn-save-action shadow-sm"
                                 >
-                                    <i className="fa fa-save"></i>
-                                    <span>Simpan Perubahan</span>
+                                    {isSubmitting ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                            <span>Menyimpan...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i className="fa fa-save me-1.5"></i>
+                                            <span>Simpan Perubahan</span>
+                                        </>
+                                    )}
                                 </button>
                                 <button
                                     type="reset"
-                                    className="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 shadow-sm"
-                                    style={{
-                                        backgroundColor: '#ffffff',
-                                        border: '1px solid #cbd5e1',
-                                        color: '#64748b',
-                                        borderRadius: '8px',
-                                        fontWeight: 600,
-                                        fontSize: '0.85rem'
+                                    onClick={() => {
+                                        setName(user.name);
+                                        setNik(user.nik);
+                                        setEmail(user.email);
+                                        setAlamat(user.alamat);
+                                        setProvinceID(user.province_id);
+                                        setCityID(user.city_id);
+                                        setStatusAnggota(user.status_anggota);
+                                        setRolesData(user.roles.map((obj) => obj.name));
+                                        setPassword("");
+                                        setPasswordConfirmation("");
+                                        setNostr(user.no_str);
+                                        setDateExprd(user.date_exprd);
                                     }}
+                                    className="btn btn-reset-custom shadow-sm"
                                 >
-                                    <i className="fa fa-undo"></i>
-                                    <span>Reset</span>
+                                    <i className="fa fa-undo me-1.5"></i>
+                                    <span>Reset Formulir</span>
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                .user-edit-container {
+                    color: #1e293b;
+                }
+
+                /* Header Banner */
+                .header-banner-box {
+                    background-color: #ffffff;
+                    border: 1.5px solid #cbd5e1 !important;
+                    border-left: 6px solid #2563eb !important;
+                    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+                }
+                .header-icon-wrap {
+                    width: 54px;
+                    height: 54px;
+                    border-radius: 14px;
+                    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+                    flex-shrink: 0;
+                }
+                .header-main-title {
+                    color: #0f172a;
+                    font-size: 1.35rem;
+                    letter-spacing: -0.02em;
+                }
+                .header-subtitle {
+                    color: #475569;
+                    font-size: 0.88rem;
+                    font-weight: 500;
+                }
+                .btn-back-users {
+                    background-color: #ffffff;
+                    border: 1.5px solid #cbd5e1;
+                    color: #1e293b;
+                    font-size: 0.86rem;
+                    transition: all 0.2s ease;
+                }
+                .btn-back-users:hover {
+                    background-color: #f8fafc;
+                    border-color: #94a3b8;
+                    color: #0f172a;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+                }
+
+                /* Main Form Card */
+                .edit-form-card {
+                    background-color: #ffffff;
+                    border: 1.5px solid #cbd5e1 !important;
+                    border-top: 4px solid #2563eb !important;
+                    box-shadow: 0 6px 20px -2px rgba(15, 23, 42, 0.08);
+                }
+                .form-card-header {
+                    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+                    border-bottom: 1.5px solid #e2e8f0;
+                }
+                .card-icon-pill {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 10px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 16px;
+                    flex-shrink: 0;
+                }
+                .bg-blue-icon-pill {
+                    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                }
+                .form-header-title {
+                    color: #0f172a;
+                    font-size: 1.05rem;
+                }
+                .form-header-sub {
+                    color: #475569;
+                    font-size: 0.78rem;
+                    font-weight: 600;
+                    display: block;
+                }
+                .badge-no-anggota-pill {
+                    background-color: #ecfdf5;
+                    color: #047857;
+                    border: 1.5px solid #a7f3d0;
+                    padding: 5px 14px;
+                    border-radius: 9999px;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    display: inline-flex;
+                    align-items: center;
+                }
+
+                /* Form Sections */
+                .section-dot {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    display: inline-block;
+                }
+                .form-control-custom {
+                    height: 42px;
+                    border-radius: 10px;
+                    border: 1.5px solid #cbd5e1;
+                    background-color: #ffffff;
+                    font-size: 0.86rem;
+                    color: #0f172a;
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                }
+                .form-control-custom:focus {
+                    background-color: #ffffff;
+                    border-color: #2563eb;
+                    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+                    color: #0f172a;
+                }
+                .form-control-custom-textarea {
+                    border-radius: 10px;
+                    border: 1.5px solid #cbd5e1;
+                    background-color: #ffffff;
+                    font-size: 0.86rem;
+                    color: #0f172a;
+                    font-weight: 500;
+                    padding: 10px 14px;
+                    transition: all 0.2s ease;
+                }
+                .form-control-custom-textarea:focus {
+                    background-color: #ffffff;
+                    border-color: #2563eb;
+                    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+                    color: #0f172a;
+                }
+
+                /* Roles Selection Box */
+                .role-selection-box {
+                    background-color: #f8fafc;
+                    border: 1.5px solid #e2e8f0;
+                    padding: 16px;
+                }
+                .role-chip-card {
+                    background-color: #ffffff;
+                    border: 1.5px solid #cbd5e1;
+                    border-radius: 10px;
+                    padding: 10px 12px;
+                    cursor: pointer;
+                    user-select: none;
+                    transition: all 0.18s ease;
+                }
+                .role-chip-card:hover {
+                    border-color: #94a3b8;
+                    background-color: #ffffff;
+                    transform: translateY(-1px);
+                }
+                .role-chip-active {
+                    background-color: #eff6ff !important;
+                    border-color: #3b82f6 !important;
+                    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15) !important;
+                }
+                .role-checkbox-circle {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 6px;
+                    border: 1.5px solid #cbd5e1;
+                    background-color: #ffffff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 10px;
+                    flex-shrink: 0;
+                    transition: all 0.18s ease;
+                }
+                .circle-active {
+                    background-color: #2563eb;
+                    border-color: #2563eb;
+                }
+                .role-chip-label {
+                    font-size: 0.82rem;
+                    font-weight: 700;
+                    color: #1e293b;
+                }
+                .role-chip-active .role-chip-label {
+                    color: #1d4ed8;
+                }
+
+                /* Action buttons */
+                .btn-save-action {
+                    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 10px;
+                    font-weight: 700;
+                    font-size: 0.88rem;
+                    padding: 10px 24px;
+                    display: inline-flex;
+                    align-items: center;
+                    transition: all 0.2s ease;
+                }
+                .btn-save-action:hover {
+                    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                    color: #ffffff;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+                }
+                .btn-reset-custom {
+                    background-color: #ffffff;
+                    border: 1.5px solid #cbd5e1;
+                    color: #475569;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    font-size: 0.88rem;
+                    padding: 10px 20px;
+                    display: inline-flex;
+                    align-items: center;
+                    transition: all 0.2s ease;
+                }
+                .btn-reset-custom:hover {
+                    background-color: #f8fafc;
+                    border-color: #94a3b8;
+                    color: #0f172a;
+                    transform: translateY(-1px);
+                }
+            `}</style>
         </LayoutAccount>
     );
 }
