@@ -6,56 +6,68 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
-use PDF;
 
 class EktaController extends Controller
 {
     public function index()
     {
-        $biodata = User::where('id', auth()->user()->id)->first();
+        $user = auth()->user();
+        $biodata = User::where('id', $user->id)->first();
+        $memberStatus = $biodata->status_anggota ?? 'Anggota Biasa';
 
-        $tahun = date('Y');
+        // Retrieve all PAID transactions of the user
         $transactions = Transaction::with('user', 'transactionDetails')
-            ->where('user_id', auth()->user()->id)
-            ->where('cek_ts', 1)
-            ->where(function ($q) use ($tahun) {
-                $q->where('tahun', $tahun)
-                  ->orWhereHas('transactionDetails', function ($qd) use ($tahun) {
-                      $qd->where('tahun', $tahun);
-                  });
-            })->get();
-        $statusAnggota = User::where('id', auth()->user()->id)->first();
+            ->where('user_id', $user->id)
+            ->where('status', 'PAID')
+            ->get();
+
+        $unpaidYears = Transaction::getUnpaidYears($user);
+
+        // Anggota Kehormatan is exempt from dues; Regular members must have completed all dues
+        if ($memberStatus === 'Anggota Kehormatan') {
+            $isPaid = true;
+        } else {
+            $isPaid = $transactions->isNotEmpty() && count($unpaidYears) === 0;
+        }
 
         return inertia('Account/Ekta/Index', [
-            'biodata' => $biodata,
-            'transactions' => $transactions,
-            'statusAnggota' => $statusAnggota,
+            'biodata'       => $biodata,
+            'transactions'  => $transactions,
+            'statusAnggota' => $biodata,
+            'isPaid'        => $isPaid,
+            'unpaidYears'   => $unpaidYears,
         ]);
     }
 
     public function cetakekta()
     {
-        $biodata = User::where('id', auth()->user()->id)->first();
+        $user = auth()->user();
+        $biodata = User::where('id', $user->id)->first();
+        $memberStatus = $biodata->status_anggota ?? 'Anggota Biasa';
 
-        $tahun = date('Y');
         $transactions = Transaction::with('user', 'transactionDetails')
-            ->where('user_id', auth()->user()->id)
-            ->where('cek_ts', 1)
-            ->where(function ($q) use ($tahun) {
-                $q->where('tahun', $tahun)
-                  ->orWhereHas('transactionDetails', function ($qd) use ($tahun) {
-                      $qd->where('tahun', $tahun);
-                  });
-            })->get();
-        $statusAnggota = User::where('id', auth()->user()->id)->first();
+            ->where('user_id', $user->id)
+            ->where('status', 'PAID')
+            ->get();
 
-        // $pdf = PDF::loadView('cetakEkta', ['biodata' => $biodata]);
-        // return $pdf->stream('E-KTA.pdf');
+        $unpaidYears = Transaction::getUnpaidYears($user);
+
+        if ($memberStatus === 'Anggota Kehormatan') {
+            $isPaid = true;
+        } else {
+            $isPaid = $transactions->isNotEmpty() && count($unpaidYears) === 0;
+        }
+
+        if (!$isPaid) {
+            return redirect()->route('account.ekta.index');
+        }
 
         return inertia('Account/Cetak/Index', [
-            'biodata' => $biodata,
-            'transactions' => $transactions,
-            'statusAnggota' => $statusAnggota,
+            'biodata'       => $biodata,
+            'transactions'  => $transactions,
+            'statusAnggota' => $biodata,
+            'isPaid'        => $isPaid,
+            'unpaidYears'   => $unpaidYears,
         ]);
     }
 }

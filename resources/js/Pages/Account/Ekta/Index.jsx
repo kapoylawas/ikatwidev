@@ -73,7 +73,7 @@ function ResponsiveCardWrapper({ children }) {
 }
 
 export default function EktaIndex() {
-    const { biodata, transactions = [], statusAnggota } = usePage().props;
+    const { biodata, transactions = [], statusAnggota, isPaid: isPaidProp, unpaidYears = [] } = usePage().props;
 
     const [isDownloading, setIsDownloading] = useState(false);
     const [downloadTarget, setDownloadTarget] = useState("");
@@ -82,14 +82,12 @@ export default function EktaIndex() {
     const backCardRef = useRef(null);
     const bothCardsRef = useRef(null);
 
-    const status = (transactions || []).map((ts) => ts.status);
     const memberStatus = statusAnggota?.status_anggota || biodata?.status_anggota || "Anggota Biasa";
 
-    const isPaid =
-        transactions.some((ts) => ts.status === "PAID" || ts.status === "SUCCESS") ||
-        status.includes("PAID") ||
-        memberStatus === "Anggota Kehormatan" ||
-        biodata?.confirm === "true";
+    // E-KTA hanya muncul jika sudah membayar lunas seluruh kewajiban iuran (atau berstatus Anggota Kehormatan)
+    const isPaid = typeof isPaidProp === "boolean"
+        ? isPaidProp
+        : (memberStatus === "Anggota Kehormatan" || (transactions.some((ts) => ts.status === "PAID" || ts.status === "SUCCESS") && (!unpaidYears || unpaidYears.length === 0)));
 
     const currentYear = new Date().getFullYear();
 
