@@ -40,6 +40,30 @@ export default function TagihanIndex() {
         Inertia.post("/account/tagihan/create-due-cart", { tahun });
     };
 
+    const formatTransactionYears = (tx) => {
+        if (!tx) return "-";
+        const detailYears = (tx.transaction_details || tx.transactionDetails || [])
+            .map((d) => d.tahun)
+            .filter(Boolean);
+        const allYears = Array.from(new Set([...detailYears, tx.tahun].filter(Boolean))).sort();
+        return allYears.length > 0 ? allYears.join(", ") : (tx.tahun || "-");
+    };
+
+    const formatTransactionDate = (tx) => {
+        if (!tx) return "-";
+        if (tx.raw_created_at) {
+            const d = new Date(tx.raw_created_at);
+            if (!isNaN(d.getTime())) {
+                return d.toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                });
+            }
+        }
+        return tx.created_at || "-";
+    };
+
     return (
         <>
             <Head title="Pusat Tagihan & Iuran - IKATWI" />
@@ -517,7 +541,7 @@ export default function TagihanIndex() {
                                                     </td>
                                                     <td>
                                                         <span className="badge-tahun-history">
-                                                            {tx.cart_items?.[0]?.tahun || activeDue?.tahun || "-"}
+                                                            {formatTransactionYears(tx)}
                                                         </span>
                                                     </td>
                                                     <td>
@@ -527,7 +551,7 @@ export default function TagihanIndex() {
                                                     </td>
                                                     <td>
                                                         <span className="text-slate-600 small">
-                                                            {tx.created_at ? new Date(tx.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : "-"}
+                                                            {formatTransactionDate(tx)}
                                                         </span>
                                                     </td>
                                                     <td>
@@ -964,6 +988,16 @@ export default function TagihanIndex() {
                         border-radius: 6px;
                         font-weight: 700;
                         font-size: 0.8rem;
+                    }
+                    .badge-tahun-history {
+                        background-color: #f1f5f9;
+                        color: #0f172a;
+                        border: 1px solid #cbd5e1;
+                        padding: 3px 10px;
+                        border-radius: 6px;
+                        font-weight: 700;
+                        font-size: 0.82rem;
+                        display: inline-block;
                     }
 
                     /* History Table */

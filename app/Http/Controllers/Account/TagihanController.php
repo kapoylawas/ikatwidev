@@ -59,6 +59,7 @@ class TagihanController extends Controller
         // Historical dues transactions
         $transactions = Transaction::where('user_id', $user->id)
             ->whereNotNull('tahun')
+            ->with('transactionDetails')
             ->orderBy('tahun', 'desc')
             ->latest()
             ->get();
