@@ -126,8 +126,9 @@ class Transaction extends Model
         }
 
         // Tentukan tahun awal kewajiban iuran mengikuti tahun registrasi akun pengguna:
+        // Jika created_at null (anggota migrasi lama), default ke 2024 (awal sistem iuran online IKATWI)
         $rawCreatedAt = $user->getRawOriginal('created_at') ?: $user->created_at;
-        $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : $currentYear;
+        $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : 2024;
         
         // Minimal tahun 2024 sebagai awal mula sistem iuran daring IKATWI
         $startYear = max(2024, min($registeredYear, $currentYear));
