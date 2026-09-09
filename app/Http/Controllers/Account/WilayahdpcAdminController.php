@@ -102,12 +102,12 @@ class WilayahdpcAdminController extends Controller
         //update category without image
         $areadpc->update([
             'city_id'          => $request->city_id,
-            'link'          => $request->alamat,
-            'alamat'          => $request->alamat,
-            'phone'          => $request->phone,
-            'email'          => $request->email,
-            'instagram'          => $request->instagram,
-            'name_ketua'          => $request->name_ketua,
+            'link'             => $request->link,
+            'alamat'           => $request->alamat,
+            'phone'            => $request->phone,
+            'email'            => $request->email,
+            'instagram'        => $request->instagram,
+            'name_ketua'       => $request->name_ketua,
         ]);
 
         //redirect

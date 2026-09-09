@@ -11,6 +11,7 @@ class Wilayahdpc extends Model
 
     protected $fillable = [
         'city_id',
+        'link',
         'alamat',
         'phone',
         'email',

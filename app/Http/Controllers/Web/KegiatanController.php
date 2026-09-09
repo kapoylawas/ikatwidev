@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 
 class KegiatanController extends Controller
 {
-    public function index() {
+    public function index(Request $request)
+    {
+        $kegiatans = Kegiatan::when($request->q, function ($query, $q) {
+            $query->where('name', 'like', '%' . $q . '%');
+        })->latest()->paginate(9);
 
-        //get products
-        $kegiatans = Kegiatan::latest()->paginate(12);
+        $kegiatans->appends(['q' => $request->q]);
 
-        //render inertia
         return inertia('Web/Kegiatan/Index', [
             'kegiatans' => $kegiatans,
         ]);

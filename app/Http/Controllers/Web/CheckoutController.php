@@ -100,8 +100,11 @@ class CheckoutController extends Controller
             // Get carts for current user
             $userCarts = Cart::with('product')->where('user_id', auth()->user()->id)->get();
             $firstCart = $userCarts->first();
-            $cartYears = $userCarts->pluck('tahun')->filter()->unique()->values()->all();
-            $tahun = !empty($cartYears) ? max($cartYears) : date("Y");
+            $cartYears = $userCarts->pluck('tahun')->filter()->unique()->sort()->values()->all();
+            $tahun = !empty($cartYears) ? (string) max($cartYears) : date("Y");
+            $keterangan = count($cartYears) > 1
+                ? 'Iuran Anggota IKATWI Tahun ' . implode(', ', $cartYears)
+                : ($firstCart->keterangan ?? ('Iuran Anggota IKATWI Tahun ' . $tahun));
 
             // Auto-cancel previous uncompleted UNPAID transactions for this user for the same years
             if (!empty($cartYears)) {
@@ -140,7 +143,7 @@ class CheckoutController extends Controller
                 'address'                   => $request->address,
                 'cek_ts'                    => 1,
                 'status'                    => 'UNPAID',
-                'keterangan'                => $firstCart->keterangan ?? null,
+                'keterangan'                => $keterangan,
             ]);
 
             //create transaction details & item details

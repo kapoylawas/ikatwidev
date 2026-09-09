@@ -1,218 +1,361 @@
 import React, { useState } from "react";
-
-//import layout web
 import LayoutWeb from "../../../Layouts/Web";
-
-//import Head, usePage, Link
-import { Head, usePage } from "@inertiajs/inertia-react";
-
-//import component pagination
+import { Head, usePage, Link } from "@inertiajs/inertia-react";
 import Pagination from "../../../Shared/Pagination";
-
 import Search from "../../../Shared/Search";
 
 export default function WilayahCabangIndex() {
     const { wilayah } = usePage().props;
 
+    const formatPhone = (phone) => {
+        if (!phone) return null;
+        let clean = phone.replace(/[^0-9]/g, "");
+        if (clean.startsWith("0")) clean = "62" + clean.slice(1);
+        return clean;
+    };
+
+    const formatInstagram = (ig) => {
+        if (!ig || ig === "-") return null;
+        if (ig.startsWith("http")) return ig;
+        const clean = ig.replace("@", "").trim();
+        return `https://instagram.com/${clean}`;
+    };
+
     return (
         <>
             <Head>
-                <title>IKATWI - Wiliyah Anggota Ikatan Terapis Wicara</title>
+                <title>Wilayah DPW - Ikatan Terapis Wicara Indonesia (IKATWI)</title>
             </Head>
             <LayoutWeb>
-                <div
-                    className="container"
-                    style={{ marginTop: "20px", marginBottom: "50px" }}
-                >
-                    <div className="fade-in">
-                        <div className="row justify-content-center">
-                            <div
-                                className="container"
-                                style={{ marginTop: "20px" }}
-                            >
-                                <div
-                                    className="container"
-                                    style={{
-                                        marginTop: "55px",
-                                        marginBottom: "50px",
-                                    }}
+                <div className="container py-5 web-portal-wilayah-page">
+                    {/* Hero Section */}
+                    <div className="row justify-content-center mb-5">
+                        <div className="col-12 col-lg-10 text-center">
+                            <span className="badge-portal-category mb-2">
+                                <i className="fa fa-map-marked-alt me-1.5"></i> Dewan Pengurus Wilayah (DPW)
+                            </span>
+                            <h2 className="fw-extrabold text-slate-900 mb-3 display-6" style={{ letterSpacing: "-0.03em" }}>
+                                Wilayah DPW IKATWI Seluruh Indonesia
+                            </h2>
+                            <p className="text-slate-600 mx-auto fs-6" style={{ maxWidth: "680px" }}>
+                                Temukan informasi resmi sekretariat, pimpinan pengurus wilayah, kontak telepon/WhatsApp, dan lokasi kantor DPW di provinsi Anda.
+                            </p>
+
+                            {/* Switcher Tab DPW & DPC */}
+                            <div className="d-inline-flex p-1.5 rounded-pill bg-slate-100 border mt-3 shadow-sm">
+                                <Link
+                                    href="/wilayah"
+                                    className="btn btn-sm rounded-pill px-4 py-2 fw-bold btn-emerald-active text-white shadow-sm"
                                 >
-                                    <div className="row justify-content-center">
-                                        <div className="col-md-8">
-                                            <div className="card bg-gray border-0 rounded shadow-sm">
-                                                <div className="card-header">
-                                                    <div className="col-sm-12 text-center col-md-12 order-sm-0 order-md-0 py-5">
-                                                        <div className="text-center">
-                                                            <h4 className="font-weight-bold text-dark">
-                                                                Wilayah DPW
-                                                                IKATWI
-                                                            </h4>
-                                                            <p
-                                                                className="text-dark"
-                                                                style={{
-                                                                    fontSize:
-                                                                        "1.1rem",
-                                                                }}
-                                                            ></p>
-                                                            <div className="divider-custom mx-auto"></div>
+                                    <i className="fa fa-landmark me-1.5"></i> Wilayah DPW (Provinsi)
+                                </Link>
+                                <Link
+                                    href="/wilayahdpc"
+                                    className="btn btn-sm rounded-pill px-4 py-2 fw-semibold text-slate-600 bg-transparent border-0"
+                                >
+                                    <i className="fa fa-city me-1.5 text-blue-600"></i> Wilayah DPC (Kabupaten/Kota)
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Search Toolbar */}
+                    <div className="row justify-content-center mb-4">
+                        <div className="col-12 col-md-8 col-lg-6">
+                            <Search URL={"/wilayah"} />
+                        </div>
+                    </div>
+
+                    {/* Grid of Wilayah DPW Cards */}
+                    <div className="row g-4 mb-5">
+                        {wilayah?.data && wilayah.data.length > 0 ? (
+                            wilayah.data.map((item, idx) => {
+                                const rawPhone = item.phone ? item.phone.trim() : "";
+                                const cleanPhone = formatPhone(rawPhone);
+                                const igUrl = formatInstagram(item.instagram);
+                                const mapSrc =
+                                    item.lat && item.long
+                                        ? `https://maps.google.com/maps?q=${item.lat},${item.long}&hl=id&output=embed`
+                                        : `https://maps.google.com/maps?q=${encodeURIComponent(
+                                              (item.province?.name || "Indonesia") + " Indonesia"
+                                          )}&hl=id&output=embed`;
+
+                                const gmapsDirectUrl =
+                                    item.lat && item.long
+                                        ? `https://www.google.com/maps/search/?api=1&query=${item.lat},${item.long}`
+                                        : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                                              (item.province?.name || "") + " " + (item.alamat || "")
+                                          )}`;
+
+                                return (
+                                    <div key={idx} className="col-12 col-md-6 col-lg-4">
+                                        <div className="card h-100 border-0 rounded-4 shadow-sm overflow-hidden portal-card-public">
+                                            {/* Header */}
+                                            <div className="card-header border-0 py-3 px-4 d-flex justify-content-between align-items-center portal-header-bg">
+                                                <div className="d-flex align-items-center gap-2.5 overflow-hidden">
+                                                    <span className="portal-dpw-icon shadow-sm">
+                                                        <i className="fa fa-landmark text-white"></i>
+                                                    </span>
+                                                    <div>
+                                                        <h5 className="mb-0 fw-extrabold text-slate-900 fs-6 text-truncate" title={item.province?.name}>
+                                                            {item.province?.name || "Wilayah DPW"}
+                                                        </h5>
+                                                        <span className="text-emerald-700 fw-bold" style={{ fontSize: "0.72rem" }}>
+                                                            Tingkat Provinsi
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <span className="badge-public-official">Resmi</span>
+                                            </div>
+
+                                            {/* Map Container */}
+                                            <div className="portal-map-box position-relative">
+                                                <iframe
+                                                    src={mapSrc}
+                                                    className="portal-map-frame"
+                                                    title={`Peta ${item.province?.name}`}
+                                                    loading="lazy"
+                                                ></iframe>
+                                                <a
+                                                    href={gmapsDirectUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="btn btn-sm btn-light btn-open-maps-public shadow-sm rounded-pill"
+                                                >
+                                                    <i className="fa fa-external-link-alt text-primary me-1"></i> Buka Maps
+                                                </a>
+                                            </div>
+
+                                            {/* Body */}
+                                            <div className="card-body p-4 d-flex flex-column justify-content-between">
+                                                <div>
+                                                    {/* Ketua Box */}
+                                                    <div className="p-3 rounded-3 mb-3 portal-ketua-box d-flex align-items-center gap-3">
+                                                        <div className="portal-ketua-avatar shadow-sm">
+                                                            <i className="fa fa-user-tie text-emerald-800"></i>
+                                                        </div>
+                                                        <div className="overflow-hidden">
+                                                            <span className="text-slate-500 text-uppercase fw-bold d-block" style={{ fontSize: "0.68rem", letterSpacing: "0.05em" }}>
+                                                                KETUA DPW
+                                                            </span>
+                                                            <strong className="text-slate-900 fs-6 text-truncate d-block" title={item.name_ketua}>
+                                                                {item.name_ketua || "-"}
+                                                            </strong>
                                                         </div>
                                                     </div>
-                                                    <div className="col-md-12 mb-3">
-                                                        <Search
-                                                            URL={"/wilayah"}
-                                                        />
+
+                                                    {/* Alamat */}
+                                                    <div className="mb-3 d-flex align-items-start gap-2 text-slate-700 small">
+                                                        <i className="fa fa-map-marker-alt text-rose-500 mt-1 flex-shrink-0"></i>
+                                                        <span className="lh-sm text-slate-600">
+                                                            {item.alamat || "Alamat sekretariat belum diatur."}
+                                                        </span>
                                                     </div>
 
-                                                    <div className="col-md-12">
-                                                        <div className="row">
-                                                            {wilayah.data.map(
-                                                                (
-                                                                    wilaya,
-                                                                    index
-                                                                ) => (
-                                                                    <div
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        className="col-12 col-md-6 col-lg-6 mb-4"
-                                                                    >
-                                                                        <div className="card border-0 rounded shadow-custom h-100">
-                                                                            <button class="btn btn-sm btn-danger border-0 mt-1 mb-2">
-                                                                                <svg
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    width="16"
-                                                                                    height="16"
-                                                                                    fill="currentColor"
-                                                                                    class="bi bi-building me-2"
-                                                                                    viewBox="0 0 16 16"
-                                                                                >
-                                                                                    <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
-                                                                                    <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z" />
-                                                                                </svg>
-                                                                                <strong style={{ color: "black" }}>
-                                                                                    <h5>
-                                                                                        {
-                                                                                            wilaya
-                                                                                                .province
-                                                                                                .name
-                                                                                        }
-                                                                                    </h5>
-                                                                                </strong>
-                                                                            </button>
-                                                                            <iframe
-                                                                                src={`https://maps.google.com/maps?q=${wilaya.lat},${wilaya.long}&hl=es;&output=embed`}
-                                                                                style={{
-                                                                                    width: "100%",
-                                                                                    height: "200px",
-                                                                                    objectFit:
-                                                                                        "cover",
-                                                                                }}
-                                                                            ></iframe>
-                                                                            <div className="card-body">
-                                                                                <div className="text-center">
-                                                                                    <button class="btn btn-sm btn-danger border-0">
-                                                                                        <svg
-                                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                                            width="16"
-                                                                                            height="16"
-                                                                                            fill="currentColor"
-                                                                                            class="bi bi-telephone me-2"
-                                                                                            viewBox="0 0 16 16"
-                                                                                        >
-                                                                                            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
-                                                                                        </svg>
-                                                                                        {
-                                                                                            wilaya.phone
-                                                                                        }
-                                                                                    </button>
-                                                                                    <br />
-                                                                                    <button class="btn btn-sm btn-danger border-0 mt-1">
-                                                                                        <svg
-                                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                                            width="16"
-                                                                                            height="16"
-                                                                                            fill="currentColor"
-                                                                                            class="bi bi-envelope-at-fill me-2"
-                                                                                            viewBox="0 0 16 16"
-                                                                                        >
-                                                                                            <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2H2Zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671Z" />
-                                                                                            <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034v.21Zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z" />
-                                                                                        </svg>
-                                                                                        {
-                                                                                            wilaya.email
-                                                                                        }
-                                                                                    </button>
-                                                                                    <br />
-                                                                                    <button class="btn btn-sm btn-danger border-0 mt-1">
-                                                                                        <svg
-                                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                                            width="16"
-                                                                                            height="16"
-                                                                                            fill="currentColor"
-                                                                                            class="bi bi-geo-alt-fill"
-                                                                                            viewBox="0 0 16 16"
-                                                                                        >
-                                                                                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
-                                                                                        </svg>
-                                                                                        {
-                                                                                            wilaya.alamat
-                                                                                        }
-                                                                                    </button>
-                                                                                    <br />
-                                                                                </div>
-                                                                                <a
-                                                                                    className="link-article text-decoration-none"
-                                                                                    href="#"
-                                                                                >
-                                                                                    <h6
-                                                                                        className="card-title font-weight-bold text-dark"
-                                                                                        style={{
-                                                                                            lineHeight:
-                                                                                                "30px",
-                                                                                        }}
-                                                                                    ></h6>
-                                                                                </a>
-                                                                            </div>
-                                                                            <div className="card-footer">
-                                                                                <a
-                                                                                    href="#"
-                                                                                    className="text-decoration-none"
-                                                                                >
-                                                                                    <span className="text-black-50 ml-2">
-                                                                                        Ketua :
+                                                    {/* Contact Chips */}
+                                                    <div className="d-flex flex-wrap gap-2">
+                                                        {cleanPhone && (
+                                                            <a
+                                                                href={`https://wa.me/${cleanPhone}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="btn btn-contact-chip btn-whatsapp"
+                                                                title="Hubungi via WhatsApp"
+                                                            >
+                                                                <i className="fa fa-phone-alt me-1.5 text-emerald-600"></i>
+                                                                <span>{rawPhone}</span>
+                                                            </a>
+                                                        )}
 
-                                                                                        {" "}
-                                                                                        <strong>
-                                                                                            {
-                                                                                                wilaya.name_ketua
-                                                                                            }
-                                                                                        </strong>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            )}
-                                                        </div>
-                                                        <div className="col-md-12 mt-4 mb-5">
-                                                            <Pagination
-                                                                links={
-                                                                    wilayah.links
-                                                                }
-                                                                align={"center"}
-                                                            />
-                                                        </div>
+                                                        {item.email && (
+                                                            <a
+                                                                href={`mailto:${item.email}`}
+                                                                className="btn btn-contact-chip btn-email"
+                                                                title="Kirim Email"
+                                                            >
+                                                                <i className="fa fa-envelope me-1.5 text-blue-600"></i>
+                                                                <span className="text-truncate" style={{ maxWidth: "160px" }}>{item.email}</span>
+                                                            </a>
+                                                        )}
+
+                                                        {igUrl && (
+                                                            <a
+                                                                href={igUrl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="btn btn-contact-chip btn-instagram"
+                                                                title="Kunjungi Instagram"
+                                                            >
+                                                                <i className="fab fa-instagram me-1.5 text-pink-600"></i>
+                                                                <span>Instagram</span>
+                                                            </a>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                );
+                            })
+                        ) : (
+                            <div className="col-12">
+                                <div className="card border-0 rounded-4 shadow-sm p-5 text-center bg-white">
+                                    <i className="fa fa-map-marked-alt fa-3x mb-3 text-slate-300"></i>
+                                    <h5 className="fw-bold text-slate-800 mb-1">Data Wilayah DPW Tidak Ditemukan</h5>
+                                    <p className="text-slate-500 small">
+                                        Silakan gunakan kata kunci pencarian yang lain.
+                                    </p>
                                 </div>
                             </div>
-                        </div>
+                        )}
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="d-flex justify-content-center mb-5">
+                        <Pagination links={wilayah.links} align="center" />
                     </div>
                 </div>
+
+                <style>{`
+                    .text-slate-900 { color: #0f172a; }
+                    .text-slate-800 { color: #1e293b; }
+                    .text-slate-700 { color: #334155; }
+                    .text-slate-600 { color: #475569; }
+                    .text-slate-500 { color: #64748b; }
+                    .text-slate-400 { color: #94a3b8; }
+
+                    .badge-portal-category {
+                        background-color: #ecfdf5;
+                        color: #047857;
+                        border: 1px solid #a7f3d0;
+                        padding: 5px 14px;
+                        border-radius: 9999px;
+                        font-weight: 700;
+                        font-size: 0.8rem;
+                        display: inline-flex;
+                        align-items: center;
+                    }
+                    .btn-emerald-active {
+                        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+                        border: none;
+                    }
+
+                    .portal-card-public {
+                        border: 1.5px solid #cbd5e1 !important;
+                        border-top: 4px solid #059669 !important;
+                        transition: all 0.25s ease;
+                        background-color: #ffffff;
+                    }
+                    .portal-card-public:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 14px 28px rgba(15, 23, 42, 0.09) !important;
+                        border-color: #94a3b8 !important;
+                    }
+                    .portal-header-bg {
+                        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                        border-bottom: 1.5px solid #e2e8f0;
+                    }
+                    .portal-dpw-icon {
+                        width: 38px;
+                        height: 38px;
+                        border-radius: 10px;
+                        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 15px;
+                        flex-shrink: 0;
+                    }
+                    .badge-public-official {
+                        background-color: #ecfdf5;
+                        color: #047857;
+                        border: 1px solid #a7f3d0;
+                        padding: 3px 10px;
+                        border-radius: 9999px;
+                        font-size: 0.72rem;
+                        font-weight: 700;
+                    }
+
+                    .portal-map-box {
+                        height: 190px;
+                        width: 100%;
+                        background-color: #f1f5f9;
+                        overflow: hidden;
+                    }
+                    .portal-map-frame {
+                        width: 100%;
+                        height: 100%;
+                        border: 0;
+                        filter: saturate(0.9);
+                    }
+                    .btn-open-maps-public {
+                        position: absolute;
+                        bottom: 10px;
+                        right: 10px;
+                        font-size: 0.74rem;
+                        font-weight: 700;
+                        padding: 4px 12px;
+                        background-color: rgba(255, 255, 255, 0.95);
+                        backdrop-filter: blur(4px);
+                        border: 1px solid #cbd5e1;
+                    }
+
+                    .portal-ketua-box {
+                        background-color: #f0fdf4;
+                        border: 1.5px solid #bbf7d0;
+                    }
+                    .portal-ketua-avatar {
+                        width: 38px;
+                        height: 38px;
+                        border-radius: 50%;
+                        background-color: #dcfce7;
+                        border: 1.5px solid #86efac;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 15px;
+                        flex-shrink: 0;
+                    }
+
+                    .btn-contact-chip {
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 5px 12px;
+                        border-radius: 9999px;
+                        font-size: 0.76rem;
+                        font-weight: 600;
+                        text-decoration: none;
+                        transition: all 0.2s ease;
+                        border: 1px solid;
+                    }
+                    .btn-whatsapp {
+                        background-color: #f0fdf4;
+                        color: #166534;
+                        border-color: #bbf7d0;
+                    }
+                    .btn-whatsapp:hover {
+                        background-color: #dcfce7;
+                        color: #14532d;
+                    }
+                    .btn-email {
+                        background-color: #eff6ff;
+                        color: #1e40af;
+                        border-color: #bfdbfe;
+                    }
+                    .btn-email:hover {
+                        background-color: #dbeafe;
+                        color: #1e3a8a;
+                    }
+                    .btn-instagram {
+                        background-color: #fdf2f8;
+                        color: #9d174d;
+                        border-color: #fbcfe8;
+                    }
+                    .btn-instagram:hover {
+                        background-color: #fce7f3;
+                        color: #831843;
+                    }
+                `}</style>
             </LayoutWeb>
         </>
     );

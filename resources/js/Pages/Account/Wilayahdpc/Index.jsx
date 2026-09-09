@@ -1,163 +1,838 @@
-//import react
-import React from "react";
-
-//import layout
+import React, { useState } from "react";
 import LayoutAccount from "../../../Layouts/Account";
-
-//import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
-
-//import permissions
+import { Inertia } from "@inertiajs/inertia";
 import hasAnyPermission from "../../../Utils/Permissions";
-
-//import component search
-import Search from "../../../Shared/Search";
-
-//import component pagination
 import Pagination from "../../../Shared/Pagination";
+import Swal from "sweetalert2";
 
-//import component delete
-import Delete from "../../../Shared/Delete";
-
-export default function WilayadpcIndex() {
+export default function WilayahdpcIndex() {
     const { wilayah } = usePage().props;
+
+    const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'table'
+    const [search, setSearch] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        Inertia.get(
+            "/account/areadpc",
+            { q: search },
+            {
+                preserveState: true,
+                onFinish: () => setIsLoading(false),
+            }
+        );
+    };
+
+    const handleResetSearch = () => {
+        setSearch("");
+        setIsLoading(true);
+        Inertia.get(
+            "/account/areadpc",
+            {},
+            {
+                onFinish: () => setIsLoading(false),
+            }
+        );
+    };
+
+    const handleDelete = (id, name) => {
+        Swal.fire({
+            title: "Hapus Wilayah DPC?",
+            text: `Data wilayah ${name || ""} akan dihapus permanen dari sistem!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc2626",
+            cancelButtonColor: "#64748b",
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Inertia.delete(`/account/areadpc/${id}`, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: "Terhapus!",
+                            text: "Data Wilayah DPC berhasil dihapus.",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                    },
+                });
+            }
+        });
+    };
+
+    const formatPhone = (phone) => {
+        if (!phone) return null;
+        let clean = phone.replace(/[^0-9]/g, "");
+        if (clean.startsWith("0")) clean = "62" + clean.slice(1);
+        return clean;
+    };
+
+    const formatInstagram = (ig) => {
+        if (!ig || ig === "-") return null;
+        if (ig.startsWith("http")) return ig;
+        const clean = ig.replace("@", "").trim();
+        return `https://instagram.com/${clean}`;
+    };
+
+    const totalWilayah = wilayah?.total || wilayah?.data?.length || 0;
 
     return (
         <>
             <Head>
-                <title>Wilayah DPC - IKATWI</title>
+                <title>Manajemen Wilayah DPC - IKATWI</title>
             </Head>
             <LayoutAccount>
-                <div className="row mt-5">
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-3 col-12 mb-2">
+                <div className="container-fluid py-4 wilayah-admin-container">
+                    {/* Header Banner */}
+                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 p-4 rounded-4 shadow-sm border-0 header-banner-box">
+                        <div className="d-flex align-items-center mb-3 mb-md-0">
+                            <div className="header-icon-square-dpc me-3 shadow">
+                                <i className="fa fa-map-signs fa-2x text-white"></i>
+                            </div>
+                            <div>
+                                <div className="d-flex align-items-center gap-2 mb-1">
+                                    <h4 className="mb-0 fw-bold text-dark-title" style={{ letterSpacing: "-0.02em" }}>
+                                        Wilayah DPC IKATWI
+                                    </h4>
+                                    <span className="badge-level-pill-dpc">Tingkat Kota / Kabupaten</span>
+                                </div>
+                                <p className="mb-0 text-slate-muted small">
+                                    Kelola seluruh data sekretariat, link peta lokasi, kontak, dan ketua Dewan Pengurus Cabang (DPC).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="d-flex flex-wrap align-items-center gap-2">
+                            <Link
+                                href="/account/wilayah"
+                                className="btn btn-outline-switch rounded-pill px-3 py-2 fw-semibold small shadow-sm"
+                            >
+                                <i className="fa fa-map-marked-alt me-1.5 text-emerald-600"></i>
+                                Buka Wilayah DPW
+                            </Link>
+
+                            {hasAnyPermission(["wilayah.create"]) && (
                                 <Link
                                     href="/account/areadpc/create"
-                                    className="btn btn-md btn-admin border-0 shadow w-100"
-                                    type="button"
+                                    className="btn btn-add-dpc rounded-pill px-4 py-2 fw-bold shadow"
                                 >
                                     <i className="fa fa-plus-circle me-2"></i>
-                                    Add
+                                    Tambah Wilayah DPC
                                 </Link>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Toolbar Card */}
+                    <div className="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4 toolbar-card">
+                        <div className="row g-3 align-items-center justify-content-between">
+                            {/* Search Form */}
+                            <div className="col-12 col-md-6 col-lg-5">
+                                <form onSubmit={handleSearchSubmit} className="position-relative">
+                                    <div className="input-group search-input-group">
+                                        <span className="input-group-text bg-transparent border-end-0 text-slate-400 ps-3">
+                                            <i className="fa fa-search"></i>
+                                        </span>
+                                        <input
+                                            type="text"
+                                            className="form-control border-start-0 ps-1"
+                                            placeholder="Cari nama kota / wilayah DPC..."
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                        />
+                                        {search && (
+                                            <button
+                                                type="button"
+                                                onClick={handleResetSearch}
+                                                className="btn btn-link text-slate-400 border-0 text-decoration-none"
+                                                title="Hapus pencarian"
+                                            >
+                                                <i className="fa fa-times-circle"></i>
+                                            </button>
+                                        )}
+                                        <button
+                                            type="submit"
+                                            disabled={isLoading}
+                                            className="btn btn-primary px-3 fw-semibold"
+                                        >
+                                            {isLoading ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                "Cari"
+                                            )}
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <div className="col-md-9 col-12 mb-2">
-                                <Search URL={"/account/areadpc"} />
+
+                            {/* View Switcher & Counter */}
+                            <div className="col-12 col-md-6 col-lg-6 d-flex justify-content-md-end align-items-center gap-3">
+                                <span className="badge-count-pill">
+                                    <i className="fa fa-city me-1.5 text-blue-600"></i>
+                                    Total <strong>{totalWilayah}</strong> Wilayah DPC
+                                </span>
+
+                                <div className="btn-group view-switcher-group shadow-sm p-1 rounded-pill bg-slate-100" role="group">
+                                    <button
+                                        type="button"
+                                        onClick={() => setViewMode("grid")}
+                                        className={`btn btn-sm rounded-pill px-3 py-1.5 fw-semibold ${
+                                            viewMode === "grid"
+                                                ? "btn-white text-blue-700 shadow-sm active-view"
+                                                : "text-slate-600 border-0 bg-transparent"
+                                        }`}
+                                    >
+                                        <i className="fa fa-th-large me-1.5"></i> Kartu Portal
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setViewMode("table")}
+                                        className={`btn btn-sm rounded-pill px-3 py-1.5 fw-semibold ${
+                                            viewMode === "table"
+                                                ? "btn-white text-blue-700 shadow-sm active-view"
+                                                : "text-slate-600 border-0 bg-transparent"
+                                        }`}
+                                    >
+                                        <i className="fa fa-list me-1.5"></i> Tabel Data
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="row mt-2 mb-4">
-                    <div className="col-12">
-                        <div className="card border-0 rounded shadow-sm border-top-admin">
-                            <div className="card-header">
-                                <span className="font-weight-bold">
-                                    <i className="fa fa-folder"></i> Wilayah DPC
-                                </span>
-                            </div>
-                            <div className="card-body">
+
+                    {/* Content Section: Grid Cards (Portal Style) */}
+                    {viewMode === "grid" && (
+                        <div className="row g-4 mb-4">
+                            {wilayah.data && wilayah.data.length > 0 ? (
+                                wilayah.data.map((item, idx) => {
+                                    const rawPhone = item.phone ? item.phone.trim() : "";
+                                    const cleanPhone = formatPhone(rawPhone);
+                                    const igUrl = formatInstagram(item.instagram);
+                                    
+                                    // Parse map link / embed source
+                                    let mapSrc = item.link;
+                                    if (!mapSrc || !mapSrc.startsWith("http")) {
+                                        mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
+                                            (item.city?.name || "Indonesia") + " Indonesia"
+                                        )}&hl=id&output=embed`;
+                                    }
+
+                                    const gmapsDirectUrl =
+                                        item.link && item.link.includes("q=")
+                                            ? item.link.replace("&output=embed", "").replace("output=embed", "")
+                                            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                                                  (item.city?.name || "") + " " + (item.alamat || "")
+                                              )}`;
+
+                                    return (
+                                        <div key={idx} className="col-12 col-md-6 col-xl-4">
+                                            <div className="card h-100 border-0 rounded-4 shadow-sm overflow-hidden portal-wilayah-card-dpc">
+                                                {/* Card Header Top */}
+                                                <div className="card-header border-0 py-3 px-4 d-flex justify-content-between align-items-center portal-card-header-dpc">
+                                                    <div className="d-flex align-items-center gap-2.5 overflow-hidden">
+                                                        <span className="dpc-badge-icon shadow-sm">
+                                                            <i className="fa fa-city text-white"></i>
+                                                        </span>
+                                                        <div>
+                                                            <h5 className="mb-0 fw-extrabold text-slate-900 fs-6 text-truncate" title={item.city?.name}>
+                                                                {item.city?.name || "Wilayah DPC"}
+                                                            </h5>
+                                                            <span className="text-slate-500 font-monospace" style={{ fontSize: "0.72rem" }}>
+                                                                ID: DPC-{item.city_id || item.id}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <span className="badge-active-pill-dpc">
+                                                        <i className="fa fa-check-circle me-1 text-blue-600"></i> Aktif
+                                                    </span>
+                                                </div>
+
+                                                {/* Map Frame Container */}
+                                                <div className="map-frame-wrapper position-relative">
+                                                    <iframe
+                                                        src={mapSrc}
+                                                        className="portal-map-iframe"
+                                                        title={`Peta ${item.city?.name}`}
+                                                        loading="lazy"
+                                                    ></iframe>
+                                                    <a
+                                                        href={gmapsDirectUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="btn btn-sm btn-light btn-open-map shadow-sm rounded-pill"
+                                                        title="Buka Peta Google Maps Lengkap"
+                                                    >
+                                                        <i className="fa fa-external-link-alt text-primary me-1"></i>
+                                                        <span>Buka Maps</span>
+                                                    </a>
+                                                </div>
+
+                                                {/* Card Body - Details & Contacts */}
+                                                <div className="card-body p-4 d-flex flex-column justify-content-between">
+                                                    <div>
+                                                        {/* Ketua Pengurus Box */}
+                                                        <div className="p-3 rounded-3 mb-3 ketua-info-box-dpc d-flex align-items-center gap-3">
+                                                            <div className="ketua-avatar-circle-dpc shadow-sm">
+                                                                <i className="fa fa-user-tie text-blue-800"></i>
+                                                            </div>
+                                                            <div className="overflow-hidden">
+                                                                <span className="text-slate-500 text-uppercase fw-bold d-block" style={{ fontSize: "0.68rem", letterSpacing: "0.05em" }}>
+                                                                    KETUA DPC
+                                                                </span>
+                                                                <strong className="text-slate-900 fs-6 text-truncate d-block" title={item.name_ketua}>
+                                                                    {item.name_ketua || "-"}
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Alamat Sekretariat */}
+                                                        <div className="mb-3 d-flex align-items-start gap-2 text-slate-700 small">
+                                                            <i className="fa fa-map-marker-alt text-rose-500 mt-1 flex-shrink-0"></i>
+                                                            <span className="lh-sm text-slate-600">
+                                                                {item.alamat || "Alamat sekretariat belum diatur."}
+                                                            </span>
+                                                        </div>
+
+                                                        {/* Contact Badges Grid */}
+                                                        <div className="d-flex flex-wrap gap-2 mb-2">
+                                                            {cleanPhone && (
+                                                                <a
+                                                                    href={`https://wa.me/${cleanPhone}`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="btn btn-contact-chip btn-whatsapp"
+                                                                    title="Hubungi via WhatsApp"
+                                                                >
+                                                                    <i className="fa fa-phone-alt me-1.5 text-emerald-600"></i>
+                                                                    <span>{rawPhone}</span>
+                                                                </a>
+                                                            )}
+
+                                                            {item.email && (
+                                                                <a
+                                                                    href={`mailto:${item.email}`}
+                                                                    className="btn btn-contact-chip btn-email"
+                                                                    title="Kirim Email"
+                                                                >
+                                                                    <i className="fa fa-envelope me-1.5 text-blue-600"></i>
+                                                                    <span className="text-truncate" style={{ maxWidth: "160px" }}>{item.email}</span>
+                                                                </a>
+                                                            )}
+
+                                                            {igUrl && (
+                                                                <a
+                                                                    href={igUrl}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="btn btn-contact-chip btn-instagram"
+                                                                    title="Kunjungi Instagram"
+                                                                >
+                                                                    <i className="fab fa-instagram me-1.5 text-pink-600"></i>
+                                                                    <span>Instagram</span>
+                                                                </a>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Card Admin Actions */}
+                                                    <div className="pt-3 mt-3 border-top d-flex justify-content-between align-items-center">
+                                                        <span className="text-slate-400 small" style={{ fontSize: "0.72rem" }}>
+                                                            <i className="fa fa-calendar-check me-1"></i> Cabang Resmi IKATWI
+                                                        </span>
+
+                                                        <div className="d-flex gap-1.5">
+                                                            {hasAnyPermission(["wilayah.edit"]) && (
+                                                                <Link
+                                                                    href={`/account/areadpc/${item.id}/edit`}
+                                                                    className="btn btn-sm btn-edit-action rounded-pill px-3 py-1 fw-semibold shadow-sm"
+                                                                    title="Edit Data Wilayah DPC"
+                                                                >
+                                                                    <i className="fa fa-pencil-alt me-1"></i> Edit
+                                                                </Link>
+                                                            )}
+
+                                                            {hasAnyPermission(["wilayah.delete"]) && (
+                                                                <button
+                                                                    onClick={() => handleDelete(item.id, item.city?.name)}
+                                                                    className="btn btn-sm btn-delete-action rounded-pill px-3 py-1 fw-semibold shadow-sm"
+                                                                    title="Hapus Wilayah DPC"
+                                                                >
+                                                                    <i className="fa fa-trash me-1"></i> Hapus
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            ) : (
+                                <div className="col-12">
+                                    <div className="card border-0 rounded-4 shadow-sm p-5 text-center bg-white empty-state-box">
+                                        <i className="fa fa-map-signs fa-3x mb-3 text-slate-300"></i>
+                                        <h5 className="fw-bold text-slate-800 mb-1">Data Wilayah DPC Tidak Ditemukan</h5>
+                                        <p className="text-slate-500 small mb-3">
+                                            {search
+                                                ? `Tidak ada data wilayah DPC yang cocok dengan kata kunci "${search}".`
+                                                : "Belum ada data wilayah DPC yang ditambahkan ke sistem."}
+                                        </p>
+                                        {search && (
+                                            <div>
+                                                <button onClick={handleResetSearch} className="btn btn-sm btn-outline-secondary rounded-pill px-4">
+                                                    Reset Pencarian
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Content Section: Table View */}
+                    {viewMode === "table" && (
+                        <div className="card border-0 rounded-4 shadow-sm bg-white overflow-hidden mb-4 table-card-box">
+                            <div className="card-body p-0">
                                 <div className="table-responsive">
-                                    <table className="table table-bordered table-striped table-hovered">
-                                        <thead>
+                                    <table className="table table-hover align-middle mb-0">
+                                        <thead className="table-thead-custom">
                                             <tr>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "5%" }}
-                                                >
-                                                    No.
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    Wilayah DPC
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    name ketua
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    alamat
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "7%" }}
-                                                >
-                                                    phone
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    email
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    instagram
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style={{ width: "15%" }}
-                                                >
-                                                    Actions
-                                                </th>
+                                                <th className="ps-4 py-3" style={{ width: "5%" }}>NO</th>
+                                                <th className="py-3" style={{ width: "20%" }}>WILAYAH DPC</th>
+                                                <th className="py-3" style={{ width: "18%" }}>KETUA DPC</th>
+                                                <th className="py-3" style={{ width: "25%" }}>ALAMAT &amp; SEKRETARIAT</th>
+                                                <th className="py-3" style={{ width: "20%" }}>KONTAK &amp; SOSMED</th>
+                                                <th className="pe-4 py-3 text-end" style={{ width: "12%" }}>AKSI</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {wilayah.data.map(
-                                                (wilaya, index) => (
-                                                    <tr key={index}>
-                                                        <td className="text-center">
-                                                            {++index +
-                                                                (wilayah.current_page -
-                                                                    1) *
-                                                                    wilayah.per_page}
-                                                        </td>
-                                                        <td>{wilaya.city.name}</td>
-                                                        <td>{wilaya.name_ketua}</td>
-                                                        <td>{wilaya.alamat}</td>
-                                                        <td>{wilaya.phone}</td>
-                                                        <td>{wilaya.email}</td>
-                                                        <td>{wilaya.instagram}</td>                                                        
-                                                        <td className="text-center">
-                                                            {hasAnyPermission([
-                                                                "wilayah.edit",
-                                                            ]) && (
-                                                                <Link
-                                                                    href={`/account/areadpc/${wilaya.id}/edit`}
-                                                                    className="btn btn-primary btn-sm me-2"
-                                                                >
-                                                                    <i className="fa fa-pencil-alt"></i>
-                                                                </Link>
-                                                            )}
-                                                            {hasAnyPermission([
-                                                                "wilayah.delete",
-                                                            ]) && (
-                                                                <Delete URL={'/account/areadpc'} id={wilaya.id} />
-                                                            )}
-                                                        </td>
-                                                    </tr>
-                                                )
+                                            {wilayah.data && wilayah.data.length > 0 ? (
+                                                wilayah.data.map((item, idx) => {
+                                                    const rawPhone = item.phone ? item.phone.trim() : "";
+                                                    const cleanPhone = formatPhone(rawPhone);
+                                                    const igUrl = formatInstagram(item.instagram);
+
+                                                    return (
+                                                        <tr key={idx} className="table-row-custom">
+                                                            <td className="ps-4">
+                                                                <span className="row-num-pill">
+                                                                    {++idx + (wilayah.current_page - 1) * wilayah.per_page}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center gap-2">
+                                                                    <div className="table-dpc-icon">
+                                                                        <i className="fa fa-city text-primary"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <strong className="text-slate-900 d-block fs-6">
+                                                                            {item.city?.name || "-"}
+                                                                        </strong>
+                                                                        <span className="text-slate-400 font-monospace small" style={{ fontSize: "0.72rem" }}>
+                                                                            DPC-{item.city_id || item.id}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center gap-2">
+                                                                    <div className="table-user-avatar">
+                                                                        <i className="fa fa-user text-slate-500"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <strong className="text-slate-800 d-block">
+                                                                            {item.name_ketua || "-"}
+                                                                        </strong>
+                                                                        <span className="text-blue-700 fw-semibold" style={{ fontSize: "0.72rem" }}>
+                                                                            Ketua Cabang
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <p className="mb-0 text-slate-600 small lh-sm" style={{ maxWidth: "260px" }}>
+                                                                    {item.alamat || "-"}
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <div className="d-flex flex-column gap-1">
+                                                                    {cleanPhone && (
+                                                                        <a
+                                                                            href={`https://wa.me/${cleanPhone}`}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="text-decoration-none text-slate-700 small d-flex align-items-center gap-1.5"
+                                                                        >
+                                                                            <i className="fa fa-phone-alt text-emerald-600"></i>
+                                                                            <span>{rawPhone}</span>
+                                                                        </a>
+                                                                    )}
+                                                                    {item.email && (
+                                                                        <a
+                                                                            href={`mailto:${item.email}`}
+                                                                            className="text-decoration-none text-slate-700 small d-flex align-items-center gap-1.5"
+                                                                        >
+                                                                            <i className="fa fa-envelope text-blue-600"></i>
+                                                                            <span className="text-truncate" style={{ maxWidth: "160px" }}>{item.email}</span>
+                                                                        </a>
+                                                                    )}
+                                                                    {igUrl && (
+                                                                        <a
+                                                                            href={igUrl}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="text-decoration-none text-slate-700 small d-flex align-items-center gap-1.5"
+                                                                        >
+                                                                            <i className="fab fa-instagram text-pink-600"></i>
+                                                                            <span>Instagram</span>
+                                                                        </a>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                            <td className="text-end pe-4">
+                                                                <div className="d-flex justify-content-end gap-1.5">
+                                                                    {hasAnyPermission(["wilayah.edit"]) && (
+                                                                        <Link
+                                                                            href={`/account/areadpc/${item.id}/edit`}
+                                                                            className="btn btn-sm btn-edit-action rounded-circle d-flex align-items-center justify-content-center"
+                                                                            style={{ width: "32px", height: "32px" }}
+                                                                            title="Edit Wilayah DPC"
+                                                                        >
+                                                                            <i className="fa fa-pencil-alt"></i>
+                                                                        </Link>
+                                                                    )}
+                                                                    {hasAnyPermission(["wilayah.delete"]) && (
+                                                                        <button
+                                                                            onClick={() => handleDelete(item.id, item.city?.name)}
+                                                                            className="btn btn-sm btn-delete-action rounded-circle d-flex align-items-center justify-content-center"
+                                                                            style={{ width: "32px", height: "32px" }}
+                                                                            title="Hapus Wilayah DPC"
+                                                                        >
+                                                                            <i className="fa fa-trash"></i>
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="6" className="text-center py-5 text-secondary">
+                                                        <i className="fa fa-folder-open fa-3x mb-3 text-slate-300 d-block"></i>
+                                                        <span className="fw-medium">Belum ada data wilayah DPC tercatat.</span>
+                                                    </td>
+                                                </tr>
                                             )}
                                         </tbody>
                                     </table>
                                 </div>
-
-                                <Pagination
-                                    links={wilayah.links}
-                                    align={"end"}
-                                />
                             </div>
                         </div>
+                    )}
+
+                    {/* Pagination */}
+                    <div className="d-flex justify-content-center justify-content-md-end mt-4 mb-3">
+                        <Pagination links={wilayah.links} align="end" />
                     </div>
                 </div>
+
+                <style>{`
+                    .wilayah-admin-container {
+                        animation: fadeIn 0.25s ease-in-out;
+                    }
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(6px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+
+                    .text-slate-900 { color: #0f172a; }
+                    .text-slate-800 { color: #1e293b; }
+                    .text-slate-700 { color: #334155; }
+                    .text-slate-600 { color: #475569; }
+                    .text-slate-500 { color: #64748b; }
+                    .text-slate-400 { color: #94a3b8; }
+                    .text-slate-muted { color: #64748b; }
+                    .text-dark-title { color: #0f172a; }
+
+                    /* Header Banner */
+                    .header-banner-box {
+                        background: #ffffff;
+                        border: 1.5px solid #cbd5e1 !important;
+                    }
+                    .header-icon-square-dpc {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 14px;
+                        background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+                    }
+                    .badge-level-pill-dpc {
+                        background-color: #eff6ff;
+                        color: #1d4ed8;
+                        border: 1px solid #bfdbfe;
+                        padding: 3px 10px;
+                        border-radius: 9999px;
+                        font-weight: 700;
+                        font-size: 0.74rem;
+                    }
+                    .btn-outline-switch {
+                        background-color: #ffffff;
+                        color: #334155;
+                        border: 1.5px solid #cbd5e1;
+                        transition: all 0.2s ease;
+                    }
+                    .btn-outline-switch:hover {
+                        background-color: #f1f5f9;
+                        color: #0f172a;
+                    }
+                    .btn-add-dpc {
+                        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+                        color: #ffffff;
+                        border: none;
+                        transition: all 0.2s ease;
+                    }
+                    .btn-add-dpc:hover {
+                        background: linear-gradient(135deg, #0369a1 0%, #1e40af 100%);
+                        color: #ffffff;
+                        transform: translateY(-2px);
+                    }
+
+                    /* Toolbar Card */
+                    .toolbar-card {
+                        border: 1.5px solid #e2e8f0 !important;
+                    }
+                    .search-input-group {
+                        border-radius: 12px;
+                        overflow: hidden;
+                        border: 1.5px solid #cbd5e1;
+                        background-color: #ffffff;
+                    }
+                    .search-input-group .form-control {
+                        border: none;
+                        font-size: 0.88rem;
+                        box-shadow: none;
+                    }
+                    .badge-count-pill {
+                        background-color: #f8fafc;
+                        color: #334155;
+                        border: 1.5px solid #e2e8f0;
+                        padding: 6px 14px;
+                        border-radius: 9999px;
+                        font-size: 0.8rem;
+                    }
+                    .view-switcher-group {
+                        border: 1px solid #cbd5e1;
+                    }
+                    .active-view {
+                        background-color: #ffffff !important;
+                        font-weight: 700 !important;
+                    }
+
+                    /* Portal Card View DPC */
+                    .portal-wilayah-card-dpc {
+                        border: 1.5px solid #cbd5e1 !important;
+                        border-top: 4px solid #0284c7 !important;
+                        transition: all 0.25s ease;
+                        background-color: #ffffff;
+                    }
+                    .portal-wilayah-card-dpc:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08) !important;
+                        border-color: #94a3b8 !important;
+                    }
+                    .portal-card-header-dpc {
+                        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                        border-bottom: 1.5px solid #e2e8f0;
+                    }
+                    .dpc-badge-icon {
+                        width: 38px;
+                        height: 38px;
+                        border-radius: 10px;
+                        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 15px;
+                        flex-shrink: 0;
+                    }
+                    .badge-active-pill-dpc {
+                        background-color: #eff6ff;
+                        color: #1d4ed8;
+                        border: 1px solid #bfdbfe;
+                        padding: 4px 10px;
+                        border-radius: 9999px;
+                        font-size: 0.72rem;
+                        font-weight: 700;
+                    }
+
+                    /* Map Frame */
+                    .map-frame-wrapper {
+                        height: 180px;
+                        width: 100%;
+                        background-color: #f1f5f9;
+                        overflow: hidden;
+                    }
+                    .portal-map-iframe {
+                        width: 100%;
+                        height: 100%;
+                        border: 0;
+                        filter: saturate(0.9);
+                    }
+                    .btn-open-map {
+                        position: absolute;
+                        bottom: 10px;
+                        right: 10px;
+                        font-size: 0.74rem;
+                        font-weight: 700;
+                        padding: 4px 12px;
+                        background-color: rgba(255, 255, 255, 0.95);
+                        backdrop-filter: blur(4px);
+                        border: 1px solid #cbd5e1;
+                    }
+
+                    /* Ketua Box DPC */
+                    .ketua-info-box-dpc {
+                        background-color: #eff6ff;
+                        border: 1.5px solid #bfdbfe;
+                    }
+                    .ketua-avatar-circle-dpc {
+                        width: 38px;
+                        height: 38px;
+                        border-radius: 50%;
+                        background-color: #dbeafe;
+                        border: 1.5px solid #93c5fd;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 15px;
+                        flex-shrink: 0;
+                    }
+
+                    /* Contact Chips */
+                    .btn-contact-chip {
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 5px 12px;
+                        border-radius: 9999px;
+                        font-size: 0.76rem;
+                        font-weight: 600;
+                        text-decoration: none;
+                        transition: all 0.2s ease;
+                        border: 1px solid;
+                    }
+                    .btn-whatsapp {
+                        background-color: #f0fdf4;
+                        color: #166534;
+                        border-color: #bbf7d0;
+                    }
+                    .btn-whatsapp:hover {
+                        background-color: #dcfce7;
+                        color: #14532d;
+                    }
+                    .btn-email {
+                        background-color: #eff6ff;
+                        color: #1e40af;
+                        border-color: #bfdbfe;
+                    }
+                    .btn-email:hover {
+                        background-color: #dbeafe;
+                        color: #1e3a8a;
+                    }
+                    .btn-instagram {
+                        background-color: #fdf2f8;
+                        color: #9d174d;
+                        border-color: #fbcfe8;
+                    }
+                    .btn-instagram:hover {
+                        background-color: #fce7f3;
+                        color: #831843;
+                    }
+
+                    /* Action Buttons */
+                    .btn-edit-action {
+                        background-color: #eff6ff;
+                        color: #1d4ed8;
+                        border: 1.5px solid #bfdbfe;
+                        transition: all 0.2s ease;
+                    }
+                    .btn-edit-action:hover {
+                        background-color: #1d4ed8;
+                        color: #ffffff;
+                        border-color: #1d4ed8;
+                    }
+                    .btn-delete-action {
+                        background-color: #fef2f2;
+                        color: #dc2626;
+                        border: 1.5px solid #fecaca;
+                        transition: all 0.2s ease;
+                    }
+                    .btn-delete-action:hover {
+                        background-color: #dc2626;
+                        color: #ffffff;
+                        border-color: #dc2626;
+                    }
+
+                    /* Table View */
+                    .table-card-box {
+                        border: 1.5px solid #cbd5e1 !important;
+                        border-top: 4px solid #334155 !important;
+                    }
+                    .table-thead-custom {
+                        background-color: #f8fafc;
+                        color: #1e293b;
+                        font-size: 0.75rem;
+                        letter-spacing: 0.04em;
+                        border-bottom: 1.5px solid #e2e8f0;
+                    }
+                    .table-row-custom {
+                        transition: background-color 0.15s ease;
+                    }
+                    .table-row-custom:hover {
+                        background-color: #f8fafc;
+                    }
+                    .row-num-pill {
+                        background-color: #f1f5f9;
+                        color: #475569;
+                        border: 1px solid #cbd5e1;
+                        padding: 3px 8px;
+                        border-radius: 6px;
+                        font-weight: 700;
+                        font-size: 0.75rem;
+                    }
+                    .table-dpc-icon {
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 8px;
+                        background-color: #eff6ff;
+                        border: 1px solid #bfdbfe;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 13px;
+                    }
+                    .table-user-avatar {
+                        width: 28px;
+                        height: 28px;
+                        border-radius: 50%;
+                        background-color: #f1f5f9;
+                        border: 1px solid #cbd5e1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 11px;
+                    }
+                `}</style>
             </LayoutAccount>
         </>
     );
