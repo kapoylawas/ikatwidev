@@ -153,6 +153,27 @@ export default function TagihanIndex() {
                         </div>
                     </div>
 
+                    {/* Deferred Years Notice (Kebijakan Penangguhan Tunggakan ke 2027) */}
+                    {activeDue?.deferredYears && activeDue.deferredYears.length > 0 && (
+                        <div className="card border-0 rounded-4 shadow-sm mb-4 bg-white overflow-hidden" style={{ borderLeft: '5px solid #0284c7' }}>
+                            <div className="card-body p-3.5 px-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                                <div className="d-flex align-items-center gap-3">
+                                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', backgroundColor: '#e0f2fe', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                        <i className="fa fa-calendar-check text-sky-600 fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <h6 className="fw-bold text-slate-900 mb-0.5" style={{ fontSize: '0.95rem' }}>
+                                            Kebijakan Relaksasi: Tunggakan Tahun {activeDue.deferredYears.join(' & ')} Ditangguhkan
+                                        </h6>
+                                        <small className="text-slate-600">
+                                            Sesuai kebijakan pengurus, tunggakan iuran sebelum 2026 ditangguhkan dan akan ditagihkan pada tahun <strong>2027</strong>. Anda hanya diwajibkan melunasi iuran tahun <strong>{activeDue.tahun}</strong> agar status dan E-KTA langsung aktif.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Multi-Year Dues & Arrears Section (Jika ada lebih dari 1 tahun belum lunas) */}
                     {activeDue?.hasMultipleDues && (
                         <div className="card border-0 rounded-4 shadow-sm mb-4 bg-white overflow-hidden multi-year-card">

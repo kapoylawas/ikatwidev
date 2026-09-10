@@ -180,6 +180,7 @@ class DashboardController extends Controller
 
         // Multi-year unpaid dues calculation (tunggakan masa lalu + tahun berjalan)
         $unpaidYears = Transaction::getUnpaidYears($currentUser);
+        $deferredYears = Transaction::getDeferredUnpaidYears($currentUser);
         $hasUnpaidDue = count($unpaidYears) > 0;
         $totalArrears = count($unpaidYears) * $annualAmount;
 
@@ -219,6 +220,7 @@ class DashboardController extends Controller
             'isAnggotaKehormatan' => $isAnggotaKehormatan,
             'hasUnpaidDue'        => $hasUnpaidDue,
             'unpaidYears'         => $unpaidYears,
+            'deferredYears'       => $deferredYears,
             'hasMultipleDues'     => count($unpaidYears) > 1,
             'activeInvoice'       => $dueStatus === 'UNPAID_PENDING' && $currentTx ? [
                 'invoice'           => $currentTx->invoice,

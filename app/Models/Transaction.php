@@ -115,9 +115,29 @@ class Transaction extends Model
     }
 
     /**
-     * Get unpaid years for a user (Tunggakan & Tahun Berjalan)
+     * Check if a specific year is PAID by the user
      */
-    public static function getUnpaidYears($user)
+    public static function isYearPaid($userId, $year)
+    {
+        return self::where('user_id', $userId)
+            ->where('status', 'PAID')
+            ->where(function ($q) use ($year) {
+                $q->where('tahun', $year)
+                  ->orWhereHas('transactionDetails', function ($qd) use ($year) {
+                      $qd->where('tahun', $year);
+                  });
+            })
+            ->exists();
+    }
+
+    /**
+     * Get unpaid years for a user (Tunggakan & Tahun Berjalan)
+     * Kebijakan Penagihan 2026:
+     * - Tunggakan tahun 2024 & 2025 ditangguhkan dan akan ditagihkan pada tahun 2027.
+     * - Untuk tahun 2026, kewajiban penagihan aktif hanya tahun berjalan (2026).
+     * - Mulai tahun 2027 dan seterusnya, seluruh tunggakan dari tahun-tahun sebelumnya akan ditagihkan.
+     */
+    public static function getUnpaidYears($user, $includeDeferred = false)
     {
         $currentYear = (int) date('Y');
 
@@ -143,24 +163,40 @@ class Transaction extends Model
             $startYear = (int) $firstPaidYear;
         }
 
+        // Jika tahun saat ini < 2027 dan includeDeferred tidak diaktifkan,
+        // penagihan aktif hanya untuk tahun berjalan ($currentYear, yaitu 2026),
+        // sedangkan tunggakan 2024 & 2025 ditangguhkan ke tahun 2027.
+        if (!$includeDeferred && $currentYear < 2027) {
+            $unpaidYears = [];
+            if (!self::isYearPaid($user->id, $currentYear)) {
+                $unpaidYears[] = $currentYear;
+            }
+            return $unpaidYears;
+        }
+
+        // Jika sudah masuk tahun 2027 atau includeDeferred = true, tagihkan seluruh tunggakan
         $unpaidYears = [];
         for ($y = $startYear; $y <= $currentYear; $y++) {
-            $isPaid = self::where('user_id', $user->id)
-                ->where('status', 'PAID')
-                ->where(function ($q) use ($y) {
-                    $q->where('tahun', $y)
-                      ->orWhereHas('transactionDetails', function ($qd) use ($y) {
-                          $qd->where('tahun', $y);
-                      });
-                })
-                ->exists();
-
-            if (!$isPaid) {
+            if (!self::isYearPaid($user->id, $y)) {
                 $unpaidYears[] = $y;
             }
         }
 
         return $unpaidYears;
+    }
+
+    /**
+     * Get deferred unpaid years (tunggakan yang ditangguhkan ke tahun 2027)
+     */
+    public static function getDeferredUnpaidYears($user)
+    {
+        $currentYear = (int) date('Y');
+        if ($currentYear >= 2027 || $user->status_anggota === 'Anggota Kehormatan') {
+            return [];
+        }
+
+        $allUnpaid = self::getUnpaidYears($user, true);
+        return array_values(array_filter($allUnpaid, fn ($y) => $y < $currentYear));
     }
 
     /**

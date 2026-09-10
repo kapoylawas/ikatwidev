@@ -66,6 +66,7 @@ class TagihanController extends Controller
 
         // Get all unpaid years (tunggakan masa lalu + tahun berjalan)
         $unpaidYears = Transaction::getUnpaidYears($user);
+        $deferredYears = Transaction::getDeferredUnpaidYears($user);
         $unpaidYearsList = [];
         $totalArrears = 0;
 
@@ -100,6 +101,7 @@ class TagihanController extends Controller
             'isAnggotaKehormatan' => $isAnggotaKehormatan,
             'hasUnpaidDue'        => in_array($status, ['UNPAID_NO_CART', 'IN_CART', 'UNPAID_PENDING', 'EXPIRED']) || count($unpaidYears) > 0,
             'unpaidYears'         => $unpaidYears,
+            'deferredYears'       => $deferredYears,
             'unpaidYearsList'     => $unpaidYearsList,
             'totalArrears'        => $totalArrears,
             'hasMultipleDues'     => count($unpaidYears) > 1,

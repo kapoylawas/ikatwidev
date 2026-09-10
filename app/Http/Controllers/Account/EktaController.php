@@ -21,13 +21,14 @@ class EktaController extends Controller
             ->where('status', 'PAID')
             ->get();
 
-        $unpaidYears = Transaction::getUnpaidYears($user);
+        $currentYear = (int) date('Y');
+        $isCurrentYearPaid = Transaction::isYearPaid($user->id, $currentYear);
 
-        // Anggota Kehormatan is exempt from dues; Regular members must have completed all dues
+        // Anggota Kehormatan bebas iuran; Anggota Biasa aktif E-KTA jika sudah membayar lunas iuran tahun berjalan
         if ($memberStatus === 'Anggota Kehormatan') {
             $isPaid = true;
         } else {
-            $isPaid = $transactions->isNotEmpty() && count($unpaidYears) === 0;
+            $isPaid = $isCurrentYearPaid;
         }
 
         return inertia('Account/Ekta/Index', [
@@ -51,11 +52,13 @@ class EktaController extends Controller
             ->get();
 
         $unpaidYears = Transaction::getUnpaidYears($user);
+        $currentYear = (int) date('Y');
+        $isCurrentYearPaid = Transaction::isYearPaid($user->id, $currentYear);
 
         if ($memberStatus === 'Anggota Kehormatan') {
             $isPaid = true;
         } else {
-            $isPaid = $transactions->isNotEmpty() && count($unpaidYears) === 0;
+            $isPaid = $isCurrentYearPaid;
         }
 
         if (!$isPaid) {
