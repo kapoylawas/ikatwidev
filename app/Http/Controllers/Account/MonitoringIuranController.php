@@ -94,10 +94,11 @@ class MonitoringIuranController extends Controller
         $calcYear = ($tahun === 'all') ? $currentYear : (int) $tahun;
         $isPaidCalcQuery = $makePaidQuery($calcYear);
 
-        // Hanya anggota yang sudah terdaftar pada tahun calcYear (atau sudah punya transaksi di tahun tersebut) yang dihitung kewajibannya
+        // Hanya anggota yang sudah terdaftar pada tahun calcYear (atau anggota lama migrasi / sudah punya transaksi) yang dihitung kewajibannya
         $yearEligibility = function ($query) use ($calcYear) {
             $query->where(function ($q) use ($calcYear) {
-                $q->whereYear('created_at', '<=', $calcYear)
+                $q->whereNull('created_at')
+                  ->orWhereYear('created_at', '<=', $calcYear)
                   ->orWhereHas('transactions', function ($tq) use ($calcYear) {
                       $tq->where('status', 'PAID')->where('tahun', '<=', $calcYear);
                   });
@@ -176,9 +177,9 @@ class MonitoringIuranController extends Controller
             $unpaidYears = [];
             $paidYears = [];
 
-            // Tentukan tahun pendaftaran akun
+            // Tentukan tahun pendaftaran akun (jika created_at null, default 2024)
             $rawCreatedAt = $user->getRawOriginal('created_at') ?: $user->created_at;
-            $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : $currentYear;
+            $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : 2024;
             $registeredDate = $rawCreatedAt ? \Carbon\Carbon::parse($rawCreatedAt)->format('d/m/Y') : '-';
 
             // Tentukan tahun awal kewajiban iuran mengikuti tahun registrasi (minimal 2024)

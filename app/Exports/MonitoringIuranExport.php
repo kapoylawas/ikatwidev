@@ -86,7 +86,8 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $calcYear = ($tahun === 'all') ? (int) date('Y') : (int) $tahun;
         $yearEligibility = function ($query) use ($calcYear) {
             $query->where(function ($q) use ($calcYear) {
-                $q->whereYear('created_at', '<=', $calcYear)
+                $q->whereNull('created_at')
+                  ->orWhereYear('created_at', '<=', $calcYear)
                   ->orWhereHas('transactions', function ($tq) use ($calcYear) {
                       $tq->where('status', 'PAID')->where('tahun', '<=', $calcYear);
                   });
@@ -124,8 +125,8 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
     {
         $headers = [
             'No',
-            'Nama Anggota',
-            'No. KTA (Anggota)',
+            'Nama Lengkap',
+            'No. Anggota',
             'NIK',
             'Email',
             'No. Telepon / WA',
@@ -153,7 +154,7 @@ class MonitoringIuranExport implements FromCollection, WithHeadings, WithMapping
         $yearlyValues = [];
 
         $rawCreatedAt = $user->getRawOriginal('created_at') ?: $user->created_at;
-        $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : (int) date('Y');
+        $registeredYear = $rawCreatedAt ? (int) \Carbon\Carbon::parse($rawCreatedAt)->format('Y') : 2024;
         $registeredDate = $rawCreatedAt ? \Carbon\Carbon::parse($rawCreatedAt)->format('d/m/Y') : '-';
 
         $startYear = max(2024, min($registeredYear, (int) date('Y')));
