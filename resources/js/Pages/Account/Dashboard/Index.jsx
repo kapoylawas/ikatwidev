@@ -870,6 +870,39 @@ export default function Dashboard() {
                     </div>
                 </div>
 
+                {/* Deferred Years Notice if 2026 is Paid but past years deferred to 2027 */}
+                {activeDue?.deferredYears && activeDue.deferredYears.length > 0 && !activeDue.hasUnpaidDue && (
+                    <div className="row mb-4">
+                        <div className="col-12">
+                            <div className="card border-0 shadow-sm rounded-4 overflow-hidden" style={{ borderLeft: '5px solid #0284c7', backgroundColor: '#ffffff' }}>
+                                <div className="card-body p-3.5 px-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                                    <div className="d-flex align-items-center gap-3">
+                                        <div style={{ width: '40px', height: '40px', borderRadius: '12px', backgroundColor: '#e0f2fe', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                            <i className="fa fa-calendar-check text-sky-600 fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <div className="d-flex align-items-center gap-2 flex-wrap mb-0.5">
+                                                <h6 className="fw-bold text-slate-900 mb-0" style={{ fontSize: '0.92rem' }}>
+                                                    Status Keanggotaan {activeDue.tahun} Aktif (Relaksasi Tunggakan)
+                                                </h6>
+                                                <span className="badge bg-success text-white px-2 py-0.5 rounded-pill small">
+                                                    <i className="fa fa-check-circle me-1"></i> E-KTA Aktif
+                                                </span>
+                                            </div>
+                                            <small className="text-slate-600">
+                                                Iuran tahun <strong>{activeDue.tahun}</strong> Anda telah lunas. Tunggakan iuran tahun {activeDue.deferredYears.join(' & ')} ditangguhkan dan akan ditagihkan pada periode tahun <strong>2027</strong>.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <Link href="/account/tagihan" className="btn btn-sm btn-outline-primary rounded-pill px-3 py-1.5 fw-semibold">
+                                        <i className="fa fa-file-invoice me-1"></i> Lihat Tagihan
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Persistent Due Alert Banner on Dashboard if Unpaid */}
                 {activeDue?.hasUnpaidDue && (
                     <div className="row mb-4">
