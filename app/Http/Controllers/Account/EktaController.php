@@ -9,10 +9,24 @@ use Illuminate\Http\Request;
 
 class EktaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
-        $biodata = User::where('id', $user->id)->first();
+        $authUser = auth()->user();
+        $targetUserId = $authUser->id;
+
+        // Cek hak akses jika admin/pengurus ingin melihat/memvalidasi E-KTA anggota tertentu
+        $userRoles = $authUser->getRoleNames()->toArray();
+        $canManageUsers = !empty(array_intersect($userRoles, ['super admin', 'admin', 'admin wilayah', 'timver dpw', 'admin cabang', 'timver dpc']))
+            || $authUser->can('users.index')
+            || $authUser->can('transactions.index')
+            || $authUser->can('verifPengajuan.index');
+
+        if ($request->filled('user_id') && $canManageUsers) {
+            $targetUserId = (int) $request->user_id;
+        }
+
+        $user = User::findOrFail($targetUserId);
+        $biodata = $user;
         $memberStatus = $biodata->status_anggota ?? 'Anggota Biasa';
 
         // Retrieve all PAID transactions of the user
@@ -21,29 +35,48 @@ class EktaController extends Controller
             ->where('status', 'PAID')
             ->get();
 
+        $unpaidYears = Transaction::getUnpaidYears($user);
         $currentYear = (int) date('Y');
         $isCurrentYearPaid = Transaction::isYearPaid($user->id, $currentYear);
 
+        $isAdminPreview = ($canManageUsers && $targetUserId != $authUser->id);
+
         // Anggota Kehormatan bebas iuran; Anggota Biasa aktif E-KTA jika sudah membayar lunas iuran tahun berjalan
-        if ($memberStatus === 'Anggota Kehormatan') {
+        // Khusus Admin/Pengurus selalu bisa melihat tampilan kartu untuk keperluan pengecekan/verifikasi
+        if ($memberStatus === 'Anggota Kehormatan' || $isAdminPreview) {
             $isPaid = true;
         } else {
             $isPaid = $isCurrentYearPaid;
         }
 
         return inertia('Account/Ekta/Index', [
-            'biodata'       => $biodata,
-            'transactions'  => $transactions,
-            'statusAnggota' => $biodata,
-            'isPaid'        => $isPaid,
-            'unpaidYears'   => $unpaidYears,
+            'biodata'        => $biodata,
+            'transactions'   => $transactions,
+            'statusAnggota'  => $biodata,
+            'isPaid'         => $isPaid,
+            'unpaidYears'    => $unpaidYears,
+            'isAdminPreview' => $isAdminPreview,
+            'targetUserId'   => $targetUserId,
         ]);
     }
 
-    public function cetakekta()
+    public function cetakekta(Request $request)
     {
-        $user = auth()->user();
-        $biodata = User::where('id', $user->id)->first();
+        $authUser = auth()->user();
+        $targetUserId = $authUser->id;
+
+        $userRoles = $authUser->getRoleNames()->toArray();
+        $canManageUsers = !empty(array_intersect($userRoles, ['super admin', 'admin', 'admin wilayah', 'timver dpw', 'admin cabang', 'timver dpc']))
+            || $authUser->can('users.index')
+            || $authUser->can('transactions.index')
+            || $authUser->can('verifPengajuan.index');
+
+        if ($request->filled('user_id') && $canManageUsers) {
+            $targetUserId = (int) $request->user_id;
+        }
+
+        $user = User::findOrFail($targetUserId);
+        $biodata = $user;
         $memberStatus = $biodata->status_anggota ?? 'Anggota Biasa';
 
         $transactions = Transaction::with('user', 'transactionDetails')
@@ -55,7 +88,9 @@ class EktaController extends Controller
         $currentYear = (int) date('Y');
         $isCurrentYearPaid = Transaction::isYearPaid($user->id, $currentYear);
 
-        if ($memberStatus === 'Anggota Kehormatan') {
+        $isAdminPreview = ($canManageUsers && $targetUserId != $authUser->id);
+
+        if ($memberStatus === 'Anggota Kehormatan' || $isAdminPreview) {
             $isPaid = true;
         } else {
             $isPaid = $isCurrentYearPaid;
@@ -66,11 +101,13 @@ class EktaController extends Controller
         }
 
         return inertia('Account/Cetak/Index', [
-            'biodata'       => $biodata,
-            'transactions'  => $transactions,
-            'statusAnggota' => $biodata,
-            'isPaid'        => $isPaid,
-            'unpaidYears'   => $unpaidYears,
+            'biodata'        => $biodata,
+            'transactions'   => $transactions,
+            'statusAnggota'  => $biodata,
+            'isPaid'         => $isPaid,
+            'unpaidYears'    => $unpaidYears,
+            'isAdminPreview' => $isAdminPreview,
+            'targetUserId'   => $targetUserId,
         ]);
     }
 }

@@ -221,7 +221,7 @@ export default function TransactionShow(props) {
 
                                             {transaction.status === "PAID" && (
                                                 <Link
-                                                    href="/account/ekta"
+                                                    href={pageProps.auth?.user?.id === transaction.user_id ? "/account/ekta" : `/account/ekta?user_id=${transaction.user_id}`}
                                                     className="btn btn-ekta-action btn-lg px-4 py-2 rounded-pill fw-bold d-inline-flex align-items-center justify-content-center shadow"
                                                 >
                                                     <i className="fa fa-id-card me-2 fs-5"></i>

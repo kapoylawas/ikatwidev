@@ -73,7 +73,7 @@ function ResponsiveCardWrapper({ children }) {
 }
 
 export default function CetakIndex() {
-    const { biodata, transactions = [], statusAnggota, isPaid: isPaidProp, unpaidYears = [] } = usePage().props;
+    const { biodata, transactions = [], statusAnggota, isPaid: isPaidProp, unpaidYears = [], isAdminPreview = false } = usePage().props;
 
     const [isDownloading, setIsDownloading] = useState(false);
     const [downloadTarget, setDownloadTarget] = useState("");
@@ -84,10 +84,10 @@ export default function CetakIndex() {
 
     const memberStatus = statusAnggota?.status_anggota || biodata?.status_anggota || "Anggota Biasa";
 
-    // E-KTA hanya muncul jika sudah membayar lunas seluruh kewajiban iuran (atau berstatus Anggota Kehormatan)
+    // E-KTA hanya muncul jika sudah membayar lunas seluruh kewajiban iuran (atau berstatus Anggota Kehormatan / Admin Preview)
     const isPaid = typeof isPaidProp === "boolean"
         ? isPaidProp
-        : (memberStatus === "Anggota Kehormatan" || (transactions.some((ts) => ts.status === "PAID" || ts.status === "SUCCESS") && (!unpaidYears || unpaidYears.length === 0)));
+        : (isAdminPreview || memberStatus === "Anggota Kehormatan" || (transactions.some((ts) => ts.status === "PAID" || ts.status === "SUCCESS") && (!unpaidYears || unpaidYears.length === 0)));
 
     const currentYear = new Date().getFullYear();
 

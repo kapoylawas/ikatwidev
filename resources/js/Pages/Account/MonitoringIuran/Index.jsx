@@ -996,22 +996,41 @@ export default function MonitoringIuranIndex() {
                                     )}
                                 </div>
 
-                                <button
-                                    type="button"
-                                    onClick={() => setActiveUserDetail(null)}
-                                    className="btn btn-sm px-4"
-                                    style={{
-                                        backgroundColor: '#0f172a',
-                                        color: '#ffffff',
-                                        borderRadius: '8px',
-                                        fontWeight: 600,
-                                        fontSize: '0.82rem',
-                                        padding: '7px 20px',
-                                        border: 'none'
-                                    }}
-                                >
-                                    Tutup
-                                </button>
+                                <div className="d-flex align-items-center gap-2">
+                                    <Link
+                                        href={`/account/ekta?user_id=${activeUserDetail.id}`}
+                                        className="btn btn-sm d-inline-flex align-items-center gap-1.5 shadow-sm"
+                                        style={{
+                                            backgroundColor: '#059669',
+                                            color: '#ffffff',
+                                            borderRadius: '8px',
+                                            fontWeight: 600,
+                                            fontSize: '0.82rem',
+                                            padding: '7px 16px',
+                                            border: 'none',
+                                            textDecoration: 'none'
+                                        }}
+                                    >
+                                        <i className="fa fa-id-card"></i>
+                                        <span>Lihat E-KTA Anggota</span>
+                                    </Link>
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveUserDetail(null)}
+                                        className="btn btn-sm px-4"
+                                        style={{
+                                            backgroundColor: '#0f172a',
+                                            color: '#ffffff',
+                                            borderRadius: '8px',
+                                            fontWeight: 600,
+                                            fontSize: '0.82rem',
+                                            padding: '7px 20px',
+                                            border: 'none'
+                                        }}
+                                    >
+                                        Tutup
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

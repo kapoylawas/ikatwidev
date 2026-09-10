@@ -73,7 +73,7 @@ function ResponsiveCardWrapper({ children }) {
 }
 
 export default function EktaIndex() {
-    const { biodata, transactions = [], statusAnggota, isPaid: isPaidProp, unpaidYears = [] } = usePage().props;
+    const { biodata, transactions = [], statusAnggota, isPaid: isPaidProp, unpaidYears = [], isAdminPreview = false, targetUserId } = usePage().props;
 
     const [isDownloading, setIsDownloading] = useState(false);
     const [downloadTarget, setDownloadTarget] = useState("");
@@ -84,10 +84,10 @@ export default function EktaIndex() {
 
     const memberStatus = statusAnggota?.status_anggota || biodata?.status_anggota || "Anggota Biasa";
 
-    // E-KTA hanya muncul jika sudah membayar lunas seluruh kewajiban iuran (atau berstatus Anggota Kehormatan)
+    // E-KTA hanya muncul jika sudah membayar lunas seluruh kewajiban iuran (atau berstatus Anggota Kehormatan / Mode Admin Preview)
     const isPaid = typeof isPaidProp === "boolean"
         ? isPaidProp
-        : (memberStatus === "Anggota Kehormatan" || (transactions.some((ts) => ts.status === "PAID" || ts.status === "SUCCESS") && (!unpaidYears || unpaidYears.length === 0)));
+        : (isAdminPreview || memberStatus === "Anggota Kehormatan" || (transactions.some((ts) => ts.status === "PAID" || ts.status === "SUCCESS") && (!unpaidYears || unpaidYears.length === 0)));
 
     const currentYear = new Date().getFullYear();
 
@@ -178,14 +178,51 @@ export default function EktaIndex() {
 
     // Print Handler
     const handlePrint = () => {
-        window.print();
+        if (isAdminPreview && targetUserId) {
+            window.open(`/account/cetak/ekta?user_id=${targetUserId}`, '_blank');
+        } else {
+            window.print();
+        }
     };
 
     return (
         <LayoutAccount>
-            <Head title="User E-KTA - IKATWI" />
+            <Head title={`E-KTA ${biodata?.name ? '- ' + biodata.name : ''} - IKATWI`} />
 
             <div className="container-fluid py-4 ekta-page-container">
+                {/* Admin Preview Notice Box */}
+                {isAdminPreview && (
+                    <div className="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden" style={{ backgroundColor: '#eff6ff', borderLeft: '5px solid #2563eb' }}>
+                        <div className="card-body p-3.5 px-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                            <div className="d-flex align-items-center gap-3">
+                                <div style={{ width: '42px', height: '42px', borderRadius: '12px', backgroundColor: '#dbeafe', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1d4ed8', fontSize: '18px', flexShrink: 0 }}>
+                                    <i className="fa fa-user-shield"></i>
+                                </div>
+                                <div>
+                                    <div className="d-flex align-items-center gap-2 flex-wrap mb-0.5">
+                                        <h6 className="fw-bold text-slate-900 mb-0" style={{ fontSize: '0.94rem' }}>
+                                            Mode Pratinjau Administrator / Pengurus
+                                        </h6>
+                                        <span className="badge bg-primary text-white px-2.5 py-0.5 rounded-pill small">
+                                            Admin Verifikasi E-KTA
+                                        </span>
+                                    </div>
+                                    <small className="text-slate-600">
+                                        Anda sedang memvalidasi tampilan E-KTA resmi milik anggota: <strong>{biodata?.name}</strong> (No. Anggota: <strong>{biodata?.no_anggota || '-'}</strong>).
+                                    </small>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => window.history.back()}
+                                className="btn btn-sm btn-outline-primary rounded-pill px-3.5 py-1.5 fw-semibold shadow-sm"
+                            >
+                                <i className="fa fa-arrow-left me-1.5"></i> Kembali
+                            </button>
+                        </div>
+                    </div>
+                )}
+
                 {/* Header Banner */}
                 <div className="header-banner-box p-4 rounded-4 mb-4 shadow-sm">
                     <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
