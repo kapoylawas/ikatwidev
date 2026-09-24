@@ -151,10 +151,16 @@ export default function PengajuanCreate() {
     };
 
     // =========== FUNGSI YANG SUDAH ADA ===========
-    // Fungsi untuk memeriksa apakah bulan saat ini termasuk dalam periode yang diizinkan
+    // Fungsi untuk memeriksa apakah saat ini dalam jadwal uji coba anggota (Sabtu & Minggu, 26 - 27 September 2026)
+    const isTrialPeriod = () => {
+        const now = new Date();
+        return now.getFullYear() === 2026 && (now.getMonth() + 1) === 9 && (now.getDate() === 26 || now.getDate() === 27);
+    };
+
+    // Fungsi untuk memeriksa apakah bulan/tanggal saat ini termasuk dalam periode yang diizinkan
     const isAllowedMonth = () => {
         const currentMonth = new Date().getMonth() + 1; // January = 1, December = 12
-        return currentMonth === 1 || currentMonth === 8 || currentMonth === 11; // Januari, Agustus, November
+        return currentMonth === 1 || currentMonth === 8 || currentMonth === 11 || isTrialPeriod(); // Januari, Agustus, November atau Uji Coba 26-27 September 2026
     };
 
     // Fungsi untuk mendapatkan nama bulan saat ini
@@ -206,7 +212,7 @@ export default function PengajuanCreate() {
 
         if (!isAllowedMonth()) {
             setCanCreateSubmission(false);
-            setRestrictionMessage(`Pengajuan mutasi hanya dapat dibuat pada bulan Januari, Agustus, dan November. Saat ini bulan ${monthName}`);
+            setRestrictionMessage(`Pengajuan mutasi dibuka pada bulan Januari, Agustus, dan November, atau jadwal uji coba anggota (Sabtu & Minggu, 26 - 27 September 2026). Saat ini bulan ${monthName}`);
             return;
         }
 
@@ -241,7 +247,7 @@ export default function PengajuanCreate() {
 
     // Fungsi untuk mendapatkan nama bulan yang diizinkan
     const getAllowedMonths = () => {
-        return "Januari, Agustus, dan November";
+        return "Januari, Agustus, dan November (Khusus Uji Coba: 26 - 27 September 2026)";
     };
 
     // Fungsi untuk mendapatkan informasi batas pengajuan
@@ -257,19 +263,20 @@ export default function PengajuanCreate() {
 
     const limitInfo = getSubmissionLimitInfo();
 
-    // Fungsi untuk mendapatkan status periode (BUKA/TUTUP)
+    // Fungsi untuk mendapatkan status periode (BUKA/TUTUP/UJI COBA)
     const getPeriodStatus = () => {
         if (filter !== "PAID") return "AKSES DITOLAK";
         if (!isAllowedMonth()) return "TUTUP";
         if (currentMonthSubmissions >= 3) return "KUOTA HABIS";
-        return "BUKA";
+        return isTrialPeriod() ? "UJI COBA" : "BUKA";
     };
 
     // Fungsi untuk mendapatkan warna status periode
     const getPeriodStatusColor = () => {
         const status = getPeriodStatus();
         switch (status) {
-            case "BUKA": return "success";
+            case "BUKA":
+            case "UJI COBA": return "success";
             case "TUTUP": return "danger";
             case "KUOTA HABIS": return "warning";
             case "AKSES DITOLAK": return "secondary";
@@ -281,7 +288,8 @@ export default function PengajuanCreate() {
     const getPeriodStatusIcon = () => {
         const status = getPeriodStatus();
         switch (status) {
-            case "BUKA": return "fa-lock-open";
+            case "BUKA":
+            case "UJI COBA": return "fa-lock-open";
             case "TUTUP": return "fa-lock";
             case "KUOTA HABIS": return "fa-ban";
             case "AKSES DITOLAK": return "fa-user-slash";
@@ -747,9 +755,15 @@ export default function PengajuanCreate() {
                                     <div className="d-flex align-items-center">
                                         <i className="fas fa-check-circle fa-lg me-3 text-success"></i>
                                         <div>
-                                            <h6 className="alert-heading mb-1">Akses Diberikan! - Periode {currentMonthName} BUKA</h6>
+                                            <h6 className="alert-heading mb-1">
+                                                Akses Diberikan! - Periode {currentMonthName} {getPeriodStatus()}
+                                            </h6>
                                             <p className="mb-0">
-                                                Anda dapat membuat pengajuan mutasi. Sisa kuota: <strong>{limitInfo.remaining} dari {limitInfo.max}</strong> pengajuan bulan {currentMonthName}.
+                                                {isTrialPeriod() ? (
+                                                    <>Anda dapat membuat pengajuan mutasi dalam rangka <strong>Uji Coba Anggota (Sabtu & Minggu, 26 - 27 September 2026)</strong>. Sisa kuota: <strong>{limitInfo.remaining} dari {limitInfo.max}</strong> pengajuan bulan {currentMonthName}.</>
+                                                ) : (
+                                                    <>Anda dapat membuat pengajuan mutasi. Sisa kuota: <strong>{limitInfo.remaining} dari {limitInfo.max}</strong> pengajuan bulan {currentMonthName}.</>
+                                                )}
                                             </p>
                                         </div>
                                     </div>
