@@ -14,7 +14,15 @@ import { QRCodeSVG } from "qrcode.react";
 import Swal from "sweetalert2";
 
 export default function SigIndex() {
-    const { sig, errors, user, allSigs, transactions } = usePage().props;
+    const {
+        sig,
+        errors,
+        user,
+        allSigs,
+        transactions = [],
+        isPaid: propIsPaid,
+        isAnggotaKehormatan: propIsAnggotaKehormatan,
+    } = usePage().props;
     const { flash } = usePage().props;
 
     console.log(user);
@@ -40,13 +48,18 @@ export default function SigIndex() {
     ];
 
     // Cek status transaksi pembayaran
-    const isPaid = transactions.some(
-        (transaction) =>
-            transaction.status === "PAID" || transaction.status === "paid"
-    );
+    const isPaid =
+        propIsPaid ??
+        transactions.some(
+            (transaction) =>
+                transaction.status === "PAID" || transaction.status === "paid"
+        );
 
     // Cek apakah user adalah Anggota Kehormatan
-    const isAnggotaKehormatan = user?.name === "Anggota Kehormatan";
+    const isAnggotaKehormatan =
+        propIsAnggotaKehormatan ??
+        (user?.status_anggota === "Anggota Kehormatan" ||
+            user?.name === "Anggota Kehormatan");
 
     // Cek apakah user berhak mendaftar SIG
     const canRegisterForSIG = isPaid || isAnggotaKehormatan;

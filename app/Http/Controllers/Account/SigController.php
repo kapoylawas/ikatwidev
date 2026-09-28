@@ -53,13 +53,19 @@ class SigController extends Controller
         $pengajuans->appends(['q' => request()->q]);
 
         $tahun = date('Y');
-        $transactions = Transaction::with('user')
+        $transactions = Transaction::with(['user', 'transactionDetails'])
             ->where('user_id', auth()->user()->id)
             ->where('cek_ts', 1)
-            ->where('tahun', $tahun)->get();
+            ->orderBy('id', 'desc')
+            ->get();
 
         $statusAnggota = User::where('id', auth()->user()->id)->first();
         $biodata = User::where('id', auth()->user()->id)->with('province', 'city')->first();
+
+        $currentUser = auth()->user();
+        $isAnggotaKehormatan = $currentUser->status_anggota === 'Anggota Kehormatan';
+        $currentYearDue = (int) date('Y');
+        $isPaid = $isAnggotaKehormatan || Transaction::isYearPaid($currentUser->id, $currentYearDue);
 
         return inertia('Account/Sig/Index', [
             'transactions' => $transactions,
@@ -69,6 +75,9 @@ class SigController extends Controller
             'sig' => $sig, // SIG untuk tahun INI
             'allSigs' => $allSigs, // Semua riwayat SIG
             'user' => auth()->user(),
+            'isPaid' => $isPaid,
+            'isAnggotaKehormatan' => $isAnggotaKehormatan,
+            'currentYear' => (string) $currentYearDue,
         ]);
     }
 

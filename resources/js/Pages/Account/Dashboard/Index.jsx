@@ -91,6 +91,20 @@ export default function Dashboard() {
             return false;
         }
 
+        const hasPaidForCurrentYear = transactions.some(
+            (trans) =>
+                (trans.status === "PAID" || trans.status === "paid") &&
+                (trans.tahun?.toString() === currentYear.toString() ||
+                    trans.transaction_details?.some(
+                        (detail) => detail.tahun?.toString() === currentYear.toString()
+                    ))
+        );
+
+        if (hasPaidForCurrentYear) {
+            console.log("Found PAID transaction for current year");
+            return true;
+        }
+
         const currentYearTransaction = transactions.find(
             (trans) => trans.tahun === currentYear.toString()
         );
@@ -102,7 +116,7 @@ export default function Dashboard() {
                 "Found transaction for current year:",
                 currentYearTransaction.status
             );
-            return currentYearTransaction.status === "PAID";
+            return currentYearTransaction.status === "PAID" || currentYearTransaction.status === "paid";
         }
 
         // Jika tidak ada transaksi untuk tahun ini, cek transaksi terakhir
@@ -110,11 +124,14 @@ export default function Dashboard() {
         console.log("Latest Transaction:", latestTransaction);
         console.log("Latest Transaction Status:", latestTransaction?.status);
 
-        return latestTransaction?.status === "PAID";
+        return latestTransaction?.status === "PAID" || latestTransaction?.status === "paid";
     };
 
     // Tentukan status pembayaran user
-    const isUserPaid = isPaid || checkPaymentStatus();
+    const isUserPaid =
+        isPaid ||
+        (activeDue && !activeDue.hasUnpaidDue) ||
+        checkPaymentStatus();
     console.log("isUserPaid FINAL:", isUserPaid);
 
     // Tentukan apakah user bisa melihat kartu SIG
@@ -644,8 +661,8 @@ export default function Dashboard() {
 
     // Fungsi untuk generate kartu sebagai gambar - DIPERBAIKI
     const generateCardImage = () => {
-        // Cek status pembayaran menggunakan fungsi yang sudah diperbaiki
-        if (!isUserPaid && !isAnggotaKehormatan) {
+        // Cek status pembayaran menggunakan canShowCard
+        if (!canShowCard) {
             const status = transactions?.[0]?.status || "NO TRANSACTION";
             Swal.fire({
                 title: "Akses Ditolak!",
@@ -954,8 +971,8 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                {/* SIMPLIFIED LOGIC: Tampilkan kartu jika ada transaksi PAID */}
-                {isUserPaid && sig && (
+                {/* Tampilkan kartu jika user berhak melihat kartu SIG dan sudah terdaftar */}
+                {canShowCard && sig && (
                     <div className="row mb-4">
                         <div className="col-12">
                             <div
@@ -1921,8 +1938,8 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                {/* SIMPLIFIED LOGIC: Tampilkan pesan jika belum bayar */}
-                {!isUserPaid && !isAnggotaKehormatan && (
+                {/* Tampilkan pesan jika belum bayar dan belum berhak akses kartu SIG */}
+                {!canShowCard && (
                     <div className="row mb-4">
                         <div className="col-12">
                             <div
@@ -1977,8 +1994,8 @@ export default function Dashboard() {
                                                     {currentYear} belum lunas.
                                                     Status transaksi terakhir:{" "}
                                                     <strong>
-                                                        {transactions?.[0]
-                                                            ?.status ||
+                                                        {transactions?.find(t => t.tahun?.toString() === currentYear.toString())?.status ||
+                                                            transactions?.[0]?.status ||
                                                             "NO TRANSACTION"}
                                                     </strong>
                                                 </p>
