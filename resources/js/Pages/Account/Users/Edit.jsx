@@ -381,10 +381,10 @@ export default function UserEdit() {
                                                 <div className="d-flex flex-wrap align-items-center gap-2 mb-1.5">
                                                     <label
                                                         htmlFor="profile-image-input"
-                                                        className="btn btn-sm btn-select-photo px-3.5 py-1.5 rounded-pill fw-bold d-inline-flex align-items-center gap-1.5 cursor-pointer shadow-sm mb-0"
+                                                        className="btn btn-primary btn-sm btn-select-photo px-3.5 py-1.5 rounded-pill fw-bold d-inline-flex align-items-center gap-1.5 cursor-pointer shadow-sm mb-0"
                                                     >
                                                         <i className="fa fa-camera text-white"></i>
-                                                        <span>{image ? "Ganti Berkas..." : (imagePreview && !imageLoadError ? "Ubah Foto Profil..." : "Pilih Foto Baru...")}</span>
+                                                        <span className="text-white">{image ? "Ganti Berkas..." : (imagePreview && !imageLoadError ? "Ubah Foto Profil..." : "Pilih Foto Baru...")}</span>
                                                     </label>
 
                                                     {image && (
@@ -888,20 +888,39 @@ export default function UserEdit() {
                 .profile-avatar-fallback {
                     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
                 }
-                .btn-select-photo {
-                    background: #2563eb;
-                    border: 1px solid #1d4ed8;
+                .btn-select-photo,
+                .btn-select-photo:link,
+                .btn-select-photo:visited {
+                    background-color: #2563eb !important;
+                    background: #2563eb !important;
+                    border: 1px solid #1d4ed8 !important;
                     color: #ffffff !important;
                     font-size: 0.82rem;
                     letter-spacing: 0.01em;
+                    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
                     transition: all 0.2s ease;
                 }
                 .btn-select-photo:hover {
-                    background: #1d4ed8;
-                    border-color: #1e40af;
+                    background-color: #1d4ed8 !important;
+                    background: #1d4ed8 !important;
+                    border-color: #1e40af !important;
                     color: #ffffff !important;
                     transform: translateY(-1px);
-                    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+                    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+                }
+                .btn-select-photo:active,
+                .btn-select-photo:focus,
+                .btn-select-photo:focus-visible,
+                .btn-select-photo.active {
+                    background-color: #1e40af !important;
+                    background: #1e40af !important;
+                    border-color: #172554 !important;
+                    color: #ffffff !important;
+                    box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.35) !important;
+                }
+                .btn-select-photo i,
+                .btn-select-photo span {
+                    color: #ffffff !important;
                 }
                 .cursor-pointer {
                     cursor: pointer;
