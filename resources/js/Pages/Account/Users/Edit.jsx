@@ -14,30 +14,82 @@ import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 
 export default function UserEdit() {
-    const { errors, roles, provinces, cities, user } = usePage().props;
+    const { errors, roles, provinces, cities, user, auth } = usePage().props;
 
     // state user
-    const [name, setName] = useState(user.name);
-    const [nik, setNik] = useState(user.nik);
-    const [email, setEmail] = useState(user.email);
-    const [alamat, setAlamat] = useState(user.alamat);
-    const [provinceID, setProvinceID] = useState(user.province_id);
-    const [cityID, setCityID] = useState(user.city_id);
-    const [statusAnggota, setStatusAnggota] = useState(user.status_anggota);
+    const [name, setName] = useState(user.name || "");
+    const [nik, setNik] = useState(user.nik || "");
+    const [email, setEmail] = useState(user.email || "");
+    const [phone, setPhone] = useState(user.phone || "");
+    const [alamat, setAlamat] = useState(user.alamat || "");
+    const [provinceID, setProvinceID] = useState(user.province_id || "");
+    const [cityID, setCityID] = useState(user.city_id || "");
+    const [statusAnggota, setStatusAnggota] = useState(user.status_anggota || "");
     const [rolesData, setRolesData] = useState(
-        user.roles.map((obj) => obj.name)
+        (user.roles || []).map((obj) => obj.name)
     );
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
     const [image, setImage] = useState("");
-    const [nostr, setNostr] = useState(user.no_str);
-    const [dateexprd, setDateExprd] = useState(user.date_exprd);
+    const [imagePreview, setImagePreview] = useState(
+        user.image ? `/storage/users/${user.image}` : null
+    );
+    const [nostr, setNostr] = useState(user.no_str || "");
+    const [dateexprd, setDateExprd] = useState(user.date_exprd || "");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    //define method "handleCheckboxChange"
+    // Cek apakah admin sedang mengedit akun miliknya sendiri
+    const isSelfEdit = auth?.user?.id === user.id;
+
+    // Helper status kedaluwarsa STR
+    const getStrStatus = (expDate) => {
+        if (!expDate) return null;
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        const exp = new Date(expDate);
+        if (isNaN(exp.getTime())) return null;
+
+        const diffTime = exp.getTime() - now.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays < 0) {
+            return {
+                label: `Sudah Kedaluwarsa (${Math.abs(diffDays)} hari lalu)`,
+                className: "badge-str-expired",
+                icon: "fa-exclamation-triangle"
+            };
+        } else if (diffDays <= 90) {
+            return {
+                label: `Segera Berakhir (${diffDays} hari lagi)`,
+                className: "badge-str-warning",
+                icon: "fa-clock"
+            };
+        } else {
+            return {
+                label: `STR Masih Berlaku (${diffDays} hari tersisa)`,
+                className: "badge-str-active",
+                icon: "fa-check-circle"
+            };
+        }
+    };
+
+    const strStatus = getStrStatus(dateexprd);
+
+    // Method handleCheckboxChange untuk roles
     const handleCheckboxChange = (roleName) => {
         let data = [...rolesData];
         if (data.includes(roleName)) {
+            // Proteksi jika admin mencoba mencabut role admin akunnya sendiri
+            if (isSelfEdit && (roleName === "admin" || roleName === "super-admin") && data.length <= 1) {
+                Swal.fire({
+                    title: "Peringatan Akses!",
+                    text: "Anda tidak dapat menghapus seluruh hak akses admin dari akun Anda sendiri agar tidak terkunci.",
+                    icon: "warning",
+                });
+                return;
+            }
             data = data.filter((name) => name !== roleName);
         } else {
             data.push(roleName);
@@ -45,19 +97,58 @@ export default function UserEdit() {
         setRolesData(data);
     };
 
-    //method "updateUser"
+    // Method ganti foto dengan validasi ukuran & format
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validasi ukuran maks 2MB
+        if (file.size > 2 * 1024 * 1024) {
+            Swal.fire({
+                title: "Ukuran Terlalu Besar!",
+                text: "Ukuran berkas foto maksimal 2MB.",
+                icon: "warning",
+            });
+            e.target.value = "";
+            return;
+        }
+
+        setImage(file);
+        setImagePreview(URL.createObjectURL(file));
+    };
+
+    // Method reset pilihan foto baru
+    const handleResetImage = () => {
+        setImage("");
+        setImagePreview(user.image ? `/storage/users/${user.image}` : null);
+        const fileInput = document.getElementById("profile-image-input");
+        if (fileInput) fileInput.value = "";
+    };
+
+    // Method updateUser
     const updateUser = async (e) => {
         e.preventDefault();
         if (isSubmitting) return;
 
+        // Validasi kecocokan password di sisi klien jika diisi
+        if (password && password !== passwordConfirmation) {
+            Swal.fire({
+                title: "Password Tidak Cocok!",
+                text: "Konfirmasi password baru tidak sesuai dengan password yang dimasukkan.",
+                icon: "warning",
+            });
+            return;
+        }
+
         setIsSubmitting(true);
 
-        //sending data
+        // Sending data
         Inertia.post(
             `/account/users/${user.id}`,
             {
                 name: name,
                 email: email,
+                phone: phone,
                 nik: nik,
                 province_id: provinceID,
                 city_id: cityID,
@@ -110,7 +201,7 @@ export default function UserEdit() {
                                     Edit Data Pengguna
                                 </h4>
                                 <p className="header-subtitle mb-0 mt-1">
-                                    Perbarui informasi profil akun, data STR, penempatan wilayah (DPW/DPC), dan hak akses sistem.
+                                    Perbarui informasi profil akun, data STR, kontak aktif, penempatan wilayah (DPW/DPC), dan hak akses sistem.
                                 </p>
                             </div>
                         </div>
@@ -127,6 +218,18 @@ export default function UserEdit() {
                     </div>
                 </div>
 
+                {/* Self Edit Alert */}
+                {isSelfEdit && (
+                    <div className="alert alert-info border-0 shadow-sm rounded-4 mb-4 d-flex align-items-center gap-3 p-3.5">
+                        <div className="alert-icon-box bg-primary text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: 40, height: 40 }}>
+                            <i className="fa fa-user-shield"></i>
+                        </div>
+                        <div className="small">
+                            <strong>Perhatian:</strong> Anda saat ini sedang mengedit data akun Anda sendiri. Pastikan peran hak akses (*role*) administrator tetap dicentang agar Anda tidak kehilangan akses kepengurusan sistem.
+                        </div>
+                    </div>
+                )}
+
                 {/* Main Form Card */}
                 <div className="card edit-form-card rounded-4 shadow-sm overflow-hidden mb-4">
                     <div className="card-header form-card-header py-3 px-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
@@ -139,7 +242,7 @@ export default function UserEdit() {
                                     Formulir Perubahan Data Pengguna
                                 </h5>
                                 <span className="form-header-sub">
-                                    {user.name}
+                                    {user.name} {user.email ? `• (${user.email})` : ""}
                                 </span>
                             </div>
                         </div>
@@ -157,21 +260,28 @@ export default function UserEdit() {
                             <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
                                 <span className="section-dot bg-primary"></span>
                                 <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
-                                    1. Data Identitas &amp; STR
+                                    1. Data Identitas, STR &amp; Foto Profil
                                 </h6>
                             </div>
 
                             <div className="row g-3 mb-4">
                                 {/* NIK */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-fingerprint me-1.5 text-primary"></i> Nomor Induk Kependudukan (NIK)
-                                    </label>
+                                    <div className="d-flex justify-content-between align-items-center mb-1.5">
+                                        <label className="form-label small fw-bold text-slate-800 mb-0 text-uppercase">
+                                            <i className="fa fa-fingerprint me-1.5 text-primary"></i> Nomor Induk Kependudukan (NIK)
+                                        </label>
+                                        <span className={`badge ${nik?.length === 16 ? 'bg-success text-white' : 'bg-slate-100 text-slate-600 border'}`} style={{ fontSize: '0.72rem' }}>
+                                            {nik ? `${nik.length}/16 digit` : "0/16 digit"}
+                                        </span>
+                                    </div>
                                     <input
-                                        type="number"
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength={16}
                                         className={`form-control form-control-custom ${errors.nik ? 'is-invalid' : ''}`}
                                         value={nik || ""}
-                                        onChange={(e) => setNik(e.target.value)}
+                                        onChange={(e) => setNik(e.target.value.replace(/\D/g, "").slice(0, 16))}
                                         placeholder="Ketik 16 digit NIK..."
                                     />
                                     {errors.nik && (
@@ -198,9 +308,17 @@ export default function UserEdit() {
 
                                 {/* Tanggal Expired STR */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-calendar-alt me-1.5 text-amber-600"></i> Tanggal Kedaluwarsa STR
-                                    </label>
+                                    <div className="d-flex justify-content-between align-items-center mb-1.5">
+                                        <label className="form-label small fw-bold text-slate-800 mb-0 text-uppercase">
+                                            <i className="fa fa-calendar-alt me-1.5 text-amber-600"></i> Tanggal Kedaluwarsa STR
+                                        </label>
+                                        {strStatus && (
+                                            <span className={`badge ${strStatus.className} d-inline-flex align-items-center gap-1`} style={{ fontSize: '0.72rem' }}>
+                                                <i className={`fa ${strStatus.icon}`}></i>
+                                                <span>{strStatus.label}</span>
+                                            </span>
+                                        )}
+                                    </div>
                                     <input
                                         type="date"
                                         className={`form-control form-control-custom ${errors.date_exprd ? 'is-invalid' : ''}`}
@@ -212,19 +330,52 @@ export default function UserEdit() {
                                     )}
                                 </div>
 
-                                {/* Foto Profil */}
+                                {/* Foto Profil dengan Live Preview */}
                                 <div className="col-12 col-md-6">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-image me-1.5 text-indigo-600"></i> Foto Profil Baru <span className="text-slate-500 fw-normal text-lowercase">(opsional)</span>
+                                        <i className="fa fa-image me-1.5 text-indigo-600"></i> Foto Profil <span className="text-slate-500 fw-normal text-lowercase">(format JPG, PNG, WEBP maks 2MB)</span>
                                     </label>
-                                    <input
-                                        type="file"
-                                        className={`form-control form-control-custom ${errors.image ? 'is-invalid' : ''}`}
-                                        onChange={(e) => setImage(e.target.files[0])}
-                                    />
-                                    {errors.image && (
-                                        <div className="invalid-feedback small mt-1">{errors.image}</div>
-                                    )}
+                                    <div className="d-flex align-items-center gap-3 p-2.5 rounded-3 bg-slate-50 border">
+                                        <div className="image-preview-thumbnail-wrap shadow-sm flex-shrink-0">
+                                            {imagePreview ? (
+                                                <img
+                                                    src={imagePreview}
+                                                    alt="Preview Foto"
+                                                    className="w-100 h-100 rounded-3 object-fit-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-100 h-100 rounded-3 d-flex align-items-center justify-content-center bg-slate-200 text-slate-400">
+                                                    <i className="fa fa-user fa-2x"></i>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex-grow-1">
+                                            <input
+                                                id="profile-image-input"
+                                                type="file"
+                                                accept="image/png, image/jpeg, image/jpg, image/webp"
+                                                className={`form-control form-control-sm ${errors.image ? 'is-invalid' : ''}`}
+                                                onChange={handleImageChange}
+                                            />
+                                            {errors.image && (
+                                                <div className="invalid-feedback small mt-1">{errors.image}</div>
+                                            )}
+                                            {image && (
+                                                <div className="d-flex align-items-center gap-2 mt-1.5">
+                                                    <small className="text-emerald-600 fw-semibold">
+                                                        <i className="fa fa-check-circle me-1"></i> Foto baru dipilih: {image.name}
+                                                    </small>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleResetImage}
+                                                        className="btn btn-link btn-sm text-danger p-0 small fw-bold text-decoration-none"
+                                                    >
+                                                        Batal
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -232,13 +383,13 @@ export default function UserEdit() {
                             <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
                                 <span className="section-dot bg-emerald-500"></span>
                                 <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
-                                    2. Profil Pengguna &amp; Kontak
+                                    2. Profil Pengguna &amp; Kontak Komunikasi
                                 </h6>
                             </div>
 
                             <div className="row g-3 mb-4">
                                 {/* Full Name */}
-                                <div className="col-12 col-md-6">
+                                <div className="col-12 col-md-4">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
                                         <i className="fa fa-user me-1.5 text-primary"></i> Nama Lengkap &amp; Gelar <span className="text-danger">*</span>
                                     </label>
@@ -255,7 +406,7 @@ export default function UserEdit() {
                                 </div>
 
                                 {/* Email Address */}
-                                <div className="col-12 col-md-6">
+                                <div className="col-12 col-md-4">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
                                         <i className="fa fa-envelope me-1.5 text-primary"></i> Alamat Email <span className="text-danger">*</span>
                                     </label>
@@ -270,13 +421,31 @@ export default function UserEdit() {
                                         <div className="invalid-feedback small mt-1">{errors.email}</div>
                                     )}
                                 </div>
+
+                                {/* Phone / WhatsApp Number */}
+                                <div className="col-12 col-md-4">
+                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
+                                        <i className="fab fa-whatsapp me-1.5 text-success"></i> Nomor WhatsApp / HP
+                                    </label>
+                                    <input
+                                        type="text"
+                                        inputMode="tel"
+                                        className={`form-control form-control-custom ${errors.phone ? 'is-invalid' : ''}`}
+                                        value={phone || ""}
+                                        onChange={(e) => setPhone(e.target.value.replace(/[^\d+]/g, "").slice(0, 20))}
+                                        placeholder="Contoh: 081234567890..."
+                                    />
+                                    {errors.phone && (
+                                        <div className="invalid-feedback small mt-1">{errors.phone}</div>
+                                    )}
+                                </div>
                             </div>
 
                             {/* SECTION 3: Wilayah & Status Keanggotaan */}
                             <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
                                 <span className="section-dot bg-indigo-500"></span>
                                 <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
-                                    3. Wilayah Organisasi &amp; Status
+                                    3. Wilayah Organisasi &amp; Status Keanggotaan
                                 </h6>
                             </div>
 
@@ -284,7 +453,7 @@ export default function UserEdit() {
                                 {/* DPW (Provinsi) */}
                                 <div className="col-12 col-md-4">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-landmark me-1.5 text-emerald-600"></i> DPW (Provinsi)
+                                        <i className="fa fa-landmark me-1.5 text-emerald-600"></i> DPW (Provinsi) <span className="text-danger">*</span>
                                     </label>
                                     <select
                                         className={`form-select form-control-custom ${errors.province_id ? 'is-invalid' : ''}`}
@@ -309,7 +478,7 @@ export default function UserEdit() {
                                 {/* DPC (Kota/Kab) */}
                                 <div className="col-12 col-md-4">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-city me-1.5 text-indigo-600"></i> DPC (Kota/Kab)
+                                        <i className="fa fa-city me-1.5 text-indigo-600"></i> DPC (Kota/Kab) <span className="text-danger">*</span>
                                     </label>
                                     <select
                                         className={`form-select form-control-custom ${errors.city_id ? 'is-invalid' : ''}`}
@@ -353,7 +522,7 @@ export default function UserEdit() {
                                 {/* Alamat Lengkap */}
                                 <div className="col-12">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-map-marker-alt me-1.5 text-danger"></i> Alamat Lengkap
+                                        <i className="fa fa-map-marker-alt me-1.5 text-danger"></i> Alamat Lengkap Domisili
                                     </label>
                                     <textarea
                                         className={`form-control form-control-custom-textarea ${errors.alamat ? 'is-invalid' : ''}`}
@@ -372,7 +541,7 @@ export default function UserEdit() {
                             <div className="form-section-title d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
                                 <span className="section-dot bg-amber-500"></span>
                                 <h6 className="fw-bold mb-0 text-slate-800 text-uppercase" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>
-                                    4. Keamanan Akun &amp; Kata Sandi <span className="text-slate-500 fw-normal text-lowercase">(opsional)</span>
+                                    4. Keamanan Akun &amp; Kata Sandi <span className="text-slate-500 fw-normal text-lowercase">(kosongkan jika tidak ingin mengubah password)</span>
                                 </h6>
                             </div>
 
@@ -380,32 +549,65 @@ export default function UserEdit() {
                                 {/* Password Baru (Opsional) */}
                                 <div className="col-12 col-md-6">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-key me-1.5 text-amber-600"></i> Ganti Password <span className="text-slate-500 fw-normal text-lowercase">(kosongkan jika tidak diubah)</span>
+                                        <i className="fa fa-key me-1.5 text-amber-600"></i> Password Baru
                                     </label>
-                                    <input
-                                        type="password"
-                                        className={`form-control form-control-custom ${errors.password ? 'is-invalid' : ''}`}
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="Ketik password baru jika ingin mengubah..."
-                                    />
-                                    {errors.password && (
-                                        <div className="invalid-feedback small mt-1">{errors.password}</div>
-                                    )}
+                                    <div className="input-group">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            className={`form-control form-control-custom ${errors.password ? 'is-invalid' : ''}`}
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Ketik password baru jika ingin mengubah..."
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-secondary border-1 border-slate-300"
+                                            style={{ borderTopRightRadius: '10px', borderBottomRightRadius: '10px' }}
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            title={showPassword ? "Sembunyikan password" : "Lihat password"}
+                                        >
+                                            <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                        </button>
+                                        {errors.password && (
+                                            <div className="invalid-feedback small mt-1">{errors.password}</div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Password Confirmation */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-lock me-1.5 text-amber-600"></i> Konfirmasi Password Baru
-                                    </label>
-                                    <input
-                                        type="password"
-                                        className="form-control form-control-custom"
-                                        value={passwordConfirmation}
-                                        onChange={(e) => setPasswordConfirmation(e.target.value)}
-                                        placeholder="Ketik ulang password baru..."
-                                    />
+                                    <div className="d-flex justify-content-between align-items-center mb-1.5">
+                                        <label className="form-label small fw-bold text-slate-800 mb-0 text-uppercase">
+                                            <i className="fa fa-lock me-1.5 text-amber-600"></i> Konfirmasi Password Baru
+                                        </label>
+                                        {password && passwordConfirmation && (
+                                            <span className={`badge ${password === passwordConfirmation ? 'bg-success text-white' : 'bg-danger text-white'}`} style={{ fontSize: '0.72rem' }}>
+                                                {password === passwordConfirmation ? (
+                                                    <><i className="fa fa-check me-1"></i> Cocok</>
+                                                ) : (
+                                                    <><i className="fa fa-times me-1"></i> Belum Sama</>
+                                                )}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="input-group">
+                                        <input
+                                            type={showPasswordConfirmation ? "text" : "password"}
+                                            className={`form-control form-control-custom ${password && passwordConfirmation && password !== passwordConfirmation ? 'is-invalid' : ''}`}
+                                            value={passwordConfirmation}
+                                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                            placeholder="Ketik ulang password baru..."
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-secondary border-1 border-slate-300"
+                                            style={{ borderTopRightRadius: '10px', borderBottomRightRadius: '10px' }}
+                                            onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+                                            title={showPasswordConfirmation ? "Sembunyikan password" : "Lihat password"}
+                                        >
+                                            <i className={`fa ${showPasswordConfirmation ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -472,18 +674,21 @@ export default function UserEdit() {
                                 <button
                                     type="reset"
                                     onClick={() => {
-                                        setName(user.name);
-                                        setNik(user.nik);
-                                        setEmail(user.email);
-                                        setAlamat(user.alamat);
-                                        setProvinceID(user.province_id);
-                                        setCityID(user.city_id);
-                                        setStatusAnggota(user.status_anggota);
-                                        setRolesData(user.roles.map((obj) => obj.name));
+                                        setName(user.name || "");
+                                        setNik(user.nik || "");
+                                        setEmail(user.email || "");
+                                        setPhone(user.phone || "");
+                                        setAlamat(user.alamat || "");
+                                        setProvinceID(user.province_id || "");
+                                        setCityID(user.city_id || "");
+                                        setStatusAnggota(user.status_anggota || "");
+                                        setRolesData((user.roles || []).map((obj) => obj.name));
                                         setPassword("");
                                         setPasswordConfirmation("");
-                                        setNostr(user.no_str);
-                                        setDateExprd(user.date_exprd);
+                                        setImage("");
+                                        setImagePreview(user.image ? `/storage/users/${user.image}` : null);
+                                        setNostr(user.no_str || "");
+                                        setDateExprd(user.date_exprd || "");
                                     }}
                                     className="btn btn-reset-custom shadow-sm"
                                 >
@@ -588,6 +793,33 @@ export default function UserEdit() {
                     font-weight: 700;
                     display: inline-flex;
                     align-items: center;
+                }
+
+                /* Image Thumbnail Preview */
+                .image-preview-thumbnail-wrap {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    border: 1.5px solid #cbd5e1;
+                    background-color: #ffffff;
+                }
+
+                /* STR Status Badges */
+                .badge-str-active {
+                    background-color: #d1fae5;
+                    color: #065f46;
+                    border: 1px solid #a7f3d0;
+                }
+                .badge-str-warning {
+                    background-color: #fef3c7;
+                    color: #92400e;
+                    border: 1px solid #fde68a;
+                }
+                .badge-str-expired {
+                    background-color: #fee2e2;
+                    color: #991b1b;
+                    border: 1px solid #fecaca;
                 }
 
                 /* Form Sections */
@@ -722,3 +954,4 @@ export default function UserEdit() {
         </LayoutAccount>
     );
 }
+

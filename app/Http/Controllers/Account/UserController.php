@@ -243,90 +243,71 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        // dd($request->all());
-        // dd($user);
         /**
          * validate request
          */
         $this->validate(
             $request,
             [
-                /* 'email'    => 'required|unique:users,email,' . $user->id,
-                'alamat'      => 'required', */
-                'name'     => 'required',
-                'name'      => 'required',
-                'province_id'      => 'required',
+                'name'         => 'required|string|max:255',
+                'email'        => 'required|email|unique:users,email,' . $user->id,
+                'province_id'  => 'required',
                 'city_id'      => 'required',
-                'password'  => 'required|confirmed',
-                'password' => 'nullable|confirmed',
+                'nik'          => 'nullable|string|max:16',
+                'phone'        => 'nullable|string|max:30',
+                'password'     => 'nullable|confirmed|min:6',
+                'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             ],
             [
-                'name.required' => 'name tidak boleh kosong',
-                'province_id.required' => 'DPW tidak boleh kosong',
-                'city_id.required' => 'DPC tidak boleh kosong',
-                'password.required' => 'password tidak boleh kosong',
+                'name.required'        => 'Nama lengkap tidak boleh kosong',
+                'email.required'       => 'Alamat email tidak boleh kosong',
+                'email.email'          => 'Format email tidak valid',
+                'email.unique'         => 'Alamat email sudah digunakan oleh pengguna lain',
+                'province_id.required' => 'DPW (Provinsi) tidak boleh kosong',
+                'city_id.required'     => 'DPC (Kota/Kab) tidak boleh kosong',
+                'password.confirmed'   => 'Konfirmasi password baru tidak cocok',
+                'password.min'         => 'Password baru minimal 6 karakter',
+                'image.image'          => 'Berkas foto profil harus berupa file gambar',
+                'image.max'            => 'Ukuran foto profil maksimal 2MB',
             ]
         );
 
-        /**
-         * check password is empty
-         */
-        if ($request->password == '') {
+        $updateData = [
+            'name'           => $request->name,
+            'province_id'    => $request->province_id,
+            'city_id'        => $request->city_id,
+            'nik'            => $request->nik,
+            'email'          => $request->email,
+            'phone'          => $request->phone,
+            'alamat'         => $request->alamat,
+            'no_str'         => $request->no_str,
+            'confirm'        => 'true',
+            'status_anggota' => $request->status_anggota,
+            'date_exprd'     => $request->date_exprd,
+        ];
 
-            if ($request->file('image')) {
-                //remove old image
+        // Handle image upload properly (whether password is changed or not)
+        if ($request->hasFile('image')) {
+            if ($user->image) {
                 Storage::disk('local')->delete('public/users/' . basename($user->image));
-
-                // upload new image
-                $image = $request->file('image');
-                $image->storeAs('public/users', $image->hashName());
-
-
-                $user->update([
-                    'name'      => $request->name,
-                    'province_id'      => $request->province_id,
-                    'city_id'      => $request->city_id,
-                    'nik'      => $request->nik,
-                    'email'     => $request->email,
-                    'alamat'     => $request->alamat,
-                    'no_str'     => $request->no_str,
-                    'confirm'      => 'true',
-                    'status_anggota'     => $request->status_anggota,
-                    'date_exprd'     => $request->date_exprd,
-                    'image' => $image->hashName(),
-                ]);
-            } else {
-                $user->update([
-                    'name'      => $request->name,
-                    'province_id'      => $request->province_id,
-                    'city_id'      => $request->city_id,
-                    'nik'      => $request->nik,
-                    'email'     => $request->email,
-                    'alamat'     => $request->alamat,
-                    'no_str'     => $request->no_str,
-                    'confirm'      => 'true',
-                    'status_anggota'     => $request->status_anggota,
-                    'date_exprd'     => $request->date_exprd,
-                ]);
             }
-        } else {
-            $user->update([
-                'name'      => $request->name,
-                'province_id'      => $request->province_id,
-                'city_id'      => $request->city_id,
-                'nik'      => $request->nik,
-                'email'     => $request->email,
-                'alamat'     => $request->alamat,
-                'no_str'     => $request->no_str,
-                'confirm'      => 'true',
-                'date_exprd'     => $request->date_exprd,
-                'status_anggota'     => $request->status_anggota,
-                'password' => bcrypt($request->password)
-            ]);
+
+            $image = $request->file('image');
+            $image->storeAs('public/users', $image->hashName());
+            $updateData['image'] = $image->hashName();
         }
 
-        //assign roles to user
-        $user->syncRoles($request->roles);
+        // Handle password update if filled
+        if ($request->filled('password')) {
+            $updateData['password'] = bcrypt($request->password);
+        }
+
+        $user->update($updateData);
+
+        // Sync roles if provided
+        if ($request->has('roles')) {
+            $user->syncRoles($request->roles);
+        }
 
         //redirect
         return redirect()->route('account.users.index');
