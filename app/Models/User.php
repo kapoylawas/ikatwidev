@@ -77,21 +77,21 @@ class User extends Authenticatable
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn($image) => asset('/storage/users/' . $image),
+            get: fn($image) => $image ? asset('/storage/users/' . $image) : null,
         );
     }
 
     protected function sip(): Attribute
     {
         return Attribute::make(
-            get: fn($sip) => asset('/storage/sip/' . $sip),
+            get: fn($sip) => $sip ? asset('/storage/sip/' . $sip) : null,
         );
     }
 
     protected function filepakta(): Attribute
     {
         return Attribute::make(
-            get: fn($filepakta) => asset('/storage/filepakta/' . $filepakta),
+            get: fn($filepakta) => $filepakta ? asset('/storage/filepakta/' . $filepakta) : null,
         );
     }
 

@@ -32,10 +32,18 @@ export default function UserEdit() {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+    // Helper URL foto awal profil
+    const getInitialImage = (img) => {
+        if (!img || typeof img !== "string") return null;
+        if (img.endsWith("/storage/users") || img.endsWith("/storage/users/")) return null;
+        if (img.startsWith("http://") || img.startsWith("https://") || img.startsWith("/storage/")) return img;
+        return `/storage/users/${img}`;
+    };
+
+    const initialImage = getInitialImage(user.image);
     const [image, setImage] = useState("");
-    const [imagePreview, setImagePreview] = useState(
-        user.image ? `/storage/users/${user.image}` : null
-    );
+    const [imagePreview, setImagePreview] = useState(initialImage);
+    const [imageLoadError, setImageLoadError] = useState(false);
     const [nostr, setNostr] = useState(user.no_str || "");
     const [dateexprd, setDateExprd] = useState(user.date_exprd || "");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -115,12 +123,14 @@ export default function UserEdit() {
 
         setImage(file);
         setImagePreview(URL.createObjectURL(file));
+        setImageLoadError(false);
     };
 
     // Method reset pilihan foto baru
     const handleResetImage = () => {
         setImage("");
-        setImagePreview(user.image ? `/storage/users/${user.image}` : null);
+        setImagePreview(initialImage);
+        setImageLoadError(false);
         const fileInput = document.getElementById("profile-image-input");
         if (fileInput) fileInput.value = "";
     };
@@ -330,50 +340,106 @@ export default function UserEdit() {
                                     )}
                                 </div>
 
-                                {/* Foto Profil dengan Live Preview */}
+                                {/* Foto Profil dengan Live Preview Elegan */}
                                 <div className="col-12 col-md-6">
                                     <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-image me-1.5 text-indigo-600"></i> Foto Profil <span className="text-slate-500 fw-normal text-lowercase">(format JPG, PNG, WEBP maks 2MB)</span>
+                                        <i className="fa fa-image me-1.5 text-indigo-600"></i> Foto Profil
                                     </label>
-                                    <div className="d-flex align-items-center gap-3 p-2.5 rounded-3 bg-slate-50 border">
-                                        <div className="image-preview-thumbnail-wrap shadow-sm flex-shrink-0">
-                                            {imagePreview ? (
-                                                <img
-                                                    src={imagePreview}
-                                                    alt="Preview Foto"
-                                                    className="w-100 h-100 rounded-3 object-fit-cover"
-                                                />
-                                            ) : (
-                                                <div className="w-100 h-100 rounded-3 d-flex align-items-center justify-content-center bg-slate-200 text-slate-400">
-                                                    <i className="fa fa-user fa-2x"></i>
+                                    <div className="profile-upload-card p-3 rounded-3 shadow-xs">
+                                        <div className="d-flex align-items-center gap-3">
+                                            {/* Avatar Box */}
+                                            <div className="position-relative flex-shrink-0">
+                                                <div className="profile-avatar-box rounded-3 overflow-hidden shadow-xs d-flex align-items-center justify-content-center">
+                                                    {imagePreview && !imageLoadError ? (
+                                                        <img
+                                                            src={imagePreview}
+                                                            alt="Foto Profil"
+                                                            className="w-100 h-100 object-fit-cover"
+                                                            onError={() => setImageLoadError(true)}
+                                                        />
+                                                    ) : (
+                                                        <div className="profile-avatar-fallback w-100 h-100 d-flex align-items-center justify-content-center text-slate-400">
+                                                            <i className="fa fa-user fa-2x"></i>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            )}
-                                        </div>
-                                        <div className="flex-grow-1">
-                                            <input
-                                                id="profile-image-input"
-                                                type="file"
-                                                accept="image/png, image/jpeg, image/jpg, image/webp"
-                                                className={`form-control form-control-sm ${errors.image ? 'is-invalid' : ''}`}
-                                                onChange={handleImageChange}
-                                            />
-                                            {errors.image && (
-                                                <div className="invalid-feedback small mt-1">{errors.image}</div>
-                                            )}
-                                            {image && (
-                                                <div className="d-flex align-items-center gap-2 mt-1.5">
-                                                    <small className="text-emerald-600 fw-semibold">
-                                                        <i className="fa fa-check-circle me-1"></i> Foto baru dipilih: {image.name}
-                                                    </small>
-                                                    <button
-                                                        type="button"
-                                                        onClick={handleResetImage}
-                                                        className="btn btn-link btn-sm text-danger p-0 small fw-bold text-decoration-none"
+                                                {image && (
+                                                    <span
+                                                        className="position-absolute bg-emerald-500 text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                                                        style={{ top: -5, right: -5, width: 20, height: 20, fontSize: '0.65rem', border: '2px solid #fff' }}
+                                                        title="Foto baru siap disimpan"
                                                     >
-                                                        Batal
-                                                    </button>
+                                                        <i className="fa fa-check"></i>
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            {/* File Controls */}
+                                            <div className="flex-grow-1 min-w-0">
+                                                <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                                    <label
+                                                        htmlFor="profile-image-input"
+                                                        className="btn btn-sm btn-select-photo px-3 py-1.5 rounded-pill fw-semibold d-inline-flex align-items-center gap-1.5 cursor-pointer shadow-xs mb-0"
+                                                    >
+                                                        <i className="fa fa-camera text-primary"></i>
+                                                        <span>{image ? "Ganti Berkas..." : (imagePreview && !imageLoadError ? "Ubah Foto..." : "Pilih Foto...")}</span>
+                                                    </label>
+
+                                                    {image && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleResetImage}
+                                                            className="btn btn-sm btn-outline-danger px-2.5 py-1.5 rounded-pill fw-semibold d-inline-flex align-items-center gap-1 shadow-xs"
+                                                            title="Batalkan pilihan foto baru"
+                                                        >
+                                                            <i className="fa fa-times"></i>
+                                                            <span>Batal</span>
+                                                        </button>
+                                                    )}
                                                 </div>
-                                            )}
+
+                                                {/* File status info */}
+                                                {image ? (
+                                                    <div className="small text-emerald-700 fw-semibold text-truncate d-flex align-items-center gap-1 mt-1">
+                                                        <i className="fa fa-file-image flex-shrink-0"></i>
+                                                        <span className="text-truncate">{image.name}</span>
+                                                        <span className="text-slate-400 fw-normal">({(image.size / 1024).toFixed(0)} KB)</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="small text-slate-500 d-flex align-items-center gap-1 mt-1">
+                                                        {imagePreview && !imageLoadError ? (
+                                                            <>
+                                                                <i className="fa fa-check-circle text-emerald-500 flex-shrink-0"></i>
+                                                                <span>Foto profil saat ini terpasang</span>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-info-circle text-slate-400 flex-shrink-0"></i>
+                                                                <span>Belum ada foto profil terpasang</span>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                <div className="text-slate-400 mt-0.5" style={{ fontSize: '0.72rem' }}>
+                                                    Format: JPG, PNG, WEBP &bull; Maks. 2MB
+                                                </div>
+
+                                                <input
+                                                    id="profile-image-input"
+                                                    type="file"
+                                                    accept="image/png, image/jpeg, image/jpg, image/webp"
+                                                    className="d-none"
+                                                    onChange={handleImageChange}
+                                                />
+
+                                                {errors.image && (
+                                                    <div className="text-danger small mt-1 fw-semibold d-flex align-items-center gap-1">
+                                                        <i className="fa fa-exclamation-circle"></i>
+                                                        <span>{errors.image}</span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -686,7 +752,8 @@ export default function UserEdit() {
                                         setPassword("");
                                         setPasswordConfirmation("");
                                         setImage("");
-                                        setImagePreview(user.image ? `/storage/users/${user.image}` : null);
+                                        setImagePreview(initialImage);
+                                        setImageLoadError(false);
                                         setNostr(user.no_str || "");
                                         setDateExprd(user.date_exprd || "");
                                     }}
@@ -795,14 +862,39 @@ export default function UserEdit() {
                     align-items: center;
                 }
 
-                /* Image Thumbnail Preview */
-                .image-preview-thumbnail-wrap {
-                    width: 60px;
-                    height: 60px;
-                    border-radius: 10px;
-                    overflow: hidden;
+                /* Profile Photo Upload Card */
+                .profile-upload-card {
+                    background: #f8fafc;
+                    border: 1px solid #e2e8f0;
+                    transition: all 0.2s ease;
+                }
+                .profile-upload-card:hover {
+                    border-color: #cbd5e1;
+                    background: #ffffff;
+                }
+                .profile-avatar-box {
+                    width: 68px;
+                    height: 68px;
+                    border: 2px solid #e2e8f0;
+                    background-color: #f1f5f9;
+                }
+                .profile-avatar-fallback {
+                    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+                }
+                .btn-select-photo {
+                    background: #ffffff;
                     border: 1.5px solid #cbd5e1;
-                    background-color: #ffffff;
+                    color: #1e293b;
+                    font-size: 0.8rem;
+                    transition: all 0.2s ease;
+                }
+                .btn-select-photo:hover {
+                    background: #eff6ff;
+                    border-color: #3b82f6;
+                    color: #1d4ed8;
+                }
+                .cursor-pointer {
+                    cursor: pointer;
                 }
 
                 /* STR Status Badges */
