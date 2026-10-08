@@ -340,16 +340,16 @@ export default function UserEdit() {
                                     )}
                                 </div>
 
-                                {/* Foto Profil dengan Live Preview Elegan */}
+                                {/* Foto Profil dengan Live Preview Elegan & Kontras Tegas */}
                                 <div className="col-12 col-md-6">
-                                    <label className="form-label small fw-bold text-slate-800 mb-1.5 text-uppercase">
-                                        <i className="fa fa-image me-1.5 text-indigo-600"></i> Foto Profil
+                                    <label className="form-label small fw-bold text-slate-900 mb-1.5 text-uppercase" style={{ letterSpacing: '0.03em' }}>
+                                        <i className="fa fa-image me-1.5 text-primary"></i> Foto Profil Pengguna
                                     </label>
-                                    <div className="profile-upload-card p-3 rounded-3 shadow-xs">
+                                    <div className="profile-upload-card p-3 rounded-3">
                                         <div className="d-flex align-items-center gap-3">
-                                            {/* Avatar Box */}
+                                            {/* Avatar Box Kontras Tinggi */}
                                             <div className="position-relative flex-shrink-0">
-                                                <div className="profile-avatar-box rounded-3 overflow-hidden shadow-xs d-flex align-items-center justify-content-center">
+                                                <div className="profile-avatar-box rounded-3 overflow-hidden d-flex align-items-center justify-content-center">
                                                     {imagePreview && !imageLoadError ? (
                                                         <img
                                                             src={imagePreview}
@@ -358,15 +358,17 @@ export default function UserEdit() {
                                                             onError={() => setImageLoadError(true)}
                                                         />
                                                     ) : (
-                                                        <div className="profile-avatar-fallback w-100 h-100 d-flex align-items-center justify-content-center text-slate-400">
-                                                            <i className="fa fa-user fa-2x"></i>
+                                                        <div className="profile-avatar-fallback w-100 h-100 d-flex align-items-center justify-content-center">
+                                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="#1d4ed8"/>
+                                                            </svg>
                                                         </div>
                                                     )}
                                                 </div>
                                                 {image && (
                                                     <span
-                                                        className="position-absolute bg-emerald-500 text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-                                                        style={{ top: -5, right: -5, width: 20, height: 20, fontSize: '0.65rem', border: '2px solid #fff' }}
+                                                        className="position-absolute bg-success text-white rounded-circle d-flex align-items-center justify-content-center shadow"
+                                                        style={{ top: -6, right: -6, width: 22, height: 22, fontSize: '0.7rem', border: '2px solid #ffffff' }}
                                                         title="Foto baru siap disimpan"
                                                     >
                                                         <i className="fa fa-check"></i>
@@ -376,20 +378,20 @@ export default function UserEdit() {
 
                                             {/* File Controls */}
                                             <div className="flex-grow-1 min-w-0">
-                                                <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                                <div className="d-flex flex-wrap align-items-center gap-2 mb-1.5">
                                                     <label
                                                         htmlFor="profile-image-input"
-                                                        className="btn btn-sm btn-select-photo px-3 py-1.5 rounded-pill fw-semibold d-inline-flex align-items-center gap-1.5 cursor-pointer shadow-xs mb-0"
+                                                        className="btn btn-sm btn-select-photo px-3.5 py-1.5 rounded-pill fw-bold d-inline-flex align-items-center gap-1.5 cursor-pointer shadow-sm mb-0"
                                                     >
-                                                        <i className="fa fa-camera text-primary"></i>
-                                                        <span>{image ? "Ganti Berkas..." : (imagePreview && !imageLoadError ? "Ubah Foto..." : "Pilih Foto...")}</span>
+                                                        <i className="fa fa-camera text-white"></i>
+                                                        <span>{image ? "Ganti Berkas..." : (imagePreview && !imageLoadError ? "Ubah Foto Profil..." : "Pilih Foto Baru...")}</span>
                                                     </label>
 
                                                     {image && (
                                                         <button
                                                             type="button"
                                                             onClick={handleResetImage}
-                                                            className="btn btn-sm btn-outline-danger px-2.5 py-1.5 rounded-pill fw-semibold d-inline-flex align-items-center gap-1 shadow-xs"
+                                                            className="btn btn-sm btn-outline-danger px-3 py-1.5 rounded-pill fw-bold d-inline-flex align-items-center gap-1 shadow-sm"
                                                             title="Batalkan pilihan foto baru"
                                                         >
                                                             <i className="fa fa-times"></i>
@@ -398,31 +400,31 @@ export default function UserEdit() {
                                                     )}
                                                 </div>
 
-                                                {/* File status info */}
+                                                {/* Status Keterangan Berkas Tegas */}
                                                 {image ? (
-                                                    <div className="small text-emerald-700 fw-semibold text-truncate d-flex align-items-center gap-1 mt-1">
-                                                        <i className="fa fa-file-image flex-shrink-0"></i>
+                                                    <div className="small fw-bold text-success text-truncate d-flex align-items-center gap-1.5 mt-1">
+                                                        <i className="fa fa-check-circle flex-shrink-0"></i>
                                                         <span className="text-truncate">{image.name}</span>
-                                                        <span className="text-slate-400 fw-normal">({(image.size / 1024).toFixed(0)} KB)</span>
+                                                        <span className="text-muted fw-normal">({(image.size / 1024).toFixed(0)} KB)</span>
                                                     </div>
                                                 ) : (
-                                                    <div className="small text-slate-500 d-flex align-items-center gap-1 mt-1">
+                                                    <div className="small fw-semibold text-slate-800 d-flex align-items-center gap-1.5 mt-1">
                                                         {imagePreview && !imageLoadError ? (
                                                             <>
-                                                                <i className="fa fa-check-circle text-emerald-500 flex-shrink-0"></i>
+                                                                <i className="fa fa-check-circle text-success flex-shrink-0 fs-6"></i>
                                                                 <span>Foto profil saat ini terpasang</span>
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <i className="fa fa-info-circle text-slate-400 flex-shrink-0"></i>
+                                                                <i className="fa fa-info-circle text-primary flex-shrink-0 fs-6"></i>
                                                                 <span>Belum ada foto profil terpasang</span>
                                                             </>
                                                         )}
                                                     </div>
                                                 )}
 
-                                                <div className="text-slate-400 mt-0.5" style={{ fontSize: '0.72rem' }}>
-                                                    Format: JPG, PNG, WEBP &bull; Maks. 2MB
+                                                <div className="text-muted mt-1" style={{ fontSize: '0.74rem', fontWeight: 500 }}>
+                                                    Format: <strong className="text-dark">JPG, PNG, WEBP</strong> &bull; Maks. <strong className="text-dark">2MB</strong>
                                                 </div>
 
                                                 <input
@@ -434,7 +436,7 @@ export default function UserEdit() {
                                                 />
 
                                                 {errors.image && (
-                                                    <div className="text-danger small mt-1 fw-semibold d-flex align-items-center gap-1">
+                                                    <div className="text-danger small mt-1.5 fw-bold d-flex align-items-center gap-1">
                                                         <i className="fa fa-exclamation-circle"></i>
                                                         <span>{errors.image}</span>
                                                     </div>
@@ -862,36 +864,44 @@ export default function UserEdit() {
                     align-items: center;
                 }
 
-                /* Profile Photo Upload Card */
+                /* Profile Photo Upload Card - Tajam & Kontras Tinggi */
                 .profile-upload-card {
-                    background: #f8fafc;
-                    border: 1px solid #e2e8f0;
+                    background: #ffffff;
+                    border: 1.5px solid #cbd5e1;
+                    border-left: 4px solid #2563eb;
+                    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
                     transition: all 0.2s ease;
                 }
                 .profile-upload-card:hover {
-                    border-color: #cbd5e1;
-                    background: #ffffff;
+                    border-color: #94a3b8;
+                    border-left-color: #1d4ed8;
+                    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
                 }
                 .profile-avatar-box {
-                    width: 68px;
-                    height: 68px;
-                    border: 2px solid #e2e8f0;
-                    background-color: #f1f5f9;
+                    width: 74px;
+                    height: 74px;
+                    border-radius: 16px;
+                    border: 2px solid #3b82f6;
+                    background-color: #eff6ff;
+                    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
                 }
                 .profile-avatar-fallback {
-                    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+                    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
                 }
                 .btn-select-photo {
-                    background: #ffffff;
-                    border: 1.5px solid #cbd5e1;
-                    color: #1e293b;
-                    font-size: 0.8rem;
+                    background: #2563eb;
+                    border: 1px solid #1d4ed8;
+                    color: #ffffff !important;
+                    font-size: 0.82rem;
+                    letter-spacing: 0.01em;
                     transition: all 0.2s ease;
                 }
                 .btn-select-photo:hover {
-                    background: #eff6ff;
-                    border-color: #3b82f6;
-                    color: #1d4ed8;
+                    background: #1d4ed8;
+                    border-color: #1e40af;
+                    color: #ffffff !important;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
                 }
                 .cursor-pointer {
                     cursor: pointer;
